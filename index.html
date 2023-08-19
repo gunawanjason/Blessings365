@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Viewer</title>
+    <style>
+        /* Basic styling for readability */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bible Viewer</h1>
+    <hr>
+
+    <!-- Dropdowns for selecting a month and a day -->
+    <label for="month-selector">Month:</label>
+    <select id="month-selector"></select>
+
+    <label for="day-selector">Day:</label>
+    <select id="day-selector"></select>
+
+    <hr>
+
+    <!-- Dropdown for selecting a Bible version -->
+    <label for="translation-selector">Bible Version:</label>
+    <select id="translation-selector">
+        <option value="NIV">NIV</option>
+        <option value="TB">TB</option>
+        <option value="KJV">KJV</option>
+    </select>
+
+    <button onclick="fetchVerses()">Fetch Verses</button>
+
+    <hr>
+
+    <!-- Display the verses for the selected day and version -->
+    <h2>Verses:</h2>
+    <div id="verses-output"></div>
+
+    <script>
+        const englishToIndonesianBooks = {
+            'Genesis': 'Kejadian',
+            'Exodus': 'Keluaran',
+            'Leviticus': 'Imamat',
+            'Numbers': 'Bilangan',
+            'Deuteronomy': 'Ulangan',
+            'Joshua': 'Yosua',
+            'Judges': 'Hakim-Hakim',
+            'Ruth': 'Rut',
+            '1 Samuel': '1 Samuel',
+            '2 Samuel': '2 Samuel',
+            '1 Kings': '1 Raja-Raja',
+            '2 Kings': '2 Raja-Raja',
+            '1 Chronicles': '1 Tawarikh',
+            '2 Chronicles': '2 Tawarikh',
+            'Ezra': 'Ezra',
+            'Nehemiah': 'Nehemia',
+            'Esther': 'Ester',
+            'Job': 'Ayub',
+            'Psalms': 'Mazmur',
+            'Proverbs': 'Amsal',
+            'Ecclesiastes': 'Pengkhotbah',
+            'Song of Solomon': 'Kidung Agung',
+            'Isaiah': 'Yesaya',
+            'Jeremiah': 'Yeremia',
+            'Lamentations': 'Ratapan',
+            'Ezekiel': 'Yehezkiel',
+            'Daniel': 'Daniel',
+            'Hosea': 'Hosea',
+            'Joel': 'Yoel',
+            'Amos': 'Amos',
+            'Obadiah': 'Obaja',
+            'Jonah': 'Yunus',
+            'Micah': 'Mikha',
+            'Nahum': 'Nahum',
+            'Habakkuk': 'Habakuk',
+            'Zephaniah': 'Zefanya',
+            'Haggai': 'Hagai',
+            'Zechariah': 'Zakharia',
+            'Malachi': 'Maleakhi',
+            'Matthew': 'Matius',
+            'Mark': 'Markus',
+            'Luke': 'Lukas',
+            'John': 'Yohanes',
+            'Acts': 'Kisah Para Rasul',
+            'Romans': 'Roma',
+            '1 Corinthians': '1 Korintus',
+            '2 Corinthians': '2 Korintus',
+            'Galatians': 'Galatia',
+            'Ephesians': 'Efesus',
+            'Philippians': 'Filipi',
+            'Colossians': 'Kolose',
+            '1 Thessalonians': '1 Tesalonika',
+            '2 Thessalonians': '2 Tesalonika',
+            '1 Timothy': '1 Timotius',
+            '2 Timothy': '2 Timotius',
+            'Titus': 'Titus',
+            'Philemon': 'Filemon',
+            'Hebrews': 'Ibrani',
+            'James': 'Yakobus',
+            '1 Peter': '1 Petrus',
+            '2 Peter': '2 Petrus',
+            '1 John': '1 Yohanes',
+            '2 John': '2 Yohanes',
+            '3 John': '3 Yohanes',
+            'Jude': 'Yudas',
+            'Revelation': 'Wahyu'
+        };
+
+
+        function isLeapYear(year) {
+            return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+        }
+
+        function dayOfYear(date) {
+            const start = new Date(date.getFullYear(), 0, 0);
+            const diff = date - start + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
+            const oneDay = 1000 * 60 * 60 * 24;
+            const day = Math.floor(diff / oneDay);
+            return day;
+        }
+
+        function populateMonthDayDropdowns(translatedData) {
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+            const monthSelector = document.getElementById('month-selector');
+            const daySelector = document.getElementById('day-selector');
+
+            monthNames.forEach((month, index) => {
+                const option = document.createElement('option');
+                option.value = index + 1;
+                option.textContent = month;
+                monthSelector.appendChild(option);
+            });
+
+            function fillDays() {
+                daySelector.innerHTML = '';
+                const selectedMonth = parseInt(monthSelector.value);
+                const currentYear = new Date().getFullYear();
+                if (isLeapYear(currentYear) && selectedMonth === 2) {
+                    daysInMonth[selectedMonth - 1] = 29;
+                }
+                for (let i = 1; i <= daysInMonth[selectedMonth - 1]; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i;
+                    daySelector.appendChild(option);
+                }
+            }
+
+            fillDays();
+
+            monthSelector.addEventListener('change', fillDays);
+            daySelector.addEventListener('change', () => displayReferences(translatedData));
+            
+            const today = new Date();
+            monthSelector.value = today.getMonth() + 1;
+            fillDays();
+            daySelector.value = today.getDate();
+            if (isLeapYear(today.getFullYear()) && today.getMonth() === 1 && today.getDate() === 29) {
+                daySelector.value = 28;  // Force to show 28th Feb verses on 29th Feb
+            }
+            displayReferences(translatedData);
+        }
+
+        function displayReferences(translatedData) {
+            const selectedMonth = parseInt(document.getElementById('month-selector').value);
+            const selectedDay = parseInt(document.getElementById('day-selector').value);
+            const date = new Date(new Date().getFullYear(), selectedMonth - 1, selectedDay);
+            const dayOfYearValue = dayOfYear(date);
+            const referencesDiv = document.getElementById('daily-references');
+            referencesDiv.textContent = translatedData[dayOfYearValue].join(', ');
+        }
+
+        function fetchVerses() {
+            const translatedData = JSON.parse(localStorage.getItem('translatedData'));
+            const translation = document.getElementById('translation-selector').value;
+            const selectedMonth = parseInt(document.getElementById('month-selector').value);
+            const selectedDay = parseInt(document.getElementById('day-selector').value);
+            const date = new Date(new Date().getFullYear(), selectedMonth - 1, selectedDay);
+            const verses = translatedData[dayOfYear(date)].join(',');
+
+            const apiUrl = `http://localhost:3000/${translation}/multiple?verses=${encodeURIComponent(verses)}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const outputDiv = document.getElementById('verses-output');
+                    outputDiv.innerHTML = '';
+                    for (const verseData of data) {
+                        let bookName = verseData.book;
+                        if (translation === 'TB' && englishToIndonesianBooks[bookName]) {
+                            bookName = englishToIndonesianBooks[bookName];
+                        }
+                        const verseDiv = document.createElement('div');
+                        verseDiv.textContent = `${bookName} ${verseData.chapter}:${verseData.verse} - ${verseData.content}`;
+                        outputDiv.appendChild(verseDiv);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching verses:', error);
+                });
+        }
+
+        // Fetch the Translated_Bacaan_Alkitab_365.json directly from the current directory
+        fetch('Translated_Bacaan_Alkitab_365.json')
+            .then(response => response.json())
+            .then(translatedData => {
+                // Store in local storage for later use
+                localStorage.setItem('translatedData', JSON.stringify(translatedData));
+                
+                populateMonthDayDropdowns(translatedData);
+            })
+            .catch(error => {
+                console.error('Error fetching the Translated_Bacaan_Alkitab_365.json:', error);
+            });
+    </script>
+</body>
+
+</html>
