@@ -187,7 +187,7 @@
             const date = new Date(new Date().getFullYear(), selectedMonth - 1, selectedDay);
             const verses = translatedData[dayOfYear(date)].join(',');
 
-            const apiUrl = `http://blessings-api.vercel.app/${translation}/multiple?verses=${encodeURIComponent(verses)}`;
+            const apiUrl = `https://blessings-api.vercel.app/${translation}/multiple?verses=${encodeURIComponent(verses)}`;
 
             fetch(apiUrl)
                 .then(response => response.json())
