@@ -1,233 +1,683 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blessings365</title>
-    <link rel="icon" type="image/x-icon" href="/assets/bcc_logo.jpeg">
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alkitab365</title>
+    <link rel="icon" type="image/x-icon" href="/assets/bcc_logo.png" />
     <style>
-        /* Basic styling for readability */
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
+      /* Basic styling for readability */
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
     </style>
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+      integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-<body>
-    <h1>Blessings365 - Alkitab365</h1>
-    <hr>
+  <body>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid popover-container">
+        <a href="#" class="navbar-brand mb-0 h1">Alkitab365</a>
+        <button id="popoverBtn" class="btn btn-dark">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            class="bi"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+            ></path>
+          </svg>
+        </button>
+        <div class="popover" id="popoverContent">
+          <div class="popover-header">Reader settings</div>
+          <div class="popover-body">
+            <!-- Font size option -->
+            <div class="user-options">
+              <p class="mb-0">Font size:</p>
+              <button
+                type="button"
+                class="btn btn-outline-dark font-size-btn small-font-size"
+              >
+                Aa
+              </button>
+              <button
+                type="button"
+                class="btn btn-dark font-size-btn medium-font-size"
+              >
+                Aa
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-dark font-size-btn large-font-size"
+              >
+                Aa
+              </button>
+            </div>
+
+            <!-- Dark mode option -->
+            <div class="user-options mt-3">
+              <p class="mb-0">Mode:</p>
+              <button type="button" class="btn btn-light mode-btn">
+                Light
+              </button>
+              <button type="button" class="btn btn-dark mode-btn">Dark</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- <h1>Alkitab365</h1> -->
+    <hr />
 
     <!-- Dropdowns for selecting a month and a day -->
-    <label for="month-selector">Month:</label>
-    <select id="month-selector"></select>
+    <div class="row">
+      <div class="col-6 col-sm-4 col-md-3">
+        <label for="month-selector">Month:</label>
+        <select id="month-selector" class="form-select-sm"></select>
+      </div>
+      <div class="col-6 col-sm-8 col-md-9">
+        <label for="day-selector">Day:</label>
+        <select id="day-selector" class="form-select-sm"></select>
+      </div>
+    </div>
 
-    <label for="day-selector">Day:</label>
-    <select id="day-selector"></select>
-
-    <hr>
+    <hr />
 
     <!-- Dropdown for selecting a Bible version -->
-    <label for="translation-selector">Bible Version:</label>
-    <select id="translation-selector">
-        <option value="NIV">NIV</option>
-        <option value="TB">TB</option>
-        <option value="KJV">KJV</option>
-    </select>
+    <div class="row">
+      <div class="col-6 col-sm-4 col-md-3">
+        <label for="translation-selector">Bible Version:</label>
+        <select id="translation-selector" class="form-select-sm">
+          <option value="TB">TB</option>
+          <option value="KJV">KJV</option>
+          <option value="NIV">NIV</option>
+        </select>
+      </div>
+      <div class="col-6 col-sm-8 col-md-9">
+        <button onclick="fetchVerses()" type="button" class="btn btn-dark">
+          Get Verses
+        </button>
+      </div>
+    </div>
 
-    <button onclick="fetchVerses()">Fetch Verses</button>
-
-    <hr>
-
+    <hr />
     <!-- Display the verses for the selected day and version -->
-    <h2>Verses:</h2>
+    <div class="row">
+      <h5>Verses:</h5>
+    </div>
     <div id="verses-output"></div>
 
     <script>
-        const englishToIndonesianBooks = {
-            'Genesis': 'Kejadian',
-            'Exodus': 'Keluaran',
-            'Leviticus': 'Imamat',
-            'Numbers': 'Bilangan',
-            'Deuteronomy': 'Ulangan',
-            'Joshua': 'Yosua',
-            'Judges': 'Hakim-Hakim',
-            'Ruth': 'Rut',
-            '1 Samuel': '1 Samuel',
-            '2 Samuel': '2 Samuel',
-            '1 Kings': '1 Raja-Raja',
-            '2 Kings': '2 Raja-Raja',
-            '1 Chronicles': '1 Tawarikh',
-            '2 Chronicles': '2 Tawarikh',
-            'Ezra': 'Ezra',
-            'Nehemiah': 'Nehemia',
-            'Esther': 'Ester',
-            'Job': 'Ayub',
-            'Psalms': 'Mazmur',
-            'Proverbs': 'Amsal',
-            'Ecclesiastes': 'Pengkhotbah',
-            'Song of Solomon': 'Kidung Agung',
-            'Isaiah': 'Yesaya',
-            'Jeremiah': 'Yeremia',
-            'Lamentations': 'Ratapan',
-            'Ezekiel': 'Yehezkiel',
-            'Daniel': 'Daniel',
-            'Hosea': 'Hosea',
-            'Joel': 'Yoel',
-            'Amos': 'Amos',
-            'Obadiah': 'Obaja',
-            'Jonah': 'Yunus',
-            'Micah': 'Mikha',
-            'Nahum': 'Nahum',
-            'Habakkuk': 'Habakuk',
-            'Zephaniah': 'Zefanya',
-            'Haggai': 'Hagai',
-            'Zechariah': 'Zakharia',
-            'Malachi': 'Maleakhi',
-            'Matthew': 'Matius',
-            'Mark': 'Markus',
-            'Luke': 'Lukas',
-            'John': 'Yohanes',
-            'Acts': 'Kisah Para Rasul',
-            'Romans': 'Roma',
-            '1 Corinthians': '1 Korintus',
-            '2 Corinthians': '2 Korintus',
-            'Galatians': 'Galatia',
-            'Ephesians': 'Efesus',
-            'Philippians': 'Filipi',
-            'Colossians': 'Kolose',
-            '1 Thessalonians': '1 Tesalonika',
-            '2 Thessalonians': '2 Tesalonika',
-            '1 Timothy': '1 Timotius',
-            '2 Timothy': '2 Timotius',
-            'Titus': 'Titus',
-            'Philemon': 'Filemon',
-            'Hebrews': 'Ibrani',
-            'James': 'Yakobus',
-            '1 Peter': '1 Petrus',
-            '2 Peter': '2 Petrus',
-            '1 John': '1 Yohanes',
-            '2 John': '2 Yohanes',
-            '3 John': '3 Yohanes',
-            'Jude': 'Yudas',
-            'Revelation': 'Wahyu'
-        };
+      const englishToIndonesianBooks = {
+        Genesis: "Kejadian",
+        Exodus: "Keluaran",
+        Leviticus: "Imamat",
+        Numbers: "Bilangan",
+        Deuteronomy: "Ulangan",
+        Joshua: "Yosua",
+        Judges: "Hakim-Hakim",
+        Ruth: "Rut",
+        "1 Samuel": "1 Samuel",
+        "2 Samuel": "2 Samuel",
+        "1 Kings": "1 Raja-Raja",
+        "2 Kings": "2 Raja-Raja",
+        "1 Chronicles": "1 Tawarikh",
+        "2 Chronicles": "2 Tawarikh",
+        Ezra: "Ezra",
+        Nehemiah: "Nehemia",
+        Esther: "Ester",
+        Job: "Ayub",
+        Psalms: "Mazmur",
+        Proverbs: "Amsal",
+        Ecclesiastes: "Pengkhotbah",
+        "Song of Solomon": "Kidung Agung",
+        Isaiah: "Yesaya",
+        Jeremiah: "Yeremia",
+        Lamentations: "Ratapan",
+        Ezekiel: "Yehezkiel",
+        Daniel: "Daniel",
+        Hosea: "Hosea",
+        Joel: "Yoel",
+        Amos: "Amos",
+        Obadiah: "Obaja",
+        Jonah: "Yunus",
+        Micah: "Mikha",
+        Nahum: "Nahum",
+        Habakkuk: "Habakuk",
+        Zephaniah: "Zefanya",
+        Haggai: "Hagai",
+        Zechariah: "Zakharia",
+        Malachi: "Maleakhi",
+        Matthew: "Matius",
+        Mark: "Markus",
+        Luke: "Lukas",
+        John: "Yohanes",
+        Acts: "Kisah Para Rasul",
+        Romans: "Roma",
+        "1 Corinthians": "1 Korintus",
+        "2 Corinthians": "2 Korintus",
+        Galatians: "Galatia",
+        Ephesians: "Efesus",
+        Philippians: "Filipi",
+        Colossians: "Kolose",
+        "1 Thessalonians": "1 Tesalonika",
+        "2 Thessalonians": "2 Tesalonika",
+        "1 Timothy": "1 Timotius",
+        "2 Timothy": "2 Timotius",
+        Titus: "Titus",
+        Philemon: "Filemon",
+        Hebrews: "Ibrani",
+        James: "Yakobus",
+        "1 Peter": "1 Petrus",
+        "2 Peter": "2 Petrus",
+        "1 John": "1 Yohanes",
+        "2 John": "2 Yohanes",
+        "3 John": "3 Yohanes",
+        Jude: "Yudas",
+        Revelation: "Wahyu",
+      };
 
+      function isLeapYear(year) {
+        return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+      }
 
-        function isLeapYear(year) {
-            return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+      function dayOfYear(date) {
+        const start = new Date(date.getFullYear(), 0, 0);
+        const diff =
+          date -
+          start +
+          (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000;
+        const oneDay = 1000 * 60 * 60 * 24;
+        const day = Math.floor(diff / oneDay);
+        return day;
+      }
+
+      function populateMonthDayDropdowns(translatedData) {
+        const monthNames = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+        const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        const monthSelector = document.getElementById("month-selector");
+        const daySelector = document.getElementById("day-selector");
+
+        monthNames.forEach((month, index) => {
+          const option = document.createElement("option");
+          option.value = index + 1;
+          option.textContent = month;
+          monthSelector.appendChild(option);
+        });
+
+        function fillDays() {
+          daySelector.innerHTML = "";
+          const selectedMonth = parseInt(monthSelector.value);
+          const currentYear = new Date().getFullYear();
+          if (isLeapYear(currentYear) && selectedMonth === 2) {
+            daysInMonth[selectedMonth - 1] = 29;
+          }
+          for (let i = 1; i <= daysInMonth[selectedMonth - 1]; i++) {
+            const option = document.createElement("option");
+            option.value = i;
+            option.textContent = i;
+            daySelector.appendChild(option);
+          }
         }
 
-        function dayOfYear(date) {
-            const start = new Date(date.getFullYear(), 0, 0);
-            const diff = date - start + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
-            const oneDay = 1000 * 60 * 60 * 24;
-            const day = Math.floor(diff / oneDay);
-            return day;
+        fillDays();
+
+        monthSelector.addEventListener("change", fillDays);
+        daySelector.addEventListener("change", () =>
+          displayReferences(translatedData)
+        );
+
+        const today = new Date();
+        monthSelector.value = today.getMonth() + 1;
+        fillDays();
+        daySelector.value = today.getDate();
+        if (
+          isLeapYear(today.getFullYear()) &&
+          today.getMonth() === 1 &&
+          today.getDate() === 29
+        ) {
+          daySelector.value = 28; // Force to show 28th Feb verses on 29th Feb
+        }
+        displayReferences(translatedData);
+      }
+
+      function displayReferences(translatedData) {
+        const selectedMonth = parseInt(
+          document.getElementById("month-selector").value
+        );
+        const selectedDay = parseInt(
+          document.getElementById("day-selector").value
+        );
+        const date = new Date(
+          new Date().getFullYear(),
+          selectedMonth - 1,
+          selectedDay
+        );
+        const dayOfYearValue = dayOfYear(date);
+        const referencesDiv = document.getElementById("daily-references");
+        if (referencesDiv) {
+          referencesDiv.textContent = translatedData[dayOfYearValue].join(", ");
+        }
+      }
+
+      function displayVerses(data, translation) {
+        const outputDiv = document.getElementById("verses-output");
+        outputDiv.innerHTML = "";
+
+        // create accordion div
+        const accordionDiv = document.createElement("div");
+        accordionDiv.classList.add("accordion", "accordion-flush");
+        accordionDiv.setAttribute("id", "versesAccordion");
+        outputDiv.appendChild(accordionDiv);
+
+        let currentBook = "";
+        let currentItem, currentBody;
+
+        let startVerse = "";
+        let prevVerse = "";
+        let prevButton;
+
+        function formatBookName(bookName) {
+          // Split the input into words
+          const words = bookName.split(" ");
+
+          // Initialize an array for non-numeric parts and numeric parts
+          const nonNumericParts = [];
+          const numericParts = [];
+
+          // Separate non-numeric and numeric parts
+          for (const word of words) {
+            if (isNaN(word)) {
+              nonNumericParts.push(word);
+            } else {
+              numericParts.push(word);
+            }
+          }
+
+          // Join the non-numeric parts and add the numeric parts at the end
+          const formattedString =
+            nonNumericParts.join(" ").toLowerCase() + numericParts.join("");
+
+          return formattedString;
         }
 
-        function populateMonthDayDropdowns(translatedData) {
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        for (const verseData of data) {
+          let bookName = verseData.book;
 
-            const monthSelector = document.getElementById('month-selector');
-            const daySelector = document.getElementById('day-selector');
+          if (bookName !== currentBook) {
+            // create accordion-item div
+            currentItem = document.createElement("div");
+            currentItem.classList.add("accordion-item");
+            accordionDiv.appendChild(currentItem);
 
-            monthNames.forEach((month, index) => {
-                const option = document.createElement('option');
-                option.value = index + 1;
-                option.textContent = month;
-                monthSelector.appendChild(option);
-            });
+            // create accordion-header h2
+            let currentHeader = document.createElement("h2");
+            currentHeader.classList.add("accordion-header");
+            currentHeader.setAttribute(
+              "id",
+              formatBookName(bookName) + "-heading"
+            );
+            currentItem.appendChild(currentHeader);
 
-            function fillDays() {
-                daySelector.innerHTML = '';
-                const selectedMonth = parseInt(monthSelector.value);
-                const currentYear = new Date().getFullYear();
-                if (isLeapYear(currentYear) && selectedMonth === 2) {
-                    daysInMonth[selectedMonth - 1] = 29;
-                }
-                for (let i = 1; i <= daysInMonth[selectedMonth - 1]; i++) {
-                    const option = document.createElement('option');
-                    option.value = i;
-                    option.textContent = i;
-                    daySelector.appendChild(option);
-                }
+            // create button
+            let currentButton = document.createElement("button");
+            currentButton.className = "accordion-button collapsed";
+            currentButton.type = "button";
+            currentButton.setAttribute("data-bs-toggle", "collapse");
+            currentButton.setAttribute(
+              "data-bs-target",
+              "#" + formatBookName(bookName) + "-collapse"
+            );
+            currentButton.setAttribute("aria-expanded", "false");
+            currentButton.setAttribute(
+              "aria-controls",
+              formatBookName(bookName) + "-collapse"
+            );
+            currentButton.setAttribute(
+              "id",
+              formatBookName(bookName) + "-button"
+            );
+            currentButton.textContent = bookName; // title for accordion item
+            currentHeader.appendChild(currentButton);
+
+            // create accordion-collapse div
+            let currentCollapse = document.createElement("div");
+            currentCollapse.className = "accordion-collapse collapse";
+            currentCollapse.setAttribute(
+              "id",
+              formatBookName(bookName) + "-collapse"
+            );
+            currentCollapse.setAttribute(
+              "aria-labelledby",
+              formatBookName(bookName) + "-heading"
+            );
+            // currentCollapse.setAttribute("data-bs-parent", "#versesAccordion");
+            currentItem.appendChild(currentCollapse);
+
+            // create accordion-body div
+            currentBody = document.createElement("div");
+            currentBody.className = "accordion-body";
+            currentCollapse.appendChild(currentBody);
+
+            // update accordion item title
+            if (currentBook) {
+              prevButton = document.getElementById(
+                formatBookName(currentBook) + "-button"
+              );
+              if (
+                translation === "TB" &&
+                englishToIndonesianBooks[currentBook]
+              ) {
+                currentBook = englishToIndonesianBooks[currentBook];
+              }
+
+              // 25:6-8 instead of 25:6-25:8
+              if (startVerse.split(":")[0] === prevVerse.split(":")[0]) {
+                prevVerse = prevVerse.split(":")[1];
+              }
+
+              prevButton.textContent = `${currentBook} ${startVerse}-${prevVerse}`;
             }
 
-            fillDays();
+            // update for new book
+            currentBook = bookName;
+            startVerse = `${verseData.chapter}:${verseData.verse}`;
+          }
 
-            monthSelector.addEventListener('change', fillDays);
-            daySelector.addEventListener('change', () => displayReferences(translatedData));
-            
-            const today = new Date();
-            monthSelector.value = today.getMonth() + 1;
-            fillDays();
-            daySelector.value = today.getDate();
-            if (isLeapYear(today.getFullYear()) && today.getMonth() === 1 && today.getDate() === 29) {
-                daySelector.value = 28;  // Force to show 28th Feb verses on 29th Feb
+          if (translation === "TB" && englishToIndonesianBooks[bookName]) {
+            bookName = englishToIndonesianBooks[bookName];
+          }
+          const verseDiv = document.createElement("div");
+          verseDiv.className = `verse-div ${fontSize}`;
+          verseDiv.innerHTML = `<strong><sup>${verseData.chapter}:${verseData.verse}</sup></strong> ${verseData.content}`;
+          currentBody.appendChild(verseDiv);
+
+          prevVerse = `${verseData.chapter}:${verseData.verse}`;
+        }
+
+        // update accordion item title for last book
+        // update accordion item title
+        if (currentBook) {
+          prevButton = document.getElementById(
+            formatBookName(currentBook) + "-button"
+          );
+          if (translation === "TB" && englishToIndonesianBooks[currentBook]) {
+            currentBook = englishToIndonesianBooks[currentBook];
+          }
+
+          // 25:6-8 instead of 25:6-25:8
+          if (startVerse.split(":")[0] === prevVerse.split(":")[0]) {
+            prevVerse = prevVerse.split(":")[1];
+          }
+
+          prevButton.textContent = `${currentBook} ${startVerse}-${prevVerse}`;
+        }
+      }
+
+      function fetchVerses() {
+        const translatedData = JSON.parse(
+          localStorage.getItem("translatedData")
+        );
+        const translation = document.getElementById(
+          "translation-selector"
+        ).value;
+        const selectedMonth = parseInt(
+          document.getElementById("month-selector").value
+        );
+        const selectedDay = parseInt(
+          document.getElementById("day-selector").value
+        );
+        const date = new Date(
+          new Date().getFullYear(),
+          selectedMonth - 1,
+          selectedDay
+        );
+        const verses = translatedData[dayOfYear(date)].join(",");
+
+        const apiUrl = `https://blessings-api.vercel.app/${translation}/multiple?verses=${encodeURIComponent(
+          verses
+        )}`;
+
+        fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => displayVerses(data, translation))
+          .catch((error) => {
+            console.error("Error fetching verses:", error);
+          });
+      }
+
+      // Fetch the Translated_Bacaan_Alkitab_365.json directly from the current directory
+      fetch("Translated_Bacaan_Alkitab_365.json")
+        .then((response) => response.json())
+        .then((translatedData) => {
+          // Store in local storage for later use
+          localStorage.setItem(
+            "translatedData",
+            JSON.stringify(translatedData)
+          );
+
+          populateMonthDayDropdowns(translatedData);
+        })
+        .catch((error) => {
+          console.error(
+            "Error fetching the Translated_Bacaan_Alkitab_365.json:",
+            error
+          );
+        });
+
+      function scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth", // Smooth scrolling animation
+        });
+      }
+
+      // Show the "Scroll to Top" button when the user scrolls down
+      window.addEventListener("scroll", function () {
+        var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+        if (document.documentElement.scrollTop > 100) {
+          scrollToTopBtn.style.display = "block";
+        } else {
+          scrollToTopBtn.style.display = "none";
+        }
+      });
+
+      // Font size controls
+      const fontSizeList = [0.8, 1, 1.2];
+
+      function getFontSizeClass(size) {
+        if (size == fontSizeList[0]) {
+          return "small-font-size";
+        } else if (size == fontSizeList[1]) {
+          return "medium-font-size";
+        } else {
+          return "large-font-size";
+        }
+      }
+
+      // States
+      let currentMode = "light";
+      const modeToButton = {
+        light: "dark",
+        dark: "light",
+      };
+      let lastClickedButton = document.querySelector(
+        ".font-size-btn.medium-font-size"
+      );
+      let fontSize = "medium-font-size";
+
+      // EVENT LISTENERS
+      // Enable popovers
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const popoverBtn = document.getElementById("popoverBtn");
+        const popoverContent = document.getElementById("popoverContent");
+
+        document.addEventListener("click", function (event) {
+          // Check if the click target is not inside the popover and not the button that triggers the popover
+          if (
+            !popoverContent.contains(event.target) &&
+            event.target !== popoverBtn
+          ) {
+            popoverContent.style.display = "none";
+          }
+        });
+
+        function getVisibleWidth(el) {
+          // Save the original styles
+          const originalStyle = el.getAttribute("style");
+          el.style.display = "block"; // Display the element
+          el.style.position = "absolute"; // Position it off-screen
+          el.style.left = "-9999px";
+          const width = el.offsetWidth; // Get the width
+          el.setAttribute("style", originalStyle); // Reset the styles to their original state
+          return width;
+        }
+
+        popoverBtn.addEventListener("click", function () {
+          const isHidden = getComputedStyle(popoverContent).display === "none";
+
+          // Get width of the popover when it's visible
+          const popoverWidth = getVisibleWidth(popoverContent);
+
+          // Position the popover to the left of the button and aligned to its top edge
+          const rect = popoverBtn.getBoundingClientRect();
+          popoverContent.style.top = `${rect.top + window.scrollY}px`;
+          popoverContent.style.left = `${
+            rect.left - popoverWidth + window.scrollX
+          }px`;
+
+          popoverContent.style.display = isHidden ? "block" : "none";
+        });
+      });
+
+      // Font size option
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll(".font-size-btn");
+
+        buttons.forEach((button) => {
+          button.addEventListener("click", function () {
+            let buttonMode = modeToButton[currentMode];
+
+            if (lastClickedButton) {
+              lastClickedButton.classList.remove(`btn-${buttonMode}`);
+              lastClickedButton.classList.add(`btn-outline-${buttonMode}`);
             }
-            displayReferences(translatedData);
-        }
 
-        function displayReferences(translatedData) {
-            const selectedMonth = parseInt(document.getElementById('month-selector').value);
-            const selectedDay = parseInt(document.getElementById('day-selector').value);
-            const date = new Date(new Date().getFullYear(), selectedMonth - 1, selectedDay);
-            const dayOfYearValue = dayOfYear(date);
-            const referencesDiv = document.getElementById('daily-references');
-            referencesDiv.textContent = translatedData[dayOfYearValue].join(', ');
-        }
+            // Add 'btn-dark' class to the clicked button
+            button.classList.remove(`btn-outline-${buttonMode}`);
+            button.classList.add(`btn-${buttonMode}`);
 
-        function fetchVerses() {
-            const translatedData = JSON.parse(localStorage.getItem('translatedData'));
-            const translation = document.getElementById('translation-selector').value;
-            const selectedMonth = parseInt(document.getElementById('month-selector').value);
-            const selectedDay = parseInt(document.getElementById('day-selector').value);
-            const date = new Date(new Date().getFullYear(), selectedMonth - 1, selectedDay);
-            const verses = translatedData[dayOfYear(date)].join(',');
+            // Update the last clicked button reference
+            lastClickedButton = button;
 
-            const apiUrl = `https://blessings-api.vercel.app/${translation}/multiple?verses=${encodeURIComponent(verses)}`;
+            const classNamePattern =
+              /\b(small-font-size|medium-font-size|large-font-size)\b/;
 
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    const outputDiv = document.getElementById('verses-output');
-                    outputDiv.innerHTML = '';
-                    for (const verseData of data) {
-                        let bookName = verseData.book;
-                        if (translation === 'TB' && englishToIndonesianBooks[bookName]) {
-                            bookName = englishToIndonesianBooks[bookName];
-                        }
-                        const verseDiv = document.createElement('div');
-                        verseDiv.textContent = `${bookName} ${verseData.chapter}:${verseData.verse} - ${verseData.content}`;
-                        outputDiv.appendChild(verseDiv);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching verses:', error);
-                });
-        }
+            let newFontSizeClass = button.className.match(classNamePattern)[0];
+            let oldFontSizeClass = fontSize;
 
-        // Fetch the Translated_Bacaan_Alkitab_365.json directly from the current directory
-        fetch('Translated_Bacaan_Alkitab_365.json')
-            .then(response => response.json())
-            .then(translatedData => {
-                // Store in local storage for later use
-                localStorage.setItem('translatedData', JSON.stringify(translatedData));
-                
-                populateMonthDayDropdowns(translatedData);
-            })
-            .catch(error => {
-                console.error('Error fetching the Translated_Bacaan_Alkitab_365.json:', error);
+            document.querySelectorAll(".verse-div").forEach((element) => {
+              element.className = "verse-div";
+              element.classList.remove(oldFontSizeClass);
+              element.classList.add(newFontSizeClass);
             });
+
+            fontSize = newFontSizeClass;
+          });
+        });
+      });
+
+      // Dark mode option
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const modeButtons = document.querySelectorAll(".mode-btn");
+
+        modeButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const modePattern = /\b(btn-light|btn-dark)\b/;
+            let mode = button.className.match(modePattern)[0].substring(4);
+            document.documentElement.dataset.bsTheme = mode;
+
+            let lastButtonMode = modeToButton[currentMode];
+            let newButtonMode = modeToButton[mode];
+
+            document
+              .querySelectorAll(`.btn-${lastButtonMode}`)
+              .forEach((element) => {
+                if (!element.classList.contains("mode-btn")) {
+                  element.classList.remove(`btn-${lastButtonMode}`);
+                  element.classList.add(`btn-${newButtonMode}`);
+                }
+              });
+            document
+              .querySelectorAll(`.btn-outline-${lastButtonMode}`)
+              .forEach((element) => {
+                element.classList.remove(`btn-outline-${lastButtonMode}`);
+                element.classList.add(`btn-outline-${newButtonMode}`);
+              });
+
+            currentMode = mode;
+
+            // For popover
+            const popoverContent = document.getElementById("popoverContent");
+            if (mode === "dark") {
+              popoverContent.classList.add("dark-mode");
+            } else {
+              popoverContent.classList.remove("dark-mode");
+            }
+          });
+        });
+      });
     </script>
     <div>
-        <hr>
-        
-        <center>&copyBCC Shenzhen Team</center>
+      <center>
+        <button
+          id="scrollToTopBtn"
+          class="btn btn-dark"
+          onclick="scrollToTop()"
+        >
+          Back to Top
+        </button>
+      </center>
     </div>
-</body>
-
+  </body>
 </html>

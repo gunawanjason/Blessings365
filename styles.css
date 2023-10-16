@@ -1,0 +1,110 @@
+#scrollToTopBtn {
+  position: fixed;
+  bottom: 40px; /* Adjust the distance from the bottom as needed */
+  right: 50%; /* Adjust the distance from the right as needed */
+  transform: translate(
+    50%,
+    50%
+  ); /* Center the button relative to its own size */
+  display: none;
+}
+
+button > svg {
+  pointer-events: none;
+}
+
+.user-options {
+  display: flex;
+  align-items: center;
+}
+
+.mode-btn {
+  margin-left: 10px;
+}
+
+.font-size-btn {
+  margin-left: 10px;
+  /* make boxes the same size */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.row {
+  margin-left: 0;
+}
+
+[data-bs-theme="dark"] .accordion-button::after {
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23dee2e6'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23dee2e6'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+.accordion-button:focus {
+  border-color: none;
+  box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+  color: var(--bs-accordion-btn-color);
+  background-color: var(--bs-accordion-btn-bg);
+}
+
+.verse-div {
+  margin-bottom: 10px;
+  line-height: 25px;
+}
+
+.popover-container {
+  position: relative; /* Parent element has relative position */
+}
+
+.popover {
+  position: absolute;
+  top: 100%; /* Position it right below the button */
+  left: 0; /* Align it to the left edge of the button */
+  display: none; /* Initially hidden */
+  border: 1px solid #ddd;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.popover-header {
+  background-color: #f7f7f7;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.popover-body {
+  padding: 10px;
+}
+
+.popover-body div {
+  margin-bottom: 10px;
+}
+
+/* Define a class for dark mode styling */
+.popover.dark-mode .popover-header {
+  background-color: #2c2c2c; /* Dark color for header */
+  /* color: #ffffff;  */
+}
+
+.popover.dark-mode .popover-body {
+  background-color: #1a1a1a; /* Dark color for body */
+  /* color: #f0f0f0;  */
+}
+
+/* Font-size */
+.small-font-size {
+  font-size: 0.8rem;
+}
+
+.medium-font-size {
+  font-size: 1rem;
+}
+
+.large-font-size {
+  font-size: 1.2rem;
+}
