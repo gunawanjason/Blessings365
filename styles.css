@@ -1,7 +1,8 @@
 #scrollToTopBtn {
   position: fixed;
-  bottom: 40px; /* Adjust the distance from the bottom as needed */
+  bottom: 30px; /* Adjust the distance from the bottom as needed */
   right: 50%; /* Adjust the distance from the right as needed */
+  padding: 5px;
   transform: translate(
     50%,
     50%
