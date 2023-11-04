@@ -32,96 +32,114 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg">
-      <div class="container-fluid popover-container">
-        <a href="#" class="navbar-brand mb-0 h1">Alkitab365</a>
-        <button id="popoverBtn" class="btn btn-dark">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            class="bi"
-            fill="currentColor"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
-            ></path>
-          </svg>
-        </button>
-        <div class="popover" id="popoverContent">
-          <div class="popover-header">Reader settings</div>
-          <div class="popover-body">
-            <!-- Font size option -->
-            <div class="user-options">
-              <p class="mb-0">Font size:</p>
-              <button
-                type="button"
-                class="btn btn-outline-dark font-size-btn small-font-size"
-              >
-                Aa
-              </button>
-              <button
-                type="button"
-                class="btn btn-dark font-size-btn medium-font-size"
-              >
-                Aa
-              </button>
-              <button
-                type="button"
-                class="btn btn-outline-dark font-size-btn large-font-size"
-              >
-                Aa
-              </button>
-            </div>
+    <div class="fixed-width-container">
+      <nav class="navbar navbar-expand-lg fixed-width-large">
+        <div class="container-fluid popover-container">
+          <a href="#" class="navbar-brand mb-0 h1">Alkitab365</a>
+          <button id="popoverBtn" class="btn btn-dark">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              class="bi"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+              ></path>
+            </svg>
+          </button>
+          <div class="popover" id="popoverContent">
+            <div class="popover-header">Reader settings</div>
+            <div class="popover-body">
+              <!-- Font size option -->
+              <div class="user-options">
+                <p class="mb-0">Font size:</p>
+                <button
+                  type="button"
+                  class="btn btn-outline-dark font-size-btn small-font-size"
+                >
+                  Aa
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-dark font-size-btn medium-font-size"
+                >
+                  Aa
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-dark font-size-btn large-font-size"
+                >
+                  Aa
+                </button>
+              </div>
 
-            <!-- Dark mode option -->
-            <div class="user-options mt-3">
-              <p class="mb-0">Mode:</p>
-              <button type="button" class="btn btn-light mode-btn">
-                Light
-              </button>
-              <button type="button" class="btn btn-dark mode-btn">Dark</button>
+              <!-- Dark mode option -->
+              <div class="user-options mt-3">
+                <p class="mb-0">Mode:</p>
+                <button type="button" class="btn btn-light mode-btn">
+                  Light
+                </button>
+                <button type="button" class="btn btn-dark mode-btn">
+                  Dark
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </nav>
-    <!-- <h1>Alkitab365</h1> -->
-    <hr />
-
-    <!-- Dropdowns for selecting a month and a day -->
-    <div class="row">
-      <div class="col-6 col-sm-4 col-md-3">
-        <label for="month-selector">Month:</label>
-        <select id="month-selector" class="form-select-sm"></select>
-      </div>
-      <div class="col-6 col-sm-8 col-md-9">
-        <label for="day-selector">Day:</label>
-        <select id="day-selector" class="form-select-sm"></select>
-      </div>
+      </nav>
     </div>
 
-    <hr />
+    <div class="fixed-width-container">
+      <!-- Dropdowns for selecting a month and a day -->
+      <div class="d-flex justify-content-center fixed-width-medium">
+        <div class="me-2">
+          <label for="month-selector" class="selector-label">Date</label>
+          <select id="month-selector" class="form-select-sm"></select>
+        </div>
+        <div class="me-4">
+          <label for="day-selector" class="selector-label"></label>
+          <select id="day-selector" class="form-select-sm"></select>
+        </div>
 
-    <!-- Dropdown for selecting a Bible version -->
-    <div class="row">
-      <div class="col-6 col-sm-4 col-md-3">
-        <label for="translation-selector">Bible Version:</label>
-        <select id="translation-selector" class="form-select-sm">
-          <option value="TB">TB</option>
-          <option value="ESV">ESV</option>
-          <option value="KJV">KJV</option>
-          <option value="NASB">NASB</option>
-          <option value="NIV">NIV</option>
-          <option value="NLT">NLT</option>
-          <option value="TLB">TLB</option>
-          <option value="CNVS">CNVS</option>
-        </select>
+        <!-- Dropdown for selecting a Bible version -->
+        <div class="me-4">
+          <label for="translation-selector" class="selector-label"
+            >Version</label
+          >
+          <select id="translation-selector" class="form-select-sm">
+            <option value="TB">TB</option>
+            <option value="ESV">ESV</option>
+            <option value="KJV">KJV</option>
+            <option value="NASB">NASB</option>
+            <option value="NIV">NIV</option>
+            <option value="NLT">NLT</option>
+            <option value="TLB">TLB</option>
+            <option value="CNVS">CNVS</option>
+          </select>
+        </div>
+        <div>
+          <button
+            onclick="fetchVerses()"
+            type="button"
+            id="get-btn-right"
+            class="btn btn-dark"
+          >
+            Get Verses
+          </button>
+        </div>
       </div>
-      <div class="col-6 col-sm-8 col-md-9">
-        <button onclick="fetchVerses()" type="button" class="btn btn-dark">
+
+      <div class="mt-3 d-flex justify-content-center">
+        <button
+          onclick="fetchVerses()"
+          type="button"
+          id="get-btn-center"
+          class="btn btn-dark"
+        >
           Get Verses
         </button>
       </div>
@@ -129,10 +147,9 @@
 
     <hr />
     <!-- Display the verses for the selected day and version -->
-    <div class="row">
-      <h5>Verses:</h5>
+    <div class="fixed-width-container">
+      <div id="verses-output" class="fixed-width-small"></div>
     </div>
-    <div id="verses-output"></div>
 
     <script>
       const englishToIndonesianBooks = {
@@ -202,6 +219,75 @@
         "3 John": "3 Yohanes",
         Jude: "Yudas",
         Revelation: "Wahyu",
+      };
+
+      const englishToChineseBooks = {
+        Genesis: "创世纪",
+        Exodus: "出埃及记",
+        Leviticus: "利未记",
+        Numbers: "民数记",
+        Deuteronomy: "申命记",
+        Joshua: "约书亚记",
+        Judges: "士师记",
+        Ruth: "路得记",
+        "1 Samuel": "撒母耳记上",
+        "2 Samuel": "撒母耳记下",
+        "1 Kings": "列王记上",
+        "2 Kings": "列王记下",
+        "1 Chronicles": "历代志上",
+        "2 Chronicles": "历代志下",
+        Ezra: "以斯拉记",
+        Nehemiah: "尼希米记",
+        Esther: "以斯帖记",
+        Job: "约伯记",
+        Psalms: "诗篇",
+        Proverbs: "箴言",
+        Ecclesiastes: "传道书",
+        "Song of Solomon": "雅歌",
+        Isaiah: "以赛亚书",
+        Jeremiah: "耶利米书",
+        Lamentations: "耶利米哀歌",
+        Ezekiel: "以西结书",
+        Daniel: "但以理书",
+        Hosea: "何西阿书",
+        Joel: "约珥书",
+        Amos: "阿摩司书",
+        Obadiah: "俄巴底亚书",
+        Jonah: "约拿书",
+        Micah: "弥迦书",
+        Nahum: "那鸿书",
+        Habakkuk: "哈巴谷书",
+        Zephaniah: "西番雅书",
+        Haggai: "哈该书",
+        Zechariah: "撒迦利亚书",
+        Malachi: "玛拉基书",
+        Matthew: "马太福音",
+        Mark: "马可福音",
+        Luke: "路加福音",
+        John: "约翰福音",
+        Acts: "使徒行传",
+        Romans: "罗马书",
+        "1 Corinthians": "歌林多前书",
+        "2 Corinthians": "歌林多后书",
+        Galatians: "加拉太书",
+        Ephesians: "以弗所书",
+        Philippians: "腓利比书",
+        Colossians: "歌罗西书",
+        "1 Thessalonians": "帖撒罗尼迦前书",
+        "2 Thessalonians": "帖撒罗尼迦后书",
+        "1 Timothy": "提摩太前书",
+        "2 Timothy": "提摩太后书",
+        Titus: "提多书",
+        Philemon: "腓利门书",
+        Hebrews: "希伯来书",
+        James: "雅各书",
+        "1 Peter": "彼得前书",
+        "2 Peter": "彼得后书",
+        "1 John": "约翰一书",
+        "2 John": "约翰二书",
+        "3 John": "约翰三书",
+        Jude: "犹大书",
+        Revelation: "启示录",
       };
 
       function isLeapYear(year) {
@@ -410,6 +496,11 @@
                 englishToIndonesianBooks[currentBook]
               ) {
                 currentBook = englishToIndonesianBooks[currentBook];
+              } else if (
+                translation === "CNVS" &&
+                englishToChineseBooks[currentBook]
+              ) {
+                currentBook = englishToChineseBooks[currentBook];
               }
 
               // 25:6-8 instead of 25:6-25:8
@@ -425,8 +516,14 @@
             startVerse = `${verseData.chapter}:${verseData.verse}`;
           }
 
+          // set bookName for display of next verse
           if (translation === "TB" && englishToIndonesianBooks[bookName]) {
             bookName = englishToIndonesianBooks[bookName];
+          } else if (
+            translation === "CNVS" &&
+            englishToChineseBooks[bookName]
+          ) {
+            bookName = englishToChineseBooks[bookName];
           }
           const verseDiv = document.createElement("div");
           verseDiv.className = `verse-div ${fontSize}`;
@@ -444,6 +541,11 @@
           );
           if (translation === "TB" && englishToIndonesianBooks[currentBook]) {
             currentBook = englishToIndonesianBooks[currentBook];
+          } else if (
+            translation === "CNVS" &&
+            englishToChineseBooks[currentBook]
+          ) {
+            currentBook = englishToChineseBooks[currentBook];
           }
 
           // 25:6-8 instead of 25:6-25:8
@@ -673,7 +775,7 @@
         });
       });
     </script>
-    <div class= "py-2">
+    <div class="py-2">
       <center>
         <button
           id="scrollToTopBtn"

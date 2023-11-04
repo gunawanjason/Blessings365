@@ -7,6 +7,7 @@
     50%
   ); /* Center the button relative to its own size */
   display: none;
+  z-index: 9999;
 }
 
 button > svg {
@@ -107,4 +108,52 @@ button > svg {
 
 .large-font-size {
   font-size: 1.2rem;
+}
+
+/* Display and media query */
+
+.selector-label {
+  display: none;
+}
+
+#get-btn-right {
+  display: none;
+}
+
+@media (min-width: 576px) {
+  /* Applying styles from the small screen sizes and up */
+  .fixed-width-container {
+    display: block;
+  }
+
+  .fixed-width-small {
+    width: 582px;
+    margin: auto;
+  }
+
+  .selector-label {
+    display: inline-block;
+  }
+
+  #get-btn-right {
+    display: inline-block;
+  }
+
+  #get-btn-center {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .fixed-width-medium {
+    width: 768px;
+    margin: auto;
+  }
+}
+
+@media (min-width: 992px) {
+  .fixed-width-large {
+    width: 992px;
+    margin: auto;
+  }
 }
