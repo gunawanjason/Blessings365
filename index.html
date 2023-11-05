@@ -33,7 +33,7 @@
 
   <body>
     <div class="fixed-width-container">
-      <nav class="navbar navbar-expand-lg fixed-width-large">
+      <nav class="mt-3 mb-3 navbar navbar-expand-lg fixed-width-large">
         <div class="container-fluid popover-container">
           <a href="#" class="navbar-brand mb-0 h1">Alkitab365</a>
           <button id="popoverBtn" class="btn btn-dark">
@@ -55,35 +55,35 @@
             <div class="popover-header">Reader settings</div>
             <div class="popover-body">
               <!-- Font size option -->
-              <div class="user-options">
+              <div class="user-options mb-2">
                 <p class="mb-0">Font size:</p>
                 <button
                   type="button"
-                  class="btn btn-outline-dark font-size-btn small-font-size"
+                  class="ms-2 btn btn-outline-dark font-size-btn small-font-size"
                 >
                   Aa
                 </button>
                 <button
                   type="button"
-                  class="btn btn-dark font-size-btn medium-font-size"
+                  class="ms-2 btn btn-dark font-size-btn medium-font-size"
                 >
                   Aa
                 </button>
                 <button
                   type="button"
-                  class="btn btn-outline-dark font-size-btn large-font-size"
+                  class="ms-2 btn btn-outline-dark font-size-btn large-font-size"
                 >
                   Aa
                 </button>
               </div>
 
               <!-- Dark mode option -->
-              <div class="user-options mt-3">
+              <div class="user-options">
                 <p class="mb-0">Mode:</p>
-                <button type="button" class="btn btn-light mode-btn">
+                <button type="button" class="ms-2 btn btn-light mode-btn">
                   Light
                 </button>
-                <button type="button" class="btn btn-dark mode-btn">
+                <button type="button" class="ms-2 btn btn-dark mode-btn">
                   Dark
                 </button>
               </div>
@@ -100,13 +100,13 @@
           <label for="month-selector" class="selector-label">Date</label>
           <select id="month-selector" class="form-select-sm"></select>
         </div>
-        <div class="me-4">
+        <div class="me-3">
           <label for="day-selector" class="selector-label"></label>
           <select id="day-selector" class="form-select-sm"></select>
         </div>
 
         <!-- Dropdown for selecting a Bible version -->
-        <div class="me-4">
+        <div>
           <label for="translation-selector" class="selector-label"
             >Version</label
           >
@@ -133,19 +133,19 @@
         </div>
       </div>
 
-      <div class="mt-3 d-flex justify-content-center">
+      <div class="d-flex justify-content-center">
         <button
           onclick="fetchVerses()"
           type="button"
           id="get-btn-center"
-          class="btn btn-dark"
+          class="mt-3 btn btn-dark"
         >
           Get Verses
         </button>
       </div>
     </div>
 
-    <hr />
+    <hr class="mt-3 mb-3" />
     <!-- Display the verses for the selected day and version -->
     <div class="fixed-width-container">
       <div id="verses-output" class="fixed-width-small"></div>
@@ -684,12 +684,22 @@
           // Get width of the popover when it's visible
           const popoverWidth = getVisibleWidth(popoverContent);
 
+          // Get the screen width
+          const screenWidth = window.innerWidth;
+
           // Position the popover to the left of the button and aligned to its top edge
           const rect = popoverBtn.getBoundingClientRect();
+
+          // Calculate left position based on screen width
+          let leftPosition = rect.left - popoverWidth + window.scrollX;
+
+          // If the screen is wide, adjust the left position based on the centered .fixed-width-large element
+          if (screenWidth >= 992) {
+            leftPosition = 674;
+          }
+
           popoverContent.style.top = `${rect.top + window.scrollY}px`;
-          popoverContent.style.left = `${
-            rect.left - popoverWidth + window.scrollX
-          }px`;
+          popoverContent.style.left = `${leftPosition}px`;
 
           popoverContent.style.display = isHidden ? "block" : "none";
         });
