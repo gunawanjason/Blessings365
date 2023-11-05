@@ -20,11 +20,9 @@ button > svg {
 }
 
 .mode-btn {
-  margin-left: 10px;
 }
 
 .font-size-btn {
-  margin-left: 10px;
   /* make boxes the same size */
   width: 40px;
   height: 40px;
@@ -74,16 +72,12 @@ button > svg {
 
 .popover-header {
   background-color: #f7f7f7;
-  padding: 10px;
+  padding: 1rem;
   font-weight: bold;
 }
 
 .popover-body {
-  padding: 10px;
-}
-
-.popover-body div {
-  margin-bottom: 10px;
+  padding: 1rem;
 }
 
 /* Define a class for dark mode styling */
@@ -120,14 +114,14 @@ button > svg {
   display: none;
 }
 
-@media (min-width: 576px) {
+@media (min-width: 622px) {
   /* Applying styles from the small screen sizes and up */
   .fixed-width-container {
     display: block;
   }
 
   .fixed-width-small {
-    width: 582px;
+    width: 582px; /* 20px left and right padding from body */
     margin: auto;
   }
 
@@ -137,6 +131,7 @@ button > svg {
 
   #get-btn-right {
     display: inline-block;
+    margin-left: 1rem;
   }
 
   #get-btn-center {
@@ -146,14 +141,14 @@ button > svg {
 
 @media (min-width: 768px) {
   .fixed-width-medium {
-    width: 768px;
+    width: 728px;
     margin: auto;
   }
 }
 
 @media (min-width: 992px) {
   .fixed-width-large {
-    width: 992px;
+    width: 952px;
     margin: auto;
   }
 }
