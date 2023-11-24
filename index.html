@@ -59,18 +59,21 @@
                 <p class="mb-0">Font size:</p>
                 <button
                   type="button"
+                  id="small-font-size-btn"
                   class="ms-2 btn btn-outline-dark font-size-btn small-font-size"
                 >
                   Aa
                 </button>
                 <button
                   type="button"
+                  id="medium-font-size-btn"
                   class="ms-2 btn btn-dark font-size-btn medium-font-size"
                 >
                   Aa
                 </button>
                 <button
                   type="button"
+                  id="large-font-size-btn"
                   class="ms-2 btn btn-outline-dark font-size-btn large-font-size"
                 >
                   Aa
@@ -80,10 +83,18 @@
               <!-- Dark mode option -->
               <div class="user-options">
                 <p class="mb-0">Mode:</p>
-                <button type="button" class="ms-2 btn btn-light mode-btn">
+                <button
+                  type="button"
+                  id="light-mode-btn"
+                  class="ms-2 btn btn-light mode-btn"
+                >
                   Light
                 </button>
-                <button type="button" class="ms-2 btn btn-dark mode-btn">
+                <button
+                  type="button"
+                  id="dark-mode-btn"
+                  class="ms-2 btn btn-dark mode-btn"
+                >
                   Dark
                 </button>
               </div>
@@ -589,6 +600,29 @@
           });
       }
 
+      // Cookies
+      function setCookie(cname, cvalue, exdays) {
+        const d = new Date();
+        d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      }
+
+      function getCookie(cname) {
+        let name = cname + "=";
+        let ca = document.cookie.split(";");
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == " ") {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
+
       // Fetch the Translated_Bacaan_Alkitab_365.json directly from the current directory
       fetch("Translated_Bacaan_Alkitab_365.json")
         .then((response) => response.json())
@@ -739,6 +773,7 @@
             });
 
             fontSize = newFontSizeClass;
+            setCookie("fontSize", fontSize, 365);
           });
         });
       });
@@ -773,6 +808,7 @@
               });
 
             currentMode = mode;
+            setCookie("mode", mode, 365);
 
             // For popover
             const popoverContent = document.getElementById("popoverContent");
@@ -783,6 +819,20 @@
             }
           });
         });
+      });
+
+      // Apply previous cookie by simulating button click
+      document.addEventListener("DOMContentLoaded", function () {
+        let modeCookie = getCookie("mode");
+        let fontSizeCookie = getCookie("fontSize");
+        if (modeCookie !== "light") {
+          // click mode
+          document.getElementById("dark-mode-btn").click();
+        }
+        if (fontSizeCookie !== "medium-font-size") {
+          // click font size
+          document.getElementById(fontSizeCookie + "-btn").click();
+        }
       });
     </script>
     <div class="py-2">
