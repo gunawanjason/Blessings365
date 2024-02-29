@@ -312,7 +312,13 @@
           start +
           (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000;
         const oneDay = 1000 * 60 * 60 * 24;
-        const day = Math.floor(diff / oneDay);
+        let day = Math.floor(diff / oneDay);
+
+        // Adjust day count in leap years after February 29
+        if (isLeapYear(date.getFullYear()) && ((date.getMonth() === 1 && date.getDate() === 29) || (date.getMonth() > 1))) {
+          day -= 1;
+        }
+
         return day;
       }
 
@@ -348,7 +354,7 @@
           const selectedMonth = parseInt(monthSelector.value);
           const currentYear = new Date().getFullYear();
           if (isLeapYear(currentYear) && selectedMonth === 2) {
-            daysInMonth[selectedMonth - 1] = 28;
+            daysInMonth[selectedMonth - 1] = 29;
           }
           for (let i = 1; i <= daysInMonth[selectedMonth - 1]; i++) {
             const option = document.createElement("option");
@@ -374,7 +380,7 @@
           today.getMonth() === 1 &&
           today.getDate() === 29
         ) {
-          daySelector.value = 28; // Force to show 28th Feb verses on 29th Feb
+          daySelector.value = 29;
         }
         displayReferences(translatedData);
       }
