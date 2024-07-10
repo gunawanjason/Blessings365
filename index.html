@@ -553,10 +553,7 @@
           );
           if (translation === "TB" && englishToIndonesianBooks[currentBook]) {
             currentBook = englishToIndonesianBooks[currentBook];
-          } else if (
-            translation === "CNVS" &&
-            englishToChineseBooks[currentBook]
-          ) {
+          } else if ((translation === "CNVS" || translation === "CUNPSS-上帝") && englishToChineseBooks[bookName]){
             currentBook = englishToChineseBooks[currentBook];
           }
 
