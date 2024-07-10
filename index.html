@@ -130,7 +130,7 @@
             <option value="NLT">NLT</option>
             <option value="TLB">TLB</option>
             <option value="CNVS">CNVS</option>
-            <option value="CNPSS-上帝">CNPSS-上帝</option>
+            <option value="CUNPSS-上帝">CUNPSS-上帝</option>
           </select>
         </div>
         <div>
@@ -514,10 +514,7 @@
                 englishToIndonesianBooks[currentBook]
               ) {
                 currentBook = englishToIndonesianBooks[currentBook];
-              } else if (
-                translation === "CNVS" &&
-                englishToChineseBooks[currentBook]
-              ) {
+              } else if ((translation === "CNVS" || translation === "CUNPSS-上帝") && englishToChineseBooks[currentBook]) {
                 currentBook = englishToChineseBooks[currentBook];
               }
 
@@ -537,7 +534,7 @@
           // set bookName for display of next verse
           if (translation === "TB" && englishToIndonesianBooks[bookName]) {
             bookName = englishToIndonesianBooks[bookName];
-          } else if ((translation === "CNVS" || translation === "CNPSS-上帝") && englishToChineseBooks[bookName]) {
+          } else if ((translation === "CNVS" || translation === "CUNPSS-上帝") && englishToChineseBooks[bookName]) {
             bookName = englishToChineseBooks[bookName];
           }
           const verseDiv = document.createElement("div");
