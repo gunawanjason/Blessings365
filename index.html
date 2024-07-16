@@ -131,6 +131,7 @@
             <option value="TLB">TLB</option>
             <option value="CNVS">新译本(CNVS)</option>
             <option value="CUNPSS-上帝">新标点和合本，上帝版</option>
+            <option value="CUNPSS-神">新标点和合本，神版</option>
           </select>
         </div>
         <div>
@@ -514,7 +515,7 @@
                 englishToIndonesianBooks[currentBook]
               ) {
                 currentBook = englishToIndonesianBooks[currentBook];
-              } else if ((translation === "CNVS" || translation === "CUNPSS-上帝") && englishToChineseBooks[currentBook]) {
+              } else if ((translation === "CNVS" || translation === "CUNPSS-上帝"|| translation === "CUNPSS-神") && englishToChineseBooks[currentBook]) {
                 currentBook = englishToChineseBooks[currentBook];
               }
 
@@ -534,7 +535,7 @@
           // set bookName for display of next verse
           if (translation === "TB" && englishToIndonesianBooks[bookName]) {
             bookName = englishToIndonesianBooks[bookName];
-          } else if ((translation === "CNVS" || translation === "CUNPSS-上帝") && englishToChineseBooks[bookName]) {
+          } else if ((translation === "CNVS" || translation === "CUNPSS-上帝" || translation === "CUNPSS-神") && englishToChineseBooks[bookName]) {
             bookName = englishToChineseBooks[bookName];
           }
           const verseDiv = document.createElement("div");
@@ -553,7 +554,7 @@
           );
           if (translation === "TB" && englishToIndonesianBooks[currentBook]) {
             currentBook = englishToIndonesianBooks[currentBook];
-          } else if ((translation === "CNVS" || translation === "CUNPSS-上帝") && englishToChineseBooks[currentBook]) {
+          } else if ((translation === "CNVS" || translation === "CUNPSS-上帝" || translation === "CUNPSS-神") && englishToChineseBooks[currentBook]) {
             currentBook = englishToChineseBooks[currentBook];
           }
 
