@@ -587,7 +587,7 @@
         );
         const verses = translatedData[dayOfYear(date)].join(",");
 
-        const apiUrl = `https://api.blessings365.top/${translation}/multiple?verses=${encodeURIComponent(
+        const apiUrl = `https://blessings-api.vercel.app/${translation}/multiple?verses=${encodeURIComponent(
           verses
         )}`;
 
