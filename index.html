@@ -441,9 +441,9 @@
             }
           }
 
-          // Join the non-numeric parts and add the numeric parts at the end
+          // Join the non-numeric parts with hyphens and add the numeric parts at the end
           const formattedString =
-            nonNumericParts.join(" ").toLowerCase() + numericParts.join("");
+            nonNumericParts.join("-").toLowerCase() + numericParts.join("");
 
           return formattedString;
         }
