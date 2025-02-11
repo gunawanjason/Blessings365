@@ -407,166 +407,100 @@
         }
       }
 
-      function displayVerses(data, translation) {
-        const outputDiv = document.getElementById("verses-output");
-        outputDiv.innerHTML = "";
+    function displayVerses(data, translation) {
+      const outputDiv = document.getElementById("verses-output");
+      outputDiv.innerHTML = "";
 
-        // create accordion div
-        const accordionDiv = document.createElement("div");
-        accordionDiv.classList.add("accordion", "accordion-flush");
-        accordionDiv.setAttribute("id", "versesAccordion");
-        outputDiv.appendChild(accordionDiv);
+      let currentBook = "";
+      let startVerse = "";
+      let prevVerse = "";
+      let currentSection;
 
-        let currentBook = "";
-        let currentItem, currentBody;
+      function formatBookName(bookName) {
+        const words = bookName.split(" ");
+        const nonNumericParts = [];
+        const numericParts = [];
 
-        let startVerse = "";
-        let prevVerse = "";
-        let prevButton;
-
-        function formatBookName(bookName) {
-          // Split the input into words
-          const words = bookName.split(" ");
-
-          // Initialize an array for non-numeric parts and numeric parts
-          const nonNumericParts = [];
-          const numericParts = [];
-
-          // Separate non-numeric and numeric parts
-          for (const word of words) {
-            if (isNaN(word)) {
-              nonNumericParts.push(word);
-            } else {
-              numericParts.push(word);
-            }
+        for (const word of words) {
+          if (isNaN(word)) {
+            nonNumericParts.push(word);
+          } else {
+            numericParts.push(word);
           }
-
-          // Join the non-numeric parts with hyphens and add the numeric parts at the end
-          const formattedString =
-            nonNumericParts.join("-").toLowerCase() + numericParts.join("");
-
-          return formattedString;
         }
 
-        for (const verseData of data) {
-          let bookName = verseData.book;
-
-          if (bookName !== currentBook) {
-            // create accordion-item div
-            currentItem = document.createElement("div");
-            currentItem.classList.add("accordion-item");
-            accordionDiv.appendChild(currentItem);
-
-            // create accordion-header h2
-            let currentHeader = document.createElement("h2");
-            currentHeader.classList.add("accordion-header");
-            currentHeader.setAttribute(
-              "id",
-              formatBookName(bookName) + "-heading"
-            );
-            currentItem.appendChild(currentHeader);
-
-            // create button
-            let currentButton = document.createElement("button");
-            currentButton.className = "accordion-button collapsed";
-            currentButton.type = "button";
-            currentButton.setAttribute("data-bs-toggle", "collapse");
-            currentButton.setAttribute(
-              "data-bs-target",
-              "#" + formatBookName(bookName) + "-collapse"
-            );
-            currentButton.setAttribute("aria-expanded", "false");
-            currentButton.setAttribute(
-              "aria-controls",
-              formatBookName(bookName) + "-collapse"
-            );
-            currentButton.setAttribute(
-              "id",
-              formatBookName(bookName) + "-button"
-            );
-            currentButton.textContent = bookName; // title for accordion item
-            currentHeader.appendChild(currentButton);
-
-            // create accordion-collapse div
-            let currentCollapse = document.createElement("div");
-            currentCollapse.className = "accordion-collapse collapse";
-            currentCollapse.setAttribute(
-              "id",
-              formatBookName(bookName) + "-collapse"
-            );
-            currentCollapse.setAttribute(
-              "aria-labelledby",
-              formatBookName(bookName) + "-heading"
-            );
-            // currentCollapse.setAttribute("data-bs-parent", "#versesAccordion");
-            currentItem.appendChild(currentCollapse);
-
-            // create accordion-body div
-            currentBody = document.createElement("div");
-            currentBody.className = "accordion-body";
-            currentCollapse.appendChild(currentBody);
-
-            // update accordion item title
-            if (currentBook) {
-              prevButton = document.getElementById(
-                formatBookName(currentBook) + "-button"
-              );
-              if (
-                translation === "TB" &&
-                englishToIndonesianBooks[currentBook]
-              ) {
-                currentBook = englishToIndonesianBooks[currentBook];
-              } else if ((translation === "CNVS" || translation === "CUNPSS-上帝"|| translation === "CUNPSS-神") && englishToChineseBooks[currentBook]) {
-                currentBook = englishToChineseBooks[currentBook];
-              }
-
-              // 25:6-8 instead of 25:6-25:8
-              if (startVerse.split(":")[0] === prevVerse.split(":")[0]) {
-                prevVerse = prevVerse.split(":")[1];
-              }
-
-              prevButton.textContent = `${currentBook} ${startVerse}-${prevVerse}`;
-            }
-
-            // update for new book
-            currentBook = bookName;
-            startVerse = `${verseData.chapter}:${verseData.verse}`;
-          }
-
-          // set bookName for display of next verse
-          if (translation === "TB" && englishToIndonesianBooks[bookName]) {
-            bookName = englishToIndonesianBooks[bookName];
-          } else if ((translation === "CNVS" || translation === "CUNPSS-上帝" || translation === "CUNPSS-神") && englishToChineseBooks[bookName]) {
-            bookName = englishToChineseBooks[bookName];
-          }
-          const verseDiv = document.createElement("div");
-          verseDiv.className = `verse-div ${fontSize}`;
-          verseDiv.innerHTML = `<strong><sup>${verseData.chapter}:${verseData.verse}</sup></strong> ${verseData.content}`;
-          currentBody.appendChild(verseDiv);
-
-          prevVerse = `${verseData.chapter}:${verseData.verse}`;
-        }
-
-        // update accordion item title for last book
-        // update accordion item title
-        if (currentBook) {
-          prevButton = document.getElementById(
-            formatBookName(currentBook) + "-button"
-          );
-          if (translation === "TB" && englishToIndonesianBooks[currentBook]) {
-            currentBook = englishToIndonesianBooks[currentBook];
-          } else if ((translation === "CNVS" || translation === "CUNPSS-上帝" || translation === "CUNPSS-神") && englishToChineseBooks[currentBook]) {
-            currentBook = englishToChineseBooks[currentBook];
-          }
-
-          // 25:6-8 instead of 25:6-25:8
-          if (startVerse.split(":")[0] === prevVerse.split(":")[0]) {
-            prevVerse = prevVerse.split(":")[1];
-          }
-
-          prevButton.textContent = `${currentBook} ${startVerse}-${prevVerse}`;
-        }
+        const formattedString = nonNumericParts.join("-").toLowerCase() + numericParts.join("");
+        return formattedString;
       }
+
+      for (const verseData of data) {
+        let bookName = verseData.book;
+
+        if (bookName !== currentBook) {
+          // If there was a previous section, update its header with verse range
+          if (currentBook) {
+            if (translation === "TB" && englishToIndonesianBooks[currentBook]) {
+              currentBook = englishToIndonesianBooks[currentBook];
+            } else if ((translation === "CNVS" || translation === "CUNPSS-上帝" || translation === "CUNPSS-神") && englishToChineseBooks[currentBook]) {
+              currentBook = englishToChineseBooks[currentBook];
+            }
+
+            // Format the verse range (25:6-8 instead of 25:6-25:8)
+            if (startVerse.split(":")[0] === prevVerse.split(":")[0]) {
+              prevVerse = prevVerse.split(":")[1];
+            }
+            
+            const header = currentSection.querySelector("h2");
+            header.textContent = `${currentBook} ${startVerse}-${prevVerse}`;
+          }
+
+          // Create new section for the new book
+          currentSection = document.createElement("div");
+          currentSection.className = "book-section mb-4";
+          
+          // Add header for the new section
+          const header = document.createElement("h2");
+          header.className = "mb-3 text-center";
+          header.textContent = bookName; // Temporary text, will be updated with verse range
+          currentSection.appendChild(header);
+
+          // Add content div for verses
+          const contentDiv = document.createElement("div");
+          contentDiv.className = "verses-content";
+          currentSection.appendChild(contentDiv);
+
+          outputDiv.appendChild(currentSection);
+
+          // Update tracking variables
+          currentBook = bookName;
+          startVerse = `${verseData.chapter}:${verseData.verse}`;
+        }
+
+        // Add verse content
+        const verseDiv = document.createElement("div");
+        verseDiv.className = `verse-div ${fontSize}`;
+        verseDiv.innerHTML = `<strong><sup>${verseData.chapter}:${verseData.verse}</sup></strong> ${verseData.content}`;
+        currentSection.querySelector(".verses-content").appendChild(verseDiv);
+
+        prevVerse = `${verseData.chapter}:${verseData.verse}`;
+      }
+
+      // Update the last section's header
+      if (currentBook) {
+        if (translation === "TB" && englishToIndonesianBooks[currentBook]) {
+          currentBook = englishToIndonesianBooks[currentBook];
+        } else if ((translation === "CNVS" || translation === "CUNPSS-上帝" || translation === "CUNPSS-神") && englishToChineseBooks[currentBook]) {
+          currentBook = englishToChineseBooks[currentBook];
+        }
+
+        if (startVerse.split(":")[0] === prevVerse.split(":")[0]) {
+          prevVerse = prevVerse.split(":")[1];
+        }
+
+        const header = currentSection.querySelector("h2");
+        header.textContent = `${currentBook} ${startVerse}-${prevVerse}`;
+      }
+    }
 
       function fetchVerses() {
         const translatedData = JSON.parse(
