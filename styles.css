@@ -19,9 +19,6 @@ button > svg {
   align-items: center;
 }
 
-.mode-btn {
-}
-
 .font-size-btn {
   /* make boxes the same size */
   width: 40px;
@@ -110,9 +107,7 @@ button > svg {
   display: none;
 }
 
-#get-btn-right {
-  display: none;
-}
+
 
 @media (min-width: 622px) {
   /* Applying styles from the small screen sizes and up */
@@ -129,14 +124,7 @@ button > svg {
     display: inline-block;
   }
 
-  #get-btn-right {
-    display: inline-block;
-    margin-left: 1rem;
-  }
 
-  #get-btn-center {
-    display: none;
-  }
 }
 
 @media (min-width: 768px) {
@@ -151,4 +139,14 @@ button > svg {
     width: 952px;
     margin: auto;
   }
+}
+
+/* Loading spinner styles */
+[data-bs-theme="dark"] .spinner-border.text-primary {
+  color: #6ea8fe !important; /* Lighter blue for dark mode */
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
 }

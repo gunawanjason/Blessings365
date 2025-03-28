@@ -135,28 +135,10 @@
             <option value="CUNPSS-神">新标点和合本，神版</option>
           </select>
         </div>
-        <div>
-          <button
-            onclick="fetchVerses()"
-            type="button"
-            id="get-btn-right"
-            class="btn btn-dark"
-          >
-            Get Verses
-          </button>
-        </div>
+
       </div>
 
-      <div class="d-flex justify-content-center">
-        <button
-          onclick="fetchVerses()"
-          type="button"
-          id="get-btn-center"
-          class="mt-3 btn btn-dark"
-        >
-          Get Verses
-        </button>
-      </div>
+
     </div>
 
     <hr class="mt-3 mb-3" />
@@ -369,10 +351,17 @@
 
         fillDays();
 
-        monthSelector.addEventListener("change", fillDays);
-        daySelector.addEventListener("change", () =>
-          displayReferences(translatedData)
-        );
+        monthSelector.addEventListener("change", () => {
+          fillDays();
+          fetchVerses(); // Auto fetch when month changes
+        });
+        daySelector.addEventListener("change", () => {
+          displayReferences(translatedData);
+          fetchVerses(); // Auto fetch when day changes
+        });
+        
+        // Add event listener for translation selector to auto fetch
+        document.getElementById("translation-selector").addEventListener("change", fetchVerses);
 
         const today = new Date();
         monthSelector.value = today.getMonth() + 1;
@@ -588,6 +577,16 @@
         );
         const verses = translatedData[dayOfYear(date)].join(",");
 
+        // Show loading indicator
+        const outputDiv = document.getElementById("verses-output");
+        outputDiv.innerHTML = `
+          <div class="d-flex justify-content-center my-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `;
+
         const apiUrl = `https://api.blessings365.top/${translation}/multiple?verses=${encodeURIComponent(
           verses
         )}`;
@@ -597,6 +596,11 @@
           .then((data) => displayVerses(data, translation))
           .catch((error) => {
             console.error("Error fetching verses:", error);
+            outputDiv.innerHTML = `
+              <div class="alert alert-danger" role="alert">
+                Error loading verses. Please try again.
+              </div>
+            `;
           });
       }
 
@@ -634,6 +638,9 @@
           );
 
           populateMonthDayDropdowns(translatedData);
+          
+          // Auto fetch verses when page loads
+          fetchVerses();
         })
         .catch((error) => {
           console.error(
