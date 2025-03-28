@@ -57,49 +57,39 @@
             <div class="popover-header">Reader settings</div>
             <div class="popover-body">
               <!-- Font size option -->
-              <div class="user-options mb-2">
-                <p class="mb-0">Font size:</p>
-                <button
-                  type="button"
-                  id="small-font-size-btn"
-                  class="ms-2 btn btn-outline-dark font-size-btn small-font-size"
-                >
-                  Aa
-                </button>
-                <button
-                  type="button"
-                  id="medium-font-size-btn"
-                  class="ms-2 btn btn-dark font-size-btn medium-font-size"
-                >
-                  Aa
-                </button>
-                <button
-                  type="button"
-                  id="large-font-size-btn"
-                  class="ms-2 btn btn-outline-dark font-size-btn large-font-size"
-                >
-                  Aa
-                </button>
+              <div class="user-options">
+                <p class="mb-0">Font size</p>
+                <div class="font-size-slider-container">
+                  <input 
+                    type="range" 
+                    min="1" 
+                    max="3" 
+                    value="2" 
+                    step="1" 
+                    class="font-size-slider" 
+                    id="font-size-slider"
+                  >
+                  <div class="font-size-labels">
+                    <span>Small</span>
+                    <span>Medium</span>
+                    <span>Large</span>
+                  </div>
+                </div>
               </div>
 
               <!-- Dark mode option -->
               <div class="user-options">
-                <p class="mb-0">Mode:</p>
-                <button
-                  type="button"
-                  id="light-mode-btn"
-                  class="ms-2 btn btn-light mode-btn"
-                >
-                  Light
-                </button>
-                <button
-                  type="button"
-                  id="dark-mode-btn"
-                  class="ms-2 btn btn-dark mode-btn"
-                >
-                  Dark
-                </button>
+                <p class="mb-0">Appearance</p>
+                <label class="toggle-label">
+                  <span class="toggle-icon">☀️</span>
+                  <div class="toggle-switch">
+                    <input type="checkbox" id="mode-toggle">
+                    <span class="toggle-slider"></span>
+                  </div>
+                  <span class="toggle-icon">🌙</span>
+                </label>
               </div>
+            </div>
             </div>
           </div>
         </div>
@@ -844,90 +834,95 @@
 
           popoverContent.style.top = `${rect.top + window.scrollY}px`;
           popoverContent.style.left = `${leftPosition}px`;
-
-          popoverContent.style.display = isHidden ? "block" : "none";
+          
+          if (isHidden) {
+            // First make it visible but with opacity 0
+            popoverContent.style.display = "block";
+            
+            // Force a reflow to ensure the transition works
+            popoverContent.offsetHeight;
+            
+            // Then add the show class to trigger the animation
+            popoverContent.classList.add("show");
+          } else {
+            // Remove the show class first to trigger the fade out
+            popoverContent.classList.remove("show");
+            
+            // After the transition completes, hide the element
+            setTimeout(() => {
+              popoverContent.style.display = "none";
+            }, 300); // Match this with the transition duration in CSS
+          }
         });
       });
 
-      // Font size option
+      // Font size slider option
 
       document.addEventListener("DOMContentLoaded", function () {
-        const buttons = document.querySelectorAll(".font-size-btn");
+        const fontSizeSlider = document.getElementById("font-size-slider");
+        
+        // Map slider values to font size classes
+        const fontSizeMap = {
+          "1": "small-font-size",
+          "2": "medium-font-size",
+          "3": "large-font-size"
+        };
+        
+        fontSizeSlider.addEventListener("input", function() {
+          const value = this.value;
+          const newFontSizeClass = fontSizeMap[value];
+          const oldFontSizeClass = fontSize;
+          
+          document.querySelectorAll(".verse-div").forEach((element) => {
+            element.className = "verse-div";
+            element.classList.remove(oldFontSizeClass);
+            element.classList.add(newFontSizeClass);
+          });
+          
+          fontSize = newFontSizeClass;
+          setCookie("fontSize", fontSize, 365);
+        });
+      });
 
-        buttons.forEach((button) => {
-          button.addEventListener("click", function () {
-            let buttonMode = modeToButton[currentMode];
+      // Dark mode toggle option
 
-            if (lastClickedButton) {
-              lastClickedButton.classList.remove(`btn-${buttonMode}`);
-              lastClickedButton.classList.add(`btn-outline-${buttonMode}`);
-            }
-
-            // Add 'btn-dark' class to the clicked button
-            button.classList.remove(`btn-outline-${buttonMode}`);
-            button.classList.add(`btn-${buttonMode}`);
-
-            // Update the last clicked button reference
-            lastClickedButton = button;
-
-            const classNamePattern =
-              /\b(small-font-size|medium-font-size|large-font-size)\b/;
-
-            let newFontSizeClass = button.className.match(classNamePattern)[0];
-            let oldFontSizeClass = fontSize;
-
-            document.querySelectorAll(".verse-div").forEach((element) => {
-              element.className = "verse-div";
-              element.classList.remove(oldFontSizeClass);
-              element.classList.add(newFontSizeClass);
+      document.addEventListener("DOMContentLoaded", function () {
+        const modeToggle = document.getElementById("mode-toggle");
+        
+        modeToggle.addEventListener("change", function() {
+          const mode = this.checked ? "dark" : "light";
+          document.documentElement.dataset.bsTheme = mode;
+          
+          let lastButtonMode = modeToButton[currentMode];
+          let newButtonMode = modeToButton[mode];
+          
+          // Update all buttons with the new mode styling
+          document
+            .querySelectorAll(`.btn-${lastButtonMode}`)
+            .forEach((element) => {
+              if (!element.classList.contains("mode-btn")) {
+                element.classList.remove(`btn-${lastButtonMode}`);
+                element.classList.add(`btn-${newButtonMode}`);
+              }
             });
-
-            fontSize = newFontSizeClass;
-            setCookie("fontSize", fontSize, 365);
-          });
-        });
-      });
-
-      // Dark mode option
-
-      document.addEventListener("DOMContentLoaded", function () {
-        const modeButtons = document.querySelectorAll(".mode-btn");
-
-        modeButtons.forEach((button) => {
-          button.addEventListener("click", function () {
-            const modePattern = /\b(btn-light|btn-dark)\b/;
-            let mode = button.className.match(modePattern)[0].substring(4);
-            document.documentElement.dataset.bsTheme = mode;
-
-            let lastButtonMode = modeToButton[currentMode];
-            let newButtonMode = modeToButton[mode];
-
-            document
-              .querySelectorAll(`.btn-${lastButtonMode}`)
-              .forEach((element) => {
-                if (!element.classList.contains("mode-btn")) {
-                  element.classList.remove(`btn-${lastButtonMode}`);
-                  element.classList.add(`btn-${newButtonMode}`);
-                }
-              });
-            document
-              .querySelectorAll(`.btn-outline-${lastButtonMode}`)
-              .forEach((element) => {
-                element.classList.remove(`btn-outline-${lastButtonMode}`);
-                element.classList.add(`btn-outline-${newButtonMode}`);
-              });
-
-            currentMode = mode;
-            setCookie("mode", mode, 365);
-
-            // For popover
-            const popoverContent = document.getElementById("popoverContent");
-            if (mode === "dark") {
-              popoverContent.classList.add("dark-mode");
-            } else {
-              popoverContent.classList.remove("dark-mode");
-            }
-          });
+          
+          document
+            .querySelectorAll(`.btn-outline-${lastButtonMode}`)
+            .forEach((element) => {
+              element.classList.remove(`btn-outline-${lastButtonMode}`);
+              element.classList.add(`btn-outline-${newButtonMode}`);
+            });
+          
+          currentMode = mode;
+          setCookie("mode", mode, 365);
+          
+          // For popover
+          const popoverContent = document.getElementById("popoverContent");
+          if (mode === "dark") {
+            popoverContent.classList.add("dark-mode");
+          } else {
+            popoverContent.classList.remove("dark-mode");
+          }
         });
       });
 
