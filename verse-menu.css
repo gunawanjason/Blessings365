@@ -19,7 +19,7 @@
 }
 
 .verse-menu-item:hover {
-  background-color: rgba(var(--bs-primary-rgb), 0.1);
+  background-color: rgba(108, 117, 125, 0.1);
 }
 
 .verse-menu-item svg {
@@ -38,6 +38,6 @@
 }
 
 .verse-selected {
-  background-color: rgba(var(--bs-primary-rgb), 0.15);
+  background-color: rgba(108, 117, 125, 0.15);
   position: relative;
 }
