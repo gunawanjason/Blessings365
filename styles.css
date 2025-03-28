@@ -17,6 +17,13 @@ button > svg {
 .user-options {
   display: flex;
   align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.user-options p {
+  min-width: 100px;
+  font-weight: 500;
 }
 
 .font-size-btn {
@@ -26,6 +33,13 @@ button > svg {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.font-size-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .row {
@@ -37,19 +51,88 @@ button > svg {
   --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23dee2e6'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
 
+[data-bs-theme="dark"] .accordion-button {
+  border: 1px solid #495057;
+}
+
+[data-bs-theme="dark"] .accordion-button:not(.collapsed) {
+  border: 1px solid #adb5bd;
+}
+
 .accordion-button:focus {
   border-color: none;
   box-shadow: none;
 }
 
 .accordion-button:not(.collapsed) {
-  color: var(--bs-accordion-btn-color);
-  background-color: var(--bs-accordion-btn-bg);
+  color: #6c757d;
+  background-color: rgba(108, 117, 125, 0.05);
+  font-weight: 600;
+  border: 1px solid #ced4da;
+}
+
+.accordion-button {
+  border-radius: 12px;
+  padding: 18px;
+  transition: all 0.3s ease;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: 1px solid #dee2e6;
+}
+
+.accordion-button::after {
+  transition: transform 0.3s ease;
+}
+
+.accordion-item {
+  border: none;
+  margin-bottom: 12px;
+  background-color: transparent;
+}
+
+.accordion-body {
+  padding: 12px 10px;
 }
 
 .verse-div {
-  margin-bottom: 10px;
-  line-height: 25px;
+  margin-bottom: 0;
+  line-height: 1.5;
+  padding: 6px 16px;
+  background-color: var(--bs-body-bg);
+  transition: all 0.3s ease-in-out;
+  border-bottom: none;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  letter-spacing: 0.015em;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.verse-div:hover {
+  background-color: rgba(108, 117, 125, 0.03);
+}
+
+.verse-div strong {
+  color: #6c757d;
+  margin-right: 8px;
+  font-weight: 600;
+  display: inline-block;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background-color: rgba(108, 117, 125, 0.08);
+  font-size: 0.85em;
+  vertical-align: top;
+  position: relative;
+  top: 1px;
+}
+
+[data-bs-theme="dark"] .verse-div {
+  border-bottom-color: rgba(108, 117, 125, 0.2);
+}
+
+[data-bs-theme="dark"] .verse-div:hover {
+  background-color: rgba(108, 117, 125, 0.1);
 }
 
 .popover-container {
@@ -61,31 +144,109 @@ button > svg {
   top: 100%; /* Position it right below the button */
   left: 0; /* Align it to the left edge of the button */
   display: none; /* Initially hidden */
-  border: 1px solid #ddd;
+  border: none;
   background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   z-index: 1000;
+  border-radius: 12px;
+  min-width: 280px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.popover.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .popover-header {
-  background-color: #f7f7f7;
-  padding: 1rem;
-  font-weight: bold;
+  background-color: transparent;
+  padding: 1.25rem 1.5rem 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  margin-bottom: 0.5rem;
 }
 
 .popover-body {
-  padding: 1rem;
+  padding: 1rem 1.5rem 1.5rem;
 }
 
 /* Define a class for dark mode styling */
+.popover.dark-mode {
+  background-color: #222;
+  color: #f0f0f0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
 .popover.dark-mode .popover-header {
-  background-color: #2c2c2c; /* Dark color for header */
-  /* color: #ffffff;  */
+  background-color: transparent;
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .popover.dark-mode .popover-body {
-  background-color: #1a1a1a; /* Dark color for body */
-  /* color: #f0f0f0;  */
+  background-color: transparent;
+  color: #f0f0f0;
+}
+
+/* Toggle switch for dark/light mode */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+  margin-left: 10px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+  background-color: #6c757d;
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(30px);
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toggle-icon {
+  margin: 0 5px;
+  font-size: 14px;
 }
 
 /* Font-size */
@@ -101,13 +262,138 @@ button > svg {
   font-size: 1.2rem;
 }
 
+/* Font size slider */
+.font-size-slider-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.font-size-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 5px;
+  background: #e0e0e0;
+  outline: none;
+  margin: 10px 0;
+}
+
+.font-size-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #6c757d;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.font-size-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #6c757d;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.font-size-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.font-size-slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+}
+
+[data-bs-theme="dark"] .font-size-slider {
+  background: #444;
+}
+
+.font-size-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+[data-bs-theme="dark"] .font-size-labels {
+  color: #aaa;
+}
+
+/* Navbar styling for modern and simplistic header */
+.navbar {
+  padding: 1rem 1.5rem;
+  background-color: var(--bs-body-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+[data-bs-theme="dark"] .navbar {
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+}
+
+.navbar-brand {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+  color: #333;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-left: 0.25rem;
+}
+
+.brand-accent {
+  color: #4a6da7;
+  font-weight: 700;
+}
+
+[data-bs-theme="dark"] .brand-accent {
+  color: #6d9bf7;
+}
+
+.settings-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+[data-bs-theme="dark"] .navbar-brand {
+  color: #f0f0f0;
+}
+
+.navbar .btn {
+  border-radius: 10px;
+  padding: 0.5rem 0.75rem;
+  transition: all 0.3s ease;
+  border: none;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.navbar .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .navbar .btn {
+  background-color: #333;
+  color: #f0f0f0;
+}
+
 /* Display and media query */
 
 .selector-label {
   display: none;
 }
-
-
 
 @media (min-width: 622px) {
   /* Applying styles from the small screen sizes and up */
@@ -143,7 +429,7 @@ button > svg {
 
 /* Loading spinner styles */
 [data-bs-theme="dark"] .spinner-border.text-primary {
-  color: #6ea8fe !important; /* Lighter blue for dark mode */
+  color: #adb5bd !important; /* Lighter gray for dark mode */
 }
 
 .spinner-border {

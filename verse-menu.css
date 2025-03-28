@@ -1,0 +1,43 @@
+.verse-menu {
+  position: absolute;
+  background-color: var(--bs-body-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 8px 0;
+  z-index: 1000;
+  display: none;
+  min-width: 150px;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.verse-menu-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.verse-menu-item:hover {
+  background-color: rgba(108, 117, 125, 0.1);
+}
+
+.verse-menu-item svg {
+  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+}
+
+[data-bs-theme="dark"] .verse-menu {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.verse-selected {
+  background-color: rgba(108, 117, 125, 0.15);
+  position: relative;
+}

@@ -20,6 +20,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" type="text/css" href="verse-menu.css" />
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
@@ -34,14 +35,16 @@
 
   <body>
     <div class="fixed-width-container">
-      <nav class="mt-3 mb-3 navbar navbar-expand-lg fixed-width-large">
+      <nav class="mt-4 mb-4 navbar navbar-expand-lg fixed-width-large">
         <div class="container-fluid popover-container">
-          <a href="#" class="navbar-brand mb-0 h1">Alkitab365</a>
-          <button id="popoverBtn" class="btn btn-dark">
+          <a href="#" class="navbar-brand mb-0 h1">
+            <span class="brand-accent">A</span>lkitab365
+          </a>
+          <button id="popoverBtn" class="btn settings-btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="20"
+              height="20"
               class="bi"
               fill="currentColor"
               viewBox="0 0 16 16"
@@ -56,49 +59,39 @@
             <div class="popover-header">Reader settings</div>
             <div class="popover-body">
               <!-- Font size option -->
-              <div class="user-options mb-2">
-                <p class="mb-0">Font size:</p>
-                <button
-                  type="button"
-                  id="small-font-size-btn"
-                  class="ms-2 btn btn-outline-dark font-size-btn small-font-size"
-                >
-                  Aa
-                </button>
-                <button
-                  type="button"
-                  id="medium-font-size-btn"
-                  class="ms-2 btn btn-dark font-size-btn medium-font-size"
-                >
-                  Aa
-                </button>
-                <button
-                  type="button"
-                  id="large-font-size-btn"
-                  class="ms-2 btn btn-outline-dark font-size-btn large-font-size"
-                >
-                  Aa
-                </button>
+              <div class="user-options">
+                <p class="mb-0">Font size</p>
+                <div class="font-size-slider-container">
+                  <input 
+                    type="range" 
+                    min="1" 
+                    max="3" 
+                    value="2" 
+                    step="1" 
+                    class="font-size-slider" 
+                    id="font-size-slider"
+                  >
+                  <div class="font-size-labels">
+                    <span>Small</span>
+                    <span>Medium</span>
+                    <span>Large</span>
+                  </div>
+                </div>
               </div>
 
               <!-- Dark mode option -->
               <div class="user-options">
-                <p class="mb-0">Mode:</p>
-                <button
-                  type="button"
-                  id="light-mode-btn"
-                  class="ms-2 btn btn-light mode-btn"
-                >
-                  Light
-                </button>
-                <button
-                  type="button"
-                  id="dark-mode-btn"
-                  class="ms-2 btn btn-dark mode-btn"
-                >
-                  Dark
-                </button>
+                <p class="mb-0">Appearance</p>
+                <label class="toggle-label">
+                  <span class="toggle-icon">☀️</span>
+                  <div class="toggle-switch">
+                    <input type="checkbox" id="mode-toggle">
+                    <span class="toggle-slider"></span>
+                  </div>
+                  <span class="toggle-icon">🌙</span>
+                </label>
               </div>
+            </div>
             </div>
           </div>
         </div>
@@ -145,6 +138,15 @@
     <!-- Display the verses for the selected day and version -->
     <div class="fixed-width-container">
       <div id="verses-output" class="fixed-width-small"></div>
+      <!-- Verse menu for sharing and copying -->
+      <div id="verse-menu" class="verse-menu">
+        <div class="verse-menu-item" id="copy-verse">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+          </svg>
+          Copy
+        </div>
+      </div>
     </div>
 
     <script>
@@ -693,6 +695,99 @@
 
       // EVENT LISTENERS
       // Enable popovers
+      
+      // Handle verse selection and menu
+      let selectedVerses = [];
+      const verseMenu = document.getElementById('verse-menu');
+      
+      // Close verse menu when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.verse-div') && !e.target.closest('#verse-menu')) {
+          verseMenu.style.display = 'none';
+          // Clear all selections when clicking outside
+          selectedVerses.forEach(verse => {
+            verse.classList.remove('verse-selected');
+          });
+          selectedVerses = [];
+        }
+      });
+      
+      // Handle verse click to show menu
+      document.addEventListener('click', function(e) {
+        const verseDiv = e.target.closest('.verse-div');
+        if (verseDiv) {
+          e.preventDefault();
+          
+          // Toggle selection for the clicked verse
+          if (selectedVerses.includes(verseDiv)) {
+            verseDiv.classList.remove('verse-selected');
+            selectedVerses = selectedVerses.filter(v => v !== verseDiv);
+          } else {
+            verseDiv.classList.add('verse-selected');
+            selectedVerses.push(verseDiv);
+          }
+          
+          // Show or hide menu based on selection state
+          if (selectedVerses.length > 0) {
+            // Position menu near the last selected verse
+            const lastVerse = selectedVerses[selectedVerses.length - 1];
+            const rect = lastVerse.getBoundingClientRect();
+            verseMenu.style.top = `${window.scrollY + rect.bottom + 5}px`;
+            verseMenu.style.left = `${rect.left + 20}px`;
+            verseMenu.style.display = 'block';
+          } else {
+            verseMenu.style.display = 'none';
+          }
+        }
+      });
+      
+      // Copy verse functionality
+      document.getElementById('copy-verse').addEventListener('click', function() {
+        if (selectedVerses.length > 0) {
+          // Sort verses by their position in the document
+          const sortedVerses = [...selectedVerses].sort((a, b) => {
+            return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+          });
+          
+          // Get current translation to determine book name language
+          const translation = document.getElementById('translation-selector').value;
+          
+          // Combine all selected verses into one text with book names
+          const versesText = sortedVerses.map(verse => {
+            // Find the accordion button that contains the book name
+            const accordionBody = verse.closest('.accordion-body');
+            const accordionItem = accordionBody ? accordionBody.closest('.accordion-item') : null;
+            const button = accordionItem ? accordionItem.querySelector('.accordion-button') : null;
+            
+            // Extract book name from button text (format is "Book Name Chapter:Verse-Verse")
+            let bookName = '';
+            if (button) {
+              const buttonText = button.textContent;
+              // Extract book name (everything before the first number)
+              const match = buttonText.match(/^(.+?)\s\d+/);
+              if (match && match[1]) {
+                bookName = match[1].trim() + ' ';
+              }
+            }
+            
+            return bookName + verse.innerText;
+          }).join('\n\n');
+          
+          navigator.clipboard.writeText(versesText)
+            .then(() => {
+              // Show feedback
+              const originalText = this.innerHTML;
+              this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Copied!';
+              
+              setTimeout(() => {
+                this.innerHTML = originalText;
+              }, 2000);
+            })
+            .catch(err => {
+              console.error('Failed to copy: ', err);
+            });
+        }
+      });
 
       document.addEventListener("DOMContentLoaded", function () {
         const popoverBtn = document.getElementById("popoverBtn");
@@ -741,90 +836,95 @@
 
           popoverContent.style.top = `${rect.top + window.scrollY}px`;
           popoverContent.style.left = `${leftPosition}px`;
-
-          popoverContent.style.display = isHidden ? "block" : "none";
+          
+          if (isHidden) {
+            // First make it visible but with opacity 0
+            popoverContent.style.display = "block";
+            
+            // Force a reflow to ensure the transition works
+            popoverContent.offsetHeight;
+            
+            // Then add the show class to trigger the animation
+            popoverContent.classList.add("show");
+          } else {
+            // Remove the show class first to trigger the fade out
+            popoverContent.classList.remove("show");
+            
+            // After the transition completes, hide the element
+            setTimeout(() => {
+              popoverContent.style.display = "none";
+            }, 300); // Match this with the transition duration in CSS
+          }
         });
       });
 
-      // Font size option
+      // Font size slider option
 
       document.addEventListener("DOMContentLoaded", function () {
-        const buttons = document.querySelectorAll(".font-size-btn");
+        const fontSizeSlider = document.getElementById("font-size-slider");
+        
+        // Map slider values to font size classes
+        const fontSizeMap = {
+          "1": "small-font-size",
+          "2": "medium-font-size",
+          "3": "large-font-size"
+        };
+        
+        fontSizeSlider.addEventListener("input", function() {
+          const value = this.value;
+          const newFontSizeClass = fontSizeMap[value];
+          const oldFontSizeClass = fontSize;
+          
+          document.querySelectorAll(".verse-div").forEach((element) => {
+            element.className = "verse-div";
+            element.classList.remove(oldFontSizeClass);
+            element.classList.add(newFontSizeClass);
+          });
+          
+          fontSize = newFontSizeClass;
+          setCookie("fontSize", fontSize, 365);
+        });
+      });
 
-        buttons.forEach((button) => {
-          button.addEventListener("click", function () {
-            let buttonMode = modeToButton[currentMode];
+      // Dark mode toggle option
 
-            if (lastClickedButton) {
-              lastClickedButton.classList.remove(`btn-${buttonMode}`);
-              lastClickedButton.classList.add(`btn-outline-${buttonMode}`);
-            }
-
-            // Add 'btn-dark' class to the clicked button
-            button.classList.remove(`btn-outline-${buttonMode}`);
-            button.classList.add(`btn-${buttonMode}`);
-
-            // Update the last clicked button reference
-            lastClickedButton = button;
-
-            const classNamePattern =
-              /\b(small-font-size|medium-font-size|large-font-size)\b/;
-
-            let newFontSizeClass = button.className.match(classNamePattern)[0];
-            let oldFontSizeClass = fontSize;
-
-            document.querySelectorAll(".verse-div").forEach((element) => {
-              element.className = "verse-div";
-              element.classList.remove(oldFontSizeClass);
-              element.classList.add(newFontSizeClass);
+      document.addEventListener("DOMContentLoaded", function () {
+        const modeToggle = document.getElementById("mode-toggle");
+        
+        modeToggle.addEventListener("change", function() {
+          const mode = this.checked ? "dark" : "light";
+          document.documentElement.dataset.bsTheme = mode;
+          
+          let lastButtonMode = modeToButton[currentMode];
+          let newButtonMode = modeToButton[mode];
+          
+          // Update all buttons with the new mode styling
+          document
+            .querySelectorAll(`.btn-${lastButtonMode}`)
+            .forEach((element) => {
+              if (!element.classList.contains("mode-btn")) {
+                element.classList.remove(`btn-${lastButtonMode}`);
+                element.classList.add(`btn-${newButtonMode}`);
+              }
             });
-
-            fontSize = newFontSizeClass;
-            setCookie("fontSize", fontSize, 365);
-          });
-        });
-      });
-
-      // Dark mode option
-
-      document.addEventListener("DOMContentLoaded", function () {
-        const modeButtons = document.querySelectorAll(".mode-btn");
-
-        modeButtons.forEach((button) => {
-          button.addEventListener("click", function () {
-            const modePattern = /\b(btn-light|btn-dark)\b/;
-            let mode = button.className.match(modePattern)[0].substring(4);
-            document.documentElement.dataset.bsTheme = mode;
-
-            let lastButtonMode = modeToButton[currentMode];
-            let newButtonMode = modeToButton[mode];
-
-            document
-              .querySelectorAll(`.btn-${lastButtonMode}`)
-              .forEach((element) => {
-                if (!element.classList.contains("mode-btn")) {
-                  element.classList.remove(`btn-${lastButtonMode}`);
-                  element.classList.add(`btn-${newButtonMode}`);
-                }
-              });
-            document
-              .querySelectorAll(`.btn-outline-${lastButtonMode}`)
-              .forEach((element) => {
-                element.classList.remove(`btn-outline-${lastButtonMode}`);
-                element.classList.add(`btn-outline-${newButtonMode}`);
-              });
-
-            currentMode = mode;
-            setCookie("mode", mode, 365);
-
-            // For popover
-            const popoverContent = document.getElementById("popoverContent");
-            if (mode === "dark") {
-              popoverContent.classList.add("dark-mode");
-            } else {
-              popoverContent.classList.remove("dark-mode");
-            }
-          });
+          
+          document
+            .querySelectorAll(`.btn-outline-${lastButtonMode}`)
+            .forEach((element) => {
+              element.classList.remove(`btn-outline-${lastButtonMode}`);
+              element.classList.add(`btn-outline-${newButtonMode}`);
+            });
+          
+          currentMode = mode;
+          setCookie("mode", mode, 365);
+          
+          // For popover
+          const popoverContent = document.getElementById("popoverContent");
+          if (mode === "dark") {
+            popoverContent.classList.add("dark-mode");
+          } else {
+            popoverContent.classList.remove("dark-mode");
+          }
         });
       });
 
