@@ -674,10 +674,10 @@
           if (document.documentElement.scrollTop > 100) {
             scrollToTopBtn.classList.add("visible");
             
-            // Set a new timeout to hide the button after 1 seconds
+            // Set a new timeout to hide the button after 3 seconds
             scrollTimeout = setTimeout(function() {
               scrollToTopBtn.classList.remove("visible");
-            }, 1000); // 1 seconds
+            }, 3000); // 1 seconds
           } else {
             scrollToTopBtn.classList.remove("visible");
           }
