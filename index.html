@@ -928,18 +928,46 @@
         });
       });
 
-      // Apply previous cookie by simulating button click
+      // Apply saved settings from cookies on page load
       document.addEventListener("DOMContentLoaded", function () {
-        let modeCookie = getCookie("mode");
-        let fontSizeCookie = getCookie("fontSize");
-        if (modeCookie !== "light") {
-          // click mode
-          document.getElementById("dark-mode-btn").click();
+        const modeCookie = getCookie("mode");
+        const fontSizeCookie = getCookie("fontSize");
+        const modeToggle = document.getElementById("mode-toggle");
+        const fontSizeSlider = document.getElementById("font-size-slider");
+
+        // Apply dark/light mode
+        if (modeCookie === "dark") {
+          modeToggle.checked = true;
+          document.documentElement.dataset.bsTheme = "dark";
+          currentMode = "dark"; // Update state variable
+          // Apply dark mode styling adjustments if needed (e.g., for popover)
+          const popoverContent = document.getElementById("popoverContent");
+          if (popoverContent) popoverContent.classList.add("dark-mode");
+          // Note: Button class updates might need manual trigger if not handled by bsTheme change
+        } else {
+          // Default is light, ensure checkbox is unchecked
+          modeToggle.checked = false;
+          document.documentElement.dataset.bsTheme = "light";
+          currentMode = "light"; // Update state variable
         }
-        if (fontSizeCookie !== "medium-font-size") {
-          // click font size
-          document.getElementById(fontSizeCookie + "-btn").click();
-        }
+
+        // Apply font size
+        const fontSizeMap = {
+          "small-font-size": "1",
+          "medium-font-size": "2",
+          "large-font-size": "3"
+        };
+        const sliderValue = fontSizeMap[fontSizeCookie] || "2"; // Default to medium
+        fontSizeSlider.value = sliderValue;
+        fontSize = fontSizeCookie || "medium-font-size"; // Update state variable
+
+        // Apply the font size class to existing verse divs (if any are loaded initially)
+        // This might be redundant if fetchVerses runs after this and applies it anyway
+        document.querySelectorAll(".verse-div").forEach((element) => {
+          element.className = "verse-div"; // Reset classes
+          element.classList.add(fontSize);
+        });
+
       });
     </script>
     <div class="py-2">
