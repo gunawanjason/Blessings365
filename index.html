@@ -659,14 +659,29 @@
       }
 
       // Show the "Scroll to Top" button when the user scrolls down
-      window.addEventListener("scroll", function () {
+      document.addEventListener("DOMContentLoaded", function() {
         var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+        var scrollTimeout;
+        
+        if (!scrollToTopBtn) return;
 
-        if (document.documentElement.scrollTop > 100) {
-          scrollToTopBtn.classList.add("visible");
-        } else {
-          scrollToTopBtn.classList.remove("visible");
-        }
+        window.addEventListener("scroll", function () {
+          // Clear any existing timeout
+          if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+          }
+          
+          if (document.documentElement.scrollTop > 100) {
+            scrollToTopBtn.classList.add("visible");
+            
+            // Set a new timeout to hide the button after 1 seconds
+            scrollTimeout = setTimeout(function() {
+              scrollToTopBtn.classList.remove("visible");
+            }, 1000); // 1 seconds
+          } else {
+            scrollToTopBtn.classList.remove("visible");
+          }
+        });
       });
 
       // Font size controls
