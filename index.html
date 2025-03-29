@@ -663,9 +663,9 @@
         var scrollToTopBtn = document.getElementById("scrollToTopBtn");
 
         if (document.documentElement.scrollTop > 100) {
-          scrollToTopBtn.style.display = "block";
+          scrollToTopBtn.classList.add("visible");
         } else {
-          scrollToTopBtn.style.display = "none";
+          scrollToTopBtn.classList.remove("visible");
         }
       });
 
@@ -970,16 +970,15 @@
 
       });
     </script>
-    <div class="py-2">
-      <center>
-        <button
-          id="scrollToTopBtn"
-          class="btn btn-dark"
-          onclick="scrollToTop()"
-        >
-          Back to Top
-        </button>
-      </center>
-    </div>
+    <button
+      id="scrollToTopBtn"
+      class="btn btn-dark"
+      onclick="scrollToTop()"
+      aria-label="Scroll to top"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M7.646 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 6.207V11.5a.5.5 0 0 1-1 0V6.207L5.354 8.354a.5.5 0 1 1-.708-.708l3-3z"/>
+      </svg>
+    </button>
   </body>
 </html>

@@ -1,13 +1,50 @@
 #scrollToTopBtn {
   position: fixed;
-  bottom: 40px; /* Adjust the distance from the bottom as needed */
-  right: 50%; /* Adjust the distance from the right as needed */
-  transform: translate(
-    50%,
-    50%
-  ); /* Center the button relative to its own size */
+  bottom: 120px;
+  right: calc(50% - 291px - 40px); /* Position next to the accordion (582px/2 = 291px) */
   display: none;
   z-index: 9999;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  border-radius: 12px 0 0 12px;
+  border: 1px solid #dee2e6;
+  border-right: none;
+  background-color: #f8f9fa;
+  color: #6c757d;
+}
+
+#scrollToTopBtn.visible {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#scrollToTopBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+[data-bs-theme="dark"] #scrollToTopBtn {
+  background-color: #343a40;
+  color: #f8f9fa;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-color: #495057;
+}
+
+[data-bs-theme="dark"] #scrollToTopBtn:hover {
+  background-color: #495057;
+  color: #f8f9fa;
+  transform: translateY(-2px);
 }
 
 button > svg {
