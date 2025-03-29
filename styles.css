@@ -468,8 +468,12 @@ input:checked + .toggle-slider:before {
   .selector-label {
     display: inline-block;
   }
-
-
+  
+  #scrollToTopBtn {
+    right: calc(50% - 291px - 40px); /* Position next to the accordion (582px/2 = 291px) */
+    border-radius: 12px 0 0 12px;
+    border-right: none;
+  }
 }
 
 @media (min-width: 768px) {
