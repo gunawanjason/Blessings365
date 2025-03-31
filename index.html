@@ -31,6 +31,15 @@
       integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
       crossorigin="anonymous"
     ></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBVE1FKX3R"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-MBVE1FKX3R');
+    </script>
   </head>
 
   <body>
@@ -150,6 +159,12 @@
     </div>
 
     <script>
+      // Helper function to get current Bible version
+      function getCurrentVersion() {
+        const selector = document.getElementById('translation-selector');
+        return selector ? selector.value : 'unknown'; // Handle case where selector might not exist yet
+      }
+
       const englishToIndonesianBooks = {
         Genesis: "Kejadian",
         Exodus: "Keluaran",
@@ -353,17 +368,42 @@
 
         fillDays();
 
-        monthSelector.addEventListener("change", () => {
+        monthSelector.addEventListener("change", (event) => {
           fillDays();
           fetchVerses(); // Auto fetch when month changes
+          // GA Event
+          if (typeof gtag === 'function') {
+            gtag('event', 'select_content', {
+              'content_type': 'date_month',
+              'item_id': event.target.value,
+              'selected_version': getCurrentVersion()
+            });
+          }
         });
-        daySelector.addEventListener("change", () => {
+        daySelector.addEventListener("change", (event) => {
           displayReferences(translatedData);
           fetchVerses(); // Auto fetch when day changes
+          // GA Event
+          if (typeof gtag === 'function') {
+            gtag('event', 'select_content', {
+              'content_type': 'date_day',
+              'item_id': event.target.value,
+              'selected_version': getCurrentVersion()
+            });
+          }
         });
         
         // Add event listener for translation selector to auto fetch
-        document.getElementById("translation-selector").addEventListener("change", fetchVerses);
+        document.getElementById("translation-selector").addEventListener("change", (event) => {
+          fetchVerses();
+          // GA Event
+          if (typeof gtag === 'function') {
+            gtag('event', 'select_content', {
+              'content_type': 'bible_version',
+              'item_id': event.target.value
+            });
+          }
+        });
 
         const today = new Date();
         monthSelector.value = today.getMonth() + 1;
@@ -765,7 +805,7 @@
           });
           
           // Get current translation to determine book name language
-          const translation = document.getElementById('translation-selector').value;
+          const translation = getCurrentVersion(); // Use helper
           
           // Combine all selected verses into one text with book names
           const versesText = sortedVerses.map(verse => {
@@ -790,6 +830,16 @@
           
           navigator.clipboard.writeText(versesText)
             .then(() => {
+              // GA Event
+              if (typeof gtag === 'function') {
+                const truncatedText = versesText.substring(0, 100); // GA limit for item_id
+                gtag('event', 'share', {
+                  'method': 'copy',
+                  'content_type': 'bible_verse',
+                  'item_id': truncatedText,
+                  'selected_version': translation
+                });
+              }
               // Show feedback
               const originalText = this.innerHTML;
               this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Copied!';
@@ -831,24 +881,32 @@
 
         popoverBtn.addEventListener("click", function () {
           const isHidden = getComputedStyle(popoverContent).display === "none";
+          
+          // GA Event (Track toggle action)
+          if (typeof gtag === 'function') {
+            gtag('event', 'toggle_settings', {
+              'ui_element': 'settings_button',
+              'selected_version': getCurrentVersion()
+            });
+          }
 
           // Get width of the popover when it's visible
           const popoverWidth = getVisibleWidth(popoverContent);
-
+          
           // Get the screen width
           const screenWidth = window.innerWidth;
-
+          
           // Position the popover to the left of the button and aligned to its top edge
           const rect = popoverBtn.getBoundingClientRect();
-
+          
           // Calculate left position based on screen width
           let leftPosition = rect.left - popoverWidth + window.scrollX;
-
+          
           // If the screen is wide, adjust the left position based on the centered .fixed-width-large element
           if (screenWidth >= 992) {
             leftPosition = 674;
           }
-
+          
           popoverContent.style.top = `${rect.top + window.scrollY}px`;
           popoverContent.style.left = `${leftPosition}px`;
           
@@ -891,13 +949,22 @@
           const oldFontSizeClass = fontSize;
           
           document.querySelectorAll(".verse-div").forEach((element) => {
-            element.className = "verse-div";
-            element.classList.remove(oldFontSizeClass);
+            element.className = "verse-div"; // Reset class first
+            // element.classList.remove(oldFontSizeClass); // Removing specific class might be brittle if state is inconsistent
             element.classList.add(newFontSizeClass);
           });
           
           fontSize = newFontSizeClass;
           setCookie("fontSize", fontSize, 365);
+
+          // GA Event
+          if (typeof gtag === 'function') {
+            gtag('event', 'change_setting', {
+              'setting_type': 'font_size',
+              'setting_value': newFontSizeClass,
+              'selected_version': getCurrentVersion()
+            });
+          }
         });
       });
 
@@ -935,10 +1002,21 @@
           
           // For popover
           const popoverContent = document.getElementById("popoverContent");
-          if (mode === "dark") {
-            popoverContent.classList.add("dark-mode");
-          } else {
-            popoverContent.classList.remove("dark-mode");
+          if (popoverContent) { // Check if popover exists
+             if (mode === "dark") {
+               popoverContent.classList.add("dark-mode");
+             } else {
+               popoverContent.classList.remove("dark-mode");
+             }
+          }
+
+          // GA Event
+          if (typeof gtag === 'function') {
+            gtag('event', 'change_setting', {
+              'setting_type': 'theme',
+              'setting_value': mode,
+              'selected_version': getCurrentVersion()
+            });
           }
         });
       });
@@ -982,6 +1060,42 @@
           element.className = "verse-div"; // Reset classes
           element.classList.add(fontSize);
         });
+
+        // --- GA Event Listeners ---
+
+        // Accordion Button Click (using event delegation)
+        const versesOutput = document.getElementById('verses-output');
+        if (versesOutput) {
+          versesOutput.addEventListener('click', function(event) {
+            const button = event.target.closest('.accordion-button');
+            if (button && typeof gtag === 'function') {
+              gtag('event', 'select_content', {
+                'content_type': 'bible_book_chapter',
+                'item_id': button.textContent.trim(), // Get text like "Genesis 1:1-16"
+                'selected_version': getCurrentVersion()
+              });
+            }
+          });
+        }
+
+        // Scroll to Top Button Click
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        if (scrollToTopBtn) {
+          // Remove existing onclick attribute if present (optional, but cleaner)
+          // scrollToTopBtn.removeAttribute('onclick');
+          
+          scrollToTopBtn.addEventListener('click', function() {
+            scrollToTop(); // Call the existing scroll function
+            // GA Event
+            if (typeof gtag === 'function') {
+              gtag('event', 'scroll_to_top', {
+                'ui_element': 'scroll_top_button',
+                'selected_version': getCurrentVersion()
+              });
+            }
+          });
+        }
+        // --- End GA Event Listeners ---
 
       });
     </script>
