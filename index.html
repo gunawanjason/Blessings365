@@ -799,43 +799,123 @@
       // Copy verse functionality
       document.getElementById('copy-verse').addEventListener('click', function() {
         if (selectedVerses.length > 0) {
-          // Sort verses by their position in the document
+          // 1. Sort verses by their position in the document
           const sortedVerses = [...selectedVerses].sort((a, b) => {
-            return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+            const position = a.compareDocumentPosition(b);
+            if (position & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
+            if (position & Node.DOCUMENT_POSITION_PRECEDING) return 1;
+            return 0;
           });
-          
-          // Get current translation to determine book name language
-          const translation = getCurrentVersion(); // Use helper
-          
-          // Combine all selected verses into one text with book names
-          const versesText = sortedVerses.map(verse => {
-            // Find the accordion button that contains the book name
-            const accordionBody = verse.closest('.accordion-body');
+
+          const translation = getCurrentVersion();
+          const allVerseData = [];
+
+          // 2. Extract detailed info for each verse
+          sortedVerses.forEach(verseDiv => {
+            const supElement = verseDiv.querySelector('sup');
+            if (!supElement) return; // Skip if no sup tag found
+
+            const chapterVerse = supElement.textContent; // e.g., "7:12"
+            const [chapterStr, verseStr] = chapterVerse.split(':');
+            const chapter = parseInt(chapterStr, 10);
+            const verseNum = parseInt(verseStr, 10);
+
+            // Get book name from the accordion button text
+            const accordionBody = verseDiv.closest('.accordion-body');
             const accordionItem = accordionBody ? accordionBody.closest('.accordion-item') : null;
             const button = accordionItem ? accordionItem.querySelector('.accordion-button') : null;
-            
-            // Extract book name from button text (format is "Book Name Chapter:Verse-Verse")
-            let bookName = '';
+            let bookName = 'Unknown Book';
             if (button) {
-              const buttonText = button.textContent;
-              // Extract book name (everything before the first number)
-              const match = buttonText.match(/^(.+?)\s\d+/);
-              if (match && match[1]) {
-                bookName = match[1].trim() + ' ';
+                const buttonText = button.textContent;
+                const match = buttonText.match(/^(.+?)\s\d+/);
+                if (match && match[1]) {
+                    bookName = match[1].trim();
+                }
+            }
+
+            // Get plain text content
+            let fullText = verseDiv.textContent || '';
+            const supText = supElement.textContent || '';
+            let plainText = fullText.replace(supText, '').trim();
+
+            if (!isNaN(chapter) && !isNaN(verseNum)) {
+              allVerseData.push({ book: bookName, chapter, verse: verseNum, text: plainText });
+            }
+          });
+
+          // 3. Group verses by book and chapter
+          const groupedVerses = allVerseData.reduce((acc, verse) => {
+            acc[verse.book] = acc[verse.book] || {};
+            acc[verse.book][verse.chapter] = acc[verse.book][verse.chapter] || [];
+            acc[verse.book][verse.chapter].push({ verse: verse.verse, text: verse.text });
+            return acc;
+          }, {});
+
+          let finalOutput = [];
+
+          // 4. Generate consolidated reference string per chapter and format output blocks
+          for (const book in groupedVerses) {
+            for (const chapter in groupedVerses[book]) {
+              // All selected verses for this specific book and chapter, sorted
+              const versesInChapter = groupedVerses[book][chapter].sort((a, b) => a.verse - b.verse);
+              
+              // Generate the consolidated reference string (e.g., "4, 6-8, 10")
+              const referenceString = generateVerseReferenceString(versesInChapter.map(v => v.verse));
+              
+              // Format the block using the consolidated reference and all verses for the chapter
+              finalOutput.push(formatChapterBlock(book, chapter, referenceString, versesInChapter, translation));
+            }
+          }
+
+          // Helper function to generate comma-separated verse/range string
+          function generateVerseReferenceString(verseNumbers) {
+            if (!verseNumbers || verseNumbers.length === 0) return '';
+            
+            let result = [];
+            let rangeStart = verseNumbers[0];
+            
+            for (let i = 0; i < verseNumbers.length; i++) {
+              const currentVerse = verseNumbers[i];
+              const nextVerse = verseNumbers[i + 1];
+              
+              // Check if the next verse is not consecutive or if it's the last verse
+              if (nextVerse !== currentVerse + 1 || i === verseNumbers.length - 1) {
+                if (currentVerse === rangeStart) {
+                  // Single verse
+                  result.push(`${rangeStart}`);
+                } else {
+                  // Range of verses
+                  result.push(`${rangeStart}-${currentVerse}`);
+                }
+                // Start a new range if there are more verses
+                if (nextVerse) {
+                  rangeStart = nextVerse;
+                }
               }
             }
-            
-            return bookName + verse.innerText;
-          }).join('\n\n');
-          
-          navigator.clipboard.writeText(versesText)
+            return result.join(', ');
+          }
+
+          // Helper function to format a block for a whole chapter's selection
+          function formatChapterBlock(book, chapter, referenceString, versesData, translation) {
+            const header = `${book} ${chapter}:${referenceString} (${translation})`;
+            // Include text for all selected verses in this chapter, sorted
+            const lines = versesData.map(v => `${v.verse} ${v.text}`);
+            return header + '\n' + lines.join('\n');
+          }
+
+          // 6. Combine blocks
+          const formattedText = finalOutput.join('\n\n');
+
+          // 7. Copy to Clipboard
+          navigator.clipboard.writeText(formattedText)
             .then(() => {
               // GA Event
               if (typeof gtag === 'function') {
-                const truncatedText = versesText.substring(0, 100); // GA limit for item_id
+                const truncatedText = formattedText.substring(0, 100);
                 gtag('event', 'share', {
                   'method': 'copy',
-                  'content_type': 'bible_verse',
+                  'content_type': 'bible_verse_formatted_multi', // New type for multi-block
                   'item_id': truncatedText,
                   'selected_version': translation
                 });
@@ -843,13 +923,10 @@
               // Show feedback
               const originalText = this.innerHTML;
               this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Copied!';
-              
-              setTimeout(() => {
-                this.innerHTML = originalText;
-              }, 2000);
+              setTimeout(() => { this.innerHTML = originalText; }, 2000);
             })
             .catch(err => {
-              console.error('Failed to copy: ', err);
+              console.error('Failed to copy multi-block formatted text: ', err);
             });
         }
       });
