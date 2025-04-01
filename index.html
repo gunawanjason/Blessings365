@@ -395,12 +395,14 @@
         
         // Add event listener for translation selector to auto fetch
         document.getElementById("translation-selector").addEventListener("change", (event) => {
+          const selectedVersion = event.target.value;
+          setCookie("selectedVersion", selectedVersion, 365); // Save the selected version
           fetchVerses();
           // GA Event
           if (typeof gtag === 'function') {
             gtag('event', 'select_content', {
               'content_type': 'bible_version',
-              'item_id': event.target.value
+              'item_id': selectedVersion
             });
           }
         });
@@ -680,8 +682,14 @@
           );
 
           populateMonthDayDropdowns(translatedData);
+
+          // Load saved version from cookie before initial fetch
+          const savedVersion = getCookie("selectedVersion");
+          if (savedVersion) {
+            document.getElementById("translation-selector").value = savedVersion;
+          }
           
-          // Auto fetch verses when page loads
+          // Auto fetch verses when page loads (now uses saved or default version)
           fetchVerses();
         })
         .catch((error) => {
