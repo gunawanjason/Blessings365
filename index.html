@@ -1174,6 +1174,23 @@
         }
         // --- End GA Event Listeners ---
 
+        // --- Engagement Heartbeat ---
+        function sendEngagementHeartbeat() {
+          // Only send if the tab is visible and gtag is available
+          if (!document.hidden && typeof gtag === 'function') {
+            gtag('event', 'user_heartbeat', {
+              'event_category': 'engagement',
+              'event_label': 'active_tab',
+              'non_interaction': true, // Important: Mark as non-interaction to avoid affecting bounce rate
+              'selected_version': getCurrentVersion() // Add context
+            });
+          }
+        }
+
+        // Send heartbeat every 30 seconds
+        setInterval(sendEngagementHeartbeat, 30000);
+        // --- End Engagement Heartbeat ---
+
       });
     </script>
     <button
