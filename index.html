@@ -31,14 +31,26 @@
       integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
       crossorigin="anonymous"
     ></script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBVE1FKX3R"></script>
+    <!-- Custom Analytics -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      // Placeholder for custom analytics logic
+      // Sends tracking data to the /api/collect endpoint
+      const GA_MEASUREMENT_ID = 'G-MBVE1FKX3R'; // Store your Measurement ID
 
-      gtag('config', 'G-MBVE1FKX3R');
+      function customTrack(...args) {
+        console.log('Custom Track:', ...args); // Log for debugging
+
+        // Send data to the local proxy endpoint
+        fetch('/api/collect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          // Send the measurement ID and the original arguments passed to gtag
+          body: JSON.stringify({ measurementId: GA_MEASUREMENT_ID, args: args })
+        }).catch(error => console.error('Error sending tracking data:', error));
+      }
+
+      // Initial page load config (simulated)
+      customTrack('config', GA_MEASUREMENT_ID);
     </script>
   </head>
 
@@ -371,26 +383,22 @@
         monthSelector.addEventListener("change", (event) => {
           fillDays();
           fetchVerses(); // Auto fetch when month changes
-          // GA Event
-          if (typeof gtag === 'function') {
-            gtag('event', 'select_content', {
-              'content_type': 'date_month',
-              'item_id': event.target.value,
-              'selected_version': getCurrentVersion()
-            });
-          }
+          // Custom Analytics Event
+          customTrack('event', 'select_content', {
+            'content_type': 'date_month',
+            'item_id': event.target.value,
+            'selected_version': getCurrentVersion()
+          });
         });
         daySelector.addEventListener("change", (event) => {
           displayReferences(translatedData);
           fetchVerses(); // Auto fetch when day changes
-          // GA Event
-          if (typeof gtag === 'function') {
-            gtag('event', 'select_content', {
-              'content_type': 'date_day',
-              'item_id': event.target.value,
-              'selected_version': getCurrentVersion()
-            });
-          }
+          // Custom Analytics Event
+          customTrack('event', 'select_content', {
+            'content_type': 'date_day',
+            'item_id': event.target.value,
+            'selected_version': getCurrentVersion()
+          });
         });
         
         // Add event listener for translation selector to auto fetch
@@ -398,13 +406,11 @@
           const selectedVersion = event.target.value;
           setCookie("selectedVersion", selectedVersion, 365); // Save the selected version
           fetchVerses();
-          // GA Event
-          if (typeof gtag === 'function') {
-            gtag('event', 'select_content', {
-              'content_type': 'bible_version',
-              'item_id': selectedVersion
-            });
-          }
+          // Custom Analytics Event
+          customTrack('event', 'select_content', {
+            'content_type': 'bible_version',
+            'item_id': selectedVersion
+          });
         });
 
         const today = new Date();
@@ -918,16 +924,14 @@
           // 7. Copy to Clipboard
           navigator.clipboard.writeText(formattedText)
             .then(() => {
-              // GA Event
-              if (typeof gtag === 'function') {
-                const truncatedText = formattedText.substring(0, 100);
-                gtag('event', 'share', {
-                  'method': 'copy',
-                  'content_type': 'bible_verse_formatted_multi', // New type for multi-block
-                  'item_id': truncatedText,
-                  'selected_version': translation
-                });
-              }
+              // Custom Analytics Event
+              const truncatedText = formattedText.substring(0, 100);
+              customTrack('event', 'share', {
+                'method': 'copy',
+                'content_type': 'bible_verse_formatted_multi', // New type for multi-block
+                'item_id': truncatedText,
+                'selected_version': translation
+              });
               // Show feedback
               const originalText = this.innerHTML;
               this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Copied!';
@@ -967,13 +971,11 @@
         popoverBtn.addEventListener("click", function () {
           const isHidden = getComputedStyle(popoverContent).display === "none";
           
-          // GA Event (Track toggle action)
-          if (typeof gtag === 'function') {
-            gtag('event', 'toggle_settings', {
-              'ui_element': 'settings_button',
-              'selected_version': getCurrentVersion()
-            });
-          }
+          // Custom Analytics Event (Track toggle action)
+          customTrack('event', 'toggle_settings', {
+            'ui_element': 'settings_button',
+            'selected_version': getCurrentVersion()
+          });
 
           // Get width of the popover when it's visible
           const popoverWidth = getVisibleWidth(popoverContent);
@@ -1042,14 +1044,12 @@
           fontSize = newFontSizeClass;
           setCookie("fontSize", fontSize, 365);
 
-          // GA Event
-          if (typeof gtag === 'function') {
-            gtag('event', 'change_setting', {
-              'setting_type': 'font_size',
-              'setting_value': newFontSizeClass,
-              'selected_version': getCurrentVersion()
-            });
-          }
+          // Custom Analytics Event
+          customTrack('event', 'change_setting', {
+            'setting_type': 'font_size',
+            'setting_value': newFontSizeClass,
+            'selected_version': getCurrentVersion()
+          });
         });
       });
 
@@ -1095,14 +1095,12 @@
              }
           }
 
-          // GA Event
-          if (typeof gtag === 'function') {
-            gtag('event', 'change_setting', {
-              'setting_type': 'theme',
-              'setting_value': mode,
-              'selected_version': getCurrentVersion()
-            });
-          }
+          // Custom Analytics Event
+          customTrack('event', 'change_setting', {
+            'setting_type': 'theme',
+            'setting_value': mode,
+            'selected_version': getCurrentVersion()
+          });
         });
       });
 
@@ -1153,8 +1151,8 @@
         if (versesOutput) {
           versesOutput.addEventListener('click', function(event) {
             const button = event.target.closest('.accordion-button');
-            if (button && typeof gtag === 'function') {
-              gtag('event', 'select_content', {
+            if (button) { // Check if button exists, customTrack is always defined
+              customTrack('event', 'select_content', {
                 'content_type': 'bible_book_chapter',
                 'item_id': button.textContent.trim(), // Get text like "Genesis 1:1-16"
                 'selected_version': getCurrentVersion()
@@ -1171,22 +1169,20 @@
           
           scrollToTopBtn.addEventListener('click', function() {
             scrollToTop(); // Call the existing scroll function
-            // GA Event
-            if (typeof gtag === 'function') {
-              gtag('event', 'scroll_to_top', {
-                'ui_element': 'scroll_top_button',
-                'selected_version': getCurrentVersion()
-              });
-            }
+            // Custom Analytics Event
+            customTrack('event', 'scroll_to_top', {
+              'ui_element': 'scroll_top_button',
+              'selected_version': getCurrentVersion()
+            });
           });
         }
         // --- End GA Event Listeners ---
 
         // --- Engagement Heartbeat ---
         function sendEngagementHeartbeat() {
-          // Only send if the tab is visible and gtag is available
-          if (!document.hidden && typeof gtag === 'function') {
-            gtag('event', 'user_heartbeat', {
+          // Only send if the tab is visible
+          if (!document.hidden) {
+            customTrack('event', 'user_heartbeat', {
               'event_category': 'engagement',
               'event_label': 'active_tab',
               'non_interaction': true, // Important: Mark as non-interaction to avoid affecting bounce rate
