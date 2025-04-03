@@ -1,7 +1,7 @@
 // api/collect.js - Vercel Serverless Function
-const axios = require('axios');
-const crypto = require('crypto');
-const cookieParser = require('cookie-parser'); // Vercel might need this explicitly
+import axios from 'axios';
+import crypto from 'crypto';
+// cookie-parser require removed as it's not directly used by the handler logic itself (we use parseCookies helper)
 
 // --- Configuration ---
 const GA_API_SECRET = process.env.GA_API_SECRET; // Read from Vercel Environment Variables
