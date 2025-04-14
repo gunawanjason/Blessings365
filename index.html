@@ -805,11 +805,12 @@
           
           // Show or hide menu based on selection state
           if (selectedVerses.length > 0) {
-            // Position menu near the last selected verse
+            // Position menu directly on top of the last selected verse
             const lastVerse = selectedVerses[selectedVerses.length - 1];
             const rect = lastVerse.getBoundingClientRect();
-            verseMenu.style.top = `${window.scrollY + rect.bottom + 5}px`;
-            verseMenu.style.left = `${rect.left + 20}px`;
+            // Position the menu directly on top of the verse
+            verseMenu.style.top = `${window.scrollY + rect.top + (rect.height / 2)}px`;
+            verseMenu.style.left = `${rect.right - 70}px`; // Position from right side
             verseMenu.style.display = 'block';
           } else {
             verseMenu.style.display = 'none';
