@@ -47,7 +47,7 @@
       <nav class="mt-4 mb-4 navbar navbar-expand-lg fixed-width-large">
         <div class="container-fluid popover-container">
           <a href="#" class="navbar-brand mb-0 h1">
-            <span class="brand-accent">A</span>lkitab365
+            Alkitab<span class="brand-accent">365</span>
           </a>
           <button id="popoverBtn" class="btn settings-btn">
             <svg
@@ -786,8 +786,22 @@
             verse.classList.remove('verse-selected');
           });
           selectedVerses = [];
+          updateVerseSelectionHeader();
         }
       });
+
+      function updateVerseSelectionHeader() {
+        const headerDiv = document.getElementById('verseSelectionHeader');
+        const contentDiv = document.getElementById('verseSelectionHeaderContent');
+
+        if (selectedVerses.length > 0 && selectedVersesAddress) {
+          contentDiv.textContent = `Selected: ${selectedVersesAddress}`;
+          headerDiv.style.display = 'block';
+        } else {
+          contentDiv.textContent = '';
+          headerDiv.style.display = 'none';
+        }
+      }
       
       // Handle verse click to show menu
       document.addEventListener('click', function(e) {
@@ -817,6 +831,7 @@
             // Update verse address selection
             const { _, formattedHeader } = formatVerseSelection(selectedVerses);
             selectedVersesAddress = formattedHeader;
+            updateVerseSelectionHeader();
           } else {
             verseMenu.style.display = 'none';
           }
@@ -1288,5 +1303,8 @@
         <path d="M7.646 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 6.207V11.5a.5.5 0 0 1-1 0V6.207L5.354 8.354a.5.5 0 1 1-.708-.708l3-3z"/>
       </svg>
     </button>
+    <div id="verseSelectionHeader" class="verse-selection-header">
+      <div id="verseSelectionHeaderContent" class="content"></div>
+    </div>
   </body>
 </html>
