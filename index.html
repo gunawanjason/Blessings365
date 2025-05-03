@@ -774,6 +774,7 @@
       
       // Handle verse selection and menu
       let selectedVerses = [];
+      let selectedVersesAddress = '';
       const verseMenu = document.getElementById('verse-menu');
       
       // Close verse menu when clicking outside
@@ -812,6 +813,10 @@
             verseMenu.style.top = `${window.scrollY + rect.top + (rect.height / 2)}px`;
             verseMenu.style.left = `${rect.right - 70}px`; // Position from right side
             verseMenu.style.display = 'block';
+
+            // Update verse address selection
+            const { _, formattedHeader } = formatVerseSelection(selectedVerses);
+            selectedVersesAddress = formattedHeader;
           } else {
             verseMenu.style.display = 'none';
           }
@@ -830,8 +835,7 @@
         return str.split('').map(char => boldMap[char] || char).join('');
       }
 
-      // Copy verse functionality
-      document.getElementById('copy-verse').addEventListener('click', function() {
+      function formatVerseSelection(selectedVerses) {
         if (selectedVerses.length > 0) {
           // 1. Sort verses by their position in the document
           const sortedVerses = [...selectedVerses].sort((a, b) => {
@@ -886,6 +890,7 @@
           }, {});
 
           let finalOutput = [];
+          let finalHeaders = []
 
           // 4. Generate consolidated reference string per chapter and format output blocks
           for (const book in groupedVerses) {
@@ -897,7 +902,9 @@
               const referenceString = generateVerseReferenceString(versesInChapter.map(v => v.verse));
               
               // Format the block using the consolidated reference and all verses for the chapter
-              finalOutput.push(formatChapterBlock(book, chapter, referenceString, versesInChapter, translation));
+              const { header, text } = formatChapterBlock(book, chapter, referenceString, versesInChapter, translation);
+              finalHeaders.push(header); // Collect the header
+              finalOutput.push(text);
             }
           }
 
@@ -935,20 +942,29 @@
             let header = `${book} ${chapter}:${referenceString} (${translation})`;
             let lines;
             if (boldCopyEnabled) {
-              header = toUnicodeBold(`${book} ${chapter}:${referenceString} (${translation})`);
+              styledHeader = toUnicodeBold(`${book} ${chapter}:${referenceString} (${translation})`);
               // Include text for all selected verses in this chapter, sorted, with bold verse numbers
               lines = versesData.map(v => `${toUnicodeBold(v.verse.toString())} ${v.text}`);
             } else {
               // Include text for all selected verses in this chapter, sorted
               lines = versesData.map(v => `${v.verse} ${v.text}`);
             }
-            return header + '\n' + lines.join('\n');
+            return { header, text: styledHeader + '\n' + lines.join('\n') };
           }
 
           // 6. Combine blocks
           const formattedText = finalOutput.join('\n\n');
+          const formattedHeader = finalHeaders.join(', ');
 
-          // 7. Copy to Clipboard
+          return { formattedText, formattedHeader };
+        }
+      }
+
+      // Copy verse functionality
+      document.getElementById('copy-verse').addEventListener('click', function() {
+          const { formattedText, _ } = formatVerseSelection(selectedVerses);
+
+          // Copy to Clipboard
           navigator.clipboard.writeText(formattedText)
             .then(() => {
               // GA Event
@@ -969,7 +985,7 @@
             .catch(err => {
               console.error('Failed to copy multi-block formatted text: ', err);
             });
-        }
+        
       });
 
       document.addEventListener("DOMContentLoaded", function () {
