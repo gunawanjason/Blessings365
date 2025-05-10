@@ -47,7 +47,7 @@
       <nav class="mt-4 mb-4 navbar navbar-expand-lg fixed-width-large">
         <div class="container-fluid popover-container">
           <a href="#" class="navbar-brand mb-0 h1">
-            <span class="brand-accent">A</span>lkitab365
+            Alkitab<span class="brand-accent">365</span>
           </a>
           <button id="popoverBtn" class="btn settings-btn">
             <svg
@@ -774,6 +774,7 @@
       
       // Handle verse selection and menu
       let selectedVerses = [];
+      let selectedVersesAddress = '';
       const verseMenu = document.getElementById('verse-menu');
       
       // Close verse menu when clicking outside
@@ -785,8 +786,22 @@
             verse.classList.remove('verse-selected');
           });
           selectedVerses = [];
+          updateVerseSelectionHeader();
         }
       });
+
+      function updateVerseSelectionHeader() {
+        const headerDiv = document.getElementById('verseSelectionHeader');
+        const contentDiv = document.getElementById('verseSelectionHeaderContent');
+
+        if (selectedVerses.length > 0 && selectedVersesAddress) {
+          contentDiv.textContent = `Selected: ${selectedVersesAddress}`;
+          headerDiv.style.display = 'block';
+        } else {
+          contentDiv.textContent = '';
+          headerDiv.style.display = 'none';
+        }
+      }
       
       // Handle verse click to show menu
       document.addEventListener('click', function(e) {
@@ -812,6 +827,11 @@
             verseMenu.style.top = `${window.scrollY + rect.top + (rect.height / 2)}px`;
             verseMenu.style.left = `${rect.right - 70}px`; // Position from right side
             verseMenu.style.display = 'block';
+
+            // Update verse address selection
+            const { _, formattedHeader } = formatVerseSelection(selectedVerses);
+            selectedVersesAddress = formattedHeader;
+            updateVerseSelectionHeader();
           } else {
             verseMenu.style.display = 'none';
           }
@@ -830,8 +850,7 @@
         return str.split('').map(char => boldMap[char] || char).join('');
       }
 
-      // Copy verse functionality
-      document.getElementById('copy-verse').addEventListener('click', function() {
+      function formatVerseSelection(selectedVerses) {
         if (selectedVerses.length > 0) {
           // 1. Sort verses by their position in the document
           const sortedVerses = [...selectedVerses].sort((a, b) => {
@@ -886,9 +905,12 @@
           }, {});
 
           let finalOutput = [];
+          let listOfHeaders = [];
 
           // 4. Generate consolidated reference string per chapter and format output blocks
           for (const book in groupedVerses) {
+            let verseInBook = [];
+
             for (const chapter in groupedVerses[book]) {
               // All selected verses for this specific book and chapter, sorted
               const versesInChapter = groupedVerses[book][chapter].sort((a, b) => a.verse - b.verse);
@@ -897,8 +919,13 @@
               const referenceString = generateVerseReferenceString(versesInChapter.map(v => v.verse));
               
               // Format the block using the consolidated reference and all verses for the chapter
-              finalOutput.push(formatChapterBlock(book, chapter, referenceString, versesInChapter, translation));
+              const text = formatChapterBlock(book, chapter, referenceString, versesInChapter, translation);
+              finalOutput.push(text);
+              
+              verseInBook.push({chapter: chapter, verses: referenceString});
             }
+
+            listOfHeaders.push({book: book, verses: verseInBook});
           }
 
           // Helper function to generate comma-separated verse/range string
@@ -945,10 +972,28 @@
             return header + '\n' + lines.join('\n');
           }
 
+          function formatBibleHeader(data) {
+              const result = data.map(entry => {
+                  const book = entry.book;
+                  const versesGroup = entry.verses.map(v => `${v.chapter}:${v.verses}`);
+                  return `${book} ${versesGroup.join(', ')}`;
+              });
+              return result.join(', ') + ` (${translation})`;
+          }
+
           // 6. Combine blocks
           const formattedText = finalOutput.join('\n\n');
+          const formattedHeader = formatBibleHeader(listOfHeaders);
 
-          // 7. Copy to Clipboard
+          return { formattedText, formattedHeader };
+        }
+      }
+
+      // Copy verse functionality
+      document.getElementById('copy-verse').addEventListener('click', function() {
+          const { formattedText, _ } = formatVerseSelection(selectedVerses);
+
+          // Copy to Clipboard
           navigator.clipboard.writeText(formattedText)
             .then(() => {
               // GA Event
@@ -969,7 +1014,7 @@
             .catch(err => {
               console.error('Failed to copy multi-block formatted text: ', err);
             });
-        }
+        
       });
 
       document.addEventListener("DOMContentLoaded", function () {
@@ -1272,5 +1317,8 @@
         <path d="M7.646 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 6.207V11.5a.5.5 0 0 1-1 0V6.207L5.354 8.354a.5.5 0 1 1-.708-.708l3-3z"/>
       </svg>
     </button>
+    <div id="verseSelectionHeader" class="verse-selection-header">
+      <div id="verseSelectionHeaderContent" class="content"></div>
+    </div>
   </body>
 </html>
