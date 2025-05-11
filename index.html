@@ -989,31 +989,59 @@
         }
       }
 
-      // Copy verse functionality
-      document.getElementById('copy-verse').addEventListener('click', function() {
+      // Enhanced copy verse functionality with fallback
+      document.getElementById('copy-verse').addEventListener('click', async function() {
           const { formattedText, _ } = formatVerseSelection(selectedVerses);
+          const button = this;
+          const originalText = button.innerHTML;
+          const successIcon = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+          const errorIcon = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>';
 
-          // Copy to Clipboard
-          navigator.clipboard.writeText(formattedText)
-            .then(() => {
-              // GA Event
-              if (typeof gtag === 'function') {
-                const truncatedText = formattedText.substring(0, 100);
-                gtag('event', 'share', {
-                  'method': 'copy',
-                  'content_type': 'bible_verse_formatted_multi', // New type for multi-block
-                  'item_id': truncatedText,
-                  'selected_version': translation
-                });
+          try {
+            // Try modern clipboard API first
+            if (navigator.clipboard) {
+              await navigator.clipboard.writeText(formattedText);
+            } else {
+              // Fallback for older browsers
+              const textarea = document.createElement('textarea');
+              textarea.value = formattedText;
+              textarea.style.position = 'fixed';  // Prevent scrolling to bottom
+              document.body.appendChild(textarea);
+              textarea.select();
+              
+              if (!document.execCommand('copy')) {
+                throw new Error('Copy command failed');
               }
-              // Show feedback
-              const originalText = this.innerHTML;
-              this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>Copied!';
-              setTimeout(() => { this.innerHTML = originalText; }, 2000);
-            })
-            .catch(err => {
-              console.error('Failed to copy multi-block formatted text: ', err);
-            });
+              document.body.removeChild(textarea);
+            }
+
+            // GA Event (only if gtag is available and translation is defined)
+            if (typeof gtag === 'function') {
+              try {
+                const truncatedText = formattedText.substring(0, 100);
+                const eventData = {
+                  'method': 'copy',
+                  'content_type': 'bible_verse_formatted_multi',
+                  'item_id': truncatedText
+                };
+                if (typeof translation !== 'undefined') {
+                  eventData.selected_version = translation;
+                }
+                gtag('event', 'share', eventData);
+              } catch (gaErr) {
+                console.warn('GA tracking failed:', gaErr);
+              }
+            }
+
+            // Show success feedback
+            button.innerHTML = `${successIcon}Copied!`;
+            setTimeout(() => { button.innerHTML = originalText; }, 2000);
+          } catch (err) {
+            console.error('Copy failed:', err);
+            // Show error feedback
+            button.innerHTML = `${errorIcon}Failed to copy`;
+            setTimeout(() => { button.innerHTML = originalText; }, 2000);
+          }
         
       });
 
