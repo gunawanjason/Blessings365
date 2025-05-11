@@ -826,6 +826,7 @@
             // Position the menu directly on top of the verse
             verseMenu.style.top = `${window.scrollY + rect.top + (rect.height / 2)}px`;
             verseMenu.style.left = `${rect.right - 70}px`; // Position from right side
+            resetCopyButton(); // Reset the copy button state
             verseMenu.style.display = 'block';
 
             // Update verse address selection
@@ -990,12 +991,26 @@
       }
 
       // Enhanced copy verse functionality with fallback
-      document.getElementById('copy-verse').addEventListener('click', async function() {
+      let copyButtonTimeout = null;
+      const copyButton = document.getElementById('copy-verse');
+      const originalButtonText = copyButton.innerHTML;
+      const successIcon = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+      const errorIcon = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>';
+
+      function resetCopyButton() {
+        if (copyButtonTimeout) {
+          clearTimeout(copyButtonTimeout);
+          copyButtonTimeout = null;
+        }
+        copyButton.innerHTML = originalButtonText;
+      }
+
+      // Reset button when new verse is selected
+      document.addEventListener('verseSelected', resetCopyButton);
+
+      copyButton.addEventListener('click', async function() {
           const { formattedText, _ } = formatVerseSelection(selectedVerses);
-          const button = this;
-          const originalText = button.innerHTML;
-          const successIcon = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
-          const errorIcon = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>';
+          resetCopyButton(); // Reset any previous state
 
           try {
             // Try modern clipboard API first
@@ -1034,10 +1049,19 @@
             }
 
             // Show success feedback
-            button.innerHTML = `${successIcon}Copied!`;
-            setTimeout(() => { button.innerHTML = originalText; }, 2000);
+            copyButton.innerHTML = `${successIcon}Copied!`;
+            copyButtonTimeout = setTimeout(() => {
+              copyButton.innerHTML = originalButtonText;
+              copyButtonTimeout = null;
+            }, 2000);
           } catch (err) {
             console.error('Copy failed:', err);
+            // Show error feedback
+            copyButton.innerHTML = `${errorIcon}Failed to copy`;
+            copyButtonTimeout = setTimeout(() => {
+              copyButton.innerHTML = originalButtonText;
+              copyButtonTimeout = null;
+            }, 2000);
             // Show error feedback
             button.innerHTML = `${errorIcon}Failed to copy`;
             setTimeout(() => { button.innerHTML = originalText; }, 2000);
