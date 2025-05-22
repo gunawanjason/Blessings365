@@ -1,7 +1,9 @@
 #scrollToTopBtn {
   position: fixed;
   bottom: 120px;
-  right: calc(50% - 291px - 40px); /* Position next to the accordion (582px/2 = 291px) */
+  right: calc(
+    50% - 291px - 40px
+  ); /* Position next to the accordion (582px/2 = 291px) */
   display: none;
   z-index: 9999;
   width: 40px;
@@ -181,7 +183,8 @@ button > svg {
   border-radius: 12px;
   padding: 18px;
   transition: all 0.3s ease;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, sans-serif;
   font-weight: 500;
   letter-spacing: 0.01em;
   border: 1px solid #dee2e6;
@@ -208,7 +211,8 @@ button > svg {
   background-color: var(--bs-body-bg);
   transition: all 0.3s ease-in-out;
   border-bottom: none;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, sans-serif;
   letter-spacing: 0.015em;
   position: relative;
   overflow: hidden;
@@ -320,7 +324,7 @@ button > svg {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 34px;
 }
 
@@ -332,7 +336,7 @@ button > svg {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 50%;
 }
 
@@ -487,7 +491,8 @@ input:checked + .toggle-slider:before {
 }
 
 .navbar-brand {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, sans-serif;
   font-weight: 600;
   font-size: 1.5rem;
   letter-spacing: -0.02em;
@@ -557,9 +562,11 @@ input:checked + .toggle-slider:before {
   .selector-label {
     display: inline-block;
   }
-  
+
   #scrollToTopBtn {
-    right: calc(50% - 291px - 40px); /* Position next to the accordion (582px/2 = 291px) */
+    right: calc(
+      50% - 291px - 40px
+    ); /* Position next to the accordion (582px/2 = 291px) */
     border-radius: 12px 0 0 12px;
     border-right: none;
   }

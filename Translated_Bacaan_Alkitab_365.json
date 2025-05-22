@@ -1,2214 +1,2189 @@
 {
-    "1": [
-        "Genesis 1:1-3:7",
-        "Matthew 1:1-25",
-        "Psalms 1:1-6",
-        "Proverbs 1:1-6"
-    ],
-    "2": [
-        "Genesis 3:8-5:11",
-        "Matthew 2:1-23",
-        "Psalms 2:1-12",
-        "Proverbs 1:7-9"
-    ],
-    "3": [
-        "Genesis 5:12-7:24",
-        "Matthew 3:1-17",
-        "Psalms 3:1-9",
-        "Proverbs 1:10-19"
-    ],
-    "4": [
-        "Genesis 8:1-10:14",
-        "Matthew 4:1-25",
-        "Psalms 4:1-9",
-        "Proverbs 1:20-21"
-    ],
-    "5": [
-        "Genesis 10:15-12:20",
-        "Matthew 5:1-30",
-        "Psalms 5:1-6",
-        "Proverbs 1:22-23"
-    ],
-    "6": [
-        "Genesis 13:1-15:21",
-        "Matthew 5:31-48",
-        "Psalms 5:7-13",
-        "Proverbs 1:24-27"
-    ],
-    "7": [
-        "Genesis 16:1-17:27",
-        "Matthew 6:1-34",
-        "Psalms 6:1-11",
-        "Proverbs 1:28-31"
-    ],
-    "8": [
-        "Genesis 18:1-19:14",
-        "Matthew 7:1-29",
-        "Psalms 7:1-6",
-        "Proverbs 1:32-33"
-    ],
-    "9": [
-        "Genesis 19:15-21:13",
-        "Matthew 8:1-22",
-        "Psalms 7:7-18",
-        "Proverbs 2:1-5"
-    ],
-    "10": [
-        "Genesis 21:14-23:20",
-        "Matthew 8:23-9:8",
-        "Psalms 8:1-10",
-        "Proverbs 2:6"
-    ],
-    "11": [
-        "Genesis 24:1-53",
-        "Matthew 9:9-31",
-        "Psalms 9:1-9",
-        "Proverbs 2:7-9"
-    ],
-    "12": [
-        "Genesis 24:54-26:11",
-        "Matthew 9:32-10:20",
-        "Psalms 9:10-15",
-        "Proverbs 2:10-20"
-    ],
-    "13": [
-        "Genesis 26:12-27:40",
-        "Matthew 10:21-42",
-        "Psalms 9:16-21",
-        "Proverbs 2:21-22"
-    ],
-    "14": [
-        "Genesis 27:41-29:30",
-        "Matthew 11:1-19",
-        "Psalms 10:1-11",
-        "Proverbs 3:1-2"
-    ],
-    "15": [
-        "Genesis 29:31-31:16",
-        "Matthew 11:20-12:8",
-        "Psalms 10:12-15",
-        "Proverbs 3:3-4"
-    ],
-    "16": [
-        "Genesis 31:17-32:12",
-        "Matthew 12:9-37",
-        "Psalms 10:16-18",
-        "Proverbs 3:5-6"
-    ],
-    "17": [
-        "Genesis 32:13-34:24",
-        "Matthew 12:38-50",
-        "Psalms 11:1-7",
-        "Proverbs 3:7-8"
-    ],
-    "18": [
-        "Genesis 34:25-36:30",
-        "Matthew 13:1-23",
-        "Psalms 12:1-9",
-        "Proverbs 3:9-10"
-    ],
-    "19": [
-        "Genesis 36:31-37:36",
-        "Matthew 13:24-58",
-        "Psalms 13:1-6",
-        "Proverbs 3:11-12"
-    ],
-    "20": [
-        "Genesis 38:1-39:23",
-        "Matthew 14:1-21",
-        "Psalms 14:1-7",
-        "Proverbs 3:13-20"
-    ],
-    "21": [
-        "Genesis 40:1-41:45",
-        "Matthew 14:22-36",
-        "Psalms 15:1-5",
-        "Proverbs 3:21-26"
-    ],
-    "22": [
-        "Genesis 41:46-42:38",
-        "Matthew 15:1-28",
-        "Psalms 16:1-11",
-        "Proverbs 3:27"
-    ],
-    "23": [
-        "Genesis 43:1-44:5",
-        "Matthew 15:29-16:28",
-        "Psalms 17:1-5",
-        "Proverbs 3:28"
-    ],
-    "24": [
-        "Genesis 44:6-45:28",
-        "Matthew 17:1-21",
-        "Psalms 17:6-12",
-        "Proverbs 3:29"
-    ],
-    "25": [
-        "Genesis 46:1-47:26",
-        "Matthew 17:22-18:14",
-        "Psalms 17:13-15",
-        "Proverbs 3:30"
-    ],
-    "26": [
-        "Genesis 47:27-49:33",
-        "Matthew 18:15-35",
-        "Psalms 18:1-4",
-        "Proverbs 3:31-32"
-    ],
-    "27": [
-        "Genesis 50:1-26",
-        "Exodus 1:1-2:22",
-        "Matthew 19:1-15",
-        "Psalms 18:5-9",
-        "Proverbs 3:33-34"
-    ],
-    "28": [
-        "Exodus 2:23-4:17",
-        "Matthew 19:16-20:16",
-        "Psalms 18:10-16",
-        "Proverbs 3:35"
-    ],
-    "29": [
-        "Exodus 4:18-6:29",
-        "Matthew 20:17-34",
-        "Psalms 18:17-22",
-        "Proverbs 4:1-4"
-    ],
-    "30": [
-        "Exodus 7:1-8:32",
-        "Matthew 21:1-17",
-        "Psalms 18:23-30",
-        "Proverbs 4:5-6"
-    ],
-    "31": [
-        "Exodus 9:1-10:20",
-        "Matthew 21:18-32",
-        "Psalms 18:31-35",
-        "Proverbs 4:7-9"
-    ],
-    "32": [
-        "Exodus 10:21-12:28",
-        "Matthew 21:33-22:14",
-        "Psalms 18:36-43",
-        "Proverbs 4:10"
-    ],
-    "33": [
-        "Exodus 12:29-14:4",
-        "Matthew 22:15-46",
-        "Psalms 18:44-51",
-        "Proverbs 4:11-12"
-    ],
-    "34": [
-        "Exodus 14:5-15:18",
-        "Matthew 23:1-36",
-        "Psalms 19:1-7",
-        "Proverbs 4:13"
-    ],
-    "35": [
-        "Exodus 15:19-17:7",
-        "Matthew 23:37-24:14",
-        "Psalms 19:8-15",
-        "Proverbs 4:14-17"
-    ],
-    "36": [
-        "Exodus 17:8-19:25",
-        "Matthew 24:15-28",
-        "Psalms 20:1-10",
-        "Proverbs 4:18"
-    ],
-    "37": [
-        "Exodus 20:1-21:36",
-        "Matthew 24:29-51",
-        "Psalms 21:1-8",
-        "Proverbs 4:19"
-    ],
-    "38": [
-        "Exodus 22:1-23:19",
-        "Matthew 25:1-30",
-        "Psalms 21:9-14",
-        "Proverbs 4:20-22"
-    ],
-    "39": [
-        "Exodus 23:20-25:30",
-        "Matthew 25:31-26:5",
-        "Psalms 22:1-6",
-        "Proverbs 4:23"
-    ],
-    "40": [
-        "Exodus 25:31-27:8",
-        "Matthew 26:6-29",
-        "Psalms 22:7-12",
-        "Proverbs 4:24-25"
-    ],
-    "41": [
-        "Exodus 27:9-28:35",
-        "Matthew 26:30-56",
-        "Psalms 22:13-20",
-        "Proverbs 4:26-27"
-    ],
-    "42": [
-        "Exodus 28:36-29:37",
-        "Matthew 26:57-27:10",
-        "Psalms 22:21-25",
-        "Proverbs 5:1-2"
-    ],
-    "43": [
-        "Exodus 29:38-31:11",
-        "Matthew 27:11-31",
-        "Psalms 22:26-29",
-        "Proverbs 5:3-14"
-    ],
-    "44": [
-        "Exodus 31:12-33:11",
-        "Matthew 27:32-56",
-        "Psalms 22:30-32",
-        "Proverbs 5:15"
-    ],
-    "45": [
-        "Exodus 33:12-35:3",
-        "Matthew 27:57-28:15",
-        "Psalms 23:1-6",
-        "Proverbs 5:16-17"
-    ],
-    "46": [
-        "Exodus 35:4-36:38",
-        "Matthew 28:16-20",
-        "Mark 1:1-13",
-        "Psalms 24:1-6",
-        "Proverbs 5:18-19"
-    ],
-    "47": [
-        "Exodus 37:1-38:31",
-        "Mark 1:14-39",
-        "Psalms 24:7-10",
-        "Proverbs 5:20-21"
-    ],
-    "48": [
-        "Exodus 39:1-40:33",
-        "Mark 1:40-2:12",
-        "Psalms 25:1-5",
-        "Proverbs 5:22-23"
-    ],
-    "49": [
-        "Exodus 40:34-38",
-        "Leviticus 1:1-3:17",
-        "Mark 2:13-28",
-        "Psalms 25:6-9",
-        "Proverbs 6:1-5"
-    ],
-    "50": [
-        "Leviticus 4:1-5:13",
-        "Mark 3:1-30",
-        "Psalms 25:10-14",
-        "Proverbs 6:6-8"
-    ],
-    "51": [
-        "Leviticus 5:14-7:10",
-        "Mark 3:31-4:25",
-        "Psalms 25:15-22",
-        "Proverbs 6:9-11"
-    ],
-    "52": [
-        "Leviticus 7:11-8:30",
-        "Mark 4:26-41",
-        "Psalms 26:1-7",
-        "Proverbs 6:12-15"
-    ],
-    "53": [
-        "Leviticus 8:31-10:20",
-        "Mark 5:1-24",
-        "Psalms 26:8-12",
-        "Proverbs 6:16-19"
-    ],
-    "54": [
-        "Leviticus 11:1-12:8",
-        "Mark 5:25-43",
-        "Psalms 27:1-6",
-        "Proverbs 6:20-24"
-    ],
-    "55": [
-        "Leviticus 13:1-59",
-        "Mark 6:1-13",
-        "Psalms 27:7-14",
-        "Proverbs 6:25-26"
-    ],
-    "56": [
-        "Leviticus 14:1-57",
-        "Mark 6:14-29",
-        "Psalms 28:1-5",
-        "Proverbs 6:27-29"
-    ],
-    "57": [
-        "Leviticus 15:1-16:16",
-        "Mark 6:30-56",
-        "Psalms 28:6-9",
-        "Proverbs 6:30-31"
-    ],
-    "58": [
-        "Leviticus 16:17-18:20",
-        "Mark 7:1-23",
-        "Psalms 29:1-11",
-        "Proverbs 6:32-35"
-    ],
-    "59": [
-        "Leviticus 18:21-19:37",
-        "Mark 7:24-8:21",
-        "Psalms 30:1-13",
-        "Proverbs 7:1"
-    ],
-    "60": [
-        "Leviticus 20:1-21:24",
-        "Mark 8:22-38",
-        "Psalms 31:1-19",
-        "Proverbs 7:2-3"
-    ],
-    "61": [
-        "Leviticus 22:1-23:14",
-        "Mark 9:1-13",
-        "Psalms 31:20-25",
-        "Proverbs 7:4-27"
-    ],
-    "62": [
-        "Leviticus 23:15-24:23",
-        "Mark 9:14-32",
-        "Psalms 32:1-5",
-        "Proverbs 8:1-10"
-    ],
-    "63": [
-        "Leviticus 25:1-55",
-        "Mark 9:33-50",
-        "Psalms 32:6-11",
-        "Proverbs 8:11-12"
-    ],
-    "64": [
-        "Leviticus 26:1-46",
-        "Mark 10:1-16",
-        "Psalms 33:1-9",
-        "Proverbs 8:13-32"
-    ],
-    "65": [
-        "Leviticus 27:1-34",
-        "Numbers 1:1-19",
-        "Mark 10:17-45",
-        "Psalms 33:10-17",
-        "Proverbs 8:33-36"
-    ],
-    "66": [
-        "Numbers 1:20-2:32",
-        "Mark 10:46-11:19",
-        "Psalms 33:18-22",
-        "Proverbs 9:1-6"
-    ],
-    "67": [
-        "Numbers 2:33-4:8",
-        "Mark 11:20-12:12",
-        "Psalms 34:1-8",
-        "Proverbs 9:7"
-    ],
-    "68": [
-        "Numbers 4:9-5:10",
-        "Mark 12:13-34",
-        "Psalms 34:9-15",
-        "Proverbs 9:8-9"
-    ],
-    "69": [
-        "Numbers 5:11-6:27",
-        "Mark 12:35-13:13",
-        "Psalms 34:16-23",
-        "Proverbs 9:10-11"
-    ],
-    "70": [
-        "Numbers 7:1-71",
-        "Mark 13:14-37",
-        "Psalms 35:1-8",
-        "Proverbs 9:12"
-    ],
-    "71": [
-        "Numbers 7:72-9:8",
-        "Mark 14:1-21",
-        "Psalms 35:9-17",
-        "Proverbs 9:13-18"
-    ],
-    "72": [
-        "Numbers 9:9-11:3",
-        "Mark 14:22-52",
-        "Psalms 35:18-28",
-        "Proverbs 10:1"
-    ],
-    "73": [
-        "Numbers 11:4-13:16",
-        "Mark 14:53-72",
-        "Psalms 36:1-5",
-        "Proverbs 10:2"
-    ],
-    "74": [
-        "Numbers 13:17-14:45",
-        "Mark 15:1-19",
-        "Psalms 36:6-13",
-        "Proverbs 10:3"
-    ],
-    "75": [
-        "Numbers 15:1-16:11",
-        "Mark 15:20-47",
-        "Psalms 37:1-11",
-        "Proverbs 10:4"
-    ],
-    "76": [
-        "Numbers 16:12-17:13",
-        "Mark 16:1-20",
-        "Luke 1:1-4",
-        "Psalms 37:12-20",
-        "Proverbs 10:5"
-    ],
-    "77": [
-        "Numbers 18:1-19:13",
-        "Luke 1:5-25",
-        "Psalms 37:21-26",
-        "Proverbs 10:6"
-    ],
-    "78": [
-        "Numbers 19:14-21:15",
-        "Luke 1:26-56",
-        "Psalms 37:27-33",
-        "Proverbs 10:7"
-    ],
-    "79": [
-        "Numbers 21:16-22:35",
-        "Luke 1:57-2:7",
-        "Psalms 37:34-40",
-        "Proverbs 10:8"
-    ],
-    "80": [
-        "Numbers 22:36-24:25",
-        "Luke 2:8-33",
-        "Psalms 38:1-9",
-        "Proverbs 10:9"
-    ],
-    "81": [
-        "Numbers 25:1-26:61",
-        "Luke 2:34-52",
-        "Psalms 38:10-13",
-        "Proverbs 10:10"
-    ],
-    "82": [
-        "Numbers 26:62-28:31",
-        "Luke 3:1-22",
-        "Psalms 38:14-23",
-        "Proverbs 10:11"
-    ],
-    "83": [
-        "Numbers 29:1-30:16",
-        "Luke 3:23-4:13",
-        "Psalms 39:1-7",
-        "Proverbs 10:12"
-    ],
-    "84": [
-        "Numbers 31:1-32:9",
-        "Luke 4:14-37",
-        "Psalms 39:8-14",
-        "Proverbs 10:13"
-    ],
-    "85": [
-        "Numbers 32:10-33:49",
-        "Luke 4:38-5:11",
-        "Psalms 40:1-4",
-        "Proverbs 10:14"
-    ],
-    "86": [
-        "Numbers 33:50-35:29",
-        "Luke 5:12-32",
-        "Psalms 40:5-9",
-        "Proverbs 10:15"
-    ],
-    "87": [
-        "Numbers 35:30-36:13",
-        "Deuteronomy 1:1-33",
-        "Luke 5:33-6:16",
-        "Psalms 40:10-13",
-        "Proverbs 10:16"
-    ],
-    "88": [
-        "Deuteronomy 1:34-2:37",
-        "Luke 6:17-42",
-        "Psalms 40:14-18",
-        "Proverbs 10:17"
-    ],
-    "89": [
-        "Deuteronomy 3:1-4:20",
-        "Luke 6:43-7:17",
-        "Psalms 41:1-4",
-        "Proverbs 10:18"
-    ],
-    "90": [
-        "Deuteronomy 4:21-5:27",
-        "Luke 7:18-35",
-        "Psalms 41:5-10",
-        "Proverbs 10:19"
-    ],
-    "91": [
-        "Deuteronomy 5:28-7:11",
-        "Luke 7:36-8:21",
-        "Psalms 41:11-14",
-        "Proverbs 10:20"
-    ],
-    "92": [
-        "Deuteronomy 7:12-9:6",
-        "Luke 8:22-39",
-        "Psalms 42:1-12",
-        "Proverbs 10:21"
-    ],
-    "93": [
-        "Deuteronomy 9:7-11:7",
-        "Luke 8:40-9:6",
-        "Psalms 43:1-5",
-        "Proverbs 10:22"
-    ],
-    "94": [
-        "Deuteronomy 11:8-12:32",
-        "Luke 9:7-21",
-        "Psalms 44:1-4",
-        "Proverbs 10:23"
-    ],
-    "95": [
-        "Deuteronomy 13:1-15:11",
-        "Luke 9:22-42",
-        "Psalms 44:5-9",
-        "Proverbs 10:24"
-    ],
-    "96": [
-        "Deuteronomy 15:12-17:20",
-        "Luke 9:43-62",
-        "Psalms 44:10-17",
-        "Proverbs 10:25"
-    ],
-    "97": [
-        "Deuteronomy 18:1-20:9",
-        "Luke 10:1-24",
-        "Psalms 44:18-27",
-        "Proverbs 10:26"
-    ],
-    "98": [
-        "Deuteronomy 20:10-22:12",
-        "Luke 10:25-11:13",
-        "Psalms 45:1-6",
-        "Proverbs 10:27"
-    ],
-    "99": [
-        "Deuteronomy 22:13-24:15",
-        "Luke 11:14-28",
-        "Psalms 45:7-10",
-        "Proverbs 10:28"
-    ],
-    "100": [
-        "Deuteronomy 24:16-26:19",
-        "Luke 11:29-54",
-        "Psalms 45:11-18",
-        "Proverbs 10:29"
-    ],
-    "101": [
-        "Deuteronomy 27:1-28:46",
-        "Luke 12:1-12",
-        "Psalms 46:1-4",
-        "Proverbs 10:30"
-    ],
-    "102": [
-        "Deuteronomy 28:47-29:29",
-        "Luke 12:13-34",
-        "Psalms 46:5-8",
-        "Proverbs 10:31"
-    ],
-    "103": [
-        "Deuteronomy 30:1-31:30",
-        "Luke 12:35-53",
-        "Psalms 46:9-12",
-        "Proverbs 10:32"
-    ],
-    "104": [
-        "Deuteronomy 32:1-52",
-        "Luke 12:54-13:21",
-        "Psalms 47:1-10",
-        "Proverbs 11:1"
-    ],
-    "105": [
-        "Deuteronomy 33:1-34:12",
-        "Joshua 1:1-11",
-        "Luke 13:22-14:6",
-        "Psalms 48:1-9",
-        "Proverbs 11:2"
-    ],
-    "106": [
-        "Joshua 1:12-3:17",
-        "Luke 14:7-24",
-        "Psalms 48:10-15",
-        "Proverbs 11:3"
-    ],
-    "107": [
-        "Joshua 4:1-6:14",
-        "Luke 14:25-15:10",
-        "Psalms 49:1-5",
-        "Proverbs 11:4"
-    ],
-    "108": [
-        "Joshua 6:15-7:26",
-        "Luke 15:11-32",
-        "Psalms 49:6-16",
-        "Proverbs 11:5"
-    ],
-    "109": [
-        "Joshua 8:1-9:15",
-        "Luke 16:1-18",
-        "Psalms 49:17-21",
-        "Proverbs 11:6"
-    ],
-    "110": [
-        "Joshua 9:16-10:35",
-        "Luke 16:19-17:6",
-        "Psalms 50:1-6",
-        "Proverbs 11:7"
-    ],
-    "111": [
-        "Joshua 10:36-13:7",
-        "Luke 17:7-19",
-        "Psalms 50:7-15",
-        "Proverbs 11:8"
-    ],
-    "112": [
-        "Joshua 13:8-15:12",
-        "Luke 17:20-18:8",
-        "Psalms 50:16-23",
-        "Proverbs 11:9"
-    ],
-    "113": [
-        "Joshua 15:13-17:13",
-        "Luke 18:9-43",
-        "Psalms 51:1-8",
-        "Proverbs 11:10-11"
-    ],
-    "114": [
-        "Joshua 17:14-19:31",
-        "Luke 19:1-27",
-        "Psalms 51:9-15",
-        "Proverbs 11:12-13"
-    ],
-    "115": [
-        "Joshua 19:32-21:42",
-        "Luke 19:28-48",
-        "Psalms 51:16-21",
-        "Proverbs 11:14"
-    ],
-    "116": [
-        "Joshua 21:43-22:34",
-        "Luke 20:1-19",
-        "Psalms 52:1-11",
-        "Proverbs 11:15-16"
-    ],
-    "117": [
-        "Joshua 23:1-24:33",
-        "Luke 20:20-40",
-        "Psalms 53:1-7",
-        "Proverbs 11:17-18"
-    ],
-    "118": [
-        "Judges 1:1-2:16",
-        "Luke 20:41-21:19",
-        "Psalms 54:1-9",
-        "Proverbs 11:19"
-    ],
-    "119": [
-        "Judges 2:17-4:15",
-        "Luke 21:20-22:6",
-        "Psalms 55:1-9",
-        "Proverbs 11:20"
-    ],
-    "120": [
-        "Judges 4:16-6:22",
-        "Luke 22:7-23",
-        "Psalms 55:10-16",
-        "Proverbs 11:21"
-    ],
-    "121": [
-        "Judges 6:23-7:25",
-        "Luke 22:24-46",
-        "Psalms 55:17-20",
-        "Proverbs 11:22"
-    ],
-    "122": [
-        "Judges 8:1-9:21",
-        "Luke 22:47-71",
-        "Psalms 55:21-24",
-        "Proverbs 11:23"
-    ],
-    "123": [
-        "Judges 9:22-10:9",
-        "Luke 23:1-32",
-        "Psalms 56:1-5",
-        "Proverbs 11:24-26"
-    ],
-    "124": [
-        "Judges 10:10-11:40",
-        "Luke 23:33-56",
-        "Psalms 56:6-12",
-        "Proverbs 11:27-28"
-    ],
-    "125": [
-        "Judges 12:1-14:9",
-        "Luke 24:1-27",
-        "Psalms 56:13-14",
-        "Proverbs 11:29"
-    ],
-    "126": [
-        "Judges 14:10-16:14",
-        "Luke 24:28-53",
-        "Psalms 57:1-7",
-        "Proverbs 11:30-31"
-    ],
-    "127": [
-        "Judges 16:15-18:13",
-        "John 1:1-28",
-        "Psalms 57:8-12",
-        "Proverbs 12:1"
-    ],
-    "128": [
-        "Judges 18:14-19:30",
-        "John 1:29-51",
-        "Psalms 58:1-3",
-        "Proverbs 12:2-3"
-    ],
-    "129": [
-        "Judges 20:1-48",
-        "John 2:1-25",
-        "Psalms 58:4-10",
-        "Proverbs 12:4"
-    ],
-    "130": [
-        "Judges 21:1-25",
-        "Ruth 1:1-22",
-        "John 3:1-30",
-        "Psalms 58:11-12",
-        "Proverbs 12:5-7"
-    ],
-    "131": [
-        "Ruth 2:1-3:18",
-        "John 3:31-4:26",
-        "Psalms 59:1-9",
-        "Proverbs 12:8"
-    ],
-    "132": [
-        "Ruth 4:1-22",
-        "1 Samuel 1:1-28",
-        "John 4:27-54",
-        "Psalms 59:10-18",
-        "Proverbs 12:9"
-    ],
-    "133": [
-        "1 Samuel 2:1-3:21",
-        "John 5:1-18",
-        "Psalms 60:1-7",
-        "Proverbs 12:10"
-    ],
-    "134": [
-        "1 Samuel 4:1-6:9",
-        "John 5:19-47",
-        "Psalms 60:8-14",
-        "Proverbs 12:11"
-    ],
-    "135": [
-        "1 Samuel 6:10-8:22",
-        "John 6:1-29",
-        "Psalms 61:1-5",
-        "Proverbs 12:12-13"
-    ],
-    "136": [
-        "1 Samuel 9:1-10:16",
-        "John 6:30-59",
-        "Psalms 61:6-9",
-        "Proverbs 12:14"
-    ],
-    "137": [
-        "1 Samuel 10:17-12:25",
-        "John 6:60-7:13",
-        "Psalms 62:1-5",
-        "Proverbs 12:15-16"
-    ],
-    "138": [
-        "1 Samuel 13:1-14:26",
-        "John 7:14-36",
-        "Psalms 62:6-9",
-        "Proverbs 12:17-18"
-    ],
-    "139": [
-        "1 Samuel 14:27-15:23",
-        "John 7:37-8:11",
-        "Psalms 62:10-13",
-        "Proverbs 12:19-20"
-    ],
-    "140": [
-        "1 Samuel 15:24-17:11",
-        "John 8:12-41",
-        "Psalms 63:1-9",
-        "Proverbs 12:21-23"
-    ],
-    "141": [
-        "1 Samuel 17:12-18:9",
-        "John 8:42-59",
-        "Psalms 63:10-12",
-        "Proverbs 12:24-25"
-    ],
-    "142": [
-        "1 Samuel 18:10-19:24",
-        "John 9:1-23",
-        "Psalms 64:1-11",
-        "Proverbs 12:26-27"
-    ],
-    "143": [
-        "1 Samuel 20:1-21:15",
-        "John 9:24-41",
-        "Psalms 65:1-5",
-        "Proverbs 12:28"
-    ],
-    "144": [
-        "1 Samuel 22:1-23:28",
-        "John 10:1-21",
-        "Psalms 65:6-14",
-        "Proverbs 13:1"
-    ],
-    "145": [
-        "1 Samuel 24:1-25:31",
-        "John 10:22-42",
-        "Psalms 66:1-4",
-        "Proverbs 13:2-3"
-    ],
-    "146": [
-        "1 Samuel 25:32-27:12",
-        "John 11:1-22",
-        "Psalms 66:5-7",
-        "Proverbs 13:4"
-    ],
-    "147": [
-        "1 Samuel 28:1-30:10",
-        "John 11:23-44",
-        "Psalms 66:8-12",
-        "Proverbs 13:5-6"
-    ],
-    "148": [
-        "1 Samuel 30:11-31:13",
-        "2 Samuel 1:1-27",
-        "John 11:45-57",
-        "Psalms 66:13-20",
-        "Proverbs 13:7-8"
-    ],
-    "149": [
-        "2 Samuel 2:1-3:21",
-        "John 12:1-22",
-        "Psalms 67:1-8",
-        "Proverbs 13:9-10"
-    ],
-    "150": [
-        "2 Samuel 3:22-5:10",
-        "John 12:23-50",
-        "Psalms 68:1-7",
-        "Proverbs 13:11"
-    ],
-    "151": [
-        "2 Samuel 5:11-7:17",
-        "John 13:1-26",
-        "Psalms 68:8-11",
-        "Proverbs 13:12"
-    ],
-    "152": [
-        "2 Samuel 7:18-10:5",
-        "John 13:27-14:14",
-        "Psalms 68:12-14",
-        "Proverbs 13:13-14"
-    ],
-    "153": [
-        "2 Samuel 10:6-12:10",
-        "John 14:15-31",
-        "Psalms 68:15-19",
-        "Proverbs 13:15-17"
-    ],
-    "154": [
-        "2 Samuel 12:11-13:29",
-        "John 15:1-17",
-        "Psalms 68:20-24",
-        "Proverbs 13:18-19"
-    ],
-    "155": [
-        "2 Samuel 13:30-15:6",
-        "John 15:18-16:15",
-        "Psalms 68:25-30",
-        "Proverbs 13:20-22"
-    ],
-    "156": [
-        "2 Samuel 15:7-16:23",
-        "John 16:16-33",
-        "Psalms 68:31-36",
-        "Proverbs 13:23-25"
-    ],
-    "157": [
-        "2 Samuel 17:1-18:18",
-        "John 17:1-13",
-        "Psalms 69:1-7",
-        "Proverbs 14:1"
-    ],
-    "158": [
-        "2 Samuel 18:19-19:23",
-        "John 17:14-18:14",
-        "Psalms 69:8-13",
-        "Proverbs 14:2-3"
-    ],
-    "159": [
-        "2 Samuel 19:24-20:22",
-        "John 18:15-18:37",
-        "Psalms 69:14-19",
-        "Proverbs 14:4-5"
-    ],
-    "160": [
-        "2 Samuel 20:23-22:30",
-        "John 18:38-19:22",
-        "Psalms 69:20-30",
-        "Proverbs 14:6"
-    ],
-    "161": [
-        "2 Samuel 22:31-24:9",
-        "John 19:23-42",
-        "Psalms 69:31-37",
-        "Proverbs 14:7-9"
-    ],
-    "162": [
-        "2 Samuel 24:10-25",
-        "1 Kings 1:1-27",
-        "John 20:1-31",
-        "Psalms 70:1-6",
-        "Proverbs 14:10"
-    ],
-    "163": [
-        "1 Kings 1:28-2:12",
-        "John 21:1-25",
-        "Psalms 71:1-11",
-        "Proverbs 14:11-12"
-    ],
-    "164": [
-        "1 Kings 2:13-3:15",
-        "Acts 1:1-19",
-        "Psalms 71:12-16",
-        "Proverbs 14:13"
-    ],
-    "165": [
-        "1 Kings 3:16-5:18",
-        "Acts 1:20-2:4",
-        "Psalms 71:17-24",
-        "Proverbs 14:14-15"
-    ],
-    "166": [
-        "1 Kings 6:1-7:12",
-        "Acts 2:5-36",
-        "Psalms 72:1-4",
-        "Proverbs 14:16-17"
-    ],
-    "167": [
-        "1 Kings 7:13-8:13",
-        "Acts 2:37-3:10",
-        "Psalms 72:5-11",
-        "Proverbs 14:18-19"
-    ],
-    "168": [
-        "1 Kings 8:14-61",
-        "Acts 3:11-26",
-        "Psalms 72:12-20",
-        "Proverbs 14:20-22"
-    ],
-    "169": [
-        "1 Kings 8:62-10:13",
-        "Acts 4:1-22",
-        "Psalms 73:1-7",
-        "Proverbs 14:23-25"
-    ],
-    "170": [
-        "1 Kings 10:14-11:43",
-        "Acts 4:23-37",
-        "Psalms 73:8-15",
-        "Proverbs 14:26-28"
-    ],
-    "171": [
-        "1 Kings 12:1-13:10",
-        "Acts 5:1-25",
-        "Psalms 73:16-22",
-        "Proverbs 14:29-31"
-    ],
-    "172": [
-        "1 Kings 13:11-14:20",
-        "Acts 5:26-6:7",
-        "Psalms 73:23-28",
-        "Proverbs 14:32-33"
-    ],
-    "173": [
-        "1 Kings 14:21-16:14",
-        "Acts 6:8-7:8",
-        "Psalms 74:1-3",
-        "Proverbs 14:34-35"
-    ],
-    "174": [
-        "1 Kings 16:15-18:15",
-        "Acts 7:9-22",
-        "Psalms 74:4-8",
-        "Proverbs 15:1-4"
-    ],
-    "175": [
-        "1 Kings 18:16-19:18",
-        "Acts 7:23-39",
-        "Psalms 74:9-15",
-        "Proverbs 15:5-7"
-    ],
-    "176": [
-        "1 Kings 19:19-20:43",
-        "Acts 7:40-60",
-        "Psalms 74:16-23",
-        "Proverbs 15:8-9"
-    ],
-    "177": [
-        "1 Kings 21:1-22:23",
-        "Acts 8:1-25",
-        "Psalms 75:1-6",
-        "Proverbs 15:10-12"
-    ],
-    "178": [
-        "1 Kings 22:24-54",
-        "2 Kings 1:1-18",
-        "Acts 8:26-9:9",
-        "Psalms 75:7-11",
-        "Proverbs 15:13-15"
-    ],
-    "179": [
-        "2 Kings 2:1-3:19",
-        "Acts 9:10-31",
-        "Psalms 76:1-7",
-        "Proverbs 15:16-17"
-    ],
-    "180": [
-        "2 Kings 3:20-4:37",
-        "Acts 9:32-10:8",
-        "Psalms 76:8-13",
-        "Proverbs 15:18-21"
-    ],
-    "181": [
-        "2 Kings 4:38-6:7",
-        "Acts 10:9-33",
-        "Psalms 77:1-10",
-        "Proverbs 15:22-23"
-    ],
-    "182": [
-        "2 Kings 6:8-7:20",
-        "Acts 10:34-48",
-        "Psalms 77:11-15",
-        "Proverbs 15:24-26"
-    ],
-    "183": [
-        "2 Kings 8:1-9:15",
-        "Acts 11:1-30",
-        "Psalms 77:16-21",
-        "Proverbs 15:27-29"
-    ],
-    "184": [
-        "2 Kings 9:16-10:22",
-        "Acts 12:1-25",
-        "Psalms 78:1-4",
-        "Proverbs 15:30-32"
-    ],
-    "185": [
-        "2 Kings 10:23-12:8",
-        "Acts 13:1-25",
-        "Psalms 78:5-11",
-        "Proverbs 15:33"
-    ],
-    "186": [
-        "2 Kings 12:9-14:7",
-        "Acts 13:26-49",
-        "Psalms 78:12-17",
-        "Proverbs 16:1-2"
-    ],
-    "187": [
-        "2 Kings 14:8-15:38",
-        "Acts 13:50-14:9",
-        "Psalms 78:18-28",
-        "Proverbs 16:3-5"
-    ],
-    "188": [
-        "2 Kings 16:1-17:25",
-        "Acts 14:10-28",
-        "Psalms 78:29-35",
-        "Proverbs 16:6-7"
-    ],
-    "189": [
-        "2 Kings 17:26-18:29",
-        "Acts 15:1-21",
-        "Psalms 78:36-43",
-        "Proverbs 16:8"
-    ],
-    "190": [
-        "2 Kings 18:30-19:37",
-        "Acts 15:22-16:3",
-        "Psalms 78:44-49",
-        "Proverbs 16:9-12"
-    ],
-    "191": [
-        "2 Kings 20:1-22:7",
-        "Acts 16:4-18",
-        "Psalms 78:50-55",
-        "Proverbs 16:13-15"
-    ],
-    "192": [
-        "2 Kings 22:8-23:27",
-        "Acts 16:19-40",
-        "Psalms 78:56-62",
-        "Proverbs 16:16-19"
-    ],
-    "193": [
-        "2 Kings 23:28-25:21",
-        "Acts 17:1-15",
-        "Psalms 78:63-72",
-        "Proverbs 16:20-24"
-    ],
-    "194": [
-        "2 Kings 25:22-30",
-        "1 Chronicles 1:1-2:33",
-        "Acts 17:16-34",
-        "Psalms 79:1-7",
-        "Proverbs 16:25-26"
-    ],
-    "195": [
-        "1 Chronicles 2:34-4:43",
-        "Acts 18:1-17",
-        "Psalms 79:8-13",
-        "Proverbs 16:27-29"
-    ],
-    "196": [
-        "1 Chronicles 5:1-6:53",
-        "Acts 18:18-19:12",
-        "Psalms 80:1-4",
-        "Proverbs 16:30"
-    ],
-    "197": [
-        "1 Chronicles 6:54-7:40",
-        "Acts 19:13-34",
-        "Psalms 80:5-12",
-        "Proverbs 16:31-32"
-    ],
-    "198": [
-        "1 Chronicles 8:1-10:7",
-        "Acts 19:35-20:12",
-        "Psalms 80:13-20",
-        "Proverbs 16:33"
-    ],
-    "199": [
-        "1 Chronicles 10:8-12:15",
-        "Acts 20:13-31",
-        "Psalms 81:1-8",
-        "Proverbs 17:1-2"
-    ],
-    "200": [
-        "1 Chronicles 12:16-14:17",
-        "Acts 20:32-21:14",
-        "Psalms 81:9-17",
-        "Proverbs 17:3-5"
-    ],
-    "201": [
-        "1 Chronicles 15:1-16:36",
-        "Acts 21:15-36",
-        "Psalms 82:1-8",
-        "Proverbs 17:6-8"
-    ],
-    "202": [
-        "1 Chronicles 16:37-18:17",
-        "Acts 21:37-22:16",
-        "Psalms 83:1-9",
-        "Proverbs 17:9-11"
-    ],
-    "203": [
-        "1 Chronicles 19:1-21:21",
-        "Acts 22:17-30",
-        "Psalms 83:10-19",
-        "Proverbs 17:12-14"
-    ],
-    "204": [
-        "1 Chronicles 21:22-23:32",
-        "Acts 23:1-11",
-        "Psalms 84:1-8",
-        "Proverbs 17:15-17"
-    ],
-    "205": [
-        "1 Chronicles 24:1-26:9",
-        "Acts 23:12-35",
-        "Psalms 84:9-13",
-        "Proverbs 17:18-21"
-    ],
-    "206": [
-        "1 Chronicles 26:10-27:34",
-        "Acts 24:1-23",
-        "Psalms 85:1-8",
-        "Proverbs 17:22"
-    ],
-    "207": [
-        "1 Chronicles 28:1-29:30",
-        "Acts 24:24-25:6",
-        "Psalms 85:9-14",
-        "Proverbs 17:23-24"
-    ],
-    "208": [
-        "2 Chronicles 1:1-3:7",
-        "Acts 25:7-27",
-        "Psalms 86:1-7",
-        "Proverbs 17:25-28"
-    ],
-    "209": [
-        "2 Chronicles 3:8-6:11",
-        "Acts 26:1-18",
-        "Psalms 86:8-13",
-        "Proverbs 18:1-3"
-    ],
-    "210": [
-        "2 Chronicles 6:12-7:8",
-        "Acts 26:19-27:13",
-        "Psalms 86:14-17",
-        "Proverbs 18:4-5"
-    ],
-    "211": [
-        "2 Chronicles 7:9-9:12",
-        "Acts 27:14-36",
-        "Psalms 87:1-7",
-        "Proverbs 18:6-9"
-    ],
-    "212": [
-        "2 Chronicles 9:13-11:23",
-        "Acts 27:37-28:10",
-        "Psalms 88:1-6",
-        "Proverbs 18:10-11"
-    ],
-    "213": [
-        "2 Chronicles 12:1-14:8",
-        "Acts 28:11-31",
-        "Psalms 88:7-13",
-        "Proverbs 18:12-14"
-    ],
-    "214": [
-        "2 Chronicles 14:9-17:19",
-        "Romans 1:1-17",
-        "Psalms 88:14-19",
-        "Proverbs 18:15-17"
-    ],
-    "215": [
-        "2 Chronicles 18:1-20:13",
-        "Romans 1:18-32",
-        "Psalms 89:1-5",
-        "Proverbs 18:18-20"
-    ],
-    "216": [
-        "2 Chronicles 20:14-22:6",
-        "Romans 2:1-24",
-        "Psalms 89:6-11",
-        "Proverbs 18:21-22"
-    ],
-    "217": [
-        "2 Chronicles 22:7-24:19",
-        "Romans 2:25-3:20",
-        "Psalms 89:12-19",
-        "Proverbs 18:23-24"
-    ],
-    "218": [
-        "2 Chronicles 24:20-26:9",
-        "Romans 3:21-4:15",
-        "Psalms 89:20-29",
-        "Proverbs 19:1-3"
-    ],
-    "219": [
-        "2 Chronicles 26:10-28:27",
-        "Romans 4:16-5:11",
-        "Psalms 89:30-35",
-        "Proverbs 19:4-6"
-    ],
-    "220": [
-        "2 Chronicles 29:1-30:9",
-        "Romans 5:12-6:11",
-        "Psalms 89:36-46",
-        "Proverbs 19:7-8"
-    ],
-    "221": [
-        "2 Chronicles 30:10-32:8",
-        "Romans 6:12-7:6",
-        "Psalms 89:47-53",
-        "Proverbs 19:9-11"
-    ],
-    "222": [
-        "2 Chronicles 32:9-33:25",
-        "Romans 7:7-26",
-        "Psalms 90:1-6",
-        "Proverbs 19:12-13"
-    ],
-    "223": [
-        "2 Chronicles 34:1-35:9",
-        "Romans 8:1-23",
-        "Psalms 90:7-12",
-        "Proverbs 19:14-15"
-    ],
-    "224": [
-        "2 Chronicles 35:10-36:23",
-        "Ezra 1:1-6",
-        "Romans 8:24-9:5",
-        "Psalms 90:13-17",
-        "Proverbs 19:16-17"
-    ],
-    "225": [
-        "Ezra 1:7-3:7",
-        "Romans 9:6-33",
-        "Psalms 91:1-6",
-        "Proverbs 19:18-19"
-    ],
-    "226": [
-        "Ezra 3:8-5:12",
-        "Romans 10:1-21",
-        "Psalms 91:7-12",
-        "Proverbs 19:20-22"
-    ],
-    "227": [
-        "Ezra 5:13-7:20",
-        "Romans 11:1-24",
-        "Psalms 91:13-16",
-        "Proverbs 19:23-25"
-    ],
-    "228": [
-        "Ezra 7:21-9:4",
-        "Romans 11:25-12:8",
-        "Psalms 92:1-5",
-        "Proverbs 19:26-27"
-    ],
-    "229": [
-        "Ezra 9:5-10:44",
-        "Romans 12:9-13:14",
-        "Psalms 92:6-12",
-        "Proverbs 19:28-29"
-    ],
-    "230": [
-        "Nehemiah 1:1-3:15",
-        "Romans 14:1-23",
-        "Psalms 92:13-16",
-        "Proverbs 20:1-3"
-    ],
-    "231": [
-        "Nehemiah 3:16-5:13",
-        "Romans 15:1-21",
-        "Psalms 93:1-5",
-        "Proverbs 20:4-6"
-    ],
-    "232": [
-        "Nehemiah 5:14-7:60",
-        "Romans 15:22-16:7",
-        "Psalms 94:1-7",
-        "Proverbs 20:7-9"
-    ],
-    "233": [
-        "Nehemiah 7:61-9:15",
-        "Romans 16:8-27",
-        "Psalms 95:8-15",
-        "Proverbs 20:10-11"
-    ],
-    "234": [
-        "Nehemiah 9:16-10:39",
-        "1 Corinthians 1:1-17",
-        "Psalms 94:16-23",
-        "Proverbs 20:12-14"
-    ],
-    "235": [
-        "Nehemiah 11:1-12:43",
-        "1 Corinthians 1:18-2:5",
-        "Psalms 95:1-5",
-        "Proverbs 20:15-16"
-    ],
-    "236": [
-        "Nehemiah 12:44-13:31",
-        "1 Corinthians 2:6-3:23",
-        "Psalms 95:6-11",
-        "Proverbs 20:17"
-    ],
-    "237": [
-        "Esther 1:1-2:23",
-        "1 Corinthians 4:1-21",
-        "Psalms 96:1-6",
-        "Proverbs 20:18-20"
-    ],
-    "238": [
-        "Esther 3:1-5:14",
-        "1 Corinthians 5:1-13",
-        "Psalms 96:7-13",
-        "Proverbs 20:21-23"
-    ],
-    "239": [
-        "Esther 6:1-8:17",
-        "1 Corinthians 6:1-15",
-        "Psalms 97:1-9",
-        "Proverbs 20:24-26"
-    ],
-    "240": [
-        "Esther 9:1-10:3",
-        "Job 1:1-12",
-        "1 Corinthians 6:16-7:16",
-        "Psalms 97:10-12",
-        "Proverbs 20:27-30"
-    ],
-    "241": [
-        "Job 1:13-4:21",
-        "1 Corinthians 7:17-40",
-        "Psalms 98:1-3",
-        "Proverbs 21:1-3"
-    ],
-    "242": [
-        "Job 5:1-8:22",
-        "1 Corinthians 8:11-9:5",
-        "Psalms 98:4-9",
-        "Proverbs 21:4-6"
-    ],
-    "243": [
-        "Job 9:1-11:20",
-        "1 Corinthians 9:6-27",
-        "Psalms 99:1-5",
-        "Proverbs 21:7-9"
-    ],
-    "244": [
-        "Job 12:1-15:35",
-        "1 Corinthians 10:1-13",
-        "Psalms 99:6-9",
-        "Proverbs 21:10-11"
-    ],
-    "245": [
-        "Job 16:1-19:29",
-        "1 Corinthians 10:14-11:16",
-        "Psalms 100:1-5",
-        "Proverbs 21:12-14"
-    ],
-    "246": [
-        "Job 20:1-22:30",
-        "1 Corinthians 11:17-34",
-        "Psalms 101:1-8",
-        "Proverbs 21:15-17"
-    ],
-    "247": [
-        "Job 23:1-27:23",
-        "1 Corinthians 12:1-26",
-        "Psalms 102:1-12",
-        "Proverbs 21:18-20"
-    ],
-    "248": [
-        "Job 28:1-30:31",
-        "1 Corinthians 12:27-14:5",
-        "Psalms 102:13-23",
-        "Proverbs 21:21-23"
-    ],
-    "249": [
-        "Job 31:1-33:33",
-        "1 Corinthians 14:6-19",
-        "Psalms 102:24-29",
-        "Proverbs 21:24-26"
-    ],
-    "250": [
-        "Job 34:1-37:13",
-        "1 Corinthians 14:20-40",
-        "Psalms 103:1-5",
-        "Proverbs 21:27-29"
-    ],
-    "251": [
-        "Job 37:14-40:9",
-        "1 Corinthians 15:1-26",
-        "Psalms 103:6-14",
-        "Proverbs 21:30-31"
-    ],
-    "252": [
-        "Job 40:10-42:17",
-        "Ecclesiastes 1:1-18",
-        "1 Corinthians 15:27-49",
-        "Psalms 103:15-22",
-        "Proverbs 22:1-2"
-    ],
-    "253": [
-        "Ecclesiastes 2:1-4:6",
-        "1 Corinthians 15:50-16:12",
-        "Psalms 104:1-9",
-        "Proverbs 22:3-5"
-    ],
-    "254": [
-        "Ecclesiastes 4:7-7:22",
-        "1 Corinthians 16:13-24",
-        "2 Corinthians 1:1-11",
-        "Psalms 104:10-18",
-        "Proverbs 22:6"
-    ],
-    "255": [
-        "Ecclesiastes 7:23-10:20",
-        "2 Corinthians 1:12-24",
-        "Psalms 104:19-30",
-        "Proverbs 22:7-8"
-    ],
-    "256": [
-        "Ecclesiastes 11:1-12:14",
-        "Song of Solomon 1:1-3:11",
-        "2 Corinthians 2:1-3:6",
-        "Psalms 104:31-35",
-        "Proverbs 22:9-11"
-    ],
-    "257": [
-        "Song of Solomon 4:1-8:14",
-        "2 Corinthians 3:7-4:6",
-        "Psalms 105:1-6",
-        "Proverbs 22:12-14"
-    ],
-    "258": [
-        "Isaiah 1:1-2:22",
-        "2 Corinthians 4:7-5:15",
-        "Psalms 105:7-11",
-        "Proverbs 22:15-16"
-    ],
-    "259": [
-        "Isaiah 3:1-5:24",
-        "2 Corinthians 5:16-6:18",
-        "Psalms 105:12-15",
-        "Proverbs 22:17-19"
-    ],
-    "260": [
-        "Isaiah 5:25-8:10",
-        "2 Corinthians 7:1-16",
-        "Psalms 105:16-22",
-        "Proverbs 22:20-21"
-    ],
-    "261": [
-        "Isaiah 8:11-10:19",
-        "2 Corinthians 8:1-24",
-        "Psalms 105:23-26",
-        "Proverbs 22:22-25"
-    ],
-    "262": [
-        "Isaiah 10:20-13:22",
-        "2 Corinthians 9:1-15",
-        "Psalms 105:37-45",
-        "Proverbs 22:26-27"
-    ],
-    "263": [
-        "Isaiah 14:1-17:3",
-        "2 Corinthians 10:1-18",
-        "Psalms 106:1-7",
-        "Proverbs 22:28-29"
-    ],
-    "264": [
-        "Isaiah 17:4-20:6",
-        "2 Corinthians 11:1-20",
-        "Psalms 106:8-14",
-        "Proverbs 23:1-3"
-    ],
-    "265": [
-        "Isaiah 21:1-23:18",
-        "2 Corinthians 11:21-12:6",
-        "Psalms 106:15-22",
-        "Proverbs 23:4-5"
-    ],
-    "266": [
-        "Isaiah 24:1-27:5",
-        "2 Corinthians 12:7-21",
-        "Psalms 106:23-29",
-        "Proverbs 23:3-7"
-    ],
-    "267": [
-        "Isaiah 27:6-29:14",
-        "2 Corinthians 13:1-13",
-        "Psalms 106:30-42",
-        "Proverbs 23:8-9"
-    ],
-    "268": [
-        "Isaiah 29:15-31:5",
-        "Galatians 1:1-24",
-        "Psalms 106:43-48",
-        "Proverbs 23:10-11"
-    ],
-    "269": [
-        "Isaiah 31:6-34:10",
-        "Galatians 2:1-21",
-        "Psalms 107:1-3",
-        "Proverbs 23:12-14"
-    ],
-    "270": [
-        "Isaiah 34:11-37:7",
-        "Galatians 3:1-29",
-        "Psalms 107:4-9",
-        "Proverbs 23:15-18"
-    ],
-    "271": [
-        "Isaiah 37:8-38:22",
-        "Galatians 4:1-20",
-        "Psalms 107:10-16",
-        "Proverbs 23:19-21"
-    ],
-    "272": [
-        "Isaiah 39:1-41:20",
-        "Galatians 4:21-5:12",
-        "Psalms 107:17-22",
-        "Proverbs 23:22-25"
-    ],
-    "273": [
-        "Isaiah 41:21-43:13",
-        "Galatians 5:13-6:18",
-        "Psalms 107:23-32",
-        "Proverbs 23:26-28"
-    ],
-    "274": [
-        "Isaiah 43:14-45:8",
-        "Ephesians 1:1-23",
-        "Psalms 107:33-43",
-        "Proverbs 23:29-30"
-    ],
-    "275": [
-        "Isaiah 45:9-47:15",
-        "Ephesians 2:1-22",
-        "Psalms 108:1-14",
-        "Proverbs 23:31-35"
-    ],
-    "276": [
-        "Isaiah 48:1-49:26",
-        "Ephesians 3:1-21",
-        "Psalms 109:1-11",
-        "Proverbs 24:1-4"
-    ],
-    "277": [
-        "Isaiah 50:1-52:6",
-        "Ephesians 4:1-32",
-        "Psalms 109:12-20",
-        "Proverbs 24:5-7"
-    ],
-    "278": [
-        "Isaiah 52:7-55:5",
-        "Ephesians 5:1-33",
-        "Psalms 109:21-31",
-        "Proverbs 24:8-9"
-    ],
-    "279": [
-        "Isaiah 55:6-58:10",
-        "Ephesians 6:1-24",
-        "Psalms 110:1-7",
-        "Proverbs 24:10-12"
-    ],
-    "280": [
-        "Isaiah 58:11-61:11",
-        "Philippians 1:1-11",
-        "Psalms 111:1-4",
-        "Proverbs 24:13-14"
-    ],
-    "281": [
-        "Isaiah 62:1-65:7",
-        "Philippians 1:12-30",
-        "Psalms 111:5-10",
-        "Proverbs 24:15-18"
-    ],
-    "282": [
-        "Isaiah 65:8-66:24",
-        "Philippians 2:1-30",
-        "Psalms 112:1-4",
-        "Proverbs 24:19-22"
-    ],
-    "283": [
-        "Jeremiah 1:1-2:37",
-        "Philippians 3:1-21",
-        "Psalms 112:5-10",
-        "Proverbs 24:23-25"
-    ],
-    "284": [
-        "Jeremiah 3:1-4:22",
-        "Philippians 4:1-23",
-        "Psalms 113:1-9",
-        "Proverbs 24:26-29"
-    ],
-    "285": [
-        "Jeremiah 4:23-6:15",
-        "Colossians 1:1-14",
-        "Psalms 114:1-8",
-        "Proverbs 24:30-34"
-    ],
-    "286": [
-        "Jeremiah 6:16-7:28",
-        "Colossians 1:15-2:15",
-        "Psalms 115:1-8",
-        "Proverbs 25:1-3"
-    ],
-    "287": [
-        "Jeremiah 7:29-9:22",
-        "Colossians 2:16-3:17",
-        "Psalms 115:9-18",
-        "Proverbs 25:4-5"
-    ],
-    "288": [
-        "Jeremiah 9:23-11:23",
-        "Colossians 3:18-4:18",
-        "Psalms 116:1-11",
-        "Proverbs 25:6-8"
-    ],
-    "289": [
-        "Jeremiah 12:1-14:9",
-        "1 Thessalonians 1:1-2:12",
-        "Psalms 116:12-19",
-        "Proverbs 25:9-10"
-    ],
-    "290": [
-        "Jeremiah 14:10-16:13",
-        "1 Thessalonians 2:13-3:13",
-        "Psalms 117:1-2",
-        "Proverbs 25:11-12"
-    ],
-    "291": [
-        "Jeremiah 16:14-18:17",
-        "1 Thessalonians 4:1-18",
-        "Psalms 118:1-9",
-        "Proverbs 25:13-14"
-    ],
-    "292": [
-        "Jeremiah 18:18-21:7",
-        "1 Thessalonians 5:1-28",
-        "Psalms 118:10-18",
-        "Proverbs 25:15-17"
-    ],
-    "293": [
-        "Jeremiah 21:8-23:12",
-        "2 Thessalonians 1:1-2:8",
-        "Psalms 118:19-29",
-        "Proverbs 25:18-20"
-    ],
-    "294": [
-        "Jeremiah 23:13-25:7",
-        "2 Thessalonians 2:9-3:18",
-        "Psalms 119:1-8",
-        "Proverbs 25:21-22"
-    ],
-    "295": [
-        "Jeremiah 25:8-26:24",
-        "1 Timothy 1:1-17",
-        "Psalms 119:9-16",
-        "Proverbs 25:23-25"
-    ],
-    "296": [
-        "Jeremiah 27:1-29:15",
-        "1 Timothy 1:18-2:15",
-        "Psalms 119:17-24",
-        "Proverbs 25:26-28"
-    ],
-    "297": [
-        "Jeremiah 29:16-30:24",
-        "1 Timothy 3:1-4:16",
-        "Psalms 119:25-32",
-        "Proverbs 26:1-2"
-    ],
-    "298": [
-        "Jeremiah 31:1-32:8",
-        "1 Timothy 5:1-25",
-        "Psalms 119:33-40",
-        "Proverbs 26:3-5"
-    ],
-    "299": [
-        "Jeremiah 32:9-33:9",
-        "1 Timothy 6:1-21",
-        "Psalms 119:41-56",
-        "Proverbs 26:6-7"
-    ],
-    "300": [
-        "Jeremiah 33:10-35:11",
-        "2 Timothy 1:1-18",
-        "Psalms 119:57-64",
-        "Proverbs 26:8-10"
-    ],
-    "301": [
-        "Jeremiah 35:12-37:5",
-        "2 Timothy 2:1-26",
-        "Psalms 119:65-72",
-        "Proverbs 26:11-12"
-    ],
-    "302": [
-        "Jeremiah 37:6-39:6",
-        "2 Timothy 3:1-17",
-        "Psalms 119:73-80",
-        "Proverbs 26:13-16"
-    ],
-    "303": [
-        "Jeremiah 39:7-41:18",
-        "2 Timothy 4:1-22",
-        "Psalms 119:81-88",
-        "Proverbs 26:17-19"
-    ],
-    "304": [
-        "Jeremiah 42:1-44:10",
-        "Titus 1:1-2:10",
-        "Psalms 119:89-96",
-        "Proverbs 26:20-21"
-    ],
-    "305": [
-        "Jeremiah 44:11-46:24",
-        "Titus 2:11-3:15",
-        "Psalms 119:97-104",
-        "Proverbs 26:22-25"
-    ],
-    "306": [
-        "Jeremiah 46:25-48:47",
-        "Philemon 1:1-25",
-        "Psalms 119:105-112",
-        "Proverbs 26:26-28"
-    ],
-    "307": [
-        "Jeremiah 49:1-50:5",
-        "Hebrews 1:1-2:9",
-        "Psalms 119:113-120",
-        "Proverbs 27:1-2"
-    ],
-    "308": [
-        "Jeremiah 50:6-46",
-        "Hebrews 2:10-4:3",
-        "Psalms 119:121-128",
-        "Proverbs 27:3-4"
-    ],
-    "309": [
-        "Jeremiah 51:1-57",
-        "Hebrews 4:4-5:10",
-        "Psalms 119:129-136",
-        "Proverbs 27:5-7"
-    ],
-    "310": [
-        "Jeremiah 51:58-52:34",
-        "Hebrews 5:11-7:10",
-        "Psalms 119:137-144",
-        "Proverbs 27:8-10"
-    ],
-    "311": [
-        "Lamentations 1:1-3:13",
-        "Hebrews 7:11-28",
-        "Psalms 119:145-152",
-        "Proverbs 27:11-12"
-    ],
-    "312": [
-        "Lamentations 3:14-5:22",
-        "Hebrews 8:1-9:5",
-        "Psalms 119:153-160",
-        "Proverbs 27:13-14"
-    ],
-    "313": [
-        "Ezekiel 1:1-3:21",
-        "Hebrews 9:6-22",
-        "Psalms 119:161-168",
-        "Proverbs 27:15-17"
-    ],
-    "314": [
-        "Ezekiel 3:22-6:10",
-        "Hebrews 9:23-10:13",
-        "Psalms 119:169-176",
-        "Proverbs 27:18-20"
-    ],
-    "315": [
-        "Ezekiel 6:11-8:18",
-        "Hebrews 10:14-34",
-        "Psalms 120:1-7",
-        "Proverbs 27:21-22"
-    ],
-    "316": [
-        "Ezekiel 9:1-11:20",
-        "Hebrews 10:35-11:12",
-        "Psalms 121:1-8",
-        "Proverbs 27:23-24"
-    ],
-    "317": [
-        "Ezekiel 11:21-13:16",
-        "Hebrews 11:13-34",
-        "Psalms 122:1-9",
-        "Proverbs 27:25-27"
-    ],
-    "318": [
-        "Ezekiel 13:17-16:14",
-        "Hebrews 11:35-12:14",
-        "Psalms 123:1-4",
-        "Proverbs 28:1-2"
-    ],
-    "319": [
-        "Ezekiel 16:15-63",
-        "Hebrews 12:15-13:5",
-        "Psalms 124:1-8",
-        "Proverbs 28:3-5"
-    ],
-    "320": [
-        "Ezekiel 17:1-18:32",
-        "Hebrews 13:6-25",
-        "Psalms 125:1-5",
-        "Proverbs 28:6-7"
-    ],
-    "321": [
-        "Ezekiel 19:1-20:32",
-        "James 1:1-27",
-        "Psalms 126:1-6",
-        "Proverbs 28:8-9"
-    ],
-    "322": [
-        "Ezekiel 20:33-21:32",
-        "James 2:1-20",
-        "Psalms 127:1-5",
-        "Proverbs 28:10-11"
-    ],
-    "323": [
-        "Ezekiel 22:1-23:34",
-        "James 2:21-3:12",
-        "Psalms 128:1-6",
-        "Proverbs 28:12-13"
-    ],
-    "324": [
-        "Ezekiel 23:35-25:7",
-        "James 3:13-4:17",
-        "Psalms 129:1-8",
-        "Proverbs 28:14-15"
-    ],
-    "325": [
-        "Ezekiel 25:8-27:24",
-        "James 5:1-20",
-        "Psalms 130:1-8",
-        "Proverbs 28:16-17"
-    ],
-    "326": [
-        "Ezekiel 27:25-29:16",
-        "1 Peter 1:1-25",
-        "Psalms 131:1-3",
-        "Proverbs 28:18-19"
-    ],
-    "327": [
-        "Ezekiel 29:17-31:18",
-        "1 Peter 2:1-17",
-        "Psalms 132:1-10",
-        "Proverbs 28:20-21"
-    ],
-    "328": [
-        "Ezekiel 32:1-33:20",
-        "1 Peter 2:18-3:7",
-        "Psalms 132:11-18",
-        "Proverbs 28:22-24"
-    ],
-    "329": [
-        "Ezekiel 33:21-35:12",
-        "1 Peter 3:8-22",
-        "Psalms 133:1-3",
-        "Proverbs 28:25-26"
-    ],
-    "330": [
-        "Ezekiel 35:13-37:14",
-        "1 Peter 4:1-19",
-        "Psalms 134:1-3",
-        "Proverbs 28:27-28"
-    ],
-    "331": [
-        "Ezekiel 37:15-39:17",
-        "1 Peter 5:1-14",
-        "Psalms 135:1-7",
-        "Proverbs 29:1-3"
-    ],
-    "332": [
-        "Ezekiel 39:18-40:37",
-        "2 Peter 1:1-21",
-        "Psalms 135:8-14",
-        "Proverbs 29:4-6"
-    ],
-    "333": [
-        "Ezekiel 40:38-42:8",
-        "2 Peter 2:1-22",
-        "Psalms 135:15-21",
-        "Proverbs 29:7-8"
-    ],
-    "334": [
-        "Ezekiel 42:9-44:8",
-        "2 Peter 3:1-18",
-        "Psalms 136:1-7",
-        "Proverbs 29:9-10"
-    ],
-    "335": [
-        "Ezekiel 44:9-45:15",
-        "1 John 1:1-2:17",
-        "Psalms 136:8-18",
-        "Proverbs 29:11-12"
-    ],
-    "336": [
-        "Ezekiel 45:16-47:5",
-        "1 John 2:18-3:10",
-        "Psalms 136:19-26",
-        "Proverbs 29:13-14"
-    ],
-    "337": [
-        "Ezekiel 47:6-48:35",
-        "1 John 3:11-24",
-        "Psalms 137:1-9",
-        "Proverbs 29:15-16"
-    ],
-    "338": [
-        "Daniel 1:1-2:26",
-        "1 John 4:1-21",
-        "Psalms 138:1-8",
-        "Proverbs 29:17-18"
-    ],
-    "339": [
-        "Daniel 2:27-3:21",
-        "1 John 5:1-21",
-        "Psalms 139:1-6",
-        "Proverbs 29:19-20"
-    ],
-    "340": [
-        "Daniel 3:22-5:4",
-        "2 John 1:1-13",
-        "Psalms 139:7-12",
-        "Proverbs 29:21-22"
-    ],
-    "341": [
-        "Daniel 5:5-6:24",
-        "3 John 1:1-15",
-        "Psalms 139:13-18",
-        "Proverbs 29:23-24"
-    ],
-    "342": [
-        "Daniel 6:25-8:4",
-        "Jude 1:1-25",
-        "Psalms 139:19-24",
-        "Proverbs 29:25-26"
-    ],
-    "343": [
-        "Daniel 8:5-9:19",
-        "Revelation 1:1-20",
-        "Psalms 140:1-6",
-        "Proverbs 29:27"
-    ],
-    "344": [
-        "Daniel 9:20-11:13",
-        "Revelation 2:1-17",
-        "Psalms 140:7-14",
-        "Proverbs 30:1-3"
-    ],
-    "345": [
-        "Daniel 11:14-12:13",
-        "Revelation 2:18-3:6",
-        "Psalms 141:1-4",
-        "Proverbs 30:4"
-    ],
-    "346": [
-        "Hosea 1:1-4:19",
-        "Revelation 3:7-22",
-        "Psalms 141:5-10",
-        "Proverbs 30:5-6"
-    ],
-    "347": [
-        "Hosea 5:1-9:9",
-        "Revelation 4:1-11",
-        "Psalms 142:1-8",
-        "Proverbs 30:7-9"
-    ],
-    "348": [
-        "Hosea 9:10-13:15",
-        "Revelation 5:1-14",
-        "Psalms 143:1-4",
-        "Proverbs 30:10"
-    ],
-    "349": [
-        "Hosea 14:1-10",
-        "Joel 1:1-2:27",
-        "Revelation 6:1-17",
-        "Psalms 143:5-8",
-        "Proverbs 30:11-14"
-    ],
-    "350": [
-        "Joel 2:28-3:21",
-        "Amos 1:1-2:16",
-        "Revelation 7:1-17",
-        "Psalms 143:9-12",
-        "Proverbs 30:15-16"
-    ],
-    "351": [
-        "Amos 3:1-6:10",
-        "Revelation 8:1-13",
-        "Psalms 144:1-4",
-        "Proverbs 30:17"
-    ],
-    "352": [
-        "Amos 6:11-9:15",
-        "Revelation 9:1-21",
-        "Psalms 144:5-11",
-        "Proverbs 30:18-19"
-    ],
-    "353": [
-        "Obadiah 1:1-21",
-        "Jonah 1:1-4:11",
-        "Revelation 10:1-11",
-        "Psalms 144:12-15",
-        "Proverbs 30:20"
-    ],
-    "354": [
-        "Micah 1:1-4:8",
-        "Revelation 11:1-19",
-        "Psalms 145:1-7",
-        "Proverbs 30:21-23"
-    ],
-    "355": [
-        "Micah 4:9-7:20",
-        "Revelation 12:1-18",
-        "Psalms 145:8-13",
-        "Proverbs 30:24-28"
-    ],
-    "356": [
-        "Nahum 1:1-3:19",
-        "Revelation 13:1-18",
-        "Psalms 145:14-21",
-        "Proverbs 30:29-31"
-    ],
-    "357": [
-        "Habakkuk 1:1-3:19",
-        "Revelation 14:1-13",
-        "Psalms 146:1-10",
-        "Proverbs 30:32"
-    ],
-    "358": [
-        "Zephaniah 1:1-3:20",
-        "Revelation 14:14-15:8",
-        "Psalms 147:1-6",
-        "Proverbs 30:33"
-    ],
-    "359": [
-        "Haggai 1:1-2:23",
-        "Revelation 16:1-21",
-        "Psalms 147:7-11",
-        "Proverbs 31:1-3"
-    ],
-    "360": [
-        "Zechariah 1:1-3:10",
-        "Revelation 17:1-18",
-        "Psalms 147:12-20",
-        "Proverbs 31:4-5"
-    ],
-    "361": [
-        "Zechariah 4:1-7:14",
-        "Revelation 18:1-24",
-        "Psalms 148:1-6",
-        "Proverbs 31:6-7"
-    ],
-    "362": [
-        "Zechariah 8:1-10:2",
-        "Revelation 19:1-21",
-        "Psalms 148:7-14",
-        "Proverbs 31:8"
-    ],
-    "363": [
-        "Zechariah 10:3-13:6",
-        "Revelation 20:1-21:8",
-        "Psalms 149:1-4",
-        "Proverbs 31:9"
-    ],
-    "364": [
-        "Zechariah 13:7-14:21",
-        "Malachi 1:1-14",
-        "Revelation 21:9-27",
-        "Psalms 149:5-9",
-        "Proverbs 31:10-29"
-    ],
-    "365": [
-        "Malachi 2:1-4:6",
-        "Revelation 22:1-21",
-        "Psalms 150:1-6",
-        "Proverbs 31:30-31"
-    ]
+  "1": ["Genesis 1:1-3:7", "Matthew 1:1-25", "Psalms 1:1-6", "Proverbs 1:1-6"],
+  "2": [
+    "Genesis 3:8-5:11",
+    "Matthew 2:1-23",
+    "Psalms 2:1-12",
+    "Proverbs 1:7-9"
+  ],
+  "3": [
+    "Genesis 5:12-7:24",
+    "Matthew 3:1-17",
+    "Psalms 3:1-9",
+    "Proverbs 1:10-19"
+  ],
+  "4": [
+    "Genesis 8:1-10:14",
+    "Matthew 4:1-25",
+    "Psalms 4:1-9",
+    "Proverbs 1:20-21"
+  ],
+  "5": [
+    "Genesis 10:15-12:20",
+    "Matthew 5:1-30",
+    "Psalms 5:1-6",
+    "Proverbs 1:22-23"
+  ],
+  "6": [
+    "Genesis 13:1-15:21",
+    "Matthew 5:31-48",
+    "Psalms 5:7-13",
+    "Proverbs 1:24-27"
+  ],
+  "7": [
+    "Genesis 16:1-17:27",
+    "Matthew 6:1-34",
+    "Psalms 6:1-11",
+    "Proverbs 1:28-31"
+  ],
+  "8": [
+    "Genesis 18:1-19:14",
+    "Matthew 7:1-29",
+    "Psalms 7:1-6",
+    "Proverbs 1:32-33"
+  ],
+  "9": [
+    "Genesis 19:15-21:13",
+    "Matthew 8:1-22",
+    "Psalms 7:7-18",
+    "Proverbs 2:1-5"
+  ],
+  "10": [
+    "Genesis 21:14-23:20",
+    "Matthew 8:23-9:8",
+    "Psalms 8:1-10",
+    "Proverbs 2:6"
+  ],
+  "11": ["Genesis 24:1-53", "Matthew 9:9-31", "Psalms 9:1-9", "Proverbs 2:7-9"],
+  "12": [
+    "Genesis 24:54-26:11",
+    "Matthew 9:32-10:20",
+    "Psalms 9:10-15",
+    "Proverbs 2:10-20"
+  ],
+  "13": [
+    "Genesis 26:12-27:40",
+    "Matthew 10:21-42",
+    "Psalms 9:16-21",
+    "Proverbs 2:21-22"
+  ],
+  "14": [
+    "Genesis 27:41-29:30",
+    "Matthew 11:1-19",
+    "Psalms 10:1-11",
+    "Proverbs 3:1-2"
+  ],
+  "15": [
+    "Genesis 29:31-31:16",
+    "Matthew 11:20-12:8",
+    "Psalms 10:12-15",
+    "Proverbs 3:3-4"
+  ],
+  "16": [
+    "Genesis 31:17-32:12",
+    "Matthew 12:9-37",
+    "Psalms 10:16-18",
+    "Proverbs 3:5-6"
+  ],
+  "17": [
+    "Genesis 32:13-34:24",
+    "Matthew 12:38-50",
+    "Psalms 11:1-7",
+    "Proverbs 3:7-8"
+  ],
+  "18": [
+    "Genesis 34:25-36:30",
+    "Matthew 13:1-23",
+    "Psalms 12:1-9",
+    "Proverbs 3:9-10"
+  ],
+  "19": [
+    "Genesis 36:31-37:36",
+    "Matthew 13:24-58",
+    "Psalms 13:1-6",
+    "Proverbs 3:11-12"
+  ],
+  "20": [
+    "Genesis 38:1-39:23",
+    "Matthew 14:1-21",
+    "Psalms 14:1-7",
+    "Proverbs 3:13-20"
+  ],
+  "21": [
+    "Genesis 40:1-41:45",
+    "Matthew 14:22-36",
+    "Psalms 15:1-5",
+    "Proverbs 3:21-26"
+  ],
+  "22": [
+    "Genesis 41:46-42:38",
+    "Matthew 15:1-28",
+    "Psalms 16:1-11",
+    "Proverbs 3:27"
+  ],
+  "23": [
+    "Genesis 43:1-44:5",
+    "Matthew 15:29-16:28",
+    "Psalms 17:1-5",
+    "Proverbs 3:28"
+  ],
+  "24": [
+    "Genesis 44:6-45:28",
+    "Matthew 17:1-21",
+    "Psalms 17:6-12",
+    "Proverbs 3:29"
+  ],
+  "25": [
+    "Genesis 46:1-47:26",
+    "Matthew 17:22-18:14",
+    "Psalms 17:13-15",
+    "Proverbs 3:30"
+  ],
+  "26": [
+    "Genesis 47:27-49:33",
+    "Matthew 18:15-35",
+    "Psalms 18:1-4",
+    "Proverbs 3:31-32"
+  ],
+  "27": [
+    "Genesis 50:1-26",
+    "Exodus 1:1-2:22",
+    "Matthew 19:1-15",
+    "Psalms 18:5-9",
+    "Proverbs 3:33-34"
+  ],
+  "28": [
+    "Exodus 2:23-4:17",
+    "Matthew 19:16-20:16",
+    "Psalms 18:10-16",
+    "Proverbs 3:35"
+  ],
+  "29": [
+    "Exodus 4:18-6:29",
+    "Matthew 20:17-34",
+    "Psalms 18:17-22",
+    "Proverbs 4:1-4"
+  ],
+  "30": [
+    "Exodus 7:1-8:32",
+    "Matthew 21:1-17",
+    "Psalms 18:23-30",
+    "Proverbs 4:5-6"
+  ],
+  "31": [
+    "Exodus 9:1-10:20",
+    "Matthew 21:18-32",
+    "Psalms 18:31-35",
+    "Proverbs 4:7-9"
+  ],
+  "32": [
+    "Exodus 10:21-12:28",
+    "Matthew 21:33-22:14",
+    "Psalms 18:36-43",
+    "Proverbs 4:10"
+  ],
+  "33": [
+    "Exodus 12:29-14:4",
+    "Matthew 22:15-46",
+    "Psalms 18:44-51",
+    "Proverbs 4:11-12"
+  ],
+  "34": [
+    "Exodus 14:5-15:18",
+    "Matthew 23:1-36",
+    "Psalms 19:1-7",
+    "Proverbs 4:13"
+  ],
+  "35": [
+    "Exodus 15:19-17:7",
+    "Matthew 23:37-24:14",
+    "Psalms 19:8-15",
+    "Proverbs 4:14-17"
+  ],
+  "36": [
+    "Exodus 17:8-19:25",
+    "Matthew 24:15-28",
+    "Psalms 20:1-10",
+    "Proverbs 4:18"
+  ],
+  "37": [
+    "Exodus 20:1-21:36",
+    "Matthew 24:29-51",
+    "Psalms 21:1-8",
+    "Proverbs 4:19"
+  ],
+  "38": [
+    "Exodus 22:1-23:19",
+    "Matthew 25:1-30",
+    "Psalms 21:9-14",
+    "Proverbs 4:20-22"
+  ],
+  "39": [
+    "Exodus 23:20-25:30",
+    "Matthew 25:31-26:5",
+    "Psalms 22:1-6",
+    "Proverbs 4:23"
+  ],
+  "40": [
+    "Exodus 25:31-27:8",
+    "Matthew 26:6-29",
+    "Psalms 22:7-12",
+    "Proverbs 4:24-25"
+  ],
+  "41": [
+    "Exodus 27:9-28:35",
+    "Matthew 26:30-56",
+    "Psalms 22:13-20",
+    "Proverbs 4:26-27"
+  ],
+  "42": [
+    "Exodus 28:36-29:37",
+    "Matthew 26:57-27:10",
+    "Psalms 22:21-25",
+    "Proverbs 5:1-2"
+  ],
+  "43": [
+    "Exodus 29:38-31:11",
+    "Matthew 27:11-31",
+    "Psalms 22:26-29",
+    "Proverbs 5:3-14"
+  ],
+  "44": [
+    "Exodus 31:12-33:11",
+    "Matthew 27:32-56",
+    "Psalms 22:30-32",
+    "Proverbs 5:15"
+  ],
+  "45": [
+    "Exodus 33:12-35:3",
+    "Matthew 27:57-28:15",
+    "Psalms 23:1-6",
+    "Proverbs 5:16-17"
+  ],
+  "46": [
+    "Exodus 35:4-36:38",
+    "Matthew 28:16-20",
+    "Mark 1:1-13",
+    "Psalms 24:1-6",
+    "Proverbs 5:18-19"
+  ],
+  "47": [
+    "Exodus 37:1-38:31",
+    "Mark 1:14-39",
+    "Psalms 24:7-10",
+    "Proverbs 5:20-21"
+  ],
+  "48": [
+    "Exodus 39:1-40:33",
+    "Mark 1:40-2:12",
+    "Psalms 25:1-5",
+    "Proverbs 5:22-23"
+  ],
+  "49": [
+    "Exodus 40:34-38",
+    "Leviticus 1:1-3:17",
+    "Mark 2:13-28",
+    "Psalms 25:6-9",
+    "Proverbs 6:1-5"
+  ],
+  "50": [
+    "Leviticus 4:1-5:13",
+    "Mark 3:1-30",
+    "Psalms 25:10-14",
+    "Proverbs 6:6-8"
+  ],
+  "51": [
+    "Leviticus 5:14-7:10",
+    "Mark 3:31-4:25",
+    "Psalms 25:15-22",
+    "Proverbs 6:9-11"
+  ],
+  "52": [
+    "Leviticus 7:11-8:30",
+    "Mark 4:26-41",
+    "Psalms 26:1-7",
+    "Proverbs 6:12-15"
+  ],
+  "53": [
+    "Leviticus 8:31-10:20",
+    "Mark 5:1-24",
+    "Psalms 26:8-12",
+    "Proverbs 6:16-19"
+  ],
+  "54": [
+    "Leviticus 11:1-12:8",
+    "Mark 5:25-43",
+    "Psalms 27:1-6",
+    "Proverbs 6:20-24"
+  ],
+  "55": [
+    "Leviticus 13:1-59",
+    "Mark 6:1-13",
+    "Psalms 27:7-14",
+    "Proverbs 6:25-26"
+  ],
+  "56": [
+    "Leviticus 14:1-57",
+    "Mark 6:14-29",
+    "Psalms 28:1-5",
+    "Proverbs 6:27-29"
+  ],
+  "57": [
+    "Leviticus 15:1-16:16",
+    "Mark 6:30-56",
+    "Psalms 28:6-9",
+    "Proverbs 6:30-31"
+  ],
+  "58": [
+    "Leviticus 16:17-18:20",
+    "Mark 7:1-23",
+    "Psalms 29:1-11",
+    "Proverbs 6:32-35"
+  ],
+  "59": [
+    "Leviticus 18:21-19:37",
+    "Mark 7:24-8:21",
+    "Psalms 30:1-13",
+    "Proverbs 7:1"
+  ],
+  "60": [
+    "Leviticus 20:1-21:24",
+    "Mark 8:22-38",
+    "Psalms 31:1-19",
+    "Proverbs 7:2-3"
+  ],
+  "61": [
+    "Leviticus 22:1-23:14",
+    "Mark 9:1-13",
+    "Psalms 31:20-25",
+    "Proverbs 7:4-27"
+  ],
+  "62": [
+    "Leviticus 23:15-24:23",
+    "Mark 9:14-32",
+    "Psalms 32:1-5",
+    "Proverbs 8:1-10"
+  ],
+  "63": [
+    "Leviticus 25:1-55",
+    "Mark 9:33-50",
+    "Psalms 32:6-11",
+    "Proverbs 8:11-12"
+  ],
+  "64": [
+    "Leviticus 26:1-46",
+    "Mark 10:1-16",
+    "Psalms 33:1-9",
+    "Proverbs 8:13-32"
+  ],
+  "65": [
+    "Leviticus 27:1-34",
+    "Numbers 1:1-19",
+    "Mark 10:17-45",
+    "Psalms 33:10-17",
+    "Proverbs 8:33-36"
+  ],
+  "66": [
+    "Numbers 1:20-2:32",
+    "Mark 10:46-11:19",
+    "Psalms 33:18-22",
+    "Proverbs 9:1-6"
+  ],
+  "67": [
+    "Numbers 2:33-4:8",
+    "Mark 11:20-12:12",
+    "Psalms 34:1-8",
+    "Proverbs 9:7"
+  ],
+  "68": [
+    "Numbers 4:9-5:10",
+    "Mark 12:13-34",
+    "Psalms 34:9-15",
+    "Proverbs 9:8-9"
+  ],
+  "69": [
+    "Numbers 5:11-6:27",
+    "Mark 12:35-13:13",
+    "Psalms 34:16-23",
+    "Proverbs 9:10-11"
+  ],
+  "70": ["Numbers 7:1-71", "Mark 13:14-37", "Psalms 35:1-8", "Proverbs 9:12"],
+  "71": [
+    "Numbers 7:72-9:8",
+    "Mark 14:1-21",
+    "Psalms 35:9-17",
+    "Proverbs 9:13-18"
+  ],
+  "72": [
+    "Numbers 9:9-11:3",
+    "Mark 14:22-52",
+    "Psalms 35:18-28",
+    "Proverbs 10:1"
+  ],
+  "73": [
+    "Numbers 11:4-13:16",
+    "Mark 14:53-72",
+    "Psalms 36:1-5",
+    "Proverbs 10:2"
+  ],
+  "74": [
+    "Numbers 13:17-14:45",
+    "Mark 15:1-19",
+    "Psalms 36:6-13",
+    "Proverbs 10:3"
+  ],
+  "75": [
+    "Numbers 15:1-16:11",
+    "Mark 15:20-47",
+    "Psalms 37:1-11",
+    "Proverbs 10:4"
+  ],
+  "76": [
+    "Numbers 16:12-17:13",
+    "Mark 16:1-20",
+    "Luke 1:1-4",
+    "Psalms 37:12-20",
+    "Proverbs 10:5"
+  ],
+  "77": [
+    "Numbers 18:1-19:13",
+    "Luke 1:5-25",
+    "Psalms 37:21-26",
+    "Proverbs 10:6"
+  ],
+  "78": [
+    "Numbers 19:14-21:15",
+    "Luke 1:26-56",
+    "Psalms 37:27-33",
+    "Proverbs 10:7"
+  ],
+  "79": [
+    "Numbers 21:16-22:35",
+    "Luke 1:57-2:7",
+    "Psalms 37:34-40",
+    "Proverbs 10:8"
+  ],
+  "80": [
+    "Numbers 22:36-24:25",
+    "Luke 2:8-33",
+    "Psalms 38:1-9",
+    "Proverbs 10:9"
+  ],
+  "81": [
+    "Numbers 25:1-26:61",
+    "Luke 2:34-52",
+    "Psalms 38:10-13",
+    "Proverbs 10:10"
+  ],
+  "82": [
+    "Numbers 26:62-28:31",
+    "Luke 3:1-22",
+    "Psalms 38:14-23",
+    "Proverbs 10:11"
+  ],
+  "83": [
+    "Numbers 29:1-30:16",
+    "Luke 3:23-4:13",
+    "Psalms 39:1-7",
+    "Proverbs 10:12"
+  ],
+  "84": [
+    "Numbers 31:1-32:9",
+    "Luke 4:14-37",
+    "Psalms 39:8-14",
+    "Proverbs 10:13"
+  ],
+  "85": [
+    "Numbers 32:10-33:49",
+    "Luke 4:38-5:11",
+    "Psalms 40:1-4",
+    "Proverbs 10:14"
+  ],
+  "86": [
+    "Numbers 33:50-35:29",
+    "Luke 5:12-32",
+    "Psalms 40:5-9",
+    "Proverbs 10:15"
+  ],
+  "87": [
+    "Numbers 35:30-36:13",
+    "Deuteronomy 1:1-33",
+    "Luke 5:33-6:16",
+    "Psalms 40:10-13",
+    "Proverbs 10:16"
+  ],
+  "88": [
+    "Deuteronomy 1:34-2:37",
+    "Luke 6:17-42",
+    "Psalms 40:14-18",
+    "Proverbs 10:17"
+  ],
+  "89": [
+    "Deuteronomy 3:1-4:20",
+    "Luke 6:43-7:17",
+    "Psalms 41:1-4",
+    "Proverbs 10:18"
+  ],
+  "90": [
+    "Deuteronomy 4:21-5:27",
+    "Luke 7:18-35",
+    "Psalms 41:5-10",
+    "Proverbs 10:19"
+  ],
+  "91": [
+    "Deuteronomy 5:28-7:11",
+    "Luke 7:36-8:21",
+    "Psalms 41:11-14",
+    "Proverbs 10:20"
+  ],
+  "92": [
+    "Deuteronomy 7:12-9:6",
+    "Luke 8:22-39",
+    "Psalms 42:1-12",
+    "Proverbs 10:21"
+  ],
+  "93": [
+    "Deuteronomy 9:7-11:7",
+    "Luke 8:40-9:6",
+    "Psalms 43:1-5",
+    "Proverbs 10:22"
+  ],
+  "94": [
+    "Deuteronomy 11:8-12:32",
+    "Luke 9:7-21",
+    "Psalms 44:1-4",
+    "Proverbs 10:23"
+  ],
+  "95": [
+    "Deuteronomy 13:1-15:11",
+    "Luke 9:22-42",
+    "Psalms 44:5-9",
+    "Proverbs 10:24"
+  ],
+  "96": [
+    "Deuteronomy 15:12-17:20",
+    "Luke 9:43-62",
+    "Psalms 44:10-17",
+    "Proverbs 10:25"
+  ],
+  "97": [
+    "Deuteronomy 18:1-20:9",
+    "Luke 10:1-24",
+    "Psalms 44:18-27",
+    "Proverbs 10:26"
+  ],
+  "98": [
+    "Deuteronomy 20:10-22:12",
+    "Luke 10:25-11:13",
+    "Psalms 45:1-6",
+    "Proverbs 10:27"
+  ],
+  "99": [
+    "Deuteronomy 22:13-24:15",
+    "Luke 11:14-28",
+    "Psalms 45:7-10",
+    "Proverbs 10:28"
+  ],
+  "100": [
+    "Deuteronomy 24:16-26:19",
+    "Luke 11:29-54",
+    "Psalms 45:11-18",
+    "Proverbs 10:29"
+  ],
+  "101": [
+    "Deuteronomy 27:1-28:46",
+    "Luke 12:1-12",
+    "Psalms 46:1-4",
+    "Proverbs 10:30"
+  ],
+  "102": [
+    "Deuteronomy 28:47-29:29",
+    "Luke 12:13-34",
+    "Psalms 46:5-8",
+    "Proverbs 10:31"
+  ],
+  "103": [
+    "Deuteronomy 30:1-31:30",
+    "Luke 12:35-53",
+    "Psalms 46:9-12",
+    "Proverbs 10:32"
+  ],
+  "104": [
+    "Deuteronomy 32:1-52",
+    "Luke 12:54-13:21",
+    "Psalms 47:1-10",
+    "Proverbs 11:1"
+  ],
+  "105": [
+    "Deuteronomy 33:1-34:12",
+    "Joshua 1:1-11",
+    "Luke 13:22-14:6",
+    "Psalms 48:1-9",
+    "Proverbs 11:2"
+  ],
+  "106": [
+    "Joshua 1:12-3:17",
+    "Luke 14:7-24",
+    "Psalms 48:10-15",
+    "Proverbs 11:3"
+  ],
+  "107": [
+    "Joshua 4:1-6:14",
+    "Luke 14:25-15:10",
+    "Psalms 49:1-5",
+    "Proverbs 11:4"
+  ],
+  "108": [
+    "Joshua 6:15-7:26",
+    "Luke 15:11-32",
+    "Psalms 49:6-16",
+    "Proverbs 11:5"
+  ],
+  "109": [
+    "Joshua 8:1-9:15",
+    "Luke 16:1-18",
+    "Psalms 49:17-21",
+    "Proverbs 11:6"
+  ],
+  "110": [
+    "Joshua 9:16-10:35",
+    "Luke 16:19-17:6",
+    "Psalms 50:1-6",
+    "Proverbs 11:7"
+  ],
+  "111": [
+    "Joshua 10:36-13:7",
+    "Luke 17:7-19",
+    "Psalms 50:7-15",
+    "Proverbs 11:8"
+  ],
+  "112": [
+    "Joshua 13:8-15:12",
+    "Luke 17:20-18:8",
+    "Psalms 50:16-23",
+    "Proverbs 11:9"
+  ],
+  "113": [
+    "Joshua 15:13-17:13",
+    "Luke 18:9-43",
+    "Psalms 51:1-8",
+    "Proverbs 11:10-11"
+  ],
+  "114": [
+    "Joshua 17:14-19:31",
+    "Luke 19:1-27",
+    "Psalms 51:9-15",
+    "Proverbs 11:12-13"
+  ],
+  "115": [
+    "Joshua 19:32-21:42",
+    "Luke 19:28-48",
+    "Psalms 51:16-21",
+    "Proverbs 11:14"
+  ],
+  "116": [
+    "Joshua 21:43-22:34",
+    "Luke 20:1-19",
+    "Psalms 52:1-11",
+    "Proverbs 11:15-16"
+  ],
+  "117": [
+    "Joshua 23:1-24:33",
+    "Luke 20:20-40",
+    "Psalms 53:1-7",
+    "Proverbs 11:17-18"
+  ],
+  "118": [
+    "Judges 1:1-2:16",
+    "Luke 20:41-21:19",
+    "Psalms 54:1-9",
+    "Proverbs 11:19"
+  ],
+  "119": [
+    "Judges 2:17-4:15",
+    "Luke 21:20-22:6",
+    "Psalms 55:1-9",
+    "Proverbs 11:20"
+  ],
+  "120": [
+    "Judges 4:16-6:22",
+    "Luke 22:7-23",
+    "Psalms 55:10-16",
+    "Proverbs 11:21"
+  ],
+  "121": [
+    "Judges 6:23-7:25",
+    "Luke 22:24-46",
+    "Psalms 55:17-20",
+    "Proverbs 11:22"
+  ],
+  "122": [
+    "Judges 8:1-9:21",
+    "Luke 22:47-71",
+    "Psalms 55:21-24",
+    "Proverbs 11:23"
+  ],
+  "123": [
+    "Judges 9:22-10:9",
+    "Luke 23:1-32",
+    "Psalms 56:1-5",
+    "Proverbs 11:24-26"
+  ],
+  "124": [
+    "Judges 10:10-11:40",
+    "Luke 23:33-56",
+    "Psalms 56:6-12",
+    "Proverbs 11:27-28"
+  ],
+  "125": [
+    "Judges 12:1-14:9",
+    "Luke 24:1-27",
+    "Psalms 56:13-14",
+    "Proverbs 11:29"
+  ],
+  "126": [
+    "Judges 14:10-16:14",
+    "Luke 24:28-53",
+    "Psalms 57:1-7",
+    "Proverbs 11:30-31"
+  ],
+  "127": [
+    "Judges 16:15-18:13",
+    "John 1:1-28",
+    "Psalms 57:8-12",
+    "Proverbs 12:1"
+  ],
+  "128": [
+    "Judges 18:14-19:30",
+    "John 1:29-51",
+    "Psalms 58:1-3",
+    "Proverbs 12:2-3"
+  ],
+  "129": ["Judges 20:1-48", "John 2:1-25", "Psalms 58:4-10", "Proverbs 12:4"],
+  "130": [
+    "Judges 21:1-25",
+    "Ruth 1:1-22",
+    "John 3:1-30",
+    "Psalms 58:11-12",
+    "Proverbs 12:5-7"
+  ],
+  "131": ["Ruth 2:1-3:18", "John 3:31-4:26", "Psalms 59:1-9", "Proverbs 12:8"],
+  "132": [
+    "Ruth 4:1-22",
+    "1 Samuel 1:1-28",
+    "John 4:27-54",
+    "Psalms 59:10-18",
+    "Proverbs 12:9"
+  ],
+  "133": [
+    "1 Samuel 2:1-3:21",
+    "John 5:1-18",
+    "Psalms 60:1-7",
+    "Proverbs 12:10"
+  ],
+  "134": [
+    "1 Samuel 4:1-6:9",
+    "John 5:19-47",
+    "Psalms 60:8-14",
+    "Proverbs 12:11"
+  ],
+  "135": [
+    "1 Samuel 6:10-8:22",
+    "John 6:1-29",
+    "Psalms 61:1-5",
+    "Proverbs 12:12-13"
+  ],
+  "136": [
+    "1 Samuel 9:1-10:16",
+    "John 6:30-59",
+    "Psalms 61:6-9",
+    "Proverbs 12:14"
+  ],
+  "137": [
+    "1 Samuel 10:17-12:25",
+    "John 6:60-7:13",
+    "Psalms 62:1-5",
+    "Proverbs 12:15-16"
+  ],
+  "138": [
+    "1 Samuel 13:1-14:26",
+    "John 7:14-36",
+    "Psalms 62:6-9",
+    "Proverbs 12:17-18"
+  ],
+  "139": [
+    "1 Samuel 14:27-15:23",
+    "John 7:37-8:11",
+    "Psalms 62:10-13",
+    "Proverbs 12:19-20"
+  ],
+  "140": [
+    "1 Samuel 15:24-17:11",
+    "John 8:12-41",
+    "Psalms 63:1-9",
+    "Proverbs 12:21-23"
+  ],
+  "141": [
+    "1 Samuel 17:12-18:9",
+    "John 8:42-59",
+    "Psalms 63:10-12",
+    "Proverbs 12:24-25"
+  ],
+  "142": [
+    "1 Samuel 18:10-19:24",
+    "John 9:1-23",
+    "Psalms 64:1-11",
+    "Proverbs 12:26-27"
+  ],
+  "143": [
+    "1 Samuel 20:1-21:15",
+    "John 9:24-41",
+    "Psalms 65:1-5",
+    "Proverbs 12:28"
+  ],
+  "144": [
+    "1 Samuel 22:1-23:28",
+    "John 10:1-21",
+    "Psalms 65:6-14",
+    "Proverbs 13:1"
+  ],
+  "145": [
+    "1 Samuel 24:1-25:31",
+    "John 10:22-42",
+    "Psalms 66:1-4",
+    "Proverbs 13:2-3"
+  ],
+  "146": [
+    "1 Samuel 25:32-27:12",
+    "John 11:1-22",
+    "Psalms 66:5-7",
+    "Proverbs 13:4"
+  ],
+  "147": [
+    "1 Samuel 28:1-30:10",
+    "John 11:23-44",
+    "Psalms 66:8-12",
+    "Proverbs 13:5-6"
+  ],
+  "148": [
+    "1 Samuel 30:11-31:13",
+    "2 Samuel 1:1-27",
+    "John 11:45-57",
+    "Psalms 66:13-20",
+    "Proverbs 13:7-8"
+  ],
+  "149": [
+    "2 Samuel 2:1-3:21",
+    "John 12:1-22",
+    "Psalms 67:1-8",
+    "Proverbs 13:9-10"
+  ],
+  "150": [
+    "2 Samuel 3:22-5:10",
+    "John 12:23-50",
+    "Psalms 68:1-7",
+    "Proverbs 13:11"
+  ],
+  "151": [
+    "2 Samuel 5:11-7:17",
+    "John 13:1-26",
+    "Psalms 68:8-11",
+    "Proverbs 13:12"
+  ],
+  "152": [
+    "2 Samuel 7:18-10:5",
+    "John 13:27-14:14",
+    "Psalms 68:12-14",
+    "Proverbs 13:13-14"
+  ],
+  "153": [
+    "2 Samuel 10:6-12:10",
+    "John 14:15-31",
+    "Psalms 68:15-19",
+    "Proverbs 13:15-17"
+  ],
+  "154": [
+    "2 Samuel 12:11-13:29",
+    "John 15:1-17",
+    "Psalms 68:20-24",
+    "Proverbs 13:18-19"
+  ],
+  "155": [
+    "2 Samuel 13:30-15:6",
+    "John 15:18-16:15",
+    "Psalms 68:25-30",
+    "Proverbs 13:20-22"
+  ],
+  "156": [
+    "2 Samuel 15:7-16:23",
+    "John 16:16-33",
+    "Psalms 68:31-36",
+    "Proverbs 13:23-25"
+  ],
+  "157": [
+    "2 Samuel 17:1-18:18",
+    "John 17:1-13",
+    "Psalms 69:1-7",
+    "Proverbs 14:1"
+  ],
+  "158": [
+    "2 Samuel 18:19-19:23",
+    "John 17:14-18:14",
+    "Psalms 69:8-13",
+    "Proverbs 14:2-3"
+  ],
+  "159": [
+    "2 Samuel 19:24-20:22",
+    "John 18:15-18:37",
+    "Psalms 69:14-19",
+    "Proverbs 14:4-5"
+  ],
+  "160": [
+    "2 Samuel 20:23-22:30",
+    "John 18:38-19:22",
+    "Psalms 69:20-30",
+    "Proverbs 14:6"
+  ],
+  "161": [
+    "2 Samuel 22:31-24:9",
+    "John 19:23-42",
+    "Psalms 69:31-37",
+    "Proverbs 14:7-9"
+  ],
+  "162": [
+    "2 Samuel 24:10-25",
+    "1 Kings 1:1-27",
+    "John 20:1-31",
+    "Psalms 70:1-6",
+    "Proverbs 14:10"
+  ],
+  "163": [
+    "1 Kings 1:28-2:12",
+    "John 21:1-25",
+    "Psalms 71:1-11",
+    "Proverbs 14:11-12"
+  ],
+  "164": [
+    "1 Kings 2:13-3:15",
+    "Acts 1:1-19",
+    "Psalms 71:12-16",
+    "Proverbs 14:13"
+  ],
+  "165": [
+    "1 Kings 3:16-5:18",
+    "Acts 1:20-2:4",
+    "Psalms 71:17-24",
+    "Proverbs 14:14-15"
+  ],
+  "166": [
+    "1 Kings 6:1-7:12",
+    "Acts 2:5-36",
+    "Psalms 72:1-4",
+    "Proverbs 14:16-17"
+  ],
+  "167": [
+    "1 Kings 7:13-8:13",
+    "Acts 2:37-3:10",
+    "Psalms 72:5-11",
+    "Proverbs 14:18-19"
+  ],
+  "168": [
+    "1 Kings 8:14-61",
+    "Acts 3:11-26",
+    "Psalms 72:12-20",
+    "Proverbs 14:20-22"
+  ],
+  "169": [
+    "1 Kings 8:62-10:13",
+    "Acts 4:1-22",
+    "Psalms 73:1-7",
+    "Proverbs 14:23-25"
+  ],
+  "170": [
+    "1 Kings 10:14-11:43",
+    "Acts 4:23-37",
+    "Psalms 73:8-15",
+    "Proverbs 14:26-28"
+  ],
+  "171": [
+    "1 Kings 12:1-13:10",
+    "Acts 5:1-25",
+    "Psalms 73:16-22",
+    "Proverbs 14:29-31"
+  ],
+  "172": [
+    "1 Kings 13:11-14:20",
+    "Acts 5:26-6:7",
+    "Psalms 73:23-28",
+    "Proverbs 14:32-33"
+  ],
+  "173": [
+    "1 Kings 14:21-16:14",
+    "Acts 6:8-7:8",
+    "Psalms 74:1-3",
+    "Proverbs 14:34-35"
+  ],
+  "174": [
+    "1 Kings 16:15-18:15",
+    "Acts 7:9-22",
+    "Psalms 74:4-8",
+    "Proverbs 15:1-4"
+  ],
+  "175": [
+    "1 Kings 18:16-19:18",
+    "Acts 7:23-39",
+    "Psalms 74:9-15",
+    "Proverbs 15:5-7"
+  ],
+  "176": [
+    "1 Kings 19:19-20:43",
+    "Acts 7:40-60",
+    "Psalms 74:16-23",
+    "Proverbs 15:8-9"
+  ],
+  "177": [
+    "1 Kings 21:1-22:23",
+    "Acts 8:1-25",
+    "Psalms 75:1-6",
+    "Proverbs 15:10-12"
+  ],
+  "178": [
+    "1 Kings 22:24-54",
+    "2 Kings 1:1-18",
+    "Acts 8:26-9:9",
+    "Psalms 75:7-11",
+    "Proverbs 15:13-15"
+  ],
+  "179": [
+    "2 Kings 2:1-3:19",
+    "Acts 9:10-31",
+    "Psalms 76:1-7",
+    "Proverbs 15:16-17"
+  ],
+  "180": [
+    "2 Kings 3:20-4:37",
+    "Acts 9:32-10:8",
+    "Psalms 76:8-13",
+    "Proverbs 15:18-21"
+  ],
+  "181": [
+    "2 Kings 4:38-6:7",
+    "Acts 10:9-33",
+    "Psalms 77:1-10",
+    "Proverbs 15:22-23"
+  ],
+  "182": [
+    "2 Kings 6:8-7:20",
+    "Acts 10:34-48",
+    "Psalms 77:11-15",
+    "Proverbs 15:24-26"
+  ],
+  "183": [
+    "2 Kings 8:1-9:15",
+    "Acts 11:1-30",
+    "Psalms 77:16-21",
+    "Proverbs 15:27-29"
+  ],
+  "184": [
+    "2 Kings 9:16-10:22",
+    "Acts 12:1-25",
+    "Psalms 78:1-4",
+    "Proverbs 15:30-32"
+  ],
+  "185": [
+    "2 Kings 10:23-12:8",
+    "Acts 13:1-25",
+    "Psalms 78:5-11",
+    "Proverbs 15:33"
+  ],
+  "186": [
+    "2 Kings 12:9-14:7",
+    "Acts 13:26-49",
+    "Psalms 78:12-17",
+    "Proverbs 16:1-2"
+  ],
+  "187": [
+    "2 Kings 14:8-15:38",
+    "Acts 13:50-14:9",
+    "Psalms 78:18-28",
+    "Proverbs 16:3-5"
+  ],
+  "188": [
+    "2 Kings 16:1-17:25",
+    "Acts 14:10-28",
+    "Psalms 78:29-35",
+    "Proverbs 16:6-7"
+  ],
+  "189": [
+    "2 Kings 17:26-18:29",
+    "Acts 15:1-21",
+    "Psalms 78:36-43",
+    "Proverbs 16:8"
+  ],
+  "190": [
+    "2 Kings 18:30-19:37",
+    "Acts 15:22-16:3",
+    "Psalms 78:44-49",
+    "Proverbs 16:9-12"
+  ],
+  "191": [
+    "2 Kings 20:1-22:7",
+    "Acts 16:4-18",
+    "Psalms 78:50-55",
+    "Proverbs 16:13-15"
+  ],
+  "192": [
+    "2 Kings 22:8-23:27",
+    "Acts 16:19-40",
+    "Psalms 78:56-62",
+    "Proverbs 16:16-19"
+  ],
+  "193": [
+    "2 Kings 23:28-25:21",
+    "Acts 17:1-15",
+    "Psalms 78:63-72",
+    "Proverbs 16:20-24"
+  ],
+  "194": [
+    "2 Kings 25:22-30",
+    "1 Chronicles 1:1-2:33",
+    "Acts 17:16-34",
+    "Psalms 79:1-7",
+    "Proverbs 16:25-26"
+  ],
+  "195": [
+    "1 Chronicles 2:34-4:43",
+    "Acts 18:1-17",
+    "Psalms 79:8-13",
+    "Proverbs 16:27-29"
+  ],
+  "196": [
+    "1 Chronicles 5:1-6:53",
+    "Acts 18:18-19:12",
+    "Psalms 80:1-4",
+    "Proverbs 16:30"
+  ],
+  "197": [
+    "1 Chronicles 6:54-7:40",
+    "Acts 19:13-34",
+    "Psalms 80:5-12",
+    "Proverbs 16:31-32"
+  ],
+  "198": [
+    "1 Chronicles 8:1-10:7",
+    "Acts 19:35-20:12",
+    "Psalms 80:13-20",
+    "Proverbs 16:33"
+  ],
+  "199": [
+    "1 Chronicles 10:8-12:15",
+    "Acts 20:13-31",
+    "Psalms 81:1-8",
+    "Proverbs 17:1-2"
+  ],
+  "200": [
+    "1 Chronicles 12:16-14:17",
+    "Acts 20:32-21:14",
+    "Psalms 81:9-17",
+    "Proverbs 17:3-5"
+  ],
+  "201": [
+    "1 Chronicles 15:1-16:36",
+    "Acts 21:15-36",
+    "Psalms 82:1-8",
+    "Proverbs 17:6-8"
+  ],
+  "202": [
+    "1 Chronicles 16:37-18:17",
+    "Acts 21:37-22:16",
+    "Psalms 83:1-9",
+    "Proverbs 17:9-11"
+  ],
+  "203": [
+    "1 Chronicles 19:1-21:21",
+    "Acts 22:17-30",
+    "Psalms 83:10-19",
+    "Proverbs 17:12-14"
+  ],
+  "204": [
+    "1 Chronicles 21:22-23:32",
+    "Acts 23:1-11",
+    "Psalms 84:1-8",
+    "Proverbs 17:15-17"
+  ],
+  "205": [
+    "1 Chronicles 24:1-26:9",
+    "Acts 23:12-35",
+    "Psalms 84:9-13",
+    "Proverbs 17:18-21"
+  ],
+  "206": [
+    "1 Chronicles 26:10-27:34",
+    "Acts 24:1-23",
+    "Psalms 85:1-8",
+    "Proverbs 17:22"
+  ],
+  "207": [
+    "1 Chronicles 28:1-29:30",
+    "Acts 24:24-25:6",
+    "Psalms 85:9-14",
+    "Proverbs 17:23-24"
+  ],
+  "208": [
+    "2 Chronicles 1:1-3:7",
+    "Acts 25:7-27",
+    "Psalms 86:1-7",
+    "Proverbs 17:25-28"
+  ],
+  "209": [
+    "2 Chronicles 3:8-6:11",
+    "Acts 26:1-18",
+    "Psalms 86:8-13",
+    "Proverbs 18:1-3"
+  ],
+  "210": [
+    "2 Chronicles 6:12-7:8",
+    "Acts 26:19-27:13",
+    "Psalms 86:14-17",
+    "Proverbs 18:4-5"
+  ],
+  "211": [
+    "2 Chronicles 7:9-9:12",
+    "Acts 27:14-36",
+    "Psalms 87:1-7",
+    "Proverbs 18:6-9"
+  ],
+  "212": [
+    "2 Chronicles 9:13-11:23",
+    "Acts 27:37-28:10",
+    "Psalms 88:1-6",
+    "Proverbs 18:10-11"
+  ],
+  "213": [
+    "2 Chronicles 12:1-14:8",
+    "Acts 28:11-31",
+    "Psalms 88:7-13",
+    "Proverbs 18:12-14"
+  ],
+  "214": [
+    "2 Chronicles 14:9-17:19",
+    "Romans 1:1-17",
+    "Psalms 88:14-19",
+    "Proverbs 18:15-17"
+  ],
+  "215": [
+    "2 Chronicles 18:1-20:13",
+    "Romans 1:18-32",
+    "Psalms 89:1-5",
+    "Proverbs 18:18-20"
+  ],
+  "216": [
+    "2 Chronicles 20:14-22:6",
+    "Romans 2:1-24",
+    "Psalms 89:6-11",
+    "Proverbs 18:21-22"
+  ],
+  "217": [
+    "2 Chronicles 22:7-24:19",
+    "Romans 2:25-3:20",
+    "Psalms 89:12-19",
+    "Proverbs 18:23-24"
+  ],
+  "218": [
+    "2 Chronicles 24:20-26:9",
+    "Romans 3:21-4:15",
+    "Psalms 89:20-29",
+    "Proverbs 19:1-3"
+  ],
+  "219": [
+    "2 Chronicles 26:10-28:27",
+    "Romans 4:16-5:11",
+    "Psalms 89:30-35",
+    "Proverbs 19:4-6"
+  ],
+  "220": [
+    "2 Chronicles 29:1-30:9",
+    "Romans 5:12-6:11",
+    "Psalms 89:36-46",
+    "Proverbs 19:7-8"
+  ],
+  "221": [
+    "2 Chronicles 30:10-32:8",
+    "Romans 6:12-7:6",
+    "Psalms 89:47-53",
+    "Proverbs 19:9-11"
+  ],
+  "222": [
+    "2 Chronicles 32:9-33:25",
+    "Romans 7:7-26",
+    "Psalms 90:1-6",
+    "Proverbs 19:12-13"
+  ],
+  "223": [
+    "2 Chronicles 34:1-35:9",
+    "Romans 8:1-23",
+    "Psalms 90:7-12",
+    "Proverbs 19:14-15"
+  ],
+  "224": [
+    "2 Chronicles 35:10-36:23",
+    "Ezra 1:1-6",
+    "Romans 8:24-9:5",
+    "Psalms 90:13-17",
+    "Proverbs 19:16-17"
+  ],
+  "225": [
+    "Ezra 1:7-3:7",
+    "Romans 9:6-33",
+    "Psalms 91:1-6",
+    "Proverbs 19:18-19"
+  ],
+  "226": [
+    "Ezra 3:8-5:12",
+    "Romans 10:1-21",
+    "Psalms 91:7-12",
+    "Proverbs 19:20-22"
+  ],
+  "227": [
+    "Ezra 5:13-7:20",
+    "Romans 11:1-24",
+    "Psalms 91:13-16",
+    "Proverbs 19:23-25"
+  ],
+  "228": [
+    "Ezra 7:21-9:4",
+    "Romans 11:25-12:8",
+    "Psalms 92:1-5",
+    "Proverbs 19:26-27"
+  ],
+  "229": [
+    "Ezra 9:5-10:44",
+    "Romans 12:9-13:14",
+    "Psalms 92:6-12",
+    "Proverbs 19:28-29"
+  ],
+  "230": [
+    "Nehemiah 1:1-3:15",
+    "Romans 14:1-23",
+    "Psalms 92:13-16",
+    "Proverbs 20:1-3"
+  ],
+  "231": [
+    "Nehemiah 3:16-5:13",
+    "Romans 15:1-21",
+    "Psalms 93:1-5",
+    "Proverbs 20:4-6"
+  ],
+  "232": [
+    "Nehemiah 5:14-7:60",
+    "Romans 15:22-16:7",
+    "Psalms 94:1-7",
+    "Proverbs 20:7-9"
+  ],
+  "233": [
+    "Nehemiah 7:61-9:15",
+    "Romans 16:8-27",
+    "Psalms 95:8-15",
+    "Proverbs 20:10-11"
+  ],
+  "234": [
+    "Nehemiah 9:16-10:39",
+    "1 Corinthians 1:1-17",
+    "Psalms 94:16-23",
+    "Proverbs 20:12-14"
+  ],
+  "235": [
+    "Nehemiah 11:1-12:43",
+    "1 Corinthians 1:18-2:5",
+    "Psalms 95:1-5",
+    "Proverbs 20:15-16"
+  ],
+  "236": [
+    "Nehemiah 12:44-13:31",
+    "1 Corinthians 2:6-3:23",
+    "Psalms 95:6-11",
+    "Proverbs 20:17"
+  ],
+  "237": [
+    "Esther 1:1-2:23",
+    "1 Corinthians 4:1-21",
+    "Psalms 96:1-6",
+    "Proverbs 20:18-20"
+  ],
+  "238": [
+    "Esther 3:1-5:14",
+    "1 Corinthians 5:1-13",
+    "Psalms 96:7-13",
+    "Proverbs 20:21-23"
+  ],
+  "239": [
+    "Esther 6:1-8:17",
+    "1 Corinthians 6:1-15",
+    "Psalms 97:1-9",
+    "Proverbs 20:24-26"
+  ],
+  "240": [
+    "Esther 9:1-10:3",
+    "Job 1:1-12",
+    "1 Corinthians 6:16-7:16",
+    "Psalms 97:10-12",
+    "Proverbs 20:27-30"
+  ],
+  "241": [
+    "Job 1:13-4:21",
+    "1 Corinthians 7:17-40",
+    "Psalms 98:1-3",
+    "Proverbs 21:1-3"
+  ],
+  "242": [
+    "Job 5:1-8:22",
+    "1 Corinthians 8:11-9:5",
+    "Psalms 98:4-9",
+    "Proverbs 21:4-6"
+  ],
+  "243": [
+    "Job 9:1-11:20",
+    "1 Corinthians 9:6-27",
+    "Psalms 99:1-5",
+    "Proverbs 21:7-9"
+  ],
+  "244": [
+    "Job 12:1-15:35",
+    "1 Corinthians 10:1-13",
+    "Psalms 99:6-9",
+    "Proverbs 21:10-11"
+  ],
+  "245": [
+    "Job 16:1-19:29",
+    "1 Corinthians 10:14-11:16",
+    "Psalms 100:1-5",
+    "Proverbs 21:12-14"
+  ],
+  "246": [
+    "Job 20:1-22:30",
+    "1 Corinthians 11:17-34",
+    "Psalms 101:1-8",
+    "Proverbs 21:15-17"
+  ],
+  "247": [
+    "Job 23:1-27:23",
+    "1 Corinthians 12:1-26",
+    "Psalms 102:1-12",
+    "Proverbs 21:18-20"
+  ],
+  "248": [
+    "Job 28:1-30:31",
+    "1 Corinthians 12:27-14:5",
+    "Psalms 102:13-23",
+    "Proverbs 21:21-23"
+  ],
+  "249": [
+    "Job 31:1-33:33",
+    "1 Corinthians 14:6-19",
+    "Psalms 102:24-29",
+    "Proverbs 21:24-26"
+  ],
+  "250": [
+    "Job 34:1-37:13",
+    "1 Corinthians 14:20-40",
+    "Psalms 103:1-5",
+    "Proverbs 21:27-29"
+  ],
+  "251": [
+    "Job 37:14-40:9",
+    "1 Corinthians 15:1-26",
+    "Psalms 103:6-14",
+    "Proverbs 21:30-31"
+  ],
+  "252": [
+    "Job 40:10-42:17",
+    "Ecclesiastes 1:1-18",
+    "1 Corinthians 15:27-49",
+    "Psalms 103:15-22",
+    "Proverbs 22:1-2"
+  ],
+  "253": [
+    "Ecclesiastes 2:1-4:6",
+    "1 Corinthians 15:50-16:12",
+    "Psalms 104:1-9",
+    "Proverbs 22:3-5"
+  ],
+  "254": [
+    "Ecclesiastes 4:7-7:22",
+    "1 Corinthians 16:13-24",
+    "2 Corinthians 1:1-11",
+    "Psalms 104:10-18",
+    "Proverbs 22:6"
+  ],
+  "255": [
+    "Ecclesiastes 7:23-10:20",
+    "2 Corinthians 1:12-24",
+    "Psalms 104:19-30",
+    "Proverbs 22:7-8"
+  ],
+  "256": [
+    "Ecclesiastes 11:1-12:14",
+    "Song of Solomon 1:1-3:11",
+    "2 Corinthians 2:1-3:6",
+    "Psalms 104:31-35",
+    "Proverbs 22:9-11"
+  ],
+  "257": [
+    "Song of Solomon 4:1-8:14",
+    "2 Corinthians 3:7-4:6",
+    "Psalms 105:1-6",
+    "Proverbs 22:12-14"
+  ],
+  "258": [
+    "Isaiah 1:1-2:22",
+    "2 Corinthians 4:7-5:15",
+    "Psalms 105:7-11",
+    "Proverbs 22:15-16"
+  ],
+  "259": [
+    "Isaiah 3:1-5:24",
+    "2 Corinthians 5:16-6:18",
+    "Psalms 105:12-15",
+    "Proverbs 22:17-19"
+  ],
+  "260": [
+    "Isaiah 5:25-8:10",
+    "2 Corinthians 7:1-16",
+    "Psalms 105:16-22",
+    "Proverbs 22:20-21"
+  ],
+  "261": [
+    "Isaiah 8:11-10:19",
+    "2 Corinthians 8:1-24",
+    "Psalms 105:23-26",
+    "Proverbs 22:22-25"
+  ],
+  "262": [
+    "Isaiah 10:20-13:22",
+    "2 Corinthians 9:1-15",
+    "Psalms 105:37-45",
+    "Proverbs 22:26-27"
+  ],
+  "263": [
+    "Isaiah 14:1-17:3",
+    "2 Corinthians 10:1-18",
+    "Psalms 106:1-7",
+    "Proverbs 22:28-29"
+  ],
+  "264": [
+    "Isaiah 17:4-20:6",
+    "2 Corinthians 11:1-20",
+    "Psalms 106:8-14",
+    "Proverbs 23:1-3"
+  ],
+  "265": [
+    "Isaiah 21:1-23:18",
+    "2 Corinthians 11:21-12:6",
+    "Psalms 106:15-22",
+    "Proverbs 23:4-5"
+  ],
+  "266": [
+    "Isaiah 24:1-27:5",
+    "2 Corinthians 12:7-21",
+    "Psalms 106:23-29",
+    "Proverbs 23:3-7"
+  ],
+  "267": [
+    "Isaiah 27:6-29:14",
+    "2 Corinthians 13:1-13",
+    "Psalms 106:30-42",
+    "Proverbs 23:8-9"
+  ],
+  "268": [
+    "Isaiah 29:15-31:5",
+    "Galatians 1:1-24",
+    "Psalms 106:43-48",
+    "Proverbs 23:10-11"
+  ],
+  "269": [
+    "Isaiah 31:6-34:10",
+    "Galatians 2:1-21",
+    "Psalms 107:1-3",
+    "Proverbs 23:12-14"
+  ],
+  "270": [
+    "Isaiah 34:11-37:7",
+    "Galatians 3:1-29",
+    "Psalms 107:4-9",
+    "Proverbs 23:15-18"
+  ],
+  "271": [
+    "Isaiah 37:8-38:22",
+    "Galatians 4:1-20",
+    "Psalms 107:10-16",
+    "Proverbs 23:19-21"
+  ],
+  "272": [
+    "Isaiah 39:1-41:20",
+    "Galatians 4:21-5:12",
+    "Psalms 107:17-22",
+    "Proverbs 23:22-25"
+  ],
+  "273": [
+    "Isaiah 41:21-43:13",
+    "Galatians 5:13-6:18",
+    "Psalms 107:23-32",
+    "Proverbs 23:26-28"
+  ],
+  "274": [
+    "Isaiah 43:14-45:8",
+    "Ephesians 1:1-23",
+    "Psalms 107:33-43",
+    "Proverbs 23:29-30"
+  ],
+  "275": [
+    "Isaiah 45:9-47:15",
+    "Ephesians 2:1-22",
+    "Psalms 108:1-14",
+    "Proverbs 23:31-35"
+  ],
+  "276": [
+    "Isaiah 48:1-49:26",
+    "Ephesians 3:1-21",
+    "Psalms 109:1-11",
+    "Proverbs 24:1-4"
+  ],
+  "277": [
+    "Isaiah 50:1-52:6",
+    "Ephesians 4:1-32",
+    "Psalms 109:12-20",
+    "Proverbs 24:5-7"
+  ],
+  "278": [
+    "Isaiah 52:7-55:5",
+    "Ephesians 5:1-33",
+    "Psalms 109:21-31",
+    "Proverbs 24:8-9"
+  ],
+  "279": [
+    "Isaiah 55:6-58:10",
+    "Ephesians 6:1-24",
+    "Psalms 110:1-7",
+    "Proverbs 24:10-12"
+  ],
+  "280": [
+    "Isaiah 58:11-61:11",
+    "Philippians 1:1-11",
+    "Psalms 111:1-4",
+    "Proverbs 24:13-14"
+  ],
+  "281": [
+    "Isaiah 62:1-65:7",
+    "Philippians 1:12-30",
+    "Psalms 111:5-10",
+    "Proverbs 24:15-18"
+  ],
+  "282": [
+    "Isaiah 65:8-66:24",
+    "Philippians 2:1-30",
+    "Psalms 112:1-4",
+    "Proverbs 24:19-22"
+  ],
+  "283": [
+    "Jeremiah 1:1-2:37",
+    "Philippians 3:1-21",
+    "Psalms 112:5-10",
+    "Proverbs 24:23-25"
+  ],
+  "284": [
+    "Jeremiah 3:1-4:22",
+    "Philippians 4:1-23",
+    "Psalms 113:1-9",
+    "Proverbs 24:26-29"
+  ],
+  "285": [
+    "Jeremiah 4:23-6:15",
+    "Colossians 1:1-14",
+    "Psalms 114:1-8",
+    "Proverbs 24:30-34"
+  ],
+  "286": [
+    "Jeremiah 6:16-7:28",
+    "Colossians 1:15-2:15",
+    "Psalms 115:1-8",
+    "Proverbs 25:1-3"
+  ],
+  "287": [
+    "Jeremiah 7:29-9:22",
+    "Colossians 2:16-3:17",
+    "Psalms 115:9-18",
+    "Proverbs 25:4-5"
+  ],
+  "288": [
+    "Jeremiah 9:23-11:23",
+    "Colossians 3:18-4:18",
+    "Psalms 116:1-11",
+    "Proverbs 25:6-8"
+  ],
+  "289": [
+    "Jeremiah 12:1-14:9",
+    "1 Thessalonians 1:1-2:12",
+    "Psalms 116:12-19",
+    "Proverbs 25:9-10"
+  ],
+  "290": [
+    "Jeremiah 14:10-16:13",
+    "1 Thessalonians 2:13-3:13",
+    "Psalms 117:1-2",
+    "Proverbs 25:11-12"
+  ],
+  "291": [
+    "Jeremiah 16:14-18:17",
+    "1 Thessalonians 4:1-18",
+    "Psalms 118:1-9",
+    "Proverbs 25:13-14"
+  ],
+  "292": [
+    "Jeremiah 18:18-21:7",
+    "1 Thessalonians 5:1-28",
+    "Psalms 118:10-18",
+    "Proverbs 25:15-17"
+  ],
+  "293": [
+    "Jeremiah 21:8-23:12",
+    "2 Thessalonians 1:1-2:8",
+    "Psalms 118:19-29",
+    "Proverbs 25:18-20"
+  ],
+  "294": [
+    "Jeremiah 23:13-25:7",
+    "2 Thessalonians 2:9-3:18",
+    "Psalms 119:1-8",
+    "Proverbs 25:21-22"
+  ],
+  "295": [
+    "Jeremiah 25:8-26:24",
+    "1 Timothy 1:1-17",
+    "Psalms 119:9-16",
+    "Proverbs 25:23-25"
+  ],
+  "296": [
+    "Jeremiah 27:1-29:15",
+    "1 Timothy 1:18-2:15",
+    "Psalms 119:17-24",
+    "Proverbs 25:26-28"
+  ],
+  "297": [
+    "Jeremiah 29:16-30:24",
+    "1 Timothy 3:1-4:16",
+    "Psalms 119:25-32",
+    "Proverbs 26:1-2"
+  ],
+  "298": [
+    "Jeremiah 31:1-32:8",
+    "1 Timothy 5:1-25",
+    "Psalms 119:33-40",
+    "Proverbs 26:3-5"
+  ],
+  "299": [
+    "Jeremiah 32:9-33:9",
+    "1 Timothy 6:1-21",
+    "Psalms 119:41-56",
+    "Proverbs 26:6-7"
+  ],
+  "300": [
+    "Jeremiah 33:10-35:11",
+    "2 Timothy 1:1-18",
+    "Psalms 119:57-64",
+    "Proverbs 26:8-10"
+  ],
+  "301": [
+    "Jeremiah 35:12-37:5",
+    "2 Timothy 2:1-26",
+    "Psalms 119:65-72",
+    "Proverbs 26:11-12"
+  ],
+  "302": [
+    "Jeremiah 37:6-39:6",
+    "2 Timothy 3:1-17",
+    "Psalms 119:73-80",
+    "Proverbs 26:13-16"
+  ],
+  "303": [
+    "Jeremiah 39:7-41:18",
+    "2 Timothy 4:1-22",
+    "Psalms 119:81-88",
+    "Proverbs 26:17-19"
+  ],
+  "304": [
+    "Jeremiah 42:1-44:10",
+    "Titus 1:1-2:10",
+    "Psalms 119:89-96",
+    "Proverbs 26:20-21"
+  ],
+  "305": [
+    "Jeremiah 44:11-46:24",
+    "Titus 2:11-3:15",
+    "Psalms 119:97-104",
+    "Proverbs 26:22-25"
+  ],
+  "306": [
+    "Jeremiah 46:25-48:47",
+    "Philemon 1:1-25",
+    "Psalms 119:105-112",
+    "Proverbs 26:26-28"
+  ],
+  "307": [
+    "Jeremiah 49:1-50:5",
+    "Hebrews 1:1-2:9",
+    "Psalms 119:113-120",
+    "Proverbs 27:1-2"
+  ],
+  "308": [
+    "Jeremiah 50:6-46",
+    "Hebrews 2:10-4:3",
+    "Psalms 119:121-128",
+    "Proverbs 27:3-4"
+  ],
+  "309": [
+    "Jeremiah 51:1-57",
+    "Hebrews 4:4-5:10",
+    "Psalms 119:129-136",
+    "Proverbs 27:5-7"
+  ],
+  "310": [
+    "Jeremiah 51:58-52:34",
+    "Hebrews 5:11-7:10",
+    "Psalms 119:137-144",
+    "Proverbs 27:8-10"
+  ],
+  "311": [
+    "Lamentations 1:1-3:13",
+    "Hebrews 7:11-28",
+    "Psalms 119:145-152",
+    "Proverbs 27:11-12"
+  ],
+  "312": [
+    "Lamentations 3:14-5:22",
+    "Hebrews 8:1-9:5",
+    "Psalms 119:153-160",
+    "Proverbs 27:13-14"
+  ],
+  "313": [
+    "Ezekiel 1:1-3:21",
+    "Hebrews 9:6-22",
+    "Psalms 119:161-168",
+    "Proverbs 27:15-17"
+  ],
+  "314": [
+    "Ezekiel 3:22-6:10",
+    "Hebrews 9:23-10:13",
+    "Psalms 119:169-176",
+    "Proverbs 27:18-20"
+  ],
+  "315": [
+    "Ezekiel 6:11-8:18",
+    "Hebrews 10:14-34",
+    "Psalms 120:1-7",
+    "Proverbs 27:21-22"
+  ],
+  "316": [
+    "Ezekiel 9:1-11:20",
+    "Hebrews 10:35-11:12",
+    "Psalms 121:1-8",
+    "Proverbs 27:23-24"
+  ],
+  "317": [
+    "Ezekiel 11:21-13:16",
+    "Hebrews 11:13-34",
+    "Psalms 122:1-9",
+    "Proverbs 27:25-27"
+  ],
+  "318": [
+    "Ezekiel 13:17-16:14",
+    "Hebrews 11:35-12:14",
+    "Psalms 123:1-4",
+    "Proverbs 28:1-2"
+  ],
+  "319": [
+    "Ezekiel 16:15-63",
+    "Hebrews 12:15-13:5",
+    "Psalms 124:1-8",
+    "Proverbs 28:3-5"
+  ],
+  "320": [
+    "Ezekiel 17:1-18:32",
+    "Hebrews 13:6-25",
+    "Psalms 125:1-5",
+    "Proverbs 28:6-7"
+  ],
+  "321": [
+    "Ezekiel 19:1-20:32",
+    "James 1:1-27",
+    "Psalms 126:1-6",
+    "Proverbs 28:8-9"
+  ],
+  "322": [
+    "Ezekiel 20:33-21:32",
+    "James 2:1-20",
+    "Psalms 127:1-5",
+    "Proverbs 28:10-11"
+  ],
+  "323": [
+    "Ezekiel 22:1-23:34",
+    "James 2:21-3:12",
+    "Psalms 128:1-6",
+    "Proverbs 28:12-13"
+  ],
+  "324": [
+    "Ezekiel 23:35-25:7",
+    "James 3:13-4:17",
+    "Psalms 129:1-8",
+    "Proverbs 28:14-15"
+  ],
+  "325": [
+    "Ezekiel 25:8-27:24",
+    "James 5:1-20",
+    "Psalms 130:1-8",
+    "Proverbs 28:16-17"
+  ],
+  "326": [
+    "Ezekiel 27:25-29:16",
+    "1 Peter 1:1-25",
+    "Psalms 131:1-3",
+    "Proverbs 28:18-19"
+  ],
+  "327": [
+    "Ezekiel 29:17-31:18",
+    "1 Peter 2:1-17",
+    "Psalms 132:1-10",
+    "Proverbs 28:20-21"
+  ],
+  "328": [
+    "Ezekiel 32:1-33:20",
+    "1 Peter 2:18-3:7",
+    "Psalms 132:11-18",
+    "Proverbs 28:22-24"
+  ],
+  "329": [
+    "Ezekiel 33:21-35:12",
+    "1 Peter 3:8-22",
+    "Psalms 133:1-3",
+    "Proverbs 28:25-26"
+  ],
+  "330": [
+    "Ezekiel 35:13-37:14",
+    "1 Peter 4:1-19",
+    "Psalms 134:1-3",
+    "Proverbs 28:27-28"
+  ],
+  "331": [
+    "Ezekiel 37:15-39:17",
+    "1 Peter 5:1-14",
+    "Psalms 135:1-7",
+    "Proverbs 29:1-3"
+  ],
+  "332": [
+    "Ezekiel 39:18-40:37",
+    "2 Peter 1:1-21",
+    "Psalms 135:8-14",
+    "Proverbs 29:4-6"
+  ],
+  "333": [
+    "Ezekiel 40:38-42:8",
+    "2 Peter 2:1-22",
+    "Psalms 135:15-21",
+    "Proverbs 29:7-8"
+  ],
+  "334": [
+    "Ezekiel 42:9-44:8",
+    "2 Peter 3:1-18",
+    "Psalms 136:1-7",
+    "Proverbs 29:9-10"
+  ],
+  "335": [
+    "Ezekiel 44:9-45:15",
+    "1 John 1:1-2:17",
+    "Psalms 136:8-18",
+    "Proverbs 29:11-12"
+  ],
+  "336": [
+    "Ezekiel 45:16-47:5",
+    "1 John 2:18-3:10",
+    "Psalms 136:19-26",
+    "Proverbs 29:13-14"
+  ],
+  "337": [
+    "Ezekiel 47:6-48:35",
+    "1 John 3:11-24",
+    "Psalms 137:1-9",
+    "Proverbs 29:15-16"
+  ],
+  "338": [
+    "Daniel 1:1-2:26",
+    "1 John 4:1-21",
+    "Psalms 138:1-8",
+    "Proverbs 29:17-18"
+  ],
+  "339": [
+    "Daniel 2:27-3:21",
+    "1 John 5:1-21",
+    "Psalms 139:1-6",
+    "Proverbs 29:19-20"
+  ],
+  "340": [
+    "Daniel 3:22-5:4",
+    "2 John 1:1-13",
+    "Psalms 139:7-12",
+    "Proverbs 29:21-22"
+  ],
+  "341": [
+    "Daniel 5:5-6:24",
+    "3 John 1:1-15",
+    "Psalms 139:13-18",
+    "Proverbs 29:23-24"
+  ],
+  "342": [
+    "Daniel 6:25-8:4",
+    "Jude 1:1-25",
+    "Psalms 139:19-24",
+    "Proverbs 29:25-26"
+  ],
+  "343": [
+    "Daniel 8:5-9:19",
+    "Revelation 1:1-20",
+    "Psalms 140:1-6",
+    "Proverbs 29:27"
+  ],
+  "344": [
+    "Daniel 9:20-11:13",
+    "Revelation 2:1-17",
+    "Psalms 140:7-14",
+    "Proverbs 30:1-3"
+  ],
+  "345": [
+    "Daniel 11:14-12:13",
+    "Revelation 2:18-3:6",
+    "Psalms 141:1-4",
+    "Proverbs 30:4"
+  ],
+  "346": [
+    "Hosea 1:1-4:19",
+    "Revelation 3:7-22",
+    "Psalms 141:5-10",
+    "Proverbs 30:5-6"
+  ],
+  "347": [
+    "Hosea 5:1-9:9",
+    "Revelation 4:1-11",
+    "Psalms 142:1-8",
+    "Proverbs 30:7-9"
+  ],
+  "348": [
+    "Hosea 9:10-13:15",
+    "Revelation 5:1-14",
+    "Psalms 143:1-4",
+    "Proverbs 30:10"
+  ],
+  "349": [
+    "Hosea 14:1-10",
+    "Joel 1:1-2:27",
+    "Revelation 6:1-17",
+    "Psalms 143:5-8",
+    "Proverbs 30:11-14"
+  ],
+  "350": [
+    "Joel 2:28-3:21",
+    "Amos 1:1-2:16",
+    "Revelation 7:1-17",
+    "Psalms 143:9-12",
+    "Proverbs 30:15-16"
+  ],
+  "351": [
+    "Amos 3:1-6:10",
+    "Revelation 8:1-13",
+    "Psalms 144:1-4",
+    "Proverbs 30:17"
+  ],
+  "352": [
+    "Amos 6:11-9:15",
+    "Revelation 9:1-21",
+    "Psalms 144:5-11",
+    "Proverbs 30:18-19"
+  ],
+  "353": [
+    "Obadiah 1:1-21",
+    "Jonah 1:1-4:11",
+    "Revelation 10:1-11",
+    "Psalms 144:12-15",
+    "Proverbs 30:20"
+  ],
+  "354": [
+    "Micah 1:1-4:8",
+    "Revelation 11:1-19",
+    "Psalms 145:1-7",
+    "Proverbs 30:21-23"
+  ],
+  "355": [
+    "Micah 4:9-7:20",
+    "Revelation 12:1-18",
+    "Psalms 145:8-13",
+    "Proverbs 30:24-28"
+  ],
+  "356": [
+    "Nahum 1:1-3:19",
+    "Revelation 13:1-18",
+    "Psalms 145:14-21",
+    "Proverbs 30:29-31"
+  ],
+  "357": [
+    "Habakkuk 1:1-3:19",
+    "Revelation 14:1-13",
+    "Psalms 146:1-10",
+    "Proverbs 30:32"
+  ],
+  "358": [
+    "Zephaniah 1:1-3:20",
+    "Revelation 14:14-15:8",
+    "Psalms 147:1-6",
+    "Proverbs 30:33"
+  ],
+  "359": [
+    "Haggai 1:1-2:23",
+    "Revelation 16:1-21",
+    "Psalms 147:7-11",
+    "Proverbs 31:1-3"
+  ],
+  "360": [
+    "Zechariah 1:1-3:10",
+    "Revelation 17:1-18",
+    "Psalms 147:12-20",
+    "Proverbs 31:4-5"
+  ],
+  "361": [
+    "Zechariah 4:1-7:14",
+    "Revelation 18:1-24",
+    "Psalms 148:1-6",
+    "Proverbs 31:6-7"
+  ],
+  "362": [
+    "Zechariah 8:1-10:2",
+    "Revelation 19:1-21",
+    "Psalms 148:7-14",
+    "Proverbs 31:8"
+  ],
+  "363": [
+    "Zechariah 10:3-13:6",
+    "Revelation 20:1-21:8",
+    "Psalms 149:1-4",
+    "Proverbs 31:9"
+  ],
+  "364": [
+    "Zechariah 13:7-14:21",
+    "Malachi 1:1-14",
+    "Revelation 21:9-27",
+    "Psalms 149:5-9",
+    "Proverbs 31:10-29"
+  ],
+  "365": [
+    "Malachi 2:1-4:6",
+    "Revelation 22:1-21",
+    "Psalms 150:1-6",
+    "Proverbs 31:30-31"
+  ]
 }

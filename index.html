@@ -32,13 +32,18 @@
       crossorigin="anonymous"
     ></script>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBVE1FKX3R"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-MBVE1FKX3R"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-      gtag('config', 'G-MBVE1FKX3R');
+      gtag("config", "G-MBVE1FKX3R");
     </script>
   </head>
 
@@ -71,19 +76,30 @@
               <div class="user-options font-size-option">
                 <p class="mb-0">Font size</p>
                 <div class="font-size-slider-container">
-                  <input 
-                    type="range" 
-                    min="1" 
-                    max="3" 
-                    value="2" 
-                    step="1" 
-                    class="font-size-slider" 
+                  <input
+                    type="range"
+                    min="1"
+                    max="3"
+                    value="2"
+                    step="1"
+                    class="font-size-slider"
                     id="font-size-slider"
-                  >
+                  />
                   <div class="font-size-labels">
-                    <span><span class="font-size-example small-font-size">Aa</span> Small</span>
-                    <span><span class="font-size-example medium-font-size">Aa</span> Medium</span>
-                    <span><span class="font-size-example large-font-size">Aa</span> Large</span>
+                    <span
+                      ><span class="font-size-example small-font-size">Aa</span>
+                      Small</span
+                    >
+                    <span
+                      ><span class="font-size-example medium-font-size"
+                        >Aa</span
+                      >
+                      Medium</span
+                    >
+                    <span
+                      ><span class="font-size-example large-font-size">Aa</span>
+                      Large</span
+                    >
                   </div>
                 </div>
               </div>
@@ -94,7 +110,7 @@
                 <label class="toggle-label">
                   <span class="toggle-icon">☀️</span>
                   <div class="toggle-switch">
-                    <input type="checkbox" id="mode-toggle">
+                    <input type="checkbox" id="mode-toggle" />
                     <span class="toggle-slider"></span>
                   </div>
                   <span class="toggle-icon">🌙</span>
@@ -105,12 +121,14 @@
               <div class="user-options toggle-option">
                 <p class="mb-0">Copy Format</p>
                 <label class="toggle-label">
-                  <span class="toggle-icon">Aa</span> <!-- Plain text icon -->
+                  <span class="toggle-icon">Aa</span>
+                  <!-- Plain text icon -->
                   <div class="toggle-switch">
-                    <input type="checkbox" id="bold-copy-toggle">
+                    <input type="checkbox" id="bold-copy-toggle" />
                     <span class="toggle-slider"></span>
                   </div>
-                  <span class="toggle-icon"><strong>A</strong>a</span> <!-- Better bold icon -->
+                  <span class="toggle-icon"><strong>A</strong>a</span>
+                  <!-- Better bold icon -->
                 </label>
               </div>
             </div>
@@ -149,10 +167,7 @@
             <option value="CUNPSS-神">新标点和合本，神版</option>
           </select>
         </div>
-
       </div>
-
-
     </div>
 
     <hr class="mt-3 mb-3" />
@@ -162,8 +177,18 @@
       <!-- Verse menu for sharing and copying -->
       <div id="verse-menu" class="verse-menu">
         <div class="verse-menu-item" id="copy-verse">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+            />
           </svg>
           Copy
         </div>
@@ -173,8 +198,8 @@
     <script>
       // Helper function to get current Bible version
       function getCurrentVersion() {
-        const selector = document.getElementById('translation-selector');
-        return selector ? selector.value : 'unknown'; // Handle case where selector might not exist yet
+        const selector = document.getElementById("translation-selector");
+        return selector ? selector.value : "unknown"; // Handle case where selector might not exist yet
       }
 
       const englishToIndonesianBooks = {
@@ -329,7 +354,11 @@
         let day = Math.floor(diff / oneDay);
 
         // Adjust day count in leap years after February 29
-        if (isLeapYear(date.getFullYear()) && ((date.getMonth() === 1 && date.getDate() === 29) || (date.getMonth() > 1))) {
+        if (
+          isLeapYear(date.getFullYear()) &&
+          ((date.getMonth() === 1 && date.getDate() === 29) ||
+            date.getMonth() > 1)
+        ) {
           day -= 1;
         }
 
@@ -384,11 +413,11 @@
           fillDays();
           fetchVerses(); // Auto fetch when month changes
           // GA Event
-          if (typeof gtag === 'function') {
-            gtag('event', 'select_content', {
-              'content_type': 'date_month',
-              'item_id': event.target.value,
-              'selected_version': getCurrentVersion()
+          if (typeof gtag === "function") {
+            gtag("event", "select_content", {
+              content_type: "date_month",
+              item_id: event.target.value,
+              selected_version: getCurrentVersion(),
             });
           }
         });
@@ -396,28 +425,30 @@
           displayReferences(translatedData);
           fetchVerses(); // Auto fetch when day changes
           // GA Event
-          if (typeof gtag === 'function') {
-            gtag('event', 'select_content', {
-              'content_type': 'date_day',
-              'item_id': event.target.value,
-              'selected_version': getCurrentVersion()
+          if (typeof gtag === "function") {
+            gtag("event", "select_content", {
+              content_type: "date_day",
+              item_id: event.target.value,
+              selected_version: getCurrentVersion(),
             });
           }
         });
-        
+
         // Add event listener for translation selector to auto fetch
-        document.getElementById("translation-selector").addEventListener("change", (event) => {
-          const selectedVersion = event.target.value;
-          setCookie("selectedVersion", selectedVersion, 365); // Save the selected version
-          fetchVerses();
-          // GA Event
-          if (typeof gtag === 'function') {
-            gtag('event', 'select_content', {
-              'content_type': 'bible_version',
-              'item_id': selectedVersion
-            });
-          }
-        });
+        document
+          .getElementById("translation-selector")
+          .addEventListener("change", (event) => {
+            const selectedVersion = event.target.value;
+            setCookie("selectedVersion", selectedVersion, 365); // Save the selected version
+            fetchVerses();
+            // GA Event
+            if (typeof gtag === "function") {
+              gtag("event", "select_content", {
+                content_type: "bible_version",
+                item_id: selectedVersion,
+              });
+            }
+          });
 
         const today = new Date();
         monthSelector.value = today.getMonth() + 1;
@@ -561,7 +592,12 @@
                 englishToIndonesianBooks[currentBook]
               ) {
                 currentBook = englishToIndonesianBooks[currentBook];
-              } else if ((translation === "CNVS" || translation === "CUNPSS-上帝"|| translation === "CUNPSS-神") && englishToChineseBooks[currentBook]) {
+              } else if (
+                (translation === "CNVS" ||
+                  translation === "CUNPSS-上帝" ||
+                  translation === "CUNPSS-神") &&
+                englishToChineseBooks[currentBook]
+              ) {
                 currentBook = englishToChineseBooks[currentBook];
               }
 
@@ -581,7 +617,12 @@
           // set bookName for display of next verse
           if (translation === "TB" && englishToIndonesianBooks[bookName]) {
             bookName = englishToIndonesianBooks[bookName];
-          } else if ((translation === "CNVS" || translation === "CUNPSS-上帝" || translation === "CUNPSS-神") && englishToChineseBooks[bookName]) {
+          } else if (
+            (translation === "CNVS" ||
+              translation === "CUNPSS-上帝" ||
+              translation === "CUNPSS-神") &&
+            englishToChineseBooks[bookName]
+          ) {
             bookName = englishToChineseBooks[bookName];
           }
           const verseDiv = document.createElement("div");
@@ -600,7 +641,12 @@
           );
           if (translation === "TB" && englishToIndonesianBooks[currentBook]) {
             currentBook = englishToIndonesianBooks[currentBook];
-          } else if ((translation === "CNVS" || translation === "CUNPSS-上帝" || translation === "CUNPSS-神") && englishToChineseBooks[currentBook]) {
+          } else if (
+            (translation === "CNVS" ||
+              translation === "CUNPSS-上帝" ||
+              translation === "CUNPSS-神") &&
+            englishToChineseBooks[currentBook]
+          ) {
             currentBook = englishToChineseBooks[currentBook];
           }
 
@@ -698,9 +744,10 @@
           // Load saved version from cookie before initial fetch
           const savedVersion = getCookie("selectedVersion");
           if (savedVersion) {
-            document.getElementById("translation-selector").value = savedVersion;
+            document.getElementById("translation-selector").value =
+              savedVersion;
           }
-          
+
           // Auto fetch verses when page loads (now uses saved or default version)
           fetchVerses();
         })
@@ -719,10 +766,10 @@
       }
 
       // Show the "Scroll to Top" button when the user scrolls down
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         var scrollToTopBtn = document.getElementById("scrollToTopBtn");
         var scrollTimeout;
-        
+
         if (!scrollToTopBtn) return;
 
         window.addEventListener("scroll", function () {
@@ -730,12 +777,12 @@
           if (scrollTimeout) {
             clearTimeout(scrollTimeout);
           }
-          
+
           if (document.documentElement.scrollTop > 100) {
             scrollToTopBtn.classList.add("visible");
-            
+
             // Set a new timeout to hide the button after 3 seconds
-            scrollTimeout = setTimeout(function() {
+            scrollTimeout = setTimeout(function () {
               scrollToTopBtn.classList.remove("visible");
             }, 3000); // 1 seconds
           } else {
@@ -771,19 +818,22 @@
 
       // EVENT LISTENERS
       // Enable popovers
-      
+
       // Handle verse selection and menu
       let selectedVerses = [];
-      let selectedVersesAddress = '';
-      const verseMenu = document.getElementById('verse-menu');
-      
+      let selectedVersesAddress = "";
+      const verseMenu = document.getElementById("verse-menu");
+
       // Close verse menu when clicking outside
-      document.addEventListener('click', function(e) {
-        if (!e.target.closest('.verse-div') && !e.target.closest('#verse-menu')) {
-          verseMenu.style.display = 'none';
+      document.addEventListener("click", function (e) {
+        if (
+          !e.target.closest(".verse-div") &&
+          !e.target.closest("#verse-menu")
+        ) {
+          verseMenu.style.display = "none";
           // Clear all selections when clicking outside
-          selectedVerses.forEach(verse => {
-            verse.classList.remove('verse-selected');
+          selectedVerses.forEach((verse) => {
+            verse.classList.remove("verse-selected");
           });
           selectedVerses = [];
           updateVerseSelectionHeader();
@@ -791,64 +841,138 @@
       });
 
       function updateVerseSelectionHeader() {
-        const headerDiv = document.getElementById('verseSelectionHeader');
-        const contentDiv = document.getElementById('verseSelectionHeaderContent');
+        const headerDiv = document.getElementById("verseSelectionHeader");
+        const contentDiv = document.getElementById(
+          "verseSelectionHeaderContent"
+        );
 
         if (selectedVerses.length > 0 && selectedVersesAddress) {
           contentDiv.textContent = `Selected: ${selectedVersesAddress}`;
-          headerDiv.style.display = 'block';
+          headerDiv.style.display = "block";
         } else {
-          contentDiv.textContent = '';
-          headerDiv.style.display = 'none';
+          contentDiv.textContent = "";
+          headerDiv.style.display = "none";
         }
       }
-      
+
       // Handle verse click to show menu
-      document.addEventListener('click', function(e) {
-        const verseDiv = e.target.closest('.verse-div');
+      document.addEventListener("click", function (e) {
+        const verseDiv = e.target.closest(".verse-div");
         if (verseDiv) {
           e.preventDefault();
-          
+
           // Toggle selection for the clicked verse
           if (selectedVerses.includes(verseDiv)) {
-            verseDiv.classList.remove('verse-selected');
-            selectedVerses = selectedVerses.filter(v => v !== verseDiv);
+            verseDiv.classList.remove("verse-selected");
+            selectedVerses = selectedVerses.filter((v) => v !== verseDiv);
           } else {
-            verseDiv.classList.add('verse-selected');
+            verseDiv.classList.add("verse-selected");
             selectedVerses.push(verseDiv);
           }
-          
+
           // Show or hide menu based on selection state
           if (selectedVerses.length > 0) {
             // Position menu directly on top of the last selected verse
             const lastVerse = selectedVerses[selectedVerses.length - 1];
             const rect = lastVerse.getBoundingClientRect();
             // Position the menu directly on top of the verse
-            verseMenu.style.top = `${window.scrollY + rect.top + (rect.height / 2)}px`;
+            verseMenu.style.top = `${
+              window.scrollY + rect.top + rect.height / 2
+            }px`;
             verseMenu.style.left = `${rect.right - 70}px`; // Position from right side
             resetCopyButton(); // Reset the copy button state
-            verseMenu.style.display = 'block';
+            verseMenu.style.display = "block";
 
             // Update verse address selection
             const { _, formattedHeader } = formatVerseSelection(selectedVerses);
             selectedVersesAddress = formattedHeader;
             updateVerseSelectionHeader();
           } else {
-            verseMenu.style.display = 'none';
+            verseMenu.style.display = "none";
           }
         }
       });
-      
+
       // Unicode bold mapping (add more characters as needed)
       const boldMap = {
-        'A': '𝗔', 'B': '𝗕', 'C': '𝗖', 'D': '𝗗', 'E': '𝗘', 'F': '𝗙', 'G': '𝗚', 'H': '𝗛', 'I': '𝗜', 'J': '𝗝', 'K': '𝗞', 'L': '𝗟', 'M': '𝗠', 'N': '𝗡', 'O': '𝗢', 'P': '𝗣', 'Q': '𝗤', 'R': '𝗥', 'S': '𝗦', 'T': '𝗧', 'U': '𝗨', 'V': '𝗩', 'W': '𝗪', 'X': '𝗫', 'Y': '𝗬', 'Z': '𝗭',
-        'a': '𝗮', 'b': '𝗯', 'c': '𝗰', 'd': '𝗱', 'e': '𝗲', 'f': '𝗳', 'g': '𝗴', 'h': '𝗵', 'i': '𝗶', 'j': '𝗷', 'k': '𝗸', 'l': '𝗹', 'm': '𝗺', 'n': '𝗻', 'o': '𝗼', 'p': '𝗽', 'q': '𝗾', 'r': '𝗿', 's': '𝘀', 't': '𝘁', 'u': '𝘂', 'v': '𝘃', 'w': '𝘄', 'x': '𝘅', 'y': '𝘆', 'z': '𝘇',
-        '0': '𝟬', '1': '𝟭', '2': '𝟮', '3': '𝟯', '4': '𝟰', '5': '𝟱', '6': '𝟲', '7': '𝟳', '8': '𝟴', '9': '𝟵',
-        ' ': ' ', ':': ':', '-': '-', '(': '(', ')': ')', ',': ',', '.': '.', '(': '(', ')': ')' // Keep some punctuation as is, add parentheses
+        A: "𝗔",
+        B: "𝗕",
+        C: "𝗖",
+        D: "𝗗",
+        E: "𝗘",
+        F: "𝗙",
+        G: "𝗚",
+        H: "𝗛",
+        I: "𝗜",
+        J: "𝗝",
+        K: "𝗞",
+        L: "𝗟",
+        M: "𝗠",
+        N: "𝗡",
+        O: "𝗢",
+        P: "𝗣",
+        Q: "𝗤",
+        R: "𝗥",
+        S: "𝗦",
+        T: "𝗧",
+        U: "𝗨",
+        V: "𝗩",
+        W: "𝗪",
+        X: "𝗫",
+        Y: "𝗬",
+        Z: "𝗭",
+        a: "𝗮",
+        b: "𝗯",
+        c: "𝗰",
+        d: "𝗱",
+        e: "𝗲",
+        f: "𝗳",
+        g: "𝗴",
+        h: "𝗵",
+        i: "𝗶",
+        j: "𝗷",
+        k: "𝗸",
+        l: "𝗹",
+        m: "𝗺",
+        n: "𝗻",
+        o: "𝗼",
+        p: "𝗽",
+        q: "𝗾",
+        r: "𝗿",
+        s: "𝘀",
+        t: "𝘁",
+        u: "𝘂",
+        v: "𝘃",
+        w: "𝘄",
+        x: "𝘅",
+        y: "𝘆",
+        z: "𝘇",
+        0: "𝟬",
+        1: "𝟭",
+        2: "𝟮",
+        3: "𝟯",
+        4: "𝟰",
+        5: "𝟱",
+        6: "𝟲",
+        7: "𝟳",
+        8: "𝟴",
+        9: "𝟵",
+        " ": " ",
+        ":": ":",
+        "-": "-",
+        "(": "(",
+        ")": ")",
+        ",": ",",
+        ".": ".",
+        "(": "(",
+        ")": ")", // Keep some punctuation as is, add parentheses
       };
 
       function toUnicodeBold(str) {
-        return str.split('').map(char => boldMap[char] || char).join('');
+        return str
+          .split("")
+          .map((char) => boldMap[char] || char)
+          .join("");
       }
 
       function formatVerseSelection(selectedVerses) {
@@ -865,43 +989,56 @@
           const allVerseData = [];
 
           // 2. Extract detailed info for each verse
-          sortedVerses.forEach(verseDiv => {
-            const supElement = verseDiv.querySelector('sup');
+          sortedVerses.forEach((verseDiv) => {
+            const supElement = verseDiv.querySelector("sup");
             if (!supElement) return; // Skip if no sup tag found
 
             const chapterVerse = supElement.textContent; // e.g., "7:12"
-            const [chapterStr, verseStr] = chapterVerse.split(':');
+            const [chapterStr, verseStr] = chapterVerse.split(":");
             const chapter = parseInt(chapterStr, 10);
             const verseNum = parseInt(verseStr, 10);
 
             // Get book name from the accordion button text
-            const accordionBody = verseDiv.closest('.accordion-body');
-            const accordionItem = accordionBody ? accordionBody.closest('.accordion-item') : null;
-            const button = accordionItem ? accordionItem.querySelector('.accordion-button') : null;
-            let bookName = 'Unknown Book';
+            const accordionBody = verseDiv.closest(".accordion-body");
+            const accordionItem = accordionBody
+              ? accordionBody.closest(".accordion-item")
+              : null;
+            const button = accordionItem
+              ? accordionItem.querySelector(".accordion-button")
+              : null;
+            let bookName = "Unknown Book";
             if (button) {
-                const buttonText = button.textContent;
-                const match = buttonText.match(/^(.+?)\s\d+/);
-                if (match && match[1]) {
-                    bookName = match[1].trim();
-                }
+              const buttonText = button.textContent;
+              const match = buttonText.match(/^(.+?)\s\d+/);
+              if (match && match[1]) {
+                bookName = match[1].trim();
+              }
             }
 
             // Get plain text content
-            let fullText = verseDiv.textContent || '';
-            const supText = supElement.textContent || '';
-            let plainText = fullText.replace(supText, '').trim();
+            let fullText = verseDiv.textContent || "";
+            const supText = supElement.textContent || "";
+            let plainText = fullText.replace(supText, "").trim();
 
             if (!isNaN(chapter) && !isNaN(verseNum)) {
-              allVerseData.push({ book: bookName, chapter, verse: verseNum, text: plainText });
+              allVerseData.push({
+                book: bookName,
+                chapter,
+                verse: verseNum,
+                text: plainText,
+              });
             }
           });
 
           // 3. Group verses by book and chapter
           const groupedVerses = allVerseData.reduce((acc, verse) => {
             acc[verse.book] = acc[verse.book] || {};
-            acc[verse.book][verse.chapter] = acc[verse.book][verse.chapter] || [];
-            acc[verse.book][verse.chapter].push({ verse: verse.verse, text: verse.text });
+            acc[verse.book][verse.chapter] =
+              acc[verse.book][verse.chapter] || [];
+            acc[verse.book][verse.chapter].push({
+              verse: verse.verse,
+              text: verse.text,
+            });
             return acc;
           }, {});
 
@@ -914,34 +1051,47 @@
 
             for (const chapter in groupedVerses[book]) {
               // All selected verses for this specific book and chapter, sorted
-              const versesInChapter = groupedVerses[book][chapter].sort((a, b) => a.verse - b.verse);
-              
+              const versesInChapter = groupedVerses[book][chapter].sort(
+                (a, b) => a.verse - b.verse
+              );
+
               // Generate the consolidated reference string (e.g., "4, 6-8, 10")
-              const referenceString = generateVerseReferenceString(versesInChapter.map(v => v.verse));
-              
+              const referenceString = generateVerseReferenceString(
+                versesInChapter.map((v) => v.verse)
+              );
+
               // Format the block using the consolidated reference and all verses for the chapter
-              const text = formatChapterBlock(book, chapter, referenceString, versesInChapter, translation);
+              const text = formatChapterBlock(
+                book,
+                chapter,
+                referenceString,
+                versesInChapter,
+                translation
+              );
               finalOutput.push(text);
-              
-              verseInBook.push({chapter: chapter, verses: referenceString});
+
+              verseInBook.push({ chapter: chapter, verses: referenceString });
             }
 
-            listOfHeaders.push({book: book, verses: verseInBook});
+            listOfHeaders.push({ book: book, verses: verseInBook });
           }
 
           // Helper function to generate comma-separated verse/range string
           function generateVerseReferenceString(verseNumbers) {
-            if (!verseNumbers || verseNumbers.length === 0) return '';
-            
+            if (!verseNumbers || verseNumbers.length === 0) return "";
+
             let result = [];
             let rangeStart = verseNumbers[0];
-            
+
             for (let i = 0; i < verseNumbers.length; i++) {
               const currentVerse = verseNumbers[i];
               const nextVerse = verseNumbers[i + 1];
-              
+
               // Check if the next verse is not consecutive or if it's the last verse
-              if (nextVerse !== currentVerse + 1 || i === verseNumbers.length - 1) {
+              if (
+                nextVerse !== currentVerse + 1 ||
+                i === verseNumbers.length - 1
+              ) {
                 if (currentVerse === rangeStart) {
                   // Single verse
                   result.push(`${rangeStart}`);
@@ -955,35 +1105,47 @@
                 }
               }
             }
-            return result.join(', ');
+            return result.join(", ");
           }
 
           // Helper function to format a block for a whole chapter's selection
-          function formatChapterBlock(book, chapter, referenceString, versesData, translation) {
+          function formatChapterBlock(
+            book,
+            chapter,
+            referenceString,
+            versesData,
+            translation
+          ) {
             let header = `${book} ${chapter}:${referenceString} (${translation})`;
             let lines;
             if (boldCopyEnabled) {
-              header = toUnicodeBold(`${book} ${chapter}:${referenceString} (${translation})`);
+              header = toUnicodeBold(
+                `${book} ${chapter}:${referenceString} (${translation})`
+              );
               // Include text for all selected verses in this chapter, sorted, with bold verse numbers
-              lines = versesData.map(v => `${toUnicodeBold(v.verse.toString())} ${v.text}`);
+              lines = versesData.map(
+                (v) => `${toUnicodeBold(v.verse.toString())} ${v.text}`
+              );
             } else {
               // Include text for all selected verses in this chapter, sorted
-              lines = versesData.map(v => `${v.verse} ${v.text}`);
+              lines = versesData.map((v) => `${v.verse} ${v.text}`);
             }
-            return header + '\n' + lines.join('\n');
+            return header + "\n" + lines.join("\n");
           }
 
           function formatBibleHeader(data) {
-              const result = data.map(entry => {
-                  const book = entry.book;
-                  const versesGroup = entry.verses.map(v => `${v.chapter}:${v.verses}`);
-                  return `${book} ${versesGroup.join(', ')}`;
-              });
-              return result.join(', ') + ` (${translation})`;
+            const result = data.map((entry) => {
+              const book = entry.book;
+              const versesGroup = entry.verses.map(
+                (v) => `${v.chapter}:${v.verses}`
+              );
+              return `${book} ${versesGroup.join(", ")}`;
+            });
+            return result.join(", ") + ` (${translation})`;
           }
 
           // 6. Combine blocks
-          const formattedText = finalOutput.join('\n\n');
+          const formattedText = finalOutput.join("\n\n");
           const formattedHeader = formatBibleHeader(listOfHeaders);
 
           return { formattedText, formattedHeader };
@@ -992,10 +1154,12 @@
 
       // Enhanced copy verse functionality with fallback
       let copyButtonTimeout = null;
-      const copyButton = document.getElementById('copy-verse');
+      const copyButton = document.getElementById("copy-verse");
       const originalButtonText = copyButton.innerHTML;
-      const successIcon = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
-      const errorIcon = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>';
+      const successIcon =
+        '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+      const errorIcon =
+        '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>';
 
       function resetCopyButton() {
         if (copyButtonTimeout) {
@@ -1006,67 +1170,68 @@
       }
 
       // Reset button when new verse is selected
-      document.addEventListener('verseSelected', resetCopyButton);
+      document.addEventListener("verseSelected", resetCopyButton);
 
-      copyButton.addEventListener('click', async function() {
-          const { formattedText, _ } = formatVerseSelection(selectedVerses);
-          resetCopyButton(); // Reset any previous state
+      copyButton.addEventListener("click", async function () {
+        const { formattedText, _ } = formatVerseSelection(selectedVerses);
+        resetCopyButton(); // Reset any previous state
 
-          try {
-            // Try modern clipboard API first
-            if (navigator.clipboard) {
-              await navigator.clipboard.writeText(formattedText);
-            } else {
-              // Fallback for older browsers
-              const textarea = document.createElement('textarea');
-              textarea.value = formattedText;
-              textarea.style.position = 'fixed';  // Prevent scrolling to bottom
-              document.body.appendChild(textarea);
-              textarea.select();
-              
-              if (!document.execCommand('copy')) {
-                throw new Error('Copy command failed');
-              }
-              document.body.removeChild(textarea);
+        try {
+          // Try modern clipboard API first
+          if (navigator.clipboard) {
+            await navigator.clipboard.writeText(formattedText);
+          } else {
+            // Fallback for older browsers
+            const textarea = document.createElement("textarea");
+            textarea.value = formattedText;
+            textarea.style.position = "fixed"; // Prevent scrolling to bottom
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            if (!document.execCommand("copy")) {
+              throw new Error("Copy command failed");
             }
-
-            // GA Event (only if gtag is available and translation is defined)
-            if (typeof gtag === 'function') {
-              try {
-                const truncatedText = formattedText.substring(0, 100);
-                const eventData = {
-                  'method': 'copy',
-                  'content_type': 'bible_verse_formatted_multi',
-                  'item_id': truncatedText
-                };
-                if (typeof translation !== 'undefined') {
-                  eventData.selected_version = translation;
-                }
-                gtag('event', 'share', eventData);
-              } catch (gaErr) {
-                console.warn('GA tracking failed:', gaErr);
-              }
-            }
-
-            // Show success feedback
-            copyButton.innerHTML = `${successIcon}Copied!`;
-            copyButtonTimeout = setTimeout(() => {
-              copyButton.innerHTML = originalButtonText;
-              copyButtonTimeout = null;
-            }, 2000);
-          } catch (err) {
-            console.error('Copy failed:', err);
-            // Show error feedback
-            copyButton.innerHTML = `${errorIcon}Failed to copy`;
-            copyButtonTimeout = setTimeout(() => {
-              copyButton.innerHTML = originalButtonText;
-              copyButtonTimeout = null;
-            }, 2000);
-            // Show error feedback
-            button.innerHTML = `${errorIcon}Failed to copy`;
-            setTimeout(() => { button.innerHTML = originalText; }, 2000);
+            document.body.removeChild(textarea);
           }
-        
+
+          // GA Event (only if gtag is available and translation is defined)
+          if (typeof gtag === "function") {
+            try {
+              const truncatedText = formattedText.substring(0, 100);
+              const eventData = {
+                method: "copy",
+                content_type: "bible_verse_formatted_multi",
+                item_id: truncatedText,
+              };
+              if (typeof translation !== "undefined") {
+                eventData.selected_version = translation;
+              }
+              gtag("event", "share", eventData);
+            } catch (gaErr) {
+              console.warn("GA tracking failed:", gaErr);
+            }
+          }
+
+          // Show success feedback
+          copyButton.innerHTML = `${successIcon}Copied!`;
+          copyButtonTimeout = setTimeout(() => {
+            copyButton.innerHTML = originalButtonText;
+            copyButtonTimeout = null;
+          }, 2000);
+        } catch (err) {
+          console.error("Copy failed:", err);
+          // Show error feedback
+          copyButton.innerHTML = `${errorIcon}Failed to copy`;
+          copyButtonTimeout = setTimeout(() => {
+            copyButton.innerHTML = originalButtonText;
+            copyButtonTimeout = null;
+          }, 2000);
+          // Show error feedback
+          button.innerHTML = `${errorIcon}Failed to copy`;
+          setTimeout(() => {
+            button.innerHTML = originalText;
+          }, 2000);
+        }
       });
 
       document.addEventListener("DOMContentLoaded", function () {
@@ -1096,48 +1261,48 @@
 
         popoverBtn.addEventListener("click", function () {
           const isHidden = getComputedStyle(popoverContent).display === "none";
-          
+
           // GA Event (Track toggle action)
-          if (typeof gtag === 'function') {
-            gtag('event', 'toggle_settings', {
-              'ui_element': 'settings_button',
-              'selected_version': getCurrentVersion()
+          if (typeof gtag === "function") {
+            gtag("event", "toggle_settings", {
+              ui_element: "settings_button",
+              selected_version: getCurrentVersion(),
             });
           }
 
           // Get width of the popover when it's visible
           const popoverWidth = getVisibleWidth(popoverContent);
-          
+
           // Get the screen width
           const screenWidth = window.innerWidth;
-          
+
           // Position the popover to the left of the button and aligned to its top edge
           const rect = popoverBtn.getBoundingClientRect();
-          
+
           // Calculate left position based on screen width
           let leftPosition = rect.left - popoverWidth + window.scrollX;
-          
+
           // If the screen is wide, adjust the left position based on the centered .fixed-width-large element
           if (screenWidth >= 992) {
             leftPosition = 674;
           }
-          
+
           popoverContent.style.top = `${rect.top + window.scrollY}px`;
           popoverContent.style.left = `${leftPosition}px`;
-          
+
           if (isHidden) {
             // First make it visible but with opacity 0
             popoverContent.style.display = "block";
-            
+
             // Force a reflow to ensure the transition works
             popoverContent.offsetHeight;
-            
+
             // Then add the show class to trigger the animation
             popoverContent.classList.add("show");
           } else {
             // Remove the show class first to trigger the fade out
             popoverContent.classList.remove("show");
-            
+
             // After the transition completes, hide the element
             setTimeout(() => {
               popoverContent.style.display = "none";
@@ -1150,34 +1315,34 @@
 
       document.addEventListener("DOMContentLoaded", function () {
         const fontSizeSlider = document.getElementById("font-size-slider");
-        
+
         // Map slider values to font size classes
         const fontSizeMap = {
-          "1": "small-font-size",
-          "2": "medium-font-size",
-          "3": "large-font-size"
+          1: "small-font-size",
+          2: "medium-font-size",
+          3: "large-font-size",
         };
-        
-        fontSizeSlider.addEventListener("input", function() {
+
+        fontSizeSlider.addEventListener("input", function () {
           const value = this.value;
           const newFontSizeClass = fontSizeMap[value];
           const oldFontSizeClass = fontSize;
-          
+
           document.querySelectorAll(".verse-div").forEach((element) => {
             element.className = "verse-div"; // Reset class first
             // element.classList.remove(oldFontSizeClass); // Removing specific class might be brittle if state is inconsistent
             element.classList.add(newFontSizeClass);
           });
-          
+
           fontSize = newFontSizeClass;
           setCookie("fontSize", fontSize, 365);
 
           // GA Event
-          if (typeof gtag === 'function') {
-            gtag('event', 'change_setting', {
-              'setting_type': 'font_size',
-              'setting_value': newFontSizeClass,
-              'selected_version': getCurrentVersion()
+          if (typeof gtag === "function") {
+            gtag("event", "change_setting", {
+              setting_type: "font_size",
+              setting_value: newFontSizeClass,
+              selected_version: getCurrentVersion(),
             });
           }
         });
@@ -1187,14 +1352,14 @@
 
       document.addEventListener("DOMContentLoaded", function () {
         const modeToggle = document.getElementById("mode-toggle");
-        
-        modeToggle.addEventListener("change", function() {
+
+        modeToggle.addEventListener("change", function () {
           const mode = this.checked ? "dark" : "light";
           document.documentElement.dataset.bsTheme = mode;
-          
+
           let lastButtonMode = modeToButton[currentMode];
           let newButtonMode = modeToButton[mode];
-          
+
           // Update all buttons with the new mode styling
           document
             .querySelectorAll(`.btn-${lastButtonMode}`)
@@ -1204,33 +1369,34 @@
                 element.classList.add(`btn-${newButtonMode}`);
               }
             });
-          
+
           document
             .querySelectorAll(`.btn-outline-${lastButtonMode}`)
             .forEach((element) => {
               element.classList.remove(`btn-outline-${lastButtonMode}`);
               element.classList.add(`btn-outline-${newButtonMode}`);
             });
-          
+
           currentMode = mode;
           setCookie("mode", mode, 365);
-          
+
           // For popover
           const popoverContent = document.getElementById("popoverContent");
-          if (popoverContent) { // Check if popover exists
-             if (mode === "dark") {
-               popoverContent.classList.add("dark-mode");
-             } else {
-               popoverContent.classList.remove("dark-mode");
-             }
+          if (popoverContent) {
+            // Check if popover exists
+            if (mode === "dark") {
+              popoverContent.classList.add("dark-mode");
+            } else {
+              popoverContent.classList.remove("dark-mode");
+            }
           }
 
           // GA Event
-          if (typeof gtag === 'function') {
-            gtag('event', 'change_setting', {
-              'setting_type': 'theme',
-              'setting_value': mode,
-              'selected_version': getCurrentVersion()
+          if (typeof gtag === "function") {
+            gtag("event", "change_setting", {
+              setting_type: "theme",
+              setting_value: mode,
+              selected_version: getCurrentVersion(),
             });
           }
         });
@@ -1264,7 +1430,7 @@
         const fontSizeMap = {
           "small-font-size": "1",
           "medium-font-size": "2",
-          "large-font-size": "3"
+          "large-font-size": "3",
         };
         const sliderValue = fontSizeMap[fontSizeCookie] || "2"; // Default to medium
         fontSizeSlider.value = sliderValue;
@@ -1276,13 +1442,15 @@
           element.className = "verse-div"; // Reset classes
           element.classList.add(fontSize);
         });
-        
+
         // Apply bold copy setting (default to true if cookie not set or is 'true')
         const boldCopyCookie = getCookie("boldCopy");
-        if (boldCopyCookie === "false") { // Only disable if explicitly set to false
+        if (boldCopyCookie === "false") {
+          // Only disable if explicitly set to false
           boldCopyToggle.checked = false;
           boldCopyEnabled = false;
-        } else { // Default to true or if cookie is 'true'
+        } else {
+          // Default to true or if cookie is 'true'
           boldCopyToggle.checked = true;
           boldCopyEnabled = true;
         }
@@ -1290,33 +1458,33 @@
         // --- GA Event Listeners ---
 
         // Accordion Button Click (using event delegation)
-        const versesOutput = document.getElementById('verses-output');
+        const versesOutput = document.getElementById("verses-output");
         if (versesOutput) {
-          versesOutput.addEventListener('click', function(event) {
-            const button = event.target.closest('.accordion-button');
-            if (button && typeof gtag === 'function') {
-              gtag('event', 'select_content', {
-                'content_type': 'bible_book_chapter',
-                'item_id': button.textContent.trim(), // Get text like "Genesis 1:1-16"
-                'selected_version': getCurrentVersion()
+          versesOutput.addEventListener("click", function (event) {
+            const button = event.target.closest(".accordion-button");
+            if (button && typeof gtag === "function") {
+              gtag("event", "select_content", {
+                content_type: "bible_book_chapter",
+                item_id: button.textContent.trim(), // Get text like "Genesis 1:1-16"
+                selected_version: getCurrentVersion(),
               });
             }
           });
         }
 
         // Scroll to Top Button Click
-        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        const scrollToTopBtn = document.getElementById("scrollToTopBtn");
         if (scrollToTopBtn) {
           // Remove existing onclick attribute if present (optional, but cleaner)
           // scrollToTopBtn.removeAttribute('onclick');
-          
-          scrollToTopBtn.addEventListener('click', function() {
+
+          scrollToTopBtn.addEventListener("click", function () {
             scrollToTop(); // Call the existing scroll function
             // GA Event
-            if (typeof gtag === 'function') {
-              gtag('event', 'scroll_to_top', {
-                'ui_element': 'scroll_top_button',
-                'selected_version': getCurrentVersion()
+            if (typeof gtag === "function") {
+              gtag("event", "scroll_to_top", {
+                ui_element: "scroll_top_button",
+                selected_version: getCurrentVersion(),
               });
             }
           });
@@ -1325,15 +1493,15 @@
 
         // --- Bold Copy Toggle Listener ---
         if (boldCopyToggle) {
-          boldCopyToggle.addEventListener('change', function() {
+          boldCopyToggle.addEventListener("change", function () {
             boldCopyEnabled = this.checked;
             setCookie("boldCopy", boldCopyEnabled, 365);
             // GA Event (Optional: Track if this setting change is valuable)
-            if (typeof gtag === 'function') {
-              gtag('event', 'change_setting', {
-                'setting_type': 'bold_copy',
-                'setting_value': boldCopyEnabled,
-                'selected_version': getCurrentVersion()
+            if (typeof gtag === "function") {
+              gtag("event", "change_setting", {
+                setting_type: "bold_copy",
+                setting_value: boldCopyEnabled,
+                selected_version: getCurrentVersion(),
               });
             }
           });
@@ -1343,12 +1511,12 @@
         // --- Engagement Heartbeat ---
         function sendEngagementHeartbeat() {
           // Only send if the tab is visible and gtag is available
-          if (!document.hidden && typeof gtag === 'function') {
-            gtag('event', 'user_heartbeat', {
-              'event_category': 'engagement',
-              'event_label': 'active_tab',
-              'non_interaction': true, // Important: Mark as non-interaction to avoid affecting bounce rate
-              'selected_version': getCurrentVersion() // Add context
+          if (!document.hidden && typeof gtag === "function") {
+            gtag("event", "user_heartbeat", {
+              event_category: "engagement",
+              event_label: "active_tab",
+              non_interaction: true, // Important: Mark as non-interaction to avoid affecting bounce rate
+              selected_version: getCurrentVersion(), // Add context
             });
           }
         }
@@ -1356,7 +1524,6 @@
         // Send heartbeat every 30 seconds
         setInterval(sendEngagementHeartbeat, 30000);
         // --- End Engagement Heartbeat ---
-
       });
     </script>
     <button
@@ -1365,8 +1532,16 @@
       onclick="scrollToTop()"
       aria-label="Scroll to top"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M7.646 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 6.207V11.5a.5.5 0 0 1-1 0V6.207L5.354 8.354a.5.5 0 1 1-.708-.708l3-3z"/>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M7.646 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 6.207V11.5a.5.5 0 0 1-1 0V6.207L5.354 8.354a.5.5 0 1 1-.708-.708l3-3z"
+        />
       </svg>
     </button>
     <div id="verseSelectionHeader" class="verse-selection-header">
