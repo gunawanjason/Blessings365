@@ -198,25 +198,66 @@ button > svg {
   border: none;
   margin-bottom: 12px;
   background-color: transparent;
+  min-width: 0;
+  width: 100%;
+}
+
+.accordion-collapse {
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.comparison-container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.version-panel {
+  flex: 1 0 0;
+  min-width: 0;
+  max-width: calc(50% - 10px);
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .version-panel {
+    min-width: calc(97vw - 40px);
+    width: calc(97vw - 40px);
+    max-width: calc(97vw - 40px);
+    flex: 0 0 calc(97vw - 40px); /* Set flex-basis to the explicit width */
+    overflow: hidden; /* Ensure overflow is explicitly hidden */
+    box-sizing: border-box; /* Include padding/border in width calculation */
+  }
+}
+
+.accordion {
+  width: 100%;
+  min-width: 0;
+}
+
+.verses-content {
+  width: 100%;
+  min-width: 0;
 }
 
 .accordion-body {
   padding: 12px 10px;
+  overflow: visible;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .verse-div {
   margin-bottom: 0;
-  line-height: 1.5;
-  padding: 6px 16px;
-  background-color: var(--bs-body-bg);
-  transition: all 0.3s ease-in-out;
-  border-bottom: none;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, sans-serif;
-  letter-spacing: 0.015em;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
+  white-space: normal;
+  word-break: break-word;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
 }
 
 .verse-div:hover {
