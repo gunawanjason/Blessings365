@@ -24,8 +24,8 @@
       .version-panel {
         min-width: 0;
         scroll-snap-align: start;
-        flex: 0 0 auto;
-        width: 50%;
+        flex: 1 1 0;
+        width: auto;
       }
       .version-panel {
         border: 1px solid #dee2e6;
@@ -79,7 +79,15 @@
       @media (max-width: 768px) {
         .version-panel {
           min-width: 0;
+          flex-basis: 100%;
           width: 100%;
+        }
+        @media (max-width: 768px) {
+          .version-panel {
+            min-width: calc(97vw - 40px);
+            flex: 0 0 auto;
+            width: auto;
+          }
         }
       }
     </style>
