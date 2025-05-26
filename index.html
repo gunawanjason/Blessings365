@@ -1337,7 +1337,7 @@
           });
 
           fontSize = newFontSizeClass;
-          setCookie("fontSize", fontSize, 365);
+          localStorage.setItem("fontSize", fontSize);
 
           // GA Event
           if (typeof gtag === "function") {
@@ -1380,7 +1380,7 @@
             });
 
           currentMode = mode;
-          setCookie("mode", mode, 365);
+          localStorage.setItem("mode", mode);
 
           // For popover
           const popoverContent = document.getElementById("popoverContent");
@@ -1406,8 +1406,8 @@
 
       // Apply saved settings from cookies on page load
       document.addEventListener("DOMContentLoaded", function () {
-        const modeCookie = getCookie("mode");
-        const fontSizeCookie = getCookie("fontSize");
+        const modeCookie = localStorage.getItem("mode");
+        const fontSizeCookie = localStorage.getItem("fontSize");
         const modeToggle = document.getElementById("mode-toggle");
         const boldCopyToggle = document.getElementById("bold-copy-toggle");
         const fontSizeSlider = document.getElementById("font-size-slider");
@@ -1446,7 +1446,7 @@
         });
 
         // Apply bold copy setting (default to true if cookie not set or is 'true')
-        const boldCopyCookie = getCookie("boldCopy");
+        const boldCopyCookie = localStorage.getItem("boldCopy");
         if (boldCopyCookie === "false") {
           // Only disable if explicitly set to false
           boldCopyToggle.checked = false;
@@ -1497,7 +1497,7 @@
         if (boldCopyToggle) {
           boldCopyToggle.addEventListener("change", function () {
             boldCopyEnabled = this.checked;
-            setCookie("boldCopy", boldCopyEnabled, 365);
+            localStorage.setItem("boldCopy", boldCopyEnabled.toString());
             // GA Event (Optional: Track if this setting change is valuable)
             if (typeof gtag === "function") {
               gtag("event", "change_setting", {
