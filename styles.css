@@ -274,7 +274,7 @@ button > svg {
   transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-.verse-div:hover {
+.verse-div:hover:not(.verse-selected) {
   background-color: rgba(108, 117, 125, 0.03);
 }
 
@@ -300,7 +300,7 @@ button > svg {
   border-bottom-color: rgba(108, 117, 125, 0.2);
 }
 
-[data-bs-theme="dark"] .verse-div:hover {
+[data-bs-theme="dark"] .verse-div:hover:not(.verse-selected) {
   background-color: rgba(108, 117, 125, 0.1);
 }
 
