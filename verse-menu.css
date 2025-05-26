@@ -48,4 +48,7 @@
 .verse-selected {
   background-color: rgba(108, 117, 125, 0.15);
   position: relative;
+  transition: background-color 0.3s ease;
+  border-left: 3px solid #0d6efd;
+  padding-left: 7px;
 }
