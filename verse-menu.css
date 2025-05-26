@@ -52,3 +52,12 @@
   border-left: 3px solid #0d6efd;
   padding-left: 7px;
 }
+
+/* Remove hover effects when verse is selected */
+.verse-div:hover:not(.verse-selected) {
+  background-color: rgba(108, 117, 125, 0.03);
+}
+
+[data-bs-theme="dark"] .verse-div:hover:not(.verse-selected) {
+  background-color: rgba(108, 117, 125, 0.1);
+}
