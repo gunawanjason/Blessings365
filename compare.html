@@ -298,14 +298,27 @@
         </div>
       </div>
 
-      <!-- Verse menu for sharing and copying -->
+      <!-- Verse menu for sharing and copying (simplified) -->
       <div id="verse-menu" class="verse-menu">
-        <div class="verse-menu-item" id="copy-verse">
+        <!-- Menu items can be added here for other functions if needed -->
+      </div>
+    </div>
+
+    <!-- Footer with copy functionality -->
+    <footer id="main-footer" class="main-footer">
+      <div class="footer-content">
+        <button
+          id="copy-verse"
+          class="btn btn-outline-primary copy-button"
+          disabled
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
+            width="14"
+            height="14"
           >
             <path
               stroke-linecap="round"
@@ -315,9 +328,12 @@
             />
           </svg>
           Copy
+        </button>
+        <div class="footer-info">
+          <span id="selection-count">Select verses to copy</span>
         </div>
       </div>
-    </div>
+    </footer>
 
     <script>
       // Initialize theme and reader settings from localStorage immediately
@@ -998,13 +1014,10 @@
         }
       })();
 
-      // Include common functionality from the main app (settings, copy, etc.)
-      // This is a simplified version - you would import the full functionality
-
-      // Handle verse selection and menu
+      // Handle verse selection and footer
       let selectedVerses = [];
       let selectedVersesAddress = "";
-      const verseMenu = document.getElementById("verse-menu");
+      let verseMenu, footer, selectionCount;
 
       // Close verse menu when clicking outside
       document.addEventListener("click", function (e) {
@@ -1018,10 +1031,32 @@
             verse.classList.remove("verse-selected");
           });
           selectedVerses = [];
+          updateFooterVisibility();
         }
       });
 
-      // Handle verse click to show menu
+      function updateFooterVisibility() {
+        if (!footer || !selectionCount) return;
+
+        const copyButton = document.getElementById("copy-verse");
+        if (!copyButton) return;
+
+        if (selectedVerses.length > 0) {
+          footer.classList.add("show");
+          copyButton.disabled = false;
+
+          // Show only the count, no addresses
+          const count = selectedVerses.length;
+          const verseText = count === 1 ? "verse" : "verses";
+          selectionCount.textContent = `${count} ${verseText} selected`;
+        } else {
+          footer.classList.remove("show");
+          copyButton.disabled = true;
+          selectionCount.textContent = "Select verses to copy";
+        }
+      }
+
+      // Handle verse click to show footer
       document.addEventListener("click", function (e) {
         const verseDiv = e.target.closest(".verse-div");
         if (verseDiv) {
@@ -1036,25 +1071,17 @@
             selectedVerses.push(verseDiv);
           }
 
-          // Show or hide menu based on selection state
+          // Update verse address selection and footer
           if (selectedVerses.length > 0) {
-            // Position menu directly on top of the last selected verse
-            const lastVerse = selectedVerses[selectedVerses.length - 1];
-            const rect = lastVerse.getBoundingClientRect();
-            // Position the menu directly on top of the verse
-            verseMenu.style.top = `${
-              window.scrollY + rect.top + rect.height / 2
-            }px`;
-            verseMenu.style.left = `${rect.right - 70}px`; // Position from right side
+            const { formattedText, formattedHeader } =
+              formatVerseSelection(selectedVerses);
+            selectedVersesAddress = formattedHeader || "";
             resetCopyButton(); // Reset the copy button state
-            verseMenu.style.display = "block";
-
-            // Update verse address selection
-            const { _, formattedHeader } = formatVerseSelection(selectedVerses);
-            selectedVersesAddress = formattedHeader;
-          } else {
-            verseMenu.style.display = "none";
           }
+
+          // Always hide the verse menu since we're using footer
+          verseMenu.style.display = "none";
+          updateFooterVisibility();
         }
       });
 
@@ -1239,7 +1266,7 @@
 
                 if (versesInBlock.length === 0) continue;
 
-                // The translation for this block is simply the 'translation' key from our loop
+                // The translation forß this block is simply the 'translation' key from our loop
                 const translationForThisBlock = translation;
 
                 const referenceString = generateVerseReferenceString(
@@ -1309,68 +1336,110 @@
 
           const formattedText = finalOutput.join("\n\n");
 
-          // The formattedHeader is not used in the copy functionality of index.html, so we remove it here as well.
-          return { formattedText };
+          // Generate a simple header showing selected verses for footer display
+          let formattedHeader = "";
+          if (allVerseData.length > 0) {
+            // Group by book for header display
+            const bookGroups = {};
+            allVerseData.forEach((verse) => {
+              if (!bookGroups[verse.book]) {
+                bookGroups[verse.book] = [];
+              }
+              bookGroups[verse.book].push(`${verse.chapter}:${verse.verse}`);
+            });
+
+            const headerParts = [];
+            for (const book in bookGroups) {
+              headerParts.push(`${book} ${bookGroups[book].join(", ")}`);
+            }
+            formattedHeader = headerParts.join("; ");
+          }
+
+          return { formattedText, formattedHeader };
         }
       }
 
-      // Enhanced copy verse functionality with fallback
+      // Enhanced copy verse functionality with fallback (improved from index.html)
       let copyButtonTimeout = null;
-      const copyButton = document.getElementById("copy-verse");
-      const originalButtonText = copyButton.innerHTML;
+      let copyButton, originalButtonText;
       const successIcon =
-        '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+        '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
       const errorIcon =
-        '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>';
+        '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>';
 
       function resetCopyButton() {
         if (copyButtonTimeout) {
           clearTimeout(copyButtonTimeout);
           copyButtonTimeout = null;
         }
-        copyButton.innerHTML = originalButtonText;
+        if (copyButton && originalButtonText) {
+          copyButton.innerHTML = originalButtonText;
+        }
       }
 
-      copyButton.addEventListener("click", async function () {
-        const translation = getCurrentVersion(); // This might need to be determined per selection if multiple panels are involved
-        const { formattedText } = formatVerseSelection(
-          selectedVerses,
-          translation
-        ); // Adjusted to expect only formattedText
-        resetCopyButton();
+      // Reset button when new verse is selected
+      document.addEventListener("verseSelected", resetCopyButton);
 
-        try {
-          if (navigator.clipboard) {
-            await navigator.clipboard.writeText(formattedText);
-          } else {
-            const textarea = document.createElement("textarea");
-            textarea.value = formattedText;
-            textarea.style.position = "fixed";
-            document.body.appendChild(textarea);
-            textarea.select();
+      function attachCopyButtonListener() {
+        copyButton = document.getElementById("copy-verse");
+        if (!copyButton) return;
 
-            if (!document.execCommand("copy")) {
-              throw new Error("Copy command failed");
+        originalButtonText = copyButton.innerHTML;
+
+        copyButton.addEventListener("click", async function () {
+          const { formattedText } = formatVerseSelection(selectedVerses);
+          resetCopyButton(); // Reset any previous state
+
+          try {
+            // Try modern clipboard API first
+            if (navigator.clipboard) {
+              await navigator.clipboard.writeText(formattedText);
+            } else {
+              // Fallback for older browsers
+              const textarea = document.createElement("textarea");
+              textarea.value = formattedText;
+              textarea.style.position = "fixed"; // Prevent scrolling to bottom
+              document.body.appendChild(textarea);
+              textarea.select();
+
+              if (!document.execCommand("copy")) {
+                throw new Error("Copy command failed");
+              }
+              document.body.removeChild(textarea);
             }
-            document.body.removeChild(textarea);
-          }
 
-          // Show success feedback
-          copyButton.innerHTML = `${successIcon}Copied!`;
-          copyButtonTimeout = setTimeout(() => {
-            copyButton.innerHTML = originalButtonText;
-            copyButtonTimeout = null;
-          }, 2000);
-        } catch (err) {
-          console.error("Copy failed:", err);
-          // Show error feedback
-          copyButton.innerHTML = `${errorIcon}Failed to copy`;
-          copyButtonTimeout = setTimeout(() => {
-            copyButton.innerHTML = originalButtonText;
-            copyButtonTimeout = null;
-          }, 2000);
-        }
-      });
+            // GA Event (only if gtag is available)
+            if (typeof gtag === "function") {
+              try {
+                const truncatedText = formattedText.substring(0, 100);
+                const eventData = {
+                  method: "copy",
+                  content_type: "bible_verse_formatted_multi_compare",
+                  item_id: truncatedText,
+                };
+                gtag("event", "share", eventData);
+              } catch (gaErr) {
+                console.warn("GA tracking failed:", gaErr);
+              }
+            }
+
+            // Show success feedback
+            copyButton.innerHTML = `${successIcon}Copied`;
+            copyButtonTimeout = setTimeout(() => {
+              copyButton.innerHTML = originalButtonText;
+              copyButtonTimeout = null;
+            }, 2000);
+          } catch (err) {
+            console.error("Copy failed:", err);
+            // Show error feedback
+            copyButton.innerHTML = `${errorIcon}Failed to copy`;
+            copyButtonTimeout = setTimeout(() => {
+              copyButton.innerHTML = originalButtonText;
+              copyButtonTimeout = null;
+            }, 2000);
+          }
+        });
+      }
 
       // Settings functionality
       document.addEventListener("DOMContentLoaded", function () {
@@ -1380,6 +1449,18 @@
         const modeToggle = document.getElementById("mode-toggle");
         const boldCopyToggle = document.getElementById("bold-copy-toggle");
         const fontSizeSlider = document.getElementById("font-size-slider");
+
+        // Initialize footer elements
+        verseMenu = document.getElementById("verse-menu");
+        footer = document.getElementById("main-footer");
+        selectionCount = document.getElementById("selection-count");
+        copyButton = document.getElementById("copy-verse");
+        if (copyButton) {
+          originalButtonText = copyButton.innerHTML;
+        }
+
+        // Initialize copy button functionality
+        attachCopyButtonListener();
 
         // Initialize bold copy setting from cookie
         if (boldCopyCookie !== "") {
