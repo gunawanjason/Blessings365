@@ -191,6 +191,30 @@
         background: transparent;
       }
 
+      /* Ensure verse selection styles take precedence without affecting dimensions */
+      .verse-div.verse-selected {
+        background-color: rgba(108, 117, 125, 0.15) !important;
+        border-left: 3px solid #0d6efd !important;
+        transition: background-color 0.3s ease;
+        position: relative;
+        box-sizing: border-box !important;
+        /* Use margin instead of padding to avoid changing internal dimensions */
+        margin-left: 7px !important;
+        /* Compensate for the border width to maintain exact same width */
+        width: calc(100% - 7px) !important;
+      }
+
+      /* Dark mode support for selected verses */
+      [data-bs-theme="dark"] .verse-div.verse-selected {
+        background-color: rgba(108, 117, 125, 0.2) !important;
+      }
+
+      /* Ensure synchronization works even with selected verses */
+      .verse-div {
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+      }
+
       /* Ensure consistent line heights */
       .verse-div.small-font-size {
         line-height: 1.4;
@@ -204,22 +228,7 @@
         line-height: 1.8;
       }
 
-      /* Verse selection highlighting - same as index.html */
-      .verse-selected {
-        background-color: rgba(108, 117, 125, 0.15);
-        position: relative;
-        transition: background-color 0.3s ease;
-        border-left: 3px solid #0d6efd;
-        padding-left: 7px;
-      }
-
-      /* Remove hover effects when verse is selected */
-      .verse-div:hover:not(.verse-selected) {
-        background-color: var(--bs-tertiary-bg);
-        border-radius: 0.375rem;
-        padding: 0.5rem;
-        margin: 0.25rem 0;
-      }
+      /* Verse selection and hover styles are handled by external CSS files (verse-menu.css and styles.css) */
     </style>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -766,6 +775,43 @@
             currentSelectedText = selection.toString().trim();
           }
         });
+
+        // Add click listeners for verse selection
+        container.addEventListener("click", function (e) {
+          const verseDiv = e.target.closest(".verse-div");
+          if (verseDiv && !verseDiv.classList.contains("verse-placeholder")) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Toggle selection for the clicked verse
+            if (selectedVerses.includes(verseDiv)) {
+              verseDiv.classList.remove("verse-selected");
+              selectedVerses = selectedVerses.filter((v) => v !== verseDiv);
+            } else {
+              verseDiv.classList.add("verse-selected");
+              selectedVerses.push(verseDiv);
+            }
+
+            // Update verse address selection and footer
+            if (selectedVerses.length > 0) {
+              const { formattedText, formattedHeader } =
+                formatVerseSelection(selectedVerses);
+              selectedVersesAddress = formattedHeader || "";
+              resetCopyButton(); // Reset the copy button state
+            }
+
+            // Always hide the verse menu since we're using footer
+            if (verseMenu) {
+              verseMenu.style.display = "none";
+            }
+            updateFooterVisibility();
+
+            // Re-synchronize verse heights after selection change to maintain comparison alignment
+            setTimeout(() => {
+              synchronizeVerseHeights();
+            }, 50);
+          }
+        });
       }
 
       function displayVerses(data, translation, panelNumber) {
@@ -1001,39 +1047,14 @@
         }, 50);
       }
 
-      // Function to synchronize verse heights between panels
+      // Function to synchronize verses by inserting placeholders for missing verses
       function synchronizeVerseHeights() {
         const panel1 = document.getElementById("versesAccordion1");
         const panel2 = document.getElementById("versesAccordion2");
 
         if (!panel1 || !panel2) return;
 
-        // Get all accordion items from both panels
-        const items1 = panel1.querySelectorAll(".accordion-item");
-        const items2 = panel2.querySelectorAll(".accordion-item");
-
-        // Synchronize accordion item heights
-        for (let i = 0; i < Math.max(items1.length, items2.length); i++) {
-          const item1 = items1[i];
-          const item2 = items2[i];
-
-          if (item1 && item2) {
-            // Reset heights first
-            item1.style.minHeight = "auto";
-            item2.style.minHeight = "auto";
-
-            // Get natural heights
-            const height1 = item1.offsetHeight;
-            const height2 = item2.offsetHeight;
-            const maxHeight = Math.max(height1, height2);
-
-            // Apply max height to both
-            item1.style.minHeight = maxHeight + "px";
-            item2.style.minHeight = maxHeight + "px";
-          }
-        }
-
-        // Synchronize verse divs within expanded accordion bodies
+        // Synchronize verse alignment within expanded accordion bodies
         const expandedBodies1 = panel1.querySelectorAll(
           ".accordion-collapse.show .accordion-body"
         );
@@ -1041,33 +1062,147 @@
           ".accordion-collapse.show .accordion-body"
         );
 
-        expandedBodies1.forEach((body1, index) => {
-          const body2 = expandedBodies2[index];
+        // Match expanded bodies by their book identifier
+        expandedBodies1.forEach((body1) => {
+          const accordion1 = body1.closest(".accordion-item");
+          const button1 = accordion1.querySelector(".accordion-button");
+          if (!button1) return;
+
+          const bookId =
+            button1.getAttribute("data-original-book") ||
+            button1.id.split("-button")[0];
+
+          // Find the corresponding body in panel 2
+          const body2 = Array.from(expandedBodies2).find((body) => {
+            const accordion2 = body.closest(".accordion-item");
+            const button2 = accordion2.querySelector(".accordion-button");
+            if (!button2) return false;
+            const bookId2 =
+              button2.getAttribute("data-original-book") ||
+              button2.id.split("-button")[0];
+            return bookId === bookId2;
+          });
+
           if (body2) {
-            const verses1 = body1.querySelectorAll(".verse-div");
-            const verses2 = body2.querySelectorAll(".verse-div");
-
-            for (let i = 0; i < Math.max(verses1.length, verses2.length); i++) {
-              const verse1 = verses1[i];
-              const verse2 = verses2[i];
-
-              if (verse1 && verse2) {
-                // Reset heights
-                verse1.style.minHeight = "auto";
-                verse2.style.minHeight = "auto";
-
-                // Get natural heights
-                const verseHeight1 = verse1.offsetHeight;
-                const verseHeight2 = verse2.offsetHeight;
-                const maxVerseHeight = Math.max(verseHeight1, verseHeight2);
-
-                // Apply max height
-                verse1.style.minHeight = maxVerseHeight + "px";
-                verse2.style.minHeight = maxVerseHeight + "px";
-              }
-            }
+            alignVersesByAddress(body1, body2);
           }
         });
+      }
+
+      // Function to align verses by inserting placeholders for missing verses
+      function alignVersesByAddress(body1, body2) {
+        // Remove any existing placeholders first
+        body1
+          .querySelectorAll(".verse-placeholder")
+          .forEach((el) => el.remove());
+        body2
+          .querySelectorAll(".verse-placeholder")
+          .forEach((el) => el.remove());
+
+        // Get all verses and their addresses
+        const verses1 = Array.from(
+          body1.querySelectorAll(".verse-div:not(.verse-placeholder)")
+        );
+        const verses2 = Array.from(
+          body2.querySelectorAll(".verse-div:not(.verse-placeholder)")
+        );
+
+        // Create maps of verses by their address (chapter:verse)
+        const verseMap1 = new Map();
+        const verseMap2 = new Map();
+        const allAddresses = new Set();
+
+        // Map verses by their chapter:verse address
+        verses1.forEach((verse) => {
+          const supElement = verse.querySelector("sup");
+          if (supElement) {
+            const address = supElement.textContent.trim(); // e.g., "1:1"
+            verseMap1.set(address, verse);
+            allAddresses.add(address);
+          }
+        });
+
+        verses2.forEach((verse) => {
+          const supElement = verse.querySelector("sup");
+          if (supElement) {
+            const address = supElement.textContent.trim(); // e.g., "1:1"
+            verseMap2.set(address, verse);
+            allAddresses.add(address);
+          }
+        });
+
+        // Sort addresses numerically (chapter:verse)
+        const sortedAddresses = Array.from(allAddresses).sort((a, b) => {
+          const [chapterA, verseA] = a.split(":").map(Number);
+          const [chapterB, verseB] = b.split(":").map(Number);
+
+          if (chapterA !== chapterB) {
+            return chapterA - chapterB;
+          }
+          return verseA - verseB;
+        });
+
+        // Clear both bodies and rebuild with proper alignment
+        body1.innerHTML = "";
+        body2.innerHTML = "";
+
+        // Insert verses and placeholders in sorted order
+        sortedAddresses.forEach((address) => {
+          const verse1 = verseMap1.get(address);
+          const verse2 = verseMap2.get(address);
+
+          // Add verse to panel 1 or placeholder
+          if (verse1) {
+            body1.appendChild(verse1);
+          } else {
+            const placeholder = createVersePlaceholder();
+            body1.appendChild(placeholder);
+          }
+
+          // Add verse to panel 2 or placeholder
+          if (verse2) {
+            body2.appendChild(verse2);
+          } else {
+            const placeholder = createVersePlaceholder();
+            body2.appendChild(placeholder);
+          }
+        });
+
+        // Now synchronize heights of aligned verses/placeholders
+        const alignedElements1 = body1.children;
+        const alignedElements2 = body2.children;
+
+        for (
+          let i = 0;
+          i < Math.min(alignedElements1.length, alignedElements2.length);
+          i++
+        ) {
+          const elem1 = alignedElements1[i];
+          const elem2 = alignedElements2[i];
+
+          // Reset heights
+          elem1.style.minHeight = "auto";
+          elem2.style.minHeight = "auto";
+
+          // Get natural heights
+          const height1 = elem1.offsetHeight;
+          const height2 = elem2.offsetHeight;
+          const maxHeight = Math.max(height1, height2);
+
+          // Apply max height
+          elem1.style.minHeight = maxHeight + "px";
+          elem2.style.minHeight = maxHeight + "px";
+        }
+      }
+
+      // Function to create a placeholder verse element
+      function createVersePlaceholder() {
+        const placeholder = document.createElement("div");
+        placeholder.className = `verse-div verse-placeholder ${fontSize}`;
+        placeholder.style.visibility = "hidden"; // Hidden but takes up space
+        placeholder.style.minHeight = "1.6em"; // Minimum height to maintain spacing
+        placeholder.innerHTML = "&nbsp;"; // Non-breaking space to maintain line height
+        return placeholder;
       }
 
       async function fetchBothVersions() {
@@ -1218,15 +1353,28 @@
       document.addEventListener("click", function (e) {
         if (
           !e.target.closest(".verse-div") &&
-          !e.target.closest("#verse-menu")
+          !e.target.closest("#verse-menu") &&
+          !e.target.closest("#main-footer") &&
+          !e.target.closest(".popover") &&
+          !e.target.closest("#popoverBtn")
         ) {
-          verseMenu.style.display = "none";
+          if (verseMenu) {
+            verseMenu.style.display = "none";
+          }
           // Clear all selections when clicking outside
+          const hadSelections = selectedVerses.length > 0;
           selectedVerses.forEach((verse) => {
             verse.classList.remove("verse-selected");
           });
           selectedVerses = [];
           updateFooterVisibility();
+
+          // Re-synchronize verse heights after clearing selections to maintain comparison alignment
+          if (hadSelections) {
+            setTimeout(() => {
+              synchronizeVerseHeights();
+            }, 50);
+          }
         }
       });
 
@@ -1250,35 +1398,6 @@
           selectionCount.textContent = "Select verses to copy";
         }
       }
-
-      // Handle verse click to show footer
-      document.addEventListener("click", function (e) {
-        const verseDiv = e.target.closest(".verse-div");
-        if (verseDiv) {
-          e.preventDefault();
-
-          // Toggle selection for the clicked verse
-          if (selectedVerses.includes(verseDiv)) {
-            verseDiv.classList.remove("verse-selected");
-            selectedVerses = selectedVerses.filter((v) => v !== verseDiv);
-          } else {
-            verseDiv.classList.add("verse-selected");
-            selectedVerses.push(verseDiv);
-          }
-
-          // Update verse address selection and footer
-          if (selectedVerses.length > 0) {
-            const { formattedText, formattedHeader } =
-              formatVerseSelection(selectedVerses);
-            selectedVersesAddress = formattedHeader || "";
-            resetCopyButton(); // Reset the copy button state
-          }
-
-          // Always hide the verse menu since we're using footer
-          verseMenu.style.display = "none";
-          updateFooterVisibility();
-        }
-      });
 
       // Unicode bold mapping
       const boldMap = {
@@ -1638,9 +1757,9 @@
 
       // Settings functionality
       document.addEventListener("DOMContentLoaded", function () {
-        const fontSizeCookie = getCookie("fontSize");
-        const modeCookie = getCookie("mode");
-        const boldCopyCookie = getCookie("boldCopy");
+        const fontSizeCookie = localStorage.getItem("fontSize");
+        const modeCookie = localStorage.getItem("mode");
+        const boldCopyCookie = localStorage.getItem("boldCopy");
         const modeToggle = document.getElementById("mode-toggle");
         const boldCopyToggle = document.getElementById("bold-copy-toggle");
         const fontSizeSlider = document.getElementById("font-size-slider");
@@ -1657,17 +1776,53 @@
         // Initialize copy button functionality
         attachCopyButtonListener();
 
-        // Initialize bold copy setting from cookie
-        if (boldCopyCookie !== "") {
-          boldCopyEnabled = boldCopyCookie === "true";
-          boldCopyToggle.checked = boldCopyEnabled;
+        // Apply dark/light mode from localStorage
+        if (modeCookie === "dark") {
+          modeToggle.checked = true;
+          document.documentElement.dataset.bsTheme = "dark";
+          currentMode = "dark";
+          // Apply dark mode styling adjustments if needed (e.g., for popover)
+          const popoverContent = document.getElementById("popoverContent");
+          if (popoverContent) popoverContent.classList.add("dark-mode");
+        } else {
+          // Default is light, ensure checkbox is unchecked
+          modeToggle.checked = false;
+          document.documentElement.dataset.bsTheme = "light";
+          currentMode = "light";
+        }
+
+        // Apply font size from localStorage
+        const fontSizeMap = {
+          "small-font-size": "1",
+          "medium-font-size": "2",
+          "large-font-size": "3",
+        };
+        const sliderValue = fontSizeMap[fontSizeCookie] || "2"; // Default to medium
+        fontSizeSlider.value = sliderValue;
+        fontSize = fontSizeCookie || "medium-font-size";
+
+        // Apply the font size class to existing verse divs (if any are loaded initially)
+        document.querySelectorAll(".verse-div").forEach((element) => {
+          element.className = "verse-div"; // Reset classes
+          element.classList.add(fontSize);
+        });
+
+        // Apply bold copy setting (default to true if cookie not set or is 'true')
+        if (boldCopyCookie === "false") {
+          // Only disable if explicitly set to false
+          boldCopyToggle.checked = false;
+          boldCopyEnabled = false;
+        } else {
+          // Default to true or if cookie is 'true'
+          boldCopyToggle.checked = true;
+          boldCopyEnabled = true;
         }
 
         // Add event listener for bold copy toggle
         if (boldCopyToggle) {
           boldCopyToggle.addEventListener("change", function () {
             boldCopyEnabled = this.checked;
-            setCookie("boldCopy", boldCopyEnabled.toString(), 365);
+            localStorage.setItem("boldCopy", boldCopyEnabled.toString());
 
             // GA Event
             if (typeof gtag === "function") {
@@ -1676,25 +1831,6 @@
                 setting_value: boldCopyEnabled ? "enabled" : "disabled",
               });
             }
-          });
-        }
-
-        // Apply font size
-        const fontSizeMap = {
-          "small-font-size": "1",
-          "medium-font-size": "2",
-          "large-font-size": "3",
-        };
-
-        if (fontSizeCookie) {
-          const sliderValue = fontSizeMap[fontSizeCookie] || "2"; // Default to medium
-          fontSizeSlider.value = sliderValue;
-          fontSize = fontSizeCookie;
-
-          // Apply the font size class to existing verse divs
-          document.querySelectorAll(".verse-div").forEach((element) => {
-            element.className = "verse-div"; // Reset classes
-            element.classList.add(fontSize);
           });
         }
 
@@ -1716,7 +1852,12 @@
             });
 
             fontSize = newFontSizeClass;
-            setCookie("fontSize", fontSize, 365);
+            localStorage.setItem("fontSize", fontSize);
+
+            // Re-synchronize verse heights after font size change
+            setTimeout(() => {
+              synchronizeVerseHeights();
+            }, 50);
 
             // GA Event
             if (typeof gtag === "function") {
@@ -1728,18 +1869,7 @@
           });
         }
 
-        // Dark mode toggle initialization from localStorage
-        const savedTheme = localStorage.getItem("mode");
-        if (savedTheme === "dark") {
-          modeToggle.checked = true;
-          document.documentElement.dataset.bsTheme = "dark";
-          currentMode = "dark";
-        } else {
-          modeToggle.checked = false;
-          document.documentElement.dataset.bsTheme = "light";
-          currentMode = "light";
-        }
-
+        // Dark mode toggle event listener
         if (modeToggle) {
           modeToggle.addEventListener("change", function () {
             const mode = this.checked ? "dark" : "light";
@@ -1867,6 +1997,15 @@
             }
           });
         }
+
+        // Add window resize event listener to re-synchronize on layout changes
+        let resizeTimeout;
+        window.addEventListener("resize", function () {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(() => {
+            synchronizeVerseHeights();
+          }, 200);
+        });
       });
     </script>
   </body>
