@@ -229,6 +229,22 @@
       }
 
       /* Verse selection and hover styles are handled by external CSS files (verse-menu.css and styles.css) */
+
+      /* Override scroll to top button positioning for compare page */
+      #scrollToTopBtn {
+        right: 0 !important;
+        border-radius: 12px 0 0 12px !important;
+        border-right: none !important;
+      }
+
+      @media (max-width: 768px) {
+        #scrollToTopBtn {
+          right: 0 !important;
+          bottom: 20px !important;
+          border-radius: 12px 0 0 12px !important;
+          border-right: none !important;
+        }
+      }
     </style>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -457,7 +473,59 @@
       </div>
     </footer>
 
+    <button
+      id="scrollToTopBtn"
+      class="btn btn-dark"
+      onclick="scrollToTop()"
+      aria-label="Scroll to top"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M7.646 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 6.207V11.5a.5.5 0 0 1-1 0V6.207L5.354 8.354a.5.5 0 1 1-.708-.708l3-3z"
+        />
+      </svg>
+    </button>
+
     <script>
+      function scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth", // Smooth scrolling animation
+        });
+      }
+
+      // Show the "Scroll to Top" button when the user scrolls down
+      document.addEventListener("DOMContentLoaded", function () {
+        var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+        var scrollTimeout;
+
+        if (!scrollToTopBtn) return;
+
+        window.addEventListener("scroll", function () {
+          // Clear any existing timeout
+          if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+          }
+
+          if (document.documentElement.scrollTop > 100) {
+            scrollToTopBtn.classList.add("visible");
+
+            // Set a new timeout to hide the button after 3 seconds
+            scrollTimeout = setTimeout(function () {
+              scrollToTopBtn.classList.remove("visible");
+            }, 3000); // 3 seconds
+          } else {
+            scrollToTopBtn.classList.remove("visible");
+          }
+        });
+      });
+
       // Initialize theme and reader settings from localStorage immediately
       const savedMode = localStorage.getItem("mode");
       const mode = savedMode || "light";
@@ -1994,6 +2062,21 @@
               setTimeout(() => {
                 popoverContent.style.display = "none";
               }, 300); // Match this with the transition duration in CSS
+            }
+          });
+        }
+
+        // Scroll to Top Button Click GA tracking
+        const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+        if (scrollToTopBtn) {
+          scrollToTopBtn.addEventListener("click", function () {
+            scrollToTop(); // Call the existing scroll function
+            // GA Event
+            if (typeof gtag === "function") {
+              gtag("event", "scroll_to_top", {
+                ui_element: "scroll_top_button",
+                selected_version: getCurrentVersion(),
+              });
             }
           });
         }
