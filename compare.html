@@ -191,24 +191,6 @@
         background: transparent;
       }
 
-      /* Ensure verse selection styles take precedence without affecting dimensions */
-      .verse-div.verse-selected {
-        background-color: rgba(108, 117, 125, 0.15) !important;
-        border-left: 3px solid #0d6efd !important;
-        transition: background-color 0.3s ease;
-        position: relative;
-        box-sizing: border-box !important;
-        /* Use margin instead of padding to avoid changing internal dimensions */
-        margin-left: 7px !important;
-        /* Compensate for the border width to maintain exact same width */
-        width: calc(100% - 7px) !important;
-      }
-
-      /* Dark mode support for selected verses */
-      [data-bs-theme="dark"] .verse-div.verse-selected {
-        background-color: rgba(108, 117, 125, 0.2) !important;
-      }
-
       /* Ensure synchronization works even with selected verses */
       .verse-div {
         transition: all 0.3s ease;

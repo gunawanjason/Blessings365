@@ -6,9 +6,7 @@ body {
 #scrollToTopBtn {
   position: fixed;
   bottom: 120px;
-  right: calc(
-    50% - 291px - 40px
-  ); /* Position next to the accordion (582px/2 = 291px) */
+  right: 0 !important;
   display: none;
   z-index: 9999;
   width: 40px;
@@ -21,9 +19,9 @@ body {
   transition: all 0.3s ease;
   opacity: 0;
   transform: translateY(20px);
-  border-radius: 12px 0 0 12px;
+  border-radius: 12px 0 0 12px !important;
   border: 1px solid #dee2e6;
-  border-right: none;
+  border-right: none !important;
   background-color: #f8f9fa;
   color: #6c757d;
   /* Ensure touch target is large enough for mobile */
@@ -66,9 +64,9 @@ body {
 @media (max-width: 768px) {
   #scrollToTopBtn {
     bottom: 20px;
-    right: 20px;
-    border-radius: 12px;
-    border-right: 1px solid #dee2e6;
+    right: 0 !important;
+    border-radius: 12px 0 0 12px !important;
+    border-right: none !important;
     width: 44px;
     height: 44px;
   }
@@ -78,7 +76,7 @@ body {
 @media (max-width: 480px) {
   #scrollToTopBtn {
     bottom: 15px;
-    right: 15px;
+    right: 0 !important;
   }
 }
 
@@ -623,11 +621,9 @@ input:checked + .toggle-slider:before {
   }
 
   #scrollToTopBtn {
-    right: calc(
-      50% - 291px - 40px
-    ); /* Position next to the accordion (582px/2 = 291px) */
-    border-radius: 12px 0 0 12px;
-    border-right: none;
+    right: 0 !important;
+    border-radius: 12px 0 0 12px !important;
+    border-right: none !important;
   }
 }
 
