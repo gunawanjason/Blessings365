@@ -46,11 +46,22 @@
 }
 
 .verse-selected {
-  background-color: rgba(108, 117, 125, 0.15);
-  position: relative;
+  background-color: rgba(108, 117, 125, 0.15) !important;
+  border-left: 3px solid #0d6efd !important;
   transition: background-color 0.3s ease;
-  border-left: 3px solid #0d6efd;
-  padding-left: 7px;
+  position: relative;
+  box-sizing: border-box !important;
+  /* Use padding-left to create proper spacing between blue bar and text */
+  padding-left: 10px !important;
+  /* Use margin to offset the element and maintain alignment */
+  margin-left: 7px !important;
+  /* Compensate for the margin to maintain same width */
+  width: calc(100% - 7px) !important;
+}
+
+/* Dark mode support for selected verses */
+[data-bs-theme="dark"] .verse-selected {
+  background-color: rgba(108, 117, 125, 0.2) !important;
 }
 
 /* Remove hover effects when verse is selected */
