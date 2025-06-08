@@ -701,7 +701,7 @@
       let fontSize = "medium-font-size"; // Default font size
       let isAccordionSyncing = false; // Sync control flag
       let isAligningDOM = false; // Flag to indicate if DOM alignment is in progress
-      
+
       function isLeapYear(year) {
         return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
       }
@@ -1126,45 +1126,45 @@
           const panel1 = document.getElementById("versesAccordion1");
           const panel2 = document.getElementById("versesAccordion2");
 
-        if (!panel1 || !panel2) return;
+          if (!panel1 || !panel2) return;
 
-        // Synchronize verse alignment within expanded accordion bodies
-        const expandedBodies1 = panel1.querySelectorAll(
-          ".accordion-collapse.show .accordion-body"
-        );
-        const expandedBodies2 = panel2.querySelectorAll(
-          ".accordion-collapse.show .accordion-body"
-        );
+          // Synchronize verse alignment within expanded accordion bodies
+          const expandedBodies1 = panel1.querySelectorAll(
+            ".accordion-collapse.show .accordion-body"
+          );
+          const expandedBodies2 = panel2.querySelectorAll(
+            ".accordion-collapse.show .accordion-body"
+          );
 
-        // Match expanded bodies by their book identifier
-        expandedBodies1.forEach((body1) => {
-          const accordion1 = body1.closest(".accordion-item");
-          const button1 = accordion1.querySelector(".accordion-button");
-          if (!button1) return;
+          // Match expanded bodies by their book identifier
+          expandedBodies1.forEach((body1) => {
+            const accordion1 = body1.closest(".accordion-item");
+            const button1 = accordion1.querySelector(".accordion-button");
+            if (!button1) return;
 
-          const bookId =
-            button1.getAttribute("data-original-book") ||
-            button1.id.split("-button")[0];
+            const bookId =
+              button1.getAttribute("data-original-book") ||
+              button1.id.split("-button")[0];
 
-          // Find the corresponding body in panel 2
-          const body2 = Array.from(expandedBodies2).find((body) => {
-            const accordion2 = body.closest(".accordion-item");
-            const button2 = accordion2.querySelector(".accordion-button");
-            if (!button2) return false;
-            const bookId2 =
-              button2.getAttribute("data-original-book") ||
-              button2.id.split("-button")[0];
-            return bookId === bookId2;
+            // Find the corresponding body in panel 2
+            const body2 = Array.from(expandedBodies2).find((body) => {
+              const accordion2 = body.closest(".accordion-item");
+              const button2 = accordion2.querySelector(".accordion-button");
+              if (!button2) return false;
+              const bookId2 =
+                button2.getAttribute("data-original-book") ||
+                button2.id.split("-button")[0];
+              return bookId === bookId2;
+            });
+
+            if (body2) {
+              alignVersesByAddress(body1, body2);
+            }
           });
-
-          if (body2) {
-            alignVersesByAddress(body1, body2);
-          }
-        });
-      } finally {
-        isAligningDOM = false; // Clear flag at the end of synchronization
+        } finally {
+          isAligningDOM = false; // Clear flag at the end of synchronization
+        }
       }
-    }
 
       // Function to align verses by inserting placeholders for missing verses
       function alignVersesByAddress(body1, body2) {
@@ -1176,136 +1176,135 @@
 
           // Remove any existing placeholders first
           if (body1) {
-          body1
-            .querySelectorAll(".verse-placeholder")
-            .forEach((el) => el.remove());
+            body1
+              .querySelectorAll(".verse-placeholder")
+              .forEach((el) => el.remove());
+          }
+          if (body2) {
+            body2
+              .querySelectorAll(".verse-placeholder")
+              .forEach((el) => el.remove());
+          }
+
+          // Get all verses and their addresses
+          const verses1 = Array.from(
+            body1.querySelectorAll(".verse-div:not(.verse-placeholder)")
+          );
+          const verses2 = Array.from(
+            body2.querySelectorAll(".verse-div:not(.verse-placeholder)")
+          );
+
+          // Log check for selected verses before DOM manipulation
+          // console.log(`[Compare View] alignVersesByAddress: Pre-check selectedVerses.length: ${selectedVerses.length}`);
+          // selectedVerses.forEach((sv, index) => {
+          //     const svIsInDOM = document.body.contains(sv);
+          //     const svHasClass = sv.classList.contains('verse-selected');
+          //     let svPanel = 'unknown';
+          //     // Use body1 and body2 (which are in scope) to determine the panel
+          //     if (body1 && body1.contains(sv)) svPanel = 'panel1 (via body1)';
+          //     else if (body2 && body2.contains(sv)) svPanel = 'panel2 (via body2)';
+
+          //     console.log(`[Compare View] alignVersesByAddress: Pre-check sv[${index}]: inDOM=${svIsInDOM}, hasClass=${svHasClass}, panel=${svPanel}, text=${(sv.textContent || "").substring(0,30)}`);
+
+          //     const isInVerses1 = verses1.some(v1 => v1 === sv);
+          //     const isInVerses2 = verses2.some(v2 => v2 === sv);
+          //     if (isInVerses1) console.log(`[Compare View] alignVersesByAddress: sv[${index}] found in verses1. Class list:`, sv.classList);
+          //     if (isInVerses2) console.log(`[Compare View] alignVersesByAddress: sv[${index}] found in verses2. Class list:`, sv.classList);
+          // });
+
+          // Create maps of verses by their address (chapter:verse)
+          const verseMap1 = new Map();
+          const verseMap2 = new Map();
+          const allAddresses = new Set();
+
+          // Map verses by their chapter:verse address
+          verses1.forEach((verse) => {
+            const supElement = verse.querySelector("sup");
+            if (supElement) {
+              const address = supElement.textContent.trim(); // e.g., "1:1"
+              verseMap1.set(address, verse);
+              allAddresses.add(address);
+            }
+          });
+
+          verses2.forEach((verse) => {
+            const supElement = verse.querySelector("sup");
+            if (supElement) {
+              const address = supElement.textContent.trim(); // e.g., "1:1"
+              verseMap2.set(address, verse);
+              allAddresses.add(address);
+            }
+          });
+
+          // Sort addresses numerically (chapter:verse)
+          const sortedAddresses = Array.from(allAddresses).sort((a, b) => {
+            const [chapterA, verseA] = a.split(":").map(Number);
+            const [chapterB, verseB] = b.split(":").map(Number);
+
+            if (chapterA !== chapterB) {
+              return chapterA - chapterB;
+            }
+            return verseA - verseB;
+          });
+
+          // Clear both bodies and rebuild with proper alignment
+          if (body1) body1.innerHTML = "";
+          if (body2) body2.innerHTML = "";
+          // console.log(`[Compare View] alignVersesByAddress: body1 (${body1Id}) and body2 (${body2Id}) innerHTML cleared.`); // Log B
+
+          // Insert verses and placeholders in sorted order
+          sortedAddresses.forEach((address) => {
+            const verse1 = verseMap1.get(address);
+            const verse2 = verseMap2.get(address);
+
+            // Add verse to panel 1 or placeholder
+            if (verse1) {
+              body1.appendChild(verse1);
+            } else {
+              const placeholder = createVersePlaceholder();
+              body1.appendChild(placeholder);
+            }
+
+            // Add verse to panel 2 or placeholder
+            if (verse2) {
+              body2.appendChild(verse2);
+            } else {
+              const placeholder = createVersePlaceholder();
+              body2.appendChild(placeholder);
+            }
+          });
+          // console.log(`[Compare View] alignVersesByAddress: body1 (${body1Id}) and body2 (${body2Id}) repopulated.`); // Log C
+
+          // Now synchronize heights of aligned verses/placeholders
+          const alignedElements1 = body1 ? body1.children : [];
+          const alignedElements2 = body2 ? body2.children : [];
+
+          for (
+            let i = 0;
+            i < Math.min(alignedElements1.length, alignedElements2.length);
+            i++
+          ) {
+            const elem1 = alignedElements1[i];
+            const elem2 = alignedElements2[i];
+
+            // Reset heights
+            elem1.style.minHeight = "auto";
+            elem2.style.minHeight = "auto";
+
+            // Get natural heights
+            const height1 = elem1.offsetHeight;
+            const height2 = elem2.offsetHeight;
+            const maxHeight = Math.max(height1, height2);
+
+            // Apply max height
+            elem1.style.minHeight = maxHeight + "px";
+            elem2.style.minHeight = maxHeight + "px";
+          }
+          // console.log(`[Compare View] alignVersesByAddress END for body1: ${body1Id}, body2: ${body2Id}`); // Log D
+        } finally {
+          // isAligningDOM is now managed by synchronizeVerseHeights
         }
-        if (body2) {
-          body2
-            .querySelectorAll(".verse-placeholder")
-            .forEach((el) => el.remove());
-        }
-
-        // Get all verses and their addresses
-        const verses1 = Array.from(
-          body1.querySelectorAll(".verse-div:not(.verse-placeholder)")
-        );
-        const verses2 = Array.from(
-          body2.querySelectorAll(".verse-div:not(.verse-placeholder)")
-        );
-
-        // Log check for selected verses before DOM manipulation
-        // console.log(`[Compare View] alignVersesByAddress: Pre-check selectedVerses.length: ${selectedVerses.length}`);
-        // selectedVerses.forEach((sv, index) => {
-        //     const svIsInDOM = document.body.contains(sv);
-        //     const svHasClass = sv.classList.contains('verse-selected');
-        //     let svPanel = 'unknown';
-        //     // Use body1 and body2 (which are in scope) to determine the panel
-        //     if (body1 && body1.contains(sv)) svPanel = 'panel1 (via body1)';
-        //     else if (body2 && body2.contains(sv)) svPanel = 'panel2 (via body2)';
-
-        //     console.log(`[Compare View] alignVersesByAddress: Pre-check sv[${index}]: inDOM=${svIsInDOM}, hasClass=${svHasClass}, panel=${svPanel}, text=${(sv.textContent || "").substring(0,30)}`);
-
-        //     const isInVerses1 = verses1.some(v1 => v1 === sv);
-        //     const isInVerses2 = verses2.some(v2 => v2 === sv);
-        //     if (isInVerses1) console.log(`[Compare View] alignVersesByAddress: sv[${index}] found in verses1. Class list:`, sv.classList);
-        //     if (isInVerses2) console.log(`[Compare View] alignVersesByAddress: sv[${index}] found in verses2. Class list:`, sv.classList);
-        // });
-
-
-        // Create maps of verses by their address (chapter:verse)
-        const verseMap1 = new Map();
-        const verseMap2 = new Map();
-        const allAddresses = new Set();
-
-        // Map verses by their chapter:verse address
-        verses1.forEach((verse) => {
-          const supElement = verse.querySelector("sup");
-          if (supElement) {
-            const address = supElement.textContent.trim(); // e.g., "1:1"
-            verseMap1.set(address, verse);
-            allAddresses.add(address);
-          }
-        });
-
-        verses2.forEach((verse) => {
-          const supElement = verse.querySelector("sup");
-          if (supElement) {
-            const address = supElement.textContent.trim(); // e.g., "1:1"
-            verseMap2.set(address, verse);
-            allAddresses.add(address);
-          }
-        });
-
-        // Sort addresses numerically (chapter:verse)
-        const sortedAddresses = Array.from(allAddresses).sort((a, b) => {
-          const [chapterA, verseA] = a.split(":").map(Number);
-          const [chapterB, verseB] = b.split(":").map(Number);
-
-          if (chapterA !== chapterB) {
-            return chapterA - chapterB;
-          }
-          return verseA - verseB;
-        });
-
-        // Clear both bodies and rebuild with proper alignment
-        if (body1) body1.innerHTML = "";
-        if (body2) body2.innerHTML = "";
-        // console.log(`[Compare View] alignVersesByAddress: body1 (${body1Id}) and body2 (${body2Id}) innerHTML cleared.`); // Log B
-
-        // Insert verses and placeholders in sorted order
-        sortedAddresses.forEach((address) => {
-          const verse1 = verseMap1.get(address);
-          const verse2 = verseMap2.get(address);
-
-          // Add verse to panel 1 or placeholder
-          if (verse1) {
-            body1.appendChild(verse1);
-          } else {
-            const placeholder = createVersePlaceholder();
-            body1.appendChild(placeholder);
-          }
-
-          // Add verse to panel 2 or placeholder
-          if (verse2) {
-            body2.appendChild(verse2);
-          } else {
-            const placeholder = createVersePlaceholder();
-            body2.appendChild(placeholder);
-          }
-        });
-        // console.log(`[Compare View] alignVersesByAddress: body1 (${body1Id}) and body2 (${body2Id}) repopulated.`); // Log C
-
-        // Now synchronize heights of aligned verses/placeholders
-        const alignedElements1 = body1 ? body1.children : [];
-        const alignedElements2 = body2 ? body2.children : [];
-
-        for (
-          let i = 0;
-          i < Math.min(alignedElements1.length, alignedElements2.length);
-          i++
-        ) {
-          const elem1 = alignedElements1[i];
-          const elem2 = alignedElements2[i];
-
-          // Reset heights
-          elem1.style.minHeight = "auto";
-          elem2.style.minHeight = "auto";
-
-          // Get natural heights
-          const height1 = elem1.offsetHeight;
-          const height2 = elem2.offsetHeight;
-          const maxHeight = Math.max(height1, height2);
-
-          // Apply max height
-          elem1.style.minHeight = maxHeight + "px";
-          elem2.style.minHeight = maxHeight + "px";
-        }
-        // console.log(`[Compare View] alignVersesByAddress END for body1: ${body1Id}, body2: ${body2Id}`); // Log D
-      } finally {
-        // isAligningDOM is now managed by synchronizeVerseHeights
       }
-    }
 
       // Function to create a placeholder verse element
       function createVersePlaceholder() {
