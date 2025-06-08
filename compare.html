@@ -700,7 +700,8 @@
       let currentSelectedText = "";
       let fontSize = "medium-font-size"; // Default font size
       let isAccordionSyncing = false; // Sync control flag
-
+      let isAligningDOM = false; // Flag to indicate if DOM alignment is in progress
+      
       function isLeapYear(year) {
         return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
       }
@@ -828,16 +829,27 @@
 
         // Add click listeners for verse selection
         container.addEventListener("click", function (e) {
+          if (isAligningDOM) {
+            // console.log("[Compare View] Click ignored, DOM alignment in progress. Target:", e.target);
+            return; // Ignore click if DOM alignment is happening
+          }
+          // console.log("[Compare View] Click detected on container. Target:", e.target); // Log 1
           const verseDiv = e.target.closest(".verse-div");
+          // console.log("[Compare View] Closest .verse-div:", verseDiv); // Log 2
+
           if (verseDiv && !verseDiv.classList.contains("verse-placeholder")) {
+            // console.log("[Compare View] Valid verseDiv found:", verseDiv.outerHTML.substring(0, 100) + "..."); // Log 3
             e.preventDefault();
             e.stopPropagation();
+            // console.log("[Compare View] Event propagation stopped."); // Log 4
 
             // Toggle selection for the clicked verse
             if (selectedVerses.includes(verseDiv)) {
+              // console.log("[Compare View] Deselecting verse."); // Log 5a
               verseDiv.classList.remove("verse-selected");
               selectedVerses = selectedVerses.filter((v) => v !== verseDiv);
             } else {
+              // console.log("[Compare View] Selecting verse."); // Log 5b
               verseDiv.classList.add("verse-selected");
               selectedVerses.push(verseDiv);
             }
@@ -857,9 +869,19 @@
             updateFooterVisibility();
 
             // Re-synchronize verse heights after selection change to maintain comparison alignment
+            // console.log("[Compare View] Scheduling synchronizeVerseHeights after click.");
+            isAligningDOM = true; // Set flag BEFORE scheduling the timeout
             setTimeout(() => {
+              // console.log("[Compare View] setTimeout for synchronizeVerseHeights (after click) is now executing.");
               synchronizeVerseHeights();
+              // The finally block in synchronizeVerseHeights will set isAligningDOM = false
             }, 50);
+          } else {
+            // if (!verseDiv) {
+            //   console.warn("[Compare View] Click did not find a .verse-div parent for target:", e.target); // Log 6a
+            // } else if (verseDiv.classList.contains("verse-placeholder")) {
+            //   console.log("[Compare View] Clicked on a verse-placeholder. Ignoring. Target:", e.target); // Log 6b
+            // }
           }
         });
       }
@@ -1099,8 +1121,10 @@
 
       // Function to synchronize verses by inserting placeholders for missing verses
       function synchronizeVerseHeights() {
-        const panel1 = document.getElementById("versesAccordion1");
-        const panel2 = document.getElementById("versesAccordion2");
+        isAligningDOM = true; // Set flag at the start of synchronization
+        try {
+          const panel1 = document.getElementById("versesAccordion1");
+          const panel2 = document.getElementById("versesAccordion2");
 
         if (!panel1 || !panel2) return;
 
@@ -1137,17 +1161,30 @@
             alignVersesByAddress(body1, body2);
           }
         });
+      } finally {
+        isAligningDOM = false; // Clear flag at the end of synchronization
       }
+    }
 
       // Function to align verses by inserting placeholders for missing verses
       function alignVersesByAddress(body1, body2) {
-        // Remove any existing placeholders first
-        body1
-          .querySelectorAll(".verse-placeholder")
-          .forEach((el) => el.remove());
-        body2
-          .querySelectorAll(".verse-placeholder")
-          .forEach((el) => el.remove());
+        // isAligningDOM is now managed by synchronizeVerseHeights
+        try {
+          const body1Id = body1 && body1.id ? body1.id : "unknown_body1";
+          const body2Id = body2 && body2.id ? body2.id : "unknown_body2";
+          // console.log(`[Compare View] alignVersesByAddress START for body1: ${body1Id}, body2: ${body2Id}`); // Log A
+
+          // Remove any existing placeholders first
+          if (body1) {
+          body1
+            .querySelectorAll(".verse-placeholder")
+            .forEach((el) => el.remove());
+        }
+        if (body2) {
+          body2
+            .querySelectorAll(".verse-placeholder")
+            .forEach((el) => el.remove());
+        }
 
         // Get all verses and their addresses
         const verses1 = Array.from(
@@ -1156,6 +1193,25 @@
         const verses2 = Array.from(
           body2.querySelectorAll(".verse-div:not(.verse-placeholder)")
         );
+
+        // Log check for selected verses before DOM manipulation
+        // console.log(`[Compare View] alignVersesByAddress: Pre-check selectedVerses.length: ${selectedVerses.length}`);
+        // selectedVerses.forEach((sv, index) => {
+        //     const svIsInDOM = document.body.contains(sv);
+        //     const svHasClass = sv.classList.contains('verse-selected');
+        //     let svPanel = 'unknown';
+        //     // Use body1 and body2 (which are in scope) to determine the panel
+        //     if (body1 && body1.contains(sv)) svPanel = 'panel1 (via body1)';
+        //     else if (body2 && body2.contains(sv)) svPanel = 'panel2 (via body2)';
+
+        //     console.log(`[Compare View] alignVersesByAddress: Pre-check sv[${index}]: inDOM=${svIsInDOM}, hasClass=${svHasClass}, panel=${svPanel}, text=${(sv.textContent || "").substring(0,30)}`);
+
+        //     const isInVerses1 = verses1.some(v1 => v1 === sv);
+        //     const isInVerses2 = verses2.some(v2 => v2 === sv);
+        //     if (isInVerses1) console.log(`[Compare View] alignVersesByAddress: sv[${index}] found in verses1. Class list:`, sv.classList);
+        //     if (isInVerses2) console.log(`[Compare View] alignVersesByAddress: sv[${index}] found in verses2. Class list:`, sv.classList);
+        // });
+
 
         // Create maps of verses by their address (chapter:verse)
         const verseMap1 = new Map();
@@ -1193,8 +1249,9 @@
         });
 
         // Clear both bodies and rebuild with proper alignment
-        body1.innerHTML = "";
-        body2.innerHTML = "";
+        if (body1) body1.innerHTML = "";
+        if (body2) body2.innerHTML = "";
+        // console.log(`[Compare View] alignVersesByAddress: body1 (${body1Id}) and body2 (${body2Id}) innerHTML cleared.`); // Log B
 
         // Insert verses and placeholders in sorted order
         sortedAddresses.forEach((address) => {
@@ -1217,10 +1274,11 @@
             body2.appendChild(placeholder);
           }
         });
+        // console.log(`[Compare View] alignVersesByAddress: body1 (${body1Id}) and body2 (${body2Id}) repopulated.`); // Log C
 
         // Now synchronize heights of aligned verses/placeholders
-        const alignedElements1 = body1.children;
-        const alignedElements2 = body2.children;
+        const alignedElements1 = body1 ? body1.children : [];
+        const alignedElements2 = body2 ? body2.children : [];
 
         for (
           let i = 0;
@@ -1243,7 +1301,11 @@
           elem1.style.minHeight = maxHeight + "px";
           elem2.style.minHeight = maxHeight + "px";
         }
+        // console.log(`[Compare View] alignVersesByAddress END for body1: ${body1Id}, body2: ${body2Id}`); // Log D
+      } finally {
+        // isAligningDOM is now managed by synchronizeVerseHeights
       }
+    }
 
       // Function to create a placeholder verse element
       function createVersePlaceholder() {
