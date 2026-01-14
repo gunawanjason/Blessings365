@@ -1,3 +1,8 @@
+/* Add bottom padding to prevent footer overlap */
+body {
+  padding-bottom: 80px;
+}
+
 #scrollToTopBtn {
   position: fixed;
   bottom: 120px;
@@ -15,9 +20,9 @@
   transition: all 0.3s ease;
   opacity: 0;
   transform: translateY(20px);
-  border-radius: 12px 0 0 12px;
+  border-radius: 12px 0 0 12px !important;
   border: 1px solid #dee2e6;
-  border-right: none;
+  border-right: none !important;
   background-color: #f8f9fa;
   color: #6c757d;
   /* Ensure touch target is large enough for mobile */
@@ -70,9 +75,9 @@
 @media (max-width: 768px) {
   #scrollToTopBtn {
     bottom: 20px;
-    right: 20px;
-    border-radius: 12px;
-    border-right: 1px solid #dee2e6;
+    right: 0 !important;
+    border-radius: 12px 0 0 12px !important;
+    border-right: none !important;
     width: 44px;
     height: 44px;
   }
@@ -82,7 +87,7 @@
 @media (max-width: 480px) {
   #scrollToTopBtn {
     bottom: 15px;
-    right: 15px;
+    right: 0 !important;
   }
 }
 
@@ -224,10 +229,58 @@ button>svg {
   border: none;
   margin-bottom: 12px;
   background-color: transparent;
+  min-width: 0;
+  width: 100%;
+}
+
+.accordion-collapse {
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.comparison-container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.version-panel {
+  flex: 1 0 0;
+  min-width: 0;
+  max-width: calc(50% - 10px);
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .version-panel {
+    min-width: calc(97vw - 40px);
+    width: calc(97vw - 40px);
+    max-width: calc(97vw - 40px);
+    flex: 0 0 calc(97vw - 40px);
+    /* Set flex-basis to the explicit width */
+    overflow: hidden;
+    /* Ensure overflow is explicitly hidden */
+    box-sizing: border-box;
+    /* Include padding/border in width calculation */
+  }
+}
+
+.accordion {
+  width: 100%;
+  min-width: 0;
+}
+
+.verses-content {
+  width: 100%;
+  min-width: 0;
 }
 
 .accordion-body {
   padding: 12px 10px;
+  overflow: visible;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .verse-div {
@@ -244,10 +297,30 @@ button>svg {
   overflow: hidden;
   cursor: pointer;
   color: #333;
+  white-space: normal;
+  word-break: break-word;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
 }
 
-.verse-div:hover {
+.verse-div {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.verse-div:hover:not(.verse-selected) {
   background-color: rgba(108, 117, 125, 0.03);
+}
+
+.verse-div:active {
+  transform: scale(0.98);
 }
 
 .verse-div strong {
@@ -268,6 +341,10 @@ button>svg {
 
 [data-bs-theme="dark"] .verse-div strong {
   color: #fff;
+}
+
+[data-bs-theme="dark"] .verse-div:hover:not(.verse-selected) {
+  background-color: rgba(108, 117, 125, 0.1);
 }
 
 .popover-container {
@@ -355,7 +432,7 @@ button>svg {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 34px;
 }
 
@@ -367,7 +444,7 @@ button>svg {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 50%;
 }
 

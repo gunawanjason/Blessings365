@@ -43,8 +43,10 @@
   <div class="fixed-width-container">
     <nav class="mt-4 mb-4 navbar navbar-expand-lg fixed-width-large">
       <div class="container-fluid popover-container d-flex justify-content-between align-items-center">
-        <div style="width: 44px;"></div> <!-- Symmetrical spacer for centering (matches button width) -->
-        <a href="#" class="navbar-brand mb-0 h1">
+        <div class="d-flex align-items-center">
+          <a href="compare.html" class="btn btn-compare me-2">Compare</a>
+        </div>
+        <a href="#" class="navbar-brand mb-0 h1 mx-auto">
           Alkitab<span class="brand-accent">365</span>
         </a>
         <button id="popoverBtn" class="btn settings-btn">
@@ -138,6 +140,7 @@
             <div class="custom-dropdown-item" data-value="CNVS">新译本(CNVS)</div>
             <div class="custom-dropdown-item" data-value="CUNPSS-上帝">新标点和合本，上帝版</div>
             <div class="custom-dropdown-item" data-value="CUNPSS-神">新标点和合本，神版</div>
+            <div class="custom-dropdown-item" data-value="CUV">和合本 (繁體) (CUV)</div>
           </div>
         </div>
         <select id="translation-selector" class="d-none">
@@ -151,6 +154,7 @@
           <option value="CNVS">新译本(CNVS)</option>
           <option value="CUNPSS-上帝">新标点和合本，上帝版</option>
           <option value="CUNPSS-神">新标点和合本，神版</option>
+          <option value="CUV">和合本 (繁體) (CUV)</option>
         </select>
       </div>
 
@@ -180,6 +184,70 @@
       const selector = document.getElementById('translation-selector');
       return selector ? selector.value : 'unknown'; // Handle case where selector might not exist yet
     }
+
+    // Core State Variables
+    let currentMode = "light";
+    let fontSize = "medium-font-size";
+    const modeToButton = { light: "dark", dark: "light" };
+    let selectedVerses = [];
+    let selectedVersesAddress = "";
+    let verseMenu;
+    let boldCopyEnabled = true;
+
+    // Initialize core elements
+    document.addEventListener('DOMContentLoaded', () => {
+      verseMenu = document.getElementById('verse-menu');
+    });
+
+    function setCookie(cname, cvalue, exdays) {
+      const d = new Date();
+      d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+      let expires = "expires=" + d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+      let name = cname + "=";
+      let ca = document.cookie.split(";");
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    // Fetch the Translated_Bacaan_Alkitab_365.json directly from the current directory
+    fetch("Translated_Bacaan_Alkitab_365.json")
+      .then((response) => response.json())
+      .then((translatedData) => {
+        // Store in local storage for later use
+        localStorage.setItem(
+          "translatedData",
+          JSON.stringify(translatedData)
+        );
+
+        populateMonthDayDropdowns(translatedData);
+
+        // Load saved version from cookie before initial fetch
+        const savedVersion = getCookie("selectedVersion");
+        if (savedVersion) {
+          document.getElementById("translation-selector").value = savedVersion;
+        }
+
+        // Auto fetch verses when page loads
+        fetchVerses();
+      })
+      .catch((error) => {
+        console.error(
+          "Error fetching the Translated_Bacaan_Alkitab_365.json:",
+          error
+        );
+      });
 
     const englishToIndonesianBooks = {
       Genesis: "Kejadian",
@@ -319,6 +387,75 @@
       Revelation: "启示录",
     };
 
+
+    const englishToTraditionalChineseBooks = {
+      Genesis: "創世記",
+      Exodus: "出埃及記",
+      Leviticus: "利未記",
+      Numbers: "民數記",
+      Deuteronomy: "申命記",
+      Joshua: "約書亞記",
+      Judges: "士師記",
+      Ruth: "路得記",
+      "1 Samuel": "撒母耳記上",
+      "2 Samuel": "撒母耳記下",
+      "1 Kings": "列王紀上",
+      "2 Kings": "列王紀下",
+      "1 Chronicles": "歷代志上",
+      "2 Chronicles": "歷代志下",
+      Ezra: "以斯拉記",
+      Nehemiah: "尼希米記",
+      Esther: "以斯帖記",
+      Job: "約伯記",
+      Psalms: "詩篇",
+      Proverbs: "箴言",
+      Ecclesiastes: "傳道書",
+      "Song of Solomon": "雅歌",
+      Isaiah: "以賽亞書",
+      Jeremiah: "耶利米書",
+      Lamentations: "耶利米哀歌",
+      Ezekiel: "以西結書",
+      Daniel: "但以理書",
+      Hosea: "何西阿書",
+      Joel: "約珥書",
+      Amos: "阿摩司書",
+      Obadiah: "俄巴底亞書",
+      Jonah: "約拿書",
+      Micah: "彌迦書",
+      Nahum: "那鴻書",
+      Habakkuk: "哈巴谷書",
+      Zephaniah: "西番雅書",
+      Haggai: "哈該書",
+      Zechariah: "撒迦利亞書",
+      Malachi: "瑪拉基書",
+      Matthew: "馬太福音",
+      Mark: "馬可福音",
+      Luke: "路加福音",
+      John: "約翰福音",
+      Acts: "使徒行傳",
+      Romans: "羅馬書",
+      "1 Corinthians": "哥林多前書",
+      "2 Corinthians": "哥林多後書",
+      Galatians: "加拉太書",
+      Ephesians: "以弗所書",
+      Philippians: "腓立比書",
+      Colossians: "歌羅西書",
+      "1 Thessalonians": "帖撒羅尼迦前書",
+      "2 Thessalonians": "帖撒羅尼迦後書",
+      "1 Timothy": "提摩太前書",
+      "2 Timothy": "提摩太後書",
+      Titus: "提多書",
+      Philemon: "腓利門書",
+      Hebrews: "希伯來書",
+      James: "雅各書",
+      "1 Peter": "彼得前書",
+      "2 Peter": "彼得後書",
+      "1 John": "約翰一書",
+      "2 John": "約翰二書",
+      "3 John": "約翰三書",
+      Jude: "猶大書",
+      Revelation: "啟示錄",
+    };
     function isLeapYear(year) {
       return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
     }
@@ -333,7 +470,11 @@
       let day = Math.floor(diff / oneDay);
 
       // Adjust day count in leap years after February 29
-      if (isLeapYear(date.getFullYear()) && ((date.getMonth() === 1 && date.getDate() === 29) || (date.getMonth() > 1))) {
+      if (
+        isLeapYear(date.getFullYear()) &&
+        ((date.getMonth() === 1 && date.getDate() === 29) ||
+          date.getMonth() > 1)
+      ) {
         day -= 1;
       }
 
@@ -473,6 +614,63 @@
         }
       });
 
+      function updateVerseSelectionHeader() {
+        const headerDiv = document.getElementById('verseSelectionHeader');
+        const contentDiv = document.getElementById('verseSelectionHeaderContent');
+
+        if (selectedVerses.length > 0 && selectedVersesAddress) {
+          contentDiv.textContent = `Selected: ${selectedVersesAddress}`;
+          headerDiv.style.display = 'block';
+        } else {
+          contentDiv.textContent = '';
+          headerDiv.style.display = 'none';
+        }
+      }
+
+      // Handle verse selection and menu display
+      document.addEventListener('click', function (e) {
+        const verseDiv = e.target.closest('.verse-div');
+        if (verseDiv) {
+          e.preventDefault();
+
+          // Toggle selection for the clicked verse
+          if (selectedVerses.includes(verseDiv)) {
+            verseDiv.classList.remove('verse-selected');
+            selectedVerses = selectedVerses.filter(v => v !== verseDiv);
+          } else {
+            verseDiv.classList.add('verse-selected');
+            selectedVerses.push(verseDiv);
+          }
+
+          // Show or hide menu based on selection state
+          if (selectedVerses.length > 0) {
+            // Position menu directly on top of the last selected verse
+            const lastVerse = selectedVerses[selectedVerses.length - 1];
+            const rect = lastVerse.getBoundingClientRect();
+            // Position the menu directly on top of the verse
+            verseMenu.style.top = `${window.scrollY + rect.top + (rect.height / 2)}px`;
+            verseMenu.style.left = `${rect.right - 70}px`; // Position from right side
+            verseMenu.style.display = 'block';
+
+            // Update verse address selection
+            const { _, formattedHeader } = formatVerseSelection(selectedVerses);
+            selectedVersesAddress = formattedHeader;
+            updateVerseSelectionHeader();
+          } else {
+            verseMenu.style.display = 'none';
+            selectedVersesAddress = "";
+            updateVerseSelectionHeader();
+          }
+        } else if (!e.target.closest('#verse-menu')) {
+          // Close menu and clear selections if clicking outside verses and menu
+          verseMenu.style.display = 'none';
+          selectedVerses.forEach(v => v.classList.remove('verse-selected'));
+          selectedVerses = [];
+          selectedVersesAddress = "";
+          updateVerseSelectionHeader();
+        }
+      });
+
       const today = new Date();
       monthSelector.value = today.getMonth() + 1;
       fillDays();
@@ -598,7 +796,6 @@
             "aria-labelledby",
             formatBookName(bookName) + "-heading"
           );
-          // currentCollapse.setAttribute("data-bs-parent", "#versesAccordion");
           currentItem.appendChild(currentCollapse);
 
           // create accordion-body div
@@ -616,8 +813,18 @@
               englishToIndonesianBooks[currentBook]
             ) {
               currentBook = englishToIndonesianBooks[currentBook];
-            } else if ((translation === "CNVS" || translation === "CUNPSS-上帝" || translation === "CUNPSS-神") && englishToChineseBooks[currentBook]) {
+            } else if (
+              (translation === "CNVS" ||
+                translation === "CUNPSS-上帝" ||
+                translation === "CUNPSS-神") &&
+              englishToChineseBooks[currentBook]
+            ) {
               currentBook = englishToChineseBooks[currentBook];
+            } else if (
+              translation === "CUV" &&
+              englishToTraditionalChineseBooks[currentBook]
+            ) {
+              currentBook = englishToTraditionalChineseBooks[currentBook];
             }
 
             // 25:6-8 instead of 25:6-25:8
@@ -636,8 +843,18 @@
         // set bookName for display of next verse
         if (translation === "TB" && englishToIndonesianBooks[bookName]) {
           bookName = englishToIndonesianBooks[bookName];
-        } else if ((translation === "CNVS" || translation === "CUNPSS-上帝" || translation === "CUNPSS-神") && englishToChineseBooks[bookName]) {
+        } else if (
+          (translation === "CNVS" ||
+            translation === "CUNPSS-上帝" ||
+            translation === "CUNPSS-神") &&
+          englishToChineseBooks[bookName]
+        ) {
           bookName = englishToChineseBooks[bookName];
+        } else if (
+          translation === "CUV" &&
+          englishToTraditionalChineseBooks[bookName]
+        ) {
+          bookName = englishToTraditionalChineseBooks[bookName];
         }
         const verseDiv = document.createElement("div");
         verseDiv.className = `verse-div ${fontSize}`;
@@ -648,15 +865,24 @@
       }
 
       // update accordion item title for last book
-      // update accordion item title
       if (currentBook) {
         prevButton = document.getElementById(
           formatBookName(currentBook) + "-button"
         );
         if (translation === "TB" && englishToIndonesianBooks[currentBook]) {
           currentBook = englishToIndonesianBooks[currentBook];
-        } else if ((translation === "CNVS" || translation === "CUNPSS-上帝" || translation === "CUNPSS-神") && englishToChineseBooks[currentBook]) {
+        } else if (
+          (translation === "CNVS" ||
+            translation === "CUNPSS-上帝" ||
+            translation === "CUNPSS-神") &&
+          englishToChineseBooks[currentBook]
+        ) {
           currentBook = englishToChineseBooks[currentBook];
+        } else if (
+          translation === "CUV" &&
+          englishToTraditionalChineseBooks[currentBook]
+        ) {
+          currentBook = englishToTraditionalChineseBooks[currentBook];
         }
 
         // 25:6-8 instead of 25:6-25:8
@@ -672,20 +898,13 @@
       const translatedData = JSON.parse(
         localStorage.getItem("translatedData")
       );
-      const translation = document.getElementById(
-        "translation-selector"
-      ).value;
-      const selectedMonth = parseInt(
-        document.getElementById("month-selector").value
-      );
-      const selectedDay = parseInt(
-        document.getElementById("day-selector").value
-      );
-      const date = new Date(
-        new Date().getFullYear(),
-        selectedMonth - 1,
-        selectedDay
-      );
+      if (!translatedData) return;
+
+      const month = document.getElementById("month-selector").value;
+      const day = document.getElementById("day-selector").value;
+      const translation = getCurrentVersion();
+
+      const date = new Date(new Date().getFullYear(), month - 1, day);
       const verses = translatedData[dayOfYear(date)].join(",");
 
       // Show loading indicator
@@ -698,13 +917,30 @@
           </div>
         `;
 
-      const apiUrl = `https://api.blessings365.top/${translation}/multiple?verses=${encodeURIComponent(
-        verses
-      )}`;
+      const url = `https://api.blessings365.top/${translation}/multiple?verses=${encodeURIComponent(verses)}`;
 
-      fetch(apiUrl)
+      // GA Event
+      if (typeof gtag === 'function') {
+        gtag('event', 'view_item_list', {
+          'item_list_name': 'Bible Verses',
+          'items': [
+            {
+              'item_id': `day_${dayOfYear(date)}`,
+              'item_name': `Reading for Day ${dayOfYear(date)}`,
+              'item_category': translation
+            }
+          ],
+          'selected_version': translation,
+          'selected_month': month,
+          'selected_day': day
+        });
+      }
+
+      fetch(url)
         .then((response) => response.json())
-        .then((data) => displayVerses(data, translation))
+        .then((data) => {
+          displayVerses(data, translation);
+        })
         .catch((error) => {
           console.error("Error fetching verses:", error);
           outputDiv.innerHTML = `
@@ -714,184 +950,6 @@
             `;
         });
     }
-
-    // Cookies
-    function setCookie(cname, cvalue, exdays) {
-      const d = new Date();
-      d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
-      let expires = "expires=" + d.toUTCString();
-      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-    }
-
-    function getCookie(cname) {
-      let name = cname + "=";
-      let ca = document.cookie.split(";");
-      for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == " ") {
-          c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-          return c.substring(name.length, c.length);
-        }
-      }
-      return "";
-    }
-
-    // Fetch the Translated_Bacaan_Alkitab_365.json directly from the current directory
-    fetch("Translated_Bacaan_Alkitab_365.json")
-      .then((response) => response.json())
-      .then((translatedData) => {
-        // Store in local storage for later use
-        localStorage.setItem(
-          "translatedData",
-          JSON.stringify(translatedData)
-        );
-
-        populateMonthDayDropdowns(translatedData);
-
-        // Load saved version from cookie before initial fetch
-        const savedVersion = getCookie("selectedVersion");
-        if (savedVersion) {
-          document.getElementById("translation-selector").value = savedVersion;
-        }
-
-        // Auto fetch verses when page loads (now uses saved or default version)
-        fetchVerses();
-      })
-      .catch((error) => {
-        console.error(
-          "Error fetching the Translated_Bacaan_Alkitab_365.json:",
-          error
-        );
-      });
-
-    function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth", // Smooth scrolling animation
-      });
-    }
-
-    // Show the "Scroll to Top" button when the user scrolls down
-    document.addEventListener("DOMContentLoaded", function () {
-      var scrollToTopBtn = document.getElementById("scrollToTopBtn");
-      var scrollTimeout;
-
-      if (!scrollToTopBtn) return;
-
-      window.addEventListener("scroll", function () {
-        // Clear any existing timeout
-        if (scrollTimeout) {
-          clearTimeout(scrollTimeout);
-        }
-
-        if (document.documentElement.scrollTop > 100) {
-          scrollToTopBtn.classList.add("visible");
-
-          // Set a new timeout to hide the button after 3 seconds
-          scrollTimeout = setTimeout(function () {
-            scrollToTopBtn.classList.remove("visible");
-          }, 3000); // 1 seconds
-        } else {
-          scrollToTopBtn.classList.remove("visible");
-        }
-      });
-    });
-
-    // Font size controls
-    const fontSizeList = [0.8, 1, 1.2];
-
-    function getFontSizeClass(size) {
-      if (size == fontSizeList[0]) {
-        return "small-font-size";
-      } else if (size == fontSizeList[1]) {
-        return "medium-font-size";
-      } else {
-        return "large-font-size";
-      }
-    }
-
-    // States
-    let currentMode = "light";
-    const modeToButton = {
-      light: "dark",
-      dark: "light",
-    };
-    let lastClickedButton = document.querySelector(
-      ".font-size-btn.medium-font-size"
-    );
-    let fontSize = "medium-font-size";
-    let boldCopyEnabled = true; // State for bold copy, default to true
-
-    // EVENT LISTENERS
-    // Enable popovers
-
-    // Handle verse selection and menu
-    let selectedVerses = [];
-    let selectedVersesAddress = '';
-    const verseMenu = document.getElementById('verse-menu');
-
-    // Close verse menu when clicking outside
-    document.addEventListener('click', function (e) {
-      if (!e.target.closest('.verse-div') && !e.target.closest('#verse-menu')) {
-        verseMenu.style.display = 'none';
-        // Clear all selections when clicking outside
-        selectedVerses.forEach(verse => {
-          verse.classList.remove('verse-selected');
-        });
-        selectedVerses = [];
-        updateVerseSelectionHeader();
-      }
-    });
-
-    function updateVerseSelectionHeader() {
-      const headerDiv = document.getElementById('verseSelectionHeader');
-      const contentDiv = document.getElementById('verseSelectionHeaderContent');
-
-      if (selectedVerses.length > 0 && selectedVersesAddress) {
-        contentDiv.textContent = `Selected: ${selectedVersesAddress}`;
-        headerDiv.style.display = 'block';
-      } else {
-        contentDiv.textContent = '';
-        headerDiv.style.display = 'none';
-      }
-    }
-
-    // Handle verse click to show menu
-    document.addEventListener('click', function (e) {
-      const verseDiv = e.target.closest('.verse-div');
-      if (verseDiv) {
-        e.preventDefault();
-
-        // Toggle selection for the clicked verse
-        if (selectedVerses.includes(verseDiv)) {
-          verseDiv.classList.remove('verse-selected');
-          selectedVerses = selectedVerses.filter(v => v !== verseDiv);
-        } else {
-          verseDiv.classList.add('verse-selected');
-          selectedVerses.push(verseDiv);
-        }
-
-        // Show or hide menu based on selection state
-        if (selectedVerses.length > 0) {
-          // Position menu directly on top of the last selected verse
-          const lastVerse = selectedVerses[selectedVerses.length - 1];
-          const rect = lastVerse.getBoundingClientRect();
-          // Position the menu directly on top of the verse
-          verseMenu.style.top = `${window.scrollY + rect.top + (rect.height / 2)}px`;
-          verseMenu.style.left = `${rect.right - 70}px`; // Position from right side
-          verseMenu.style.display = 'block';
-
-          // Update verse address selection
-          const { _, formattedHeader } = formatVerseSelection(selectedVerses);
-          selectedVersesAddress = formattedHeader;
-          updateVerseSelectionHeader();
-        } else {
-          verseMenu.style.display = 'none';
-        }
-      }
-    });
 
     // Unicode bold mapping (add more characters as needed)
     const boldMap = {
@@ -1371,6 +1429,7 @@
   <div id="verseSelectionHeader" class="verse-selection-header">
     <div id="verseSelectionHeaderContent" class="content"></div>
   </div>
+
 </body>
 
 </html>

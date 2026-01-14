@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alkitab365 - Compare Versions</title>
+  <link rel="icon" type="image/x-icon" href="/assets/bcc.ico" />
+  <link rel="apple-touch-icon" href="/assets/bcc.ico" />
+  <style>
+    /* Basic styling for readability */
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .comparison-container {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+      width: 100%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 20px;
+      align-items: flex-start;
+    }
+
+    .version-panel {
+      min-width: 0;
+      scroll-snap-align: start;
+      flex: 1 1 0;
+      width: auto;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 15px;
+      background-color: var(--bs-body-bg);
+    }
+
+    /* Ensure accordion items align vertically between panels */
+    .accordion-item {
+      margin-bottom: 0;
+    }
+
+    /* Synchronize accordion heights between panels */
+    .accordion-collapse {
+      min-height: 0;
+    }
+
+    /* Ensure verse divs have consistent spacing */
+    .verse-div {
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+
+    /* Align accordion headers */
+    .accordion-header {
+      margin-bottom: 0;
+    }
+
+    .accordion-button {
+      padding: 0.75rem 1rem;
+    }
+
+    /* Ensure consistent accordion body padding */
+    .accordion-body {
+      padding: 1rem;
+    }
+
+    .version-header {
+      font-weight: bold;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--bs-primary);
+      color: var(--bs-primary);
+    }
+
+    .popover {
+      display: none;
+      position: absolute;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 0.3rem;
+      max-width: 276px;
+      z-index: 1070;
+      background-color: var(--bs-body-bg);
+      transition: opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    .popover.show {
+      opacity: 1;
+    }
+
+    .popover-header {
+      padding: 0.5rem 1rem;
+      margin: 0;
+      border-bottom: 1px solid var(--bs-border-color);
+      font-size: 1rem;
+      font-weight: 500;
+      background-color: var(--bs-tertiary-bg);
+    }
+
+    .popover-body {
+      padding: 1rem;
+    }
+
+    .settings-btn {
+      padding: 0.5rem;
+      line-height: 1;
+      border: 1px solid var(--bs-border-color);
+      background-color: transparent;
+      border-radius: 0.375rem;
+    }
+
+    .settings-btn:hover {
+      background-color: var(--bs-tertiary-bg);
+    }
+
+    @media (max-width: 768px) {
+      .version-panel {
+        min-width: 0;
+        flex-basis: 100%;
+        width: 100%;
+      }
+
+      @media (max-width: 768px) {
+        .version-panel {
+          min-width: calc(97vw - 40px);
+          flex: 0 0 auto;
+          width: auto;
+        }
+      }
+    }
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="stylesheet" type="text/css" href="styles.css" />
+  <link rel="stylesheet" type="text/css" href="verse-menu.css" />
+  <style>
+    /* Popover transition animation */
+    .popover {
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .popover.show {
+      opacity: 1;
+    }
+
+    /* Enhanced verse alignment for comparison */
+    .comparison-container {
+      position: relative;
+    }
+
+    /* Ensure both panels have synchronized heights */
+    #versesAccordion1,
+    #versesAccordion2 {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Make accordion items flex to maintain alignment */
+    #versesAccordion1 .accordion-item,
+    #versesAccordion2 .accordion-item {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: fit-content;
+    }
+
+    /* Ensure headers have consistent height */
+    #versesAccordion1 .accordion-header,
+    #versesAccordion2 .accordion-header {
+      min-height: 3rem;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Ensure button text wraps consistently */
+    #versesAccordion1 .accordion-button,
+    #versesAccordion2 .accordion-button {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-height: 3rem;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Ensure verses in expanded sections align */
+    #versesAccordion1 .accordion-collapse.show,
+    #versesAccordion2 .accordion-collapse.show {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Better verse spacing for alignment */
+    .verse-div {
+      padding: 0.25rem 0;
+      border: none;
+      background: transparent;
+    }
+
+    /* Ensure synchronization works even with selected verses */
+    .verse-div {
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    /* Ensure consistent line heights */
+    .verse-div.small-font-size {
+      line-height: 1.4;
+    }
+
+    .verse-div.medium-font-size {
+      line-height: 1.6;
+    }
+
+    .verse-div.large-font-size {
+      line-height: 1.8;
+    }
+
+    /* Verse selection and hover styles are handled by external CSS files (verse-menu.css and styles.css) */
+
+    /* Override scroll to top button positioning for compare page */
+    #scrollToTopBtn {
+      right: 0 !important;
+      border-radius: 12px 0 0 12px !important;
+      border-right: none !important;
+    }
+
+    @media (max-width: 768px) {
+      #scrollToTopBtn {
+        right: 0 !important;
+        bottom: 20px !important;
+        border-radius: 12px 0 0 12px !important;
+        border-right: none !important;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+    integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBVE1FKX3R"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-MBVE1FKX3R");
+  </script>
+</head>
+
+<body>
+  <div class="fixed-width-container">
+    <nav class="mt-4 mb-4 navbar navbar-expand-lg fixed-width-large">
+      <div class="container-fluid popover-container">
+        <a href="index.html" class="navbar-brand mb-0 h1">
+          Alkitab<span class="brand-accent">365</span>
+        </a>
+        <div class="d-flex">
+          <a href="index.html" class="btn btn-outline-primary me-2">Daily</a>
+          <button id="popoverBtn" class="btn settings-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi" fill="currentColor"
+              viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+              </path>
+            </svg>
+          </button>
+        </div>
+        <div class="popover" id="popoverContent">
+          <div class="popover-header">Reader settings</div>
+          <div class="popover-body">
+            <!-- Font size option -->
+            <div class="user-options font-size-option">
+              <p class="mb-0">Font size</p>
+              <div class="font-size-slider-container">
+                <input type="range" min="1" max="3" value="2" step="1" class="font-size-slider" id="font-size-slider" />
+                <div class="font-size-labels">
+                  <span><span class="font-size-example small-font-size">Aa</span>
+                    Small</span>
+                  <span><span class="font-size-example medium-font-size">Aa</span>
+                    Medium</span>
+                  <span><span class="font-size-example large-font-size">Aa</span>
+                    Large</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dark mode option -->
+            <div class="user-options toggle-option">
+              <p class="mb-0">Appearance</p>
+              <label class="toggle-label">
+                <span class="toggle-icon">☀️</span>
+                <div class="toggle-switch">
+                  <input type="checkbox" id="mode-toggle" />
+                  <span class="toggle-slider"></span>
+                </div>
+                <span class="toggle-icon">🌙</span>
+              </label>
+            </div>
+
+            <!-- Bold Copy option -->
+            <div class="user-options toggle-option">
+              <p class="mb-0">Copy Format</p>
+              <label class="toggle-label">
+                <span class="toggle-icon">Aa</span>
+                <!-- Plain text icon -->
+                <div class="toggle-switch">
+                  <input type="checkbox" id="bold-copy-toggle" />
+                  <span class="toggle-slider"></span>
+                </div>
+                <span class="toggle-icon"><strong>A</strong>a</span>
+                <!-- Better bold icon -->
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="fixed-width-container">
+    <div class="d-flex justify-content-center align-items-center mb-3">
+      <h2 class="text-center mb-0">Compare Bible Versions</h2>
+    </div>
+
+    <!-- Date and Version Selectors -->
+    <div class="d-flex justify-content-center fixed-width-medium">
+      <div class="me-2">
+        <label for="month-selector" class="selector-label">Date</label>
+        <select id="month-selector" class="form-select-sm"></select>
+      </div>
+      <div class="me-3">
+        <label for="day-selector" class="selector-label"></label>
+        <select id="day-selector" class="form-select-sm"></select>
+      </div>
+    </div>
+
+    <!-- Version Selectors for Comparison -->
+    <div class="d-flex justify-content-center fixed-width-medium mt-3">
+      <div class="me-3">
+        <label for="translation-selector-1" class="selector-label">Version 1</label>
+        <select id="translation-selector-1" class="form-select-sm">
+          <option value="TB">TB</option>
+          <option value="ESV" selected>ESV</option>
+          <option value="KJV">KJV</option>
+          <option value="NASB">NASB</option>
+          <option value="NIV">NIV</option>
+          <option value="NLT">NLT</option>
+          <option value="TLB">TLB</option>
+          <option value="CNVS">新译本(CNVS)</option>
+          <option value="CUNPSS-上帝">新标点和合本，上帝版</option>
+          <option value="CUNPSS-神">新标点和合本，神版</option>
+          <option value="CUV">和合本 (繁體) (CUV)</option>
+        </select>
+      </div>
+      <div>
+        <label for="translation-selector-2" class="selector-label">Version 2</label>
+        <select id="translation-selector-2" class="form-select-sm">
+          <option value="TB" selected>TB</option>
+          <option value="ESV">ESV</option>
+          <option value="KJV">KJV</option>
+          <option value="NASB">NASB</option>
+          <option value="NIV">NIV</option>
+          <option value="NLT">NLT</option>
+          <option value="TLB">TLB</option>
+          <option value="CNVS">新译本(CNVS)</option>
+          <option value="CUNPSS-上帝">新标点和合本，上帝版</option>
+          <option value="CUNPSS-神">新标点和合本，神版</option>
+          <option value="CUV">和合本 (繁體) (CUV)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <hr class="mt-3 mb-3" />
+
+  <!-- Comparison Display -->
+  <div class="fixed-width-container">
+    <div class="comparison-container">
+      <div class="version-panel">
+        <div class="version-header" id="version-1-header">ESV</div>
+        <div id="verses-output-1" class="verses-content"></div>
+      </div>
+      <div class="version-panel">
+        <div class="version-header" id="version-2-header">TB</div>
+        <div id="verses-output-2" class="verses-content"></div>
+      </div>
+    </div>
+
+    <!-- Verse menu for sharing and copying (simplified) -->
+    <div id="verse-menu" class="verse-menu">
+      <!-- Menu items can be added here for other functions if needed -->
+    </div>
+  </div>
+
+  <!-- Footer with copy functionality -->
+  <footer id="main-footer" class="main-footer">
+    <div class="footer-content">
+      <button id="copy-verse" class="btn btn-outline-primary copy-button" disabled>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="14"
+          height="14">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+        </svg>
+        Copy
+      </button>
+      <div class="footer-info">
+        <span id="selection-count">Select verses to copy</span>
+      </div>
+    </div>
+  </footer>
+
+  <button id="scrollToTopBtn" class="btn btn-dark" onclick="scrollToTop()" aria-label="Scroll to top">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+      <path
+        d="M7.646 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 6.207V11.5a.5.5 0 0 1-1 0V6.207L5.354 8.354a.5.5 0 1 1-.708-.708l3-3z" />
+    </svg>
+  </button>
+
+  <script>
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth", // Smooth scrolling animation
+      });
+    }
+
+    // Show the "Scroll to Top" button when the user scrolls down
+    document.addEventListener("DOMContentLoaded", function () {
+      var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+      var scrollTimeout;
+
+      if (!scrollToTopBtn) return;
+
+      window.addEventListener("scroll", function () {
+        // Clear any existing timeout
+        if (scrollTimeout) {
+          clearTimeout(scrollTimeout);
+        }
+
+        if (document.documentElement.scrollTop > 100) {
+          scrollToTopBtn.classList.add("visible");
+
+          // Set a new timeout to hide the button after 3 seconds
+          scrollTimeout = setTimeout(function () {
+            scrollToTopBtn.classList.remove("visible");
+          }, 3000); // 3 seconds
+        } else {
+          scrollToTopBtn.classList.remove("visible");
+        }
+      });
+    });
+
+    // Initialize theme and reader settings from localStorage immediately
+    const savedMode = localStorage.getItem("mode");
+    const mode = savedMode || "light";
+    document.documentElement.dataset.bsTheme = mode;
+
+    // Initialize reader settings UI state
+    const popoverContent = document.getElementById("popoverContent");
+    if (mode === "dark" && popoverContent) {
+      popoverContent.classList.add("dark-mode");
+      document.getElementById("mode-toggle").checked = true;
+    }
+
+    // States for theme handling
+    let currentMode = mode;
+    const modeToButton = {
+      light: "dark",
+      dark: "light",
+    };
+
+    // Helper function to get current Bible version
+    function getCurrentVersion() {
+      const selector = document.getElementById("translation-selector-1");
+      return selector ? selector.value : "unknown"; // Handle case where selector might not exist yet
+    }
+
+    // Import shared functionality from the main app
+    const englishToIndonesianBooks = {
+      Genesis: "Kejadian",
+      Exodus: "Keluaran",
+      Leviticus: "Imamat",
+      Numbers: "Bilangan",
+      Deuteronomy: "Ulangan",
+      Joshua: "Yosua",
+      Judges: "Hakim-Hakim",
+      Ruth: "Rut",
+      "1 Samuel": "1 Samuel",
+      "2 Samuel": "2 Samuel",
+      "1 Kings": "1 Raja-Raja",
+      "2 Kings": "2 Raja-Raja",
+      "1 Chronicles": "1 Tawarikh",
+      "2 Chronicles": "2 Tawarikh",
+      Ezra: "Ezra",
+      Nehemiah: "Nehemia",
+      Esther: "Ester",
+      Job: "Ayub",
+      Psalms: "Mazmur",
+      Proverbs: "Amsal",
+      Ecclesiastes: "Pengkhotbah",
+      "Song of Solomon": "Kidung Agung",
+      Isaiah: "Yesaya",
+      Jeremiah: "Yeremia",
+      Lamentations: "Ratapan",
+      Ezekiel: "Yehezkiel",
+      Daniel: "Daniel",
+      Hosea: "Hosea",
+      Joel: "Yoel",
+      Amos: "Amos",
+      Obadiah: "Obaja",
+      Jonah: "Yunus",
+      Micah: "Mikha",
+      Nahum: "Nahum",
+      Habakkuk: "Habakuk",
+      Zephaniah: "Zefanya",
+      Haggai: "Hagai",
+      Zechariah: "Zakharia",
+      Malachi: "Maleakhi",
+      Matthew: "Matius",
+      Mark: "Markus",
+      Luke: "Lukas",
+      John: "Yohanes",
+      Acts: "Kisah Para Rasul",
+      Romans: "Roma",
+      "1 Corinthians": "1 Korintus",
+      "2 Corinthians": "2 Korintus",
+      Galatians: "Galatia",
+      Ephesians: "Efesus",
+      Philippians: "Filipi",
+      Colossians: "Kolose",
+      "1 Thessalonians": "1 Tesalonika",
+      "2 Thessalonians": "2 Tesalonika",
+      "1 Timothy": "1 Timotius",
+      "2 Timothy": "2 Timotius",
+      Titus: "Titus",
+      Philemon: "Filemon",
+      Hebrews: "Ibrani",
+      James: "Yakobus",
+      "1 Peter": "1 Petrus",
+      "2 Peter": "2 Petrus",
+      "1 John": "1 Yohanes",
+      "2 John": "2 Yohanes",
+      "3 John": "3 Yohanes",
+      Jude: "Yudas",
+      Revelation: "Wahyu",
+    };
+
+    const englishToChineseBooks = {
+      Genesis: "创世纪",
+      Exodus: "出埃及记",
+      Leviticus: "利未记",
+      Numbers: "民数记",
+      Deuteronomy: "申命记",
+      Joshua: "约书亚记",
+      Judges: "士师记",
+      Ruth: "路得记",
+      "1 Samuel": "撒母耳记上",
+      "2 Samuel": "撒母耳记下",
+      "1 Kings": "列王记上",
+      "2 Kings": "列王记下",
+      "1 Chronicles": "历代志上",
+      "2 Chronicles": "历代志下",
+      Ezra: "以斯拉记",
+      Nehemiah: "尼希米记",
+      Esther: "以斯帖记",
+      Job: "约伯记",
+      Psalms: "诗篇",
+      Proverbs: "箴言",
+      Ecclesiastes: "传道书",
+      "Song of Solomon": "雅歌",
+      Isaiah: "以赛亚书",
+      Jeremiah: "耶利米书",
+      Lamentations: "耶利米哀歌",
+      Ezekiel: "以西结书",
+      Daniel: "但以理书",
+      Hosea: "何西阿书",
+      Joel: "约珥书",
+      Amos: "阿摩司书",
+      Obadiah: "俄巴底亚书",
+      Jonah: "约拿书",
+      Micah: "弥迦书",
+      Nahum: "那鸿书",
+      Habakkuk: "哈巴谷书",
+      Zephaniah: "西番雅书",
+      Haggai: "哈该书",
+      Zechariah: "撒迦利亚书",
+      Malachi: "玛拉基书",
+      Matthew: "马太福音",
+      Mark: "马可福音",
+      Luke: "路加福音",
+      John: "约翰福音",
+      Acts: "使徒行传",
+      Romans: "罗马书",
+      "1 Corinthians": "歌林多前书",
+      "2 Corinthians": "歌林多后书",
+      Galatians: "加拉太书",
+      Ephesians: "以弗所书",
+      Philippians: "腓利比书",
+      Colossians: "歌罗西书",
+      "1 Thessalonians": "帖撒罗尼迦前书",
+      "2 Thessalonians": "帖撒罗尼迦后书",
+      "1 Timothy": "提摩太前书",
+      "2 Timothy": "提摩太后书",
+      Titus: "提多书",
+      Philemon: "腓利门书",
+      Hebrews: "希伯来书",
+      James: "雅各书",
+      "1 Peter": "彼得前书",
+      "2 Peter": "彼得后书",
+      "1 John": "约翰一书",
+      "2 John": "约翰二书",
+      "3 John": "约翰三书",
+      Jude: "犹大书",
+      Revelation: "启示录",
+    };
+
+    const englishToTraditionalChineseBooks = {
+      Genesis: "創世記",
+      Exodus: "出埃及記",
+      Leviticus: "利未記",
+      Numbers: "民數記",
+      Deuteronomy: "申命記",
+      Joshua: "約書亞記",
+      Judges: "士師記",
+      Ruth: "路得記",
+      "1 Samuel": "撒母耳記上",
+      "2 Samuel": "撒母耳記下",
+      "1 Kings": "列王紀上",
+      "2 Kings": "列王紀下",
+      "1 Chronicles": "歷代志上",
+      "2 Chronicles": "歷代志下",
+      Ezra: "以斯拉記",
+      Nehemiah: "尼希米記",
+      Esther: "以斯帖記",
+      Job: "約伯記",
+      Psalms: "詩篇",
+      Proverbs: "箴言",
+      Ecclesiastes: "傳道書",
+      "Song of Solomon": "雅歌",
+      Isaiah: "以賽亞書",
+      Jeremiah: "耶利米書",
+      Lamentations: "耶利米哀歌",
+      Ezekiel: "以西結書",
+      Daniel: "但以理書",
+      Hosea: "何西阿書",
+      Joel: "約珥書",
+      Amos: "阿摩司書",
+      Obadiah: "俄巴底亞書",
+      Jonah: "約拿書",
+      Micah: "彌迦書",
+      Nahum: "那鴻書",
+      Habakkuk: "哈巴谷書",
+      Zephaniah: "西番雅書",
+      Haggai: "哈該書",
+      Zechariah: "撒迦利亞書",
+      Malachi: "瑪拉基書",
+      Matthew: "馬太福音",
+      Mark: "馬可福音",
+      Luke: "路加福音",
+      John: "約翰福音",
+      Acts: "使徒行傳",
+      Romans: "羅馬書",
+      "1 Corinthians": "哥林多前書",
+      "2 Corinthians": "哥林多後書",
+      Galatians: "加拉太書",
+      Ephesians: "以弗所書",
+      Philippians: "腓立比書",
+      Colossians: "歌羅西書",
+      "1 Thessalonians": "帖撒羅尼迦前書",
+      "2 Thessalonians": "帖撒羅尼迦後書",
+      "1 Timothy": "提摩太前書",
+      "2 Timothy": "提摩太後書",
+      Titus: "提多書",
+      Philemon: "腓利門書",
+      Hebrews: "希伯來書",
+      James: "雅各書",
+      "1 Peter": "彼得前書",
+      "2 Peter": "彼得後書",
+      "1 John": "約翰一書",
+      "2 John": "約翰二書",
+      "3 John": "約翰三書",
+      Jude: "猶大書",
+      Revelation: "啟示錄",
+    };
+
+    // Cookie management functions
+    function setCookie(cname, cvalue, exdays) {
+      const d = new Date();
+      d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+      let expires = "expires=" + d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+      let name = cname + "=";
+      let ca = document.cookie.split(";");
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    let translatedData = {};
+    let boldCopyEnabled = true;
+    let currentSelectedText = "";
+    let fontSize = "medium-font-size"; // Default font size
+    let isAccordionSyncing = false; // Sync control flag
+    let isAligningDOM = false; // Flag to indicate if DOM alignment is in progress
+
+    function isLeapYear(year) {
+      return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    }
+
+    function dayOfYear(date) {
+      const start = new Date(date.getFullYear(), 0, 0);
+      const diff =
+        date -
+        start +
+        (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000;
+      const oneDay = 1000 * 60 * 60 * 24;
+      let day = Math.floor(diff / oneDay);
+
+      // Adjust day count in leap years after February 29
+      if (
+        isLeapYear(date.getFullYear()) &&
+        ((date.getMonth() === 1 && date.getDate() === 29) ||
+          date.getMonth() > 1)
+      ) {
+        day -= 1;
+      }
+
+      return day;
+    }
+
+    function populateMonthDayDropdowns() {
+      const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+      const monthSelector = document.getElementById("month-selector");
+      const daySelector = document.getElementById("day-selector");
+
+      monthNames.forEach((month, index) => {
+        const option = document.createElement("option");
+        option.value = index + 1;
+        option.textContent = month;
+        monthSelector.appendChild(option);
+      });
+
+      function fillDays() {
+        daySelector.innerHTML = "";
+        const selectedMonth = parseInt(monthSelector.value);
+        const currentYear = new Date().getFullYear();
+        if (isLeapYear(currentYear) && selectedMonth === 2) {
+          daysInMonth[selectedMonth - 1] = 29;
+        }
+        for (let i = 1; i <= daysInMonth[selectedMonth - 1]; i++) {
+          const option = document.createElement("option");
+          option.value = i;
+          option.textContent = i;
+          daySelector.appendChild(option);
+        }
+      }
+
+      fillDays();
+
+      monthSelector.addEventListener("change", () => {
+        fillDays();
+        fetchBothVersions();
+      });
+
+      daySelector.addEventListener("change", () => {
+        fetchBothVersions();
+      });
+
+      // Set to today's date
+      const today = new Date();
+      monthSelector.value = today.getMonth() + 1;
+      fillDays();
+      daySelector.value = today.getDate();
+
+      if (
+        isLeapYear(today.getFullYear()) &&
+        today.getMonth() === 1 &&
+        today.getDate() === 29
+      ) {
+        daySelector.value = 29;
+      }
+    }
+
+    function formatBookName(bookName) {
+      // Split the input into words
+      const words = bookName.split(" ");
+
+      // Initialize an array for non-numeric parts and numeric parts
+      const nonNumericParts = [];
+      const numericParts = [];
+
+      // Separate non-numeric and numeric parts
+      for (const word of words) {
+        if (isNaN(word)) {
+          nonNumericParts.push(word);
+        } else {
+          numericParts.push(word);
+        }
+      }
+
+      // Join the non-numeric parts with hyphens and add the numeric parts at the end
+      const formattedString =
+        nonNumericParts.join("-").toLowerCase() + numericParts.join("");
+
+      return formattedString;
+    }
+
+    function addVerseSelectionListeners(container) {
+      container.addEventListener("mouseup", function () {
+        const selection = window.getSelection();
+        if (selection.toString().trim().length > 0) {
+          currentSelectedText = selection.toString().trim();
+        }
+      });
+
+      // Add click listeners for verse selection
+      container.addEventListener("click", function (e) {
+        if (isAligningDOM) {
+          // console.log("[Compare View] Click ignored, DOM alignment in progress. Target:", e.target);
+          return; // Ignore click if DOM alignment is happening
+        }
+        // console.log("[Compare View] Click detected on container. Target:", e.target); // Log 1
+        const verseDiv = e.target.closest(".verse-div");
+        // console.log("[Compare View] Closest .verse-div:", verseDiv); // Log 2
+
+        if (verseDiv && !verseDiv.classList.contains("verse-placeholder")) {
+          // console.log("[Compare View] Valid verseDiv found:", verseDiv.outerHTML.substring(0, 100) + "..."); // Log 3
+          e.preventDefault();
+          e.stopPropagation();
+          // console.log("[Compare View] Event propagation stopped."); // Log 4
+
+          // Toggle selection for the clicked verse
+          if (selectedVerses.includes(verseDiv)) {
+            // console.log("[Compare View] Deselecting verse."); // Log 5a
+            verseDiv.classList.remove("verse-selected");
+            selectedVerses = selectedVerses.filter((v) => v !== verseDiv);
+          } else {
+            // console.log("[Compare View] Selecting verse."); // Log 5b
+            verseDiv.classList.add("verse-selected");
+            selectedVerses.push(verseDiv);
+          }
+
+          // Update verse address selection and footer
+          if (selectedVerses.length > 0) {
+            const { formattedText, formattedHeader } =
+              formatVerseSelection(selectedVerses);
+            selectedVersesAddress = formattedHeader || "";
+            resetCopyButton(); // Reset the copy button state
+          }
+
+          // Always hide the verse menu since we're using footer
+          if (verseMenu) {
+            verseMenu.style.display = "none";
+          }
+          updateFooterVisibility();
+
+          // Re-synchronize verse heights after selection change to maintain comparison alignment
+          // console.log("[Compare View] Scheduling synchronizeVerseHeights after click.");
+          isAligningDOM = true; // Set flag BEFORE scheduling the timeout
+          setTimeout(() => {
+            // console.log("[Compare View] setTimeout for synchronizeVerseHeights (after click) is now executing.");
+            synchronizeVerseHeights();
+            // The finally block in synchronizeVerseHeights will set isAligningDOM = false
+          }, 50);
+        } else {
+          // if (!verseDiv) {
+          //   console.warn("[Compare View] Click did not find a .verse-div parent for target:", e.target); // Log 6a
+          // } else if (verseDiv.classList.contains("verse-placeholder")) {
+          //   console.log("[Compare View] Clicked on a verse-placeholder. Ignoring. Target:", e.target); // Log 6b
+          // }
+        }
+      });
+    }
+
+    function displayVerses(data, translation, panelNumber) {
+      const outputDiv = document.getElementById(
+        `verses-output-${panelNumber}`
+      );
+      const headerDiv = document.getElementById(
+        `version-${panelNumber}-header`
+      );
+
+      outputDiv.innerHTML = "";
+      headerDiv.textContent = translation;
+
+      const accordionDiv = document.createElement("div");
+      accordionDiv.classList.add("accordion", "accordion-flush");
+      accordionDiv.setAttribute("id", `versesAccordion${panelNumber}`);
+      outputDiv.appendChild(accordionDiv);
+
+      let currentBookDisplay = ""; // Stores the display name of the book being processed
+      let currentBookOriginalForId = ""; // Stores the original name (e.g., English) for ID generation
+
+      let currentItem, currentBody;
+
+      let startVerse = ""; // Start verse of the current book passage
+      let prevVerse = ""; // Last verse processed in the current book passage
+
+      // Variables to hold details of the *previous* book section for updating its title
+      let prevAccordionButton = null;
+      let prevBookDisplayTitle = "";
+      let prevBookStartVerse = "";
+      let prevBookLastVerse = "";
+
+      for (const verseData of data) {
+        const bookName = verseData.bookName; // Potentially translated book name for display
+        const originalBookName = verseData.originalBookName || bookName; // Original name for IDs
+        const chapterNumber = verseData.chapterNumber;
+        const verseNumber = verseData.verseNumber;
+        const text = verseData.text;
+
+        if (originalBookName !== currentBookOriginalForId) {
+          // This is a new book. Finalize the title of the *previous* book section.
+          if (prevAccordionButton) {
+            let tempPrevBookLastVerseText = prevBookLastVerse;
+            if (
+              prevBookStartVerse.split(":")[0] ===
+              tempPrevBookLastVerseText.split(":")[0]
+            ) {
+              tempPrevBookLastVerseText =
+                tempPrevBookLastVerseText.split(":")[1];
+            }
+            prevAccordionButton.textContent = `${prevBookDisplayTitle} ${prevBookStartVerse}-${tempPrevBookLastVerseText}`;
+          }
+
+          // Start new accordion item for the current book
+          currentItem = document.createElement("div");
+          currentItem.classList.add("accordion-item");
+          accordionDiv.appendChild(currentItem);
+
+          const baseId = formatBookName(originalBookName); // Use original name for ID
+          const headerId = `${baseId}-heading-${panelNumber}`;
+          const buttonId = `${baseId}-button-${panelNumber}`;
+          const collapseId = `${baseId}-collapse-${panelNumber}`;
+
+          let currentHeader = document.createElement("h2");
+          currentHeader.classList.add("accordion-header");
+          currentHeader.setAttribute("id", headerId);
+          currentItem.appendChild(currentHeader);
+
+          let currentButton = document.createElement("button");
+          currentButton.className = "accordion-button collapsed";
+          currentButton.type = "button";
+          currentButton.setAttribute("data-bs-toggle", "collapse");
+          currentButton.setAttribute("data-bs-target", `#${collapseId}`);
+          currentButton.setAttribute("aria-expanded", "false");
+          currentButton.setAttribute("aria-controls", collapseId);
+          currentButton.setAttribute("id", buttonId);
+          currentButton.setAttribute("data-original-book", originalBookName);
+          currentButton.textContent = bookName; // Initial title is just the book name
+          currentHeader.appendChild(currentButton);
+
+          let currentCollapse = document.createElement("div");
+          currentCollapse.className = "accordion-collapse collapse";
+          currentCollapse.setAttribute("id", collapseId);
+          currentCollapse.setAttribute("aria-labelledby", headerId);
+          currentItem.appendChild(currentCollapse);
+
+          currentBody = document.createElement("div");
+          currentBody.className = "accordion-body";
+          currentCollapse.appendChild(currentBody);
+
+          // Accordion sync logic (existing)
+          currentButton.addEventListener("click", function (event) {
+            if (isAccordionSyncing) return;
+            setTimeout(() => {
+              if (isAccordionSyncing) return;
+              isAccordionSyncing = true;
+              try {
+                const currentCollapseElement =
+                  document.getElementById(collapseId);
+                const parts = collapseId.split("-");
+                const bookBaseId = parts.slice(0, -2).join("-");
+                const currentPanelNum = parseInt(parts[parts.length - 1]);
+                const otherPanelNum = currentPanelNum === 1 ? 2 : 1;
+                const otherCollapseId = `${bookBaseId}-collapse-${otherPanelNum}`;
+                const otherCollapseElement =
+                  document.getElementById(otherCollapseId);
+                const otherButton = document.querySelector(
+                  `[data-bs-target="#${otherCollapseId}"]`
+                );
+                if (otherCollapseElement && otherButton) {
+                  const isCurrentExpanded =
+                    currentCollapseElement.classList.contains("show") ||
+                    !currentButton.classList.contains("collapsed");
+                  const isOtherExpanded =
+                    otherCollapseElement.classList.contains("show") ||
+                    !otherButton.classList.contains("collapsed");
+                  if (isCurrentExpanded && !isOtherExpanded) {
+                    otherCollapseElement.classList.add("show");
+                    otherButton.classList.remove("collapsed");
+                    otherButton.setAttribute("aria-expanded", "true");
+                  } else if (!isCurrentExpanded && isOtherExpanded) {
+                    otherCollapseElement.classList.remove("show");
+                    otherButton.classList.add("collapsed");
+                    otherButton.setAttribute("aria-expanded", "false");
+                  }
+                }
+              } catch (e) {
+                console.error("Error during accordion sync:", e);
+              }
+              setTimeout(() => {
+                isAccordionSyncing = false;
+              }, 100);
+            }, 10);
+          });
+          currentCollapse.addEventListener(
+            "shown.bs.collapse",
+            function (event) {
+              if (isAccordionSyncing) return;
+              syncAccordionState(event.target.id, true);
+              // Synchronize verse heights after accordion is shown
+              setTimeout(() => {
+                synchronizeVerseHeights();
+              }, 50);
+            }
+          );
+          currentCollapse.addEventListener(
+            "hidden.bs.collapse",
+            function (event) {
+              if (isAccordionSyncing) return;
+              syncAccordionState(event.target.id, false);
+              // Synchronize verse heights after accordion is hidden
+              setTimeout(() => {
+                synchronizeVerseHeights();
+              }, 50);
+            }
+          );
+          // End of accordion sync logic
+
+          // Update trackers for the new book section
+          currentBookDisplay = bookName;
+          currentBookOriginalForId = originalBookName;
+          startVerse = `${chapterNumber}:${verseNumber}`;
+
+          // Store details for this new button, to be updated when the *next* book starts or at the end
+          prevAccordionButton = currentButton;
+          prevBookDisplayTitle = bookName; // Display name for this book
+          prevBookStartVerse = startVerse; // Start verse for this book
+        }
+
+        const verseDiv = document.createElement("div");
+        verseDiv.className = `verse-div ${fontSize}`;
+        verseDiv.innerHTML = `<strong><sup>${chapterNumber}:${verseNumber}</sup></strong> ${text}`;
+        currentBody.appendChild(verseDiv);
+
+        prevVerse = `${chapterNumber}:${verseNumber}`; // Keep track of the last verse of the current book section
+        prevBookLastVerse = prevVerse; // Update the last verse for the current book section being built
+      }
+
+      // After the loop, update the title for the very last book section processed
+      if (prevAccordionButton) {
+        // Check if any book was processed
+        let tempPrevBookLastVerseText = prevBookLastVerse;
+        if (
+          prevBookStartVerse &&
+          prevBookStartVerse.split(":")[0] ===
+          tempPrevBookLastVerseText.split(":")[0]
+        ) {
+          tempPrevBookLastVerseText = tempPrevBookLastVerseText.split(":")[1];
+        }
+        prevAccordionButton.textContent = `${prevBookDisplayTitle} ${prevBookStartVerse}-${tempPrevBookLastVerseText}`;
+      }
+
+      addVerseSelectionListeners(outputDiv);
+    }
+
+    // Helper function to sync accordion state between panels
+    function syncAccordionState(collapseId, isExpanded) {
+      if (isAccordionSyncing) return;
+      isAccordionSyncing = true;
+
+      try {
+        const parts = collapseId.split("-");
+        const bookBaseId = parts.slice(0, -2).join("-");
+        const currentPanel = parseInt(parts[parts.length - 1]);
+        const otherPanel = currentPanel === 1 ? 2 : 1;
+        const otherCollapseId = `${bookBaseId}-collapse-${otherPanel}`;
+        const otherCollapse = document.getElementById(otherCollapseId);
+        const otherButton = document.querySelector(
+          `[data-bs-target="#${otherCollapseId}"]`
+        );
+
+        if (otherCollapse && otherButton) {
+          const isOtherExpanded = otherCollapse.classList.contains("show");
+
+          if (isExpanded && !isOtherExpanded) {
+            // Expand the other panel to match
+            otherCollapse.classList.add("show");
+            otherButton.classList.remove("collapsed");
+            otherButton.setAttribute("aria-expanded", "true");
+          } else if (!isExpanded && isOtherExpanded) {
+            // Collapse the other panel to match
+            otherCollapse.classList.remove("show");
+            otherButton.classList.add("collapsed");
+            otherButton.setAttribute("aria-expanded", "false");
+          }
+        }
+      } catch (e) {
+        console.error("Error in syncAccordionState:", e);
+      }
+
+      setTimeout(() => {
+        isAccordionSyncing = false;
+      }, 50);
+    }
+
+    // Function to synchronize verses by inserting placeholders for missing verses
+    function synchronizeVerseHeights() {
+      isAligningDOM = true; // Set flag at the start of synchronization
+      try {
+        const panel1 = document.getElementById("versesAccordion1");
+        const panel2 = document.getElementById("versesAccordion2");
+
+        if (!panel1 || !panel2) return;
+
+        // Synchronize verse alignment within expanded accordion bodies
+        const expandedBodies1 = panel1.querySelectorAll(
+          ".accordion-collapse.show .accordion-body"
+        );
+        const expandedBodies2 = panel2.querySelectorAll(
+          ".accordion-collapse.show .accordion-body"
+        );
+
+        // Match expanded bodies by their book identifier
+        expandedBodies1.forEach((body1) => {
+          const accordion1 = body1.closest(".accordion-item");
+          const button1 = accordion1.querySelector(".accordion-button");
+          if (!button1) return;
+
+          const bookId =
+            button1.getAttribute("data-original-book") ||
+            button1.id.split("-button")[0];
+
+          // Find the corresponding body in panel 2
+          const body2 = Array.from(expandedBodies2).find((body) => {
+            const accordion2 = body.closest(".accordion-item");
+            const button2 = accordion2.querySelector(".accordion-button");
+            if (!button2) return false;
+            const bookId2 =
+              button2.getAttribute("data-original-book") ||
+              button2.id.split("-button")[0];
+            return bookId === bookId2;
+          });
+
+          if (body2) {
+            alignVersesByAddress(body1, body2);
+          }
+        });
+      } finally {
+        isAligningDOM = false; // Clear flag at the end of synchronization
+      }
+    }
+
+    // Function to align verses by inserting placeholders for missing verses
+    function alignVersesByAddress(body1, body2) {
+      // isAligningDOM is now managed by synchronizeVerseHeights
+      try {
+        const body1Id = body1 && body1.id ? body1.id : "unknown_body1";
+        const body2Id = body2 && body2.id ? body2.id : "unknown_body2";
+        // console.log(`[Compare View] alignVersesByAddress START for body1: ${body1Id}, body2: ${body2Id}`); // Log A
+
+        // Remove any existing placeholders first
+        if (body1) {
+          body1
+            .querySelectorAll(".verse-placeholder")
+            .forEach((el) => el.remove());
+        }
+        if (body2) {
+          body2
+            .querySelectorAll(".verse-placeholder")
+            .forEach((el) => el.remove());
+        }
+
+        // Get all verses and their addresses
+        const verses1 = Array.from(
+          body1.querySelectorAll(".verse-div:not(.verse-placeholder)")
+        );
+        const verses2 = Array.from(
+          body2.querySelectorAll(".verse-div:not(.verse-placeholder)")
+        );
+
+        // Log check for selected verses before DOM manipulation
+        // console.log(`[Compare View] alignVersesByAddress: Pre-check selectedVerses.length: ${selectedVerses.length}`);
+        // selectedVerses.forEach((sv, index) => {
+        //     const svIsInDOM = document.body.contains(sv);
+        //     const svHasClass = sv.classList.contains('verse-selected');
+        //     let svPanel = 'unknown';
+        //     // Use body1 and body2 (which are in scope) to determine the panel
+        //     if (body1 && body1.contains(sv)) svPanel = 'panel1 (via body1)';
+        //     else if (body2 && body2.contains(sv)) svPanel = 'panel2 (via body2)';
+
+        //     console.log(`[Compare View] alignVersesByAddress: Pre-check sv[${index}]: inDOM=${svIsInDOM}, hasClass=${svHasClass}, panel=${svPanel}, text=${(sv.textContent || "").substring(0,30)}`);
+
+        //     const isInVerses1 = verses1.some(v1 => v1 === sv);
+        //     const isInVerses2 = verses2.some(v2 => v2 === sv);
+        //     if (isInVerses1) console.log(`[Compare View] alignVersesByAddress: sv[${index}] found in verses1. Class list:`, sv.classList);
+        //     if (isInVerses2) console.log(`[Compare View] alignVersesByAddress: sv[${index}] found in verses2. Class list:`, sv.classList);
+        // });
+
+        // Create maps of verses by their address (chapter:verse)
+        const verseMap1 = new Map();
+        const verseMap2 = new Map();
+        const allAddresses = new Set();
+
+        // Map verses by their chapter:verse address
+        verses1.forEach((verse) => {
+          const supElement = verse.querySelector("sup");
+          if (supElement) {
+            const address = supElement.textContent.trim(); // e.g., "1:1"
+            verseMap1.set(address, verse);
+            allAddresses.add(address);
+          }
+        });
+
+        verses2.forEach((verse) => {
+          const supElement = verse.querySelector("sup");
+          if (supElement) {
+            const address = supElement.textContent.trim(); // e.g., "1:1"
+            verseMap2.set(address, verse);
+            allAddresses.add(address);
+          }
+        });
+
+        // Sort addresses numerically (chapter:verse)
+        const sortedAddresses = Array.from(allAddresses).sort((a, b) => {
+          const [chapterA, verseA] = a.split(":").map(Number);
+          const [chapterB, verseB] = b.split(":").map(Number);
+
+          if (chapterA !== chapterB) {
+            return chapterA - chapterB;
+          }
+          return verseA - verseB;
+        });
+
+        // Clear both bodies and rebuild with proper alignment
+        if (body1) body1.innerHTML = "";
+        if (body2) body2.innerHTML = "";
+        // console.log(`[Compare View] alignVersesByAddress: body1 (${body1Id}) and body2 (${body2Id}) innerHTML cleared.`); // Log B
+
+        // Insert verses and placeholders in sorted order
+        sortedAddresses.forEach((address) => {
+          const verse1 = verseMap1.get(address);
+          const verse2 = verseMap2.get(address);
+
+          // Add verse to panel 1 or placeholder
+          if (verse1) {
+            body1.appendChild(verse1);
+          } else {
+            const placeholder = createVersePlaceholder();
+            body1.appendChild(placeholder);
+          }
+
+          // Add verse to panel 2 or placeholder
+          if (verse2) {
+            body2.appendChild(verse2);
+          } else {
+            const placeholder = createVersePlaceholder();
+            body2.appendChild(placeholder);
+          }
+        });
+        // console.log(`[Compare View] alignVersesByAddress: body1 (${body1Id}) and body2 (${body2Id}) repopulated.`); // Log C
+
+        // Now synchronize heights of aligned verses/placeholders
+        const alignedElements1 = body1 ? body1.children : [];
+        const alignedElements2 = body2 ? body2.children : [];
+
+        for (
+          let i = 0;
+          i < Math.min(alignedElements1.length, alignedElements2.length);
+          i++
+        ) {
+          const elem1 = alignedElements1[i];
+          const elem2 = alignedElements2[i];
+
+          // Reset heights
+          elem1.style.minHeight = "auto";
+          elem2.style.minHeight = "auto";
+
+          // Get natural heights
+          const height1 = elem1.offsetHeight;
+          const height2 = elem2.offsetHeight;
+          const maxHeight = Math.max(height1, height2);
+
+          // Apply max height
+          elem1.style.minHeight = maxHeight + "px";
+          elem2.style.minHeight = maxHeight + "px";
+        }
+        // console.log(`[Compare View] alignVersesByAddress END for body1: ${body1Id}, body2: ${body2Id}`); // Log D
+      } finally {
+        // isAligningDOM is now managed by synchronizeVerseHeights
+      }
+    }
+
+    // Function to create a placeholder verse element
+    function createVersePlaceholder() {
+      const placeholder = document.createElement("div");
+      placeholder.className = `verse-div verse-placeholder ${fontSize}`;
+      placeholder.style.visibility = "hidden"; // Hidden but takes up space
+      placeholder.style.minHeight = "1.6em"; // Minimum height to maintain spacing
+      placeholder.innerHTML = "&nbsp;"; // Non-breaking space to maintain line height
+      return placeholder;
+    }
+
+    async function fetchBothVersions() {
+      const version1 = document.getElementById(
+        "translation-selector-1"
+      ).value;
+      const version2 = document.getElementById(
+        "translation-selector-2"
+      ).value;
+
+      try {
+        // Fetch both versions in parallel but wait for both to complete
+        await Promise.all([
+          fetchVerses(version1, 1),
+          fetchVerses(version2, 2),
+        ]);
+
+        // Synchronize verse heights after both panels are loaded
+        setTimeout(() => {
+          synchronizeVerseHeights();
+        }, 100);
+      } catch (error) {
+        console.error("Error fetching verses:", error);
+      }
+    }
+
+    async function fetchVerses(translation, panelNumber) {
+      const selectedMonth = parseInt(
+        document.getElementById("month-selector").value
+      );
+      const selectedDay = parseInt(
+        document.getElementById("day-selector").value
+      );
+      const date = new Date(
+        new Date().getFullYear(),
+        selectedMonth - 1,
+        selectedDay
+      );
+      const dayOfYearValue = dayOfYear(date);
+
+      const translatedData = JSON.parse(
+        localStorage.getItem("translatedData")
+      );
+      if (!translatedData) {
+        document.getElementById(`verses-output-${panelNumber}`).innerHTML =
+          "<p>Error: Bible reading data not found. Please reload the page.</p>";
+        return;
+      }
+
+      const references = translatedData[dayOfYearValue];
+      if (!references) {
+        document.getElementById(`verses-output-${panelNumber}`).innerHTML =
+          "<p>No references found for this date.</p>";
+        return;
+      }
+
+      const verses = references.join(",");
+
+      // Show loading indicator
+      const outputDiv = document.getElementById(
+        `verses-output-${panelNumber}`
+      );
+      outputDiv.innerHTML = `
+          <div class="d-flex justify-content-center my-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        `;
+
+      const apiUrl = `https://api.blessings365.top/${translation}/multiple?verses=${encodeURIComponent(
+        verses
+      )}`;
+
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        const allVerses = data.map((verse) => {
+          let translatedBookName = verse.book;
+
+          if (translation === "TB") {
+            translatedBookName =
+              englishToIndonesianBooks[verse.book] || verse.book;
+          } else if (
+            translation.includes("CNV") ||
+            translation.includes("CUN")
+          ) {
+            if (translation === "CUV") {
+              translatedBookName =
+                englishToTraditionalChineseBooks[verse.book] || verse.book;
+            } else {
+              translatedBookName =
+                englishToChineseBooks[verse.book] || verse.book;
+            }
+          }
+
+          return {
+            text: verse.content,
+            bookName: translatedBookName,
+            originalBookName: verse.book, // Keep original English book name
+            chapterNumber: verse.chapter,
+            verseNumber: verse.verse,
+          };
+        });
+
+        // Ensure synchronous execution of displayVerses
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            displayVerses(allVerses, translation, panelNumber);
+            resolve();
+          }, 0);
+        });
+      } catch (error) {
+        console.error("Error fetching verses:", error);
+        outputDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+              Error loading verses. Please try again.
+            </div>
+          `;
+        throw error; // Re-throw to be caught by Promise.all
+      }
+    }
+
+    // Event listeners for version selectors
+    document
+      .getElementById("translation-selector-1")
+      .addEventListener("change", fetchBothVersions);
+
+    document
+      .getElementById("translation-selector-2")
+      .addEventListener("change", fetchBothVersions);
+
+    // Load the translated data and initialize
+    (async function initialize() {
+      try {
+        const response = await fetch("Translated_Bacaan_Alkitab_365.json");
+        const data = await response.json();
+        translatedData = data;
+        populateMonthDayDropdowns();
+        await fetchBothVersions();
+      } catch (error) {
+        console.error("Error loading translated data:", error);
+      }
+    })();
+
+    // Handle verse selection and footer
+    let selectedVerses = [];
+    let selectedVersesAddress = "";
+    let verseMenu, footer, selectionCount;
+
+    // Close verse menu when clicking outside
+    document.addEventListener("click", function (e) {
+      if (
+        !e.target.closest(".verse-div") &&
+        !e.target.closest("#verse-menu") &&
+        !e.target.closest("#main-footer") &&
+        !e.target.closest(".popover") &&
+        !e.target.closest("#popoverBtn")
+      ) {
+        if (verseMenu) {
+          verseMenu.style.display = "none";
+        }
+        // Clear all selections when clicking outside
+        const hadSelections = selectedVerses.length > 0;
+        selectedVerses.forEach((verse) => {
+          verse.classList.remove("verse-selected");
+        });
+        selectedVerses = [];
+        updateFooterVisibility();
+
+        // Re-synchronize verse heights after clearing selections to maintain comparison alignment
+        if (hadSelections) {
+          setTimeout(() => {
+            synchronizeVerseHeights();
+          }, 50);
+        }
+      }
+    });
+
+    function updateFooterVisibility() {
+      if (!footer || !selectionCount) return;
+
+      const copyButton = document.getElementById("copy-verse");
+      if (!copyButton) return;
+
+      if (selectedVerses.length > 0) {
+        footer.classList.add("show");
+        copyButton.disabled = false;
+
+        // Show only the count, no addresses
+        const count = selectedVerses.length;
+        const verseText = count === 1 ? "verse" : "verses";
+        selectionCount.textContent = `${count} ${verseText} selected`;
+      } else {
+        footer.classList.remove("show");
+        copyButton.disabled = true;
+        selectionCount.textContent = "Select verses to copy";
+      }
+    }
+
+    // Unicode bold mapping
+    const boldMap = {
+      A: "𝗔",
+      B: "𝗕",
+      C: "𝗖",
+      D: "𝗗",
+      E: "𝗘",
+      F: "𝗙",
+      G: "𝗚",
+      H: "𝗛",
+      I: "𝗜",
+      J: "𝗝",
+      K: "𝗞",
+      L: "𝗟",
+      M: "𝗠",
+      N: "𝗡",
+      O: "𝗢",
+      P: "𝗣",
+      Q: "𝗤",
+      R: "𝗥",
+      S: "𝗦",
+      T: "𝗧",
+      U: "𝗨",
+      V: "𝗩",
+      W: "𝗪",
+      X: "𝗫",
+      Y: "𝗬",
+      Z: "𝗭",
+      a: "𝗮",
+      b: "𝗯",
+      c: "𝗰",
+      d: "𝗱",
+      e: "𝗲",
+      f: "𝗳",
+      g: "𝗴",
+      h: "𝗵",
+      i: "𝗶",
+      j: "𝗷",
+      k: "𝗸",
+      l: "𝗹",
+      m: "𝗺",
+      n: "𝗻",
+      o: "𝗼",
+      p: "𝗽",
+      q: "𝗾",
+      r: "𝗿",
+      s: "𝘀",
+      t: "𝘁",
+      u: "𝘂",
+      v: "𝘃",
+      w: "𝘄",
+      x: "𝘅",
+      y: "𝘆",
+      z: "𝘇",
+      0: "𝟬",
+      1: "𝟭",
+      2: "𝟮",
+      3: "𝟯",
+      4: "𝟰",
+      5: "𝟱",
+      6: "𝟲",
+      7: "𝟳",
+      8: "𝟴",
+      9: "𝟵",
+      " ": " ",
+      ":": ":",
+      "-": "-",
+      "(": "(",
+      ")": ")",
+      ",": ",",
+      ".": ".",
+    };
+
+    function toUnicodeBold(str) {
+      return str
+        .split("")
+        .map((char) => boldMap[char] || char)
+        .join("");
+    }
+
+    function formatVerseSelection(selectedVerses, translation) {
+      if (selectedVerses.length > 0) {
+        // Sort verses by their position in the document
+        const sortedVerses = [...selectedVerses].sort((a, b) => {
+          const position = a.compareDocumentPosition(b);
+          if (position & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
+          if (position & Node.DOCUMENT_POSITION_PRECEDING) return 1;
+          return 0;
+        });
+
+        const allVerseData = [];
+
+        // Extract detailed info for each verse
+        sortedVerses.forEach((verseDiv) => {
+          const supElement = verseDiv.querySelector("sup");
+          if (!supElement) return;
+
+          const chapterVerse = supElement.textContent;
+          const [chapterStr, verseStr] = chapterVerse.split(":");
+          const chapter = parseInt(chapterStr, 10);
+          const verseNum = parseInt(verseStr, 10);
+
+          // Get book name and translation from the version header
+          const versionPanel = verseDiv.closest(".version-panel");
+          const versionHeader = versionPanel.querySelector(".version-header");
+
+          // Use the translation's appropriate book name based on version
+          const verseElement = verseDiv.closest(".verse-div");
+          const accordionItem = verseDiv.closest(".accordion-item");
+          const button = accordionItem.querySelector(".accordion-button");
+          const originalBookName = button.getAttribute("data-original-book"); // This is always the English name
+
+          // Get translation from selector based on panel number
+          const versesOutputDiv = versionPanel.querySelector(
+            '[id^="verses-output-"]'
+          ); // Find child like verses-output-1 or verses-output-2
+          const panelNumber =
+            versesOutputDiv && versesOutputDiv.id.includes("1") ? 1 : 2;
+          const currentTranslationAbbreviation = document.getElementById(
+            `translation-selector-${panelNumber}`
+          ).value;
+
+          let translatedBookName = originalBookName; // Default to original
+          if (
+            currentTranslationAbbreviation === "TB" &&
+            englishToIndonesianBooks[originalBookName]
+          ) {
+            translatedBookName = englishToIndonesianBooks[originalBookName];
+          } else if (
+            currentTranslationAbbreviation === "CUV" &&
+            englishToTraditionalChineseBooks[originalBookName]
+          ) {
+            translatedBookName =
+              englishToTraditionalChineseBooks[originalBookName];
+          } else if (
+            (currentTranslationAbbreviation.includes("CNV") ||
+              currentTranslationAbbreviation.includes("CUN")) &&
+            englishToChineseBooks[originalBookName]
+          ) {
+            translatedBookName = englishToChineseBooks[originalBookName];
+          }
+          // Add other translation maps here if needed
+
+          // Get plain text content
+          let fullText = verseDiv.textContent || "";
+          const supText = supElement.textContent || "";
+          let plainText = fullText.replace(supText, "").trim();
+          const buttonId = button.id;
+          // Find the verse data object that corresponds to this verse
+          const verseKey = `${buttonId.split("-")[0]
+            }-${chapterStr}-${verseStr}`;
+
+          allVerseData.push({
+            book: translatedBookName, // Use the translated book name
+            chapter,
+            verse: verseNum,
+            text: plainText,
+            translation: currentTranslationAbbreviation, // Use the translation from the panel
+          });
+        });
+
+        // Group verses by book, then chapter, then translation
+        const groupedVerses = allVerseData.reduce((acc, verse) => {
+          acc[verse.book] = acc[verse.book] || {};
+          acc[verse.book][verse.chapter] =
+            acc[verse.book][verse.chapter] || {};
+          acc[verse.book][verse.chapter][verse.translation] =
+            acc[verse.book][verse.chapter][verse.translation] || [];
+          // Store the full verse object
+          acc[verse.book][verse.chapter][verse.translation].push(verse);
+          return acc;
+        }, {});
+
+        let finalOutput = [];
+
+        // Generate consolidated reference string per chapter and format output blocks
+        for (const book in groupedVerses) {
+          for (const chapter in groupedVerses[book]) {
+            for (const translation in groupedVerses[book][chapter]) {
+              // Iterate through translations
+              // Sort verses by verse number for this specific book, chapter, and translation
+              const versesInBlock = groupedVerses[book][chapter][
+                translation
+              ].sort((a, b) => a.verse - b.verse);
+
+              if (versesInBlock.length === 0) continue;
+
+              // The translation forß this block is simply the 'translation' key from our loop
+              const translationForThisBlock = translation;
+
+              const referenceString = generateVerseReferenceString(
+                versesInBlock.map((v) => v.verse) // Extracts verse numbers for reference string
+              );
+
+              const text = formatChapterBlock(
+                book,
+                chapter,
+                referenceString,
+                versesInBlock, // Pass the array of {verse, text, translation} for this specific block
+                translationForThisBlock // Pass the specific translation for this block's header
+              );
+              finalOutput.push(text);
+            }
+          }
+        }
+
+        function generateVerseReferenceString(verseNumbers) {
+          if (!verseNumbers || verseNumbers.length === 0) return "";
+
+          let result = [];
+          let rangeStart = verseNumbers[0];
+
+          for (let i = 0; i < verseNumbers.length; i++) {
+            const currentVerse = verseNumbers[i];
+            const nextVerse = verseNumbers[i + 1];
+
+            if (
+              nextVerse !== currentVerse + 1 ||
+              i === verseNumbers.length - 1
+            ) {
+              if (currentVerse === rangeStart) {
+                result.push(`${rangeStart}`);
+              } else {
+                result.push(`${rangeStart}-${currentVerse}`);
+              }
+              if (nextVerse) {
+                rangeStart = nextVerse;
+              }
+            }
+          }
+          return result.join(", ");
+        }
+
+        function formatChapterBlock(
+          book,
+          chapter,
+          referenceString,
+          versesData,
+          translation
+        ) {
+          let header = `${book} ${chapter}:${referenceString} (${translation})`;
+          let lines;
+          if (boldCopyEnabled) {
+            header = toUnicodeBold(header);
+            lines = versesData.map(
+              (v) => `${toUnicodeBold(v.verse.toString())} ${v.text}`
+            );
+          } else {
+            // When bold copy is disabled, keep everything as normal text
+            header = header; // Keep header as plain text
+            lines = versesData.map((v) => `${v.verse} ${v.text}`);
+          }
+          return header + "\n" + lines.join("\n");
+        }
+
+        const formattedText = finalOutput.join("\n\n");
+
+        // Generate a simple header showing selected verses for footer display
+        let formattedHeader = "";
+        if (allVerseData.length > 0) {
+          // Group by book for header display
+          const bookGroups = {};
+          allVerseData.forEach((verse) => {
+            if (!bookGroups[verse.book]) {
+              bookGroups[verse.book] = [];
+            }
+            bookGroups[verse.book].push(`${verse.chapter}:${verse.verse}`);
+          });
+
+          const headerParts = [];
+          for (const book in bookGroups) {
+            headerParts.push(`${book} ${bookGroups[book].join(", ")}`);
+          }
+          formattedHeader = headerParts.join("; ");
+        }
+
+        return { formattedText, formattedHeader };
+      }
+    }
+
+    // Enhanced copy verse functionality with fallback (improved from index.html)
+    let copyButtonTimeout = null;
+    let copyButton, originalButtonText;
+    const successIcon =
+      '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+    const errorIcon =
+      '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>';
+
+    function resetCopyButton() {
+      if (copyButtonTimeout) {
+        clearTimeout(copyButtonTimeout);
+        copyButtonTimeout = null;
+      }
+      if (copyButton && originalButtonText) {
+        copyButton.innerHTML = originalButtonText;
+      }
+    }
+
+    // Reset button when new verse is selected
+    document.addEventListener("verseSelected", resetCopyButton);
+
+    function attachCopyButtonListener() {
+      copyButton = document.getElementById("copy-verse");
+      if (!copyButton) return;
+
+      originalButtonText = copyButton.innerHTML;
+
+      copyButton.addEventListener("click", async function () {
+        const { formattedText } = formatVerseSelection(selectedVerses);
+        resetCopyButton(); // Reset any previous state
+
+        try {
+          // Try modern clipboard API first
+          if (navigator.clipboard) {
+            await navigator.clipboard.writeText(formattedText);
+          } else {
+            // Fallback for older browsers
+            const textarea = document.createElement("textarea");
+            textarea.value = formattedText;
+            textarea.style.position = "fixed"; // Prevent scrolling to bottom
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            if (!document.execCommand("copy")) {
+              throw new Error("Copy command failed");
+            }
+            document.body.removeChild(textarea);
+          }
+
+          // GA Event (only if gtag is available)
+          if (typeof gtag === "function") {
+            try {
+              const truncatedText = formattedText.substring(0, 100);
+              const eventData = {
+                method: "copy",
+                content_type: "bible_verse_formatted_multi_compare",
+                item_id: truncatedText,
+              };
+              gtag("event", "share", eventData);
+            } catch (gaErr) {
+              console.warn("GA tracking failed:", gaErr);
+            }
+          }
+
+          // Show success feedback
+          copyButton.innerHTML = `${successIcon}Copied`;
+          copyButtonTimeout = setTimeout(() => {
+            copyButton.innerHTML = originalButtonText;
+            copyButtonTimeout = null;
+          }, 2000);
+        } catch (err) {
+          console.error("Copy failed:", err);
+          // Show error feedback
+          copyButton.innerHTML = `${errorIcon}Failed to copy`;
+          copyButtonTimeout = setTimeout(() => {
+            copyButton.innerHTML = originalButtonText;
+            copyButtonTimeout = null;
+          }, 2000);
+        }
+      });
+    }
+
+    // Settings functionality
+    document.addEventListener("DOMContentLoaded", function () {
+      const fontSizeCookie = localStorage.getItem("fontSize");
+      const modeCookie = localStorage.getItem("mode");
+      const boldCopyCookie = localStorage.getItem("boldCopy");
+      const modeToggle = document.getElementById("mode-toggle");
+      const boldCopyToggle = document.getElementById("bold-copy-toggle");
+      const fontSizeSlider = document.getElementById("font-size-slider");
+
+      // Initialize footer elements
+      verseMenu = document.getElementById("verse-menu");
+      footer = document.getElementById("main-footer");
+      selectionCount = document.getElementById("selection-count");
+      copyButton = document.getElementById("copy-verse");
+      if (copyButton) {
+        originalButtonText = copyButton.innerHTML;
+      }
+
+      // Initialize copy button functionality
+      attachCopyButtonListener();
+
+      // Apply dark/light mode from localStorage
+      if (modeCookie === "dark") {
+        modeToggle.checked = true;
+        document.documentElement.dataset.bsTheme = "dark";
+        currentMode = "dark";
+        // Apply dark mode styling adjustments if needed (e.g., for popover)
+        const popoverContent = document.getElementById("popoverContent");
+        if (popoverContent) popoverContent.classList.add("dark-mode");
+      } else {
+        // Default is light, ensure checkbox is unchecked
+        modeToggle.checked = false;
+        document.documentElement.dataset.bsTheme = "light";
+        currentMode = "light";
+      }
+
+      // Apply font size from localStorage
+      const fontSizeMap = {
+        "small-font-size": "1",
+        "medium-font-size": "2",
+        "large-font-size": "3",
+      };
+      const sliderValue = fontSizeMap[fontSizeCookie] || "2"; // Default to medium
+      fontSizeSlider.value = sliderValue;
+      fontSize = fontSizeCookie || "medium-font-size";
+
+      // Apply the font size class to existing verse divs (if any are loaded initially)
+      document.querySelectorAll(".verse-div").forEach((element) => {
+        element.className = "verse-div"; // Reset classes
+        element.classList.add(fontSize);
+      });
+
+      // Apply bold copy setting (default to true if cookie not set or is 'true')
+      if (boldCopyCookie === "false") {
+        // Only disable if explicitly set to false
+        boldCopyToggle.checked = false;
+        boldCopyEnabled = false;
+      } else {
+        // Default to true or if cookie is 'true'
+        boldCopyToggle.checked = true;
+        boldCopyEnabled = true;
+      }
+
+      // Add event listener for bold copy toggle
+      if (boldCopyToggle) {
+        boldCopyToggle.addEventListener("change", function () {
+          boldCopyEnabled = this.checked;
+          localStorage.setItem("boldCopy", boldCopyEnabled.toString());
+
+          // GA Event
+          if (typeof gtag === "function") {
+            gtag("event", "change_setting", {
+              setting_type: "bold_copy",
+              setting_value: boldCopyEnabled ? "enabled" : "disabled",
+            });
+          }
+        });
+      }
+
+      // Font size slider
+      if (fontSizeSlider) {
+        fontSizeSlider.addEventListener("input", function () {
+          const value = this.value;
+          const fontSizeMap = {
+            1: "small-font-size",
+            2: "medium-font-size",
+            3: "large-font-size",
+          };
+          const newFontSizeClass = fontSizeMap[value];
+          const oldFontSizeClass = fontSize;
+
+          document.querySelectorAll(".verse-div").forEach((element) => {
+            element.className = "verse-div"; // Reset class first
+            element.classList.add(newFontSizeClass);
+          });
+
+          fontSize = newFontSizeClass;
+          localStorage.setItem("fontSize", fontSize);
+
+          // Re-synchronize verse heights after font size change
+          setTimeout(() => {
+            synchronizeVerseHeights();
+          }, 50);
+
+          // GA Event
+          if (typeof gtag === "function") {
+            gtag("event", "change_setting", {
+              setting_type: "font_size",
+              setting_value: newFontSizeClass,
+            });
+          }
+        });
+      }
+
+      // Dark mode toggle event listener
+      if (modeToggle) {
+        modeToggle.addEventListener("change", function () {
+          const mode = this.checked ? "dark" : "light";
+          document.documentElement.dataset.bsTheme = mode;
+
+          let lastButtonMode = modeToButton[currentMode];
+          let newButtonMode = modeToButton[mode];
+
+          // Update all buttons with the new mode styling
+          document
+            .querySelectorAll(`.btn-${lastButtonMode}`)
+            .forEach((element) => {
+              if (!element.classList.contains("mode-btn")) {
+                element.classList.remove(`btn-${lastButtonMode}`);
+                element.classList.add(`btn-${newButtonMode}`);
+              }
+            });
+
+          document
+            .querySelectorAll(`.btn-outline-${lastButtonMode}`)
+            .forEach((element) => {
+              element.classList.remove(`btn-outline-${lastButtonMode}`);
+              element.classList.add(`btn-outline-${newButtonMode}`);
+            });
+
+          currentMode = mode;
+          localStorage.setItem("mode", mode);
+
+          // For popover
+          const popoverContent = document.getElementById("popoverContent");
+          if (popoverContent) {
+            if (mode === "dark") {
+              popoverContent.classList.add("dark-mode");
+            } else {
+              popoverContent.classList.remove("dark-mode");
+            }
+          }
+
+          // GA Event
+          if (typeof gtag === "function") {
+            gtag("event", "change_setting", {
+              setting_type: "theme",
+              setting_value: mode,
+            });
+          }
+        });
+      }
+
+      // Popover functionality
+      const popoverBtn = document.getElementById("popoverBtn");
+      const popoverContent = document.getElementById("popoverContent");
+
+      if (popoverBtn && popoverContent) {
+        function getVisibleWidth(el) {
+          // Save the original styles
+          const originalStyle = el.getAttribute("style");
+          el.style.display = "block"; // Display the element
+          el.style.position = "absolute"; // Position it off-screen
+          el.style.left = "-9999px";
+          const width = el.offsetWidth; // Get the width
+          el.setAttribute("style", originalStyle); // Reset the styles
+          return width;
+        }
+
+        popoverBtn.addEventListener("click", function () {
+          const isHidden =
+            getComputedStyle(popoverContent).display === "none";
+
+          // GA Event
+          if (typeof gtag === "function") {
+            gtag("event", "toggle_settings", {
+              ui_element: "settings_button",
+            });
+          }
+
+          // Get width of the popover when it's visible
+          const popoverWidth = getVisibleWidth(popoverContent);
+
+          // Get the screen width
+          const screenWidth = window.innerWidth;
+
+          // Position the popover to the left of the button and aligned to its top edge
+          const rect = popoverBtn.getBoundingClientRect();
+
+          // Calculate left position based on screen width
+          let leftPosition = rect.left - popoverWidth + window.scrollX;
+
+          // If the screen is wide, adjust the left position based on the centered .fixed-width-large element
+          if (screenWidth >= 992) {
+            leftPosition = 674;
+          }
+
+          popoverContent.style.top = `${rect.top + window.scrollY}px`;
+          popoverContent.style.left = `${leftPosition}px`;
+
+          if (isHidden) {
+            // First make it visible but with opacity 0
+            popoverContent.style.display = "block";
+            // Force a reflow to ensure the transition works
+            popoverContent.offsetHeight;
+            // Then add the show class to trigger the animation
+            popoverContent.classList.add("show");
+          } else {
+            // Remove the show class first to trigger the fade out
+            popoverContent.classList.remove("show");
+            // After the transition completes, hide the element
+            setTimeout(() => {
+              popoverContent.style.display = "none";
+            }, 300); // Match this with the transition duration in CSS
+          }
+        });
+
+        // Close popover when clicking outside
+        document.addEventListener("click", function (event) {
+          if (
+            !popoverBtn.contains(event.target) &&
+            !popoverContent.contains(event.target)
+          ) {
+            // Remove the show class first to trigger the fade out
+            popoverContent.classList.remove("show");
+            // After the transition completes, hide the element
+            setTimeout(() => {
+              popoverContent.style.display = "none";
+            }, 300); // Match this with the transition duration in CSS
+          }
+        });
+      }
+
+      // Scroll to Top Button Click GA tracking
+      const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+      if (scrollToTopBtn) {
+        scrollToTopBtn.addEventListener("click", function () {
+          scrollToTop(); // Call the existing scroll function
+          // GA Event
+          if (typeof gtag === "function") {
+            gtag("event", "scroll_to_top", {
+              ui_element: "scroll_top_button",
+              selected_version: getCurrentVersion(),
+            });
+          }
+        });
+      }
+
+      // Add window resize event listener to re-synchronize on layout changes
+      let resizeTimeout;
+      window.addEventListener("resize", function () {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          synchronizeVerseHeights();
+        }, 200);
+      });
+    });
+  </script>
+</body>
+
+</html>
