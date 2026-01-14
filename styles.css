@@ -652,6 +652,34 @@ input:checked+.toggle-slider:before {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.btn-compare {
+  background-color: transparent !important;
+  border: none !important;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #666 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-left: 0 !important;
+  transition: color 0.2s ease !important;
+}
+
+.btn-compare:hover {
+  color: #121212 !important;
+  transform: none !important;
+  box-shadow: none !important;
+  text-decoration: underline;
+}
+
+[data-bs-theme="dark"] .btn-compare {
+  color: #aaa !important;
+}
+
+[data-bs-theme="dark"] .btn-compare:hover {
+  color: #fff !important;
+}
+
 [data-bs-theme="dark"] .navbar .btn,
 [data-bs-theme="dark"] .settings-btn {
   background-color: transparent !important;

@@ -43,20 +43,22 @@
   <div class="fixed-width-container">
     <nav class="mt-4 mb-4 navbar navbar-expand-lg fixed-width-large">
       <div class="container-fluid popover-container d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center">
-          <a href="compare.html" class="btn btn-compare me-2">Compare</a>
+        <div class="navbar-nav-left d-flex align-items-center" style="flex: 1;">
+          <a href="compare.html" class="btn btn-compare">Compare</a>
         </div>
-        <a href="#" class="navbar-brand mb-0 h1 mx-auto">
+        <a href="#" class="navbar-brand mb-0 h1 mx-auto text-center">
           Alkitab<span class="brand-accent">365</span>
         </a>
-        <button id="popoverBtn" class="btn settings-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi" fill="currentColor"
-            viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
-            </path>
-          </svg>
-        </button>
+        <div class="navbar-nav-right d-flex justify-content-end align-items-center" style="flex: 1;">
+          <button id="popoverBtn" class="btn settings-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi" fill="currentColor"
+              viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+              </path>
+            </svg>
+          </button>
+        </div>
         <div class="popover" id="popoverContent">
           <div class="popover-header">Reader settings</div>
           <div class="popover-body">
