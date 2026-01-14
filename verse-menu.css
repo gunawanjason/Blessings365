@@ -27,14 +27,15 @@
 
 .verse-menu-item:hover {
   background-color: #f5f5f5;
+  transform: translateY(-1px);
 }
 
 [data-bs-theme="dark"] .verse-menu-item {
-  color: #fff;
+  color: #f7da21;
 }
 
 [data-bs-theme="dark"] .verse-menu-item:hover {
-  background-color: #333;
+  background-color: rgba(247, 219, 33, 0.1);
 }
 
 .verse-menu-item svg {

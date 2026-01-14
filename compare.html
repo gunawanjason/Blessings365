@@ -189,9 +189,9 @@
     }
 
     .copy-button {
-      background-color: #121212 !important;
-      color: #fff !important;
-      border: none !important;
+      background-color: transparent !important;
+      color: #121212 !important;
+      border: 1px solid #121212 !important;
       padding: 8px 20px !important;
       border-radius: 4px !important;
       font-family: 'Inter', sans-serif !important;
@@ -203,8 +203,8 @@
     }
 
     .copy-button:hover:not(:disabled) {
-      background-color: #333 !important;
-      transform: translateY(-1px);
+      background-color: #f5f5f5 !important;
+      transform: translateY(-1px) !important;
     }
 
     .copy-button:disabled {
@@ -213,8 +213,14 @@
     }
 
     [data-bs-theme="dark"] .copy-button {
-      background-color: #f7da21 !important;
-      color: #121212 !important;
+      background-color: transparent !important;
+      color: #f7da21 !important;
+      border-color: #f7da21 !important;
+    }
+
+    [data-bs-theme="dark"] .copy-button:hover:not(:disabled) {
+      background-color: rgba(247, 219, 33, 0.1) !important;
+      transform: translateY(-1px) !important;
     }
 
     .footer-info {
