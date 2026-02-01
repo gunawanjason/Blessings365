@@ -28,6 +28,27 @@ body {
   touch-action: manipulation;
 }
 
+.pericope-heading {
+  font-weight: 700;
+  font-style: normal;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #212529;
+  font-size: 1.1rem;
+  text-align: left;
+  line-height: 1.4;
+  padding: 0;
+  letter-spacing: -0.01em;
+}
+
+.accordion-body .pericope-heading:first-child {
+  margin-top: 0;
+}
+
+[data-bs-theme="dark"] .pericope-heading {
+  color: #f8f9fa;
+}
+
 .verse-selection-header {
   display: none;
   position: fixed;
@@ -186,8 +207,16 @@ button > svg {
   border-radius: 12px;
   padding: 18px;
   transition: all 0.3s ease;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    sans-serif;
   font-weight: 500;
   letter-spacing: 0.01em;
   border: 1px solid #dee2e6;
@@ -269,7 +298,9 @@ button > svg {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
 }
 
 .verse-div:hover:not(.verse-selected) {
@@ -319,7 +350,9 @@ button > svg {
   min-width: 280px;
   opacity: 0;
   transform: translateY(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .popover.show {
@@ -548,8 +581,16 @@ input:checked + .toggle-slider:before {
 }
 
 .navbar-brand {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    sans-serif;
   font-weight: 600;
   font-size: 1.5rem;
   letter-spacing: -0.02em;
@@ -694,7 +735,9 @@ input:checked + .toggle-slider:before {
   padding: 6px 12px;
   border-radius: 6px;
   white-space: nowrap;
-  transition: all 0.3s ease, transform 0.1s ease;
+  transition:
+    all 0.3s ease,
+    transform 0.1s ease;
   flex-shrink: 0;
   max-width: 120px;
   min-width: 80px;

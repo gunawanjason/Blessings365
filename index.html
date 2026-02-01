@@ -148,6 +148,7 @@
     </div>
   </div>
 
+  <script src="config.js"></script>
   <script>
     // Helper function to get current Bible version
     function getCurrentVersion() {
@@ -505,7 +506,7 @@
       }
     }
 
-    function displayVerses(data, translation) {
+    function displayVerses(data, translation, headingsMap) {
       const outputDiv = document.getElementById("verses-output");
       outputDiv.innerHTML = "";
 
@@ -657,6 +658,18 @@
         ) {
           bookName = englishToTraditionalChineseBooks[bookName];
         }
+
+        // Insert pericope heading if it exists for this verse
+        if (headingsMap) {
+          const key = `${verseData.book} ${verseData.chapter}:${verseData.verse}`;
+          if (headingsMap.has(key)) {
+            const headingDiv = document.createElement("div");
+            headingDiv.className = "pericope-heading";
+            headingDiv.innerHTML = headingsMap.get(key);
+            currentBody.appendChild(headingDiv);
+          }
+        }
+
         const verseDiv = document.createElement("div");
         verseDiv.className = `verse-div ${fontSize}`;
         verseDiv.innerHTML = `<strong><sup>${verseData.chapter}:${verseData.verse}</sup></strong> ${verseData.content}`;
@@ -696,6 +709,32 @@
       }
     }
 
+    function getHeadingsMap(headingsResponse) {
+      const map = new Map();
+      if (!headingsResponse || !headingsResponse.headings) return map;
+
+      // Handle book-level headings structure: { "1": [...], "2": [...] } where keys are chapters
+      // or just local headings array if chapter specific (but we fetch by book)
+      const chapters = headingsResponse.headings;
+
+      for (const chapter in chapters) {
+        if (chapters.hasOwnProperty(chapter)) {
+          const chapterHeadings = chapters[chapter];
+          if (Array.isArray(chapterHeadings)) {
+            chapterHeadings.forEach(h => {
+              // Key format: "Book Chapter:Verse"
+              // We need to match how we check it in loop: verseData.book is English
+
+              // Actually headingsResponse contains { book: "Genesis", headings: { "1": ... } }
+              const key = `${headingsResponse.book} ${chapter}:${h.start}`;
+              map.set(key, h.heading);
+            });
+          }
+        }
+      }
+      return map;
+    }
+
     function fetchVerses() {
       const translatedData = JSON.parse(
         localStorage.getItem("translatedData")
@@ -726,15 +765,58 @@
           </div>
         `;
 
-      const apiUrl = `https://api.blessings365.top/${translation}/multiple?verses=${encodeURIComponent(
+
+
+      const apiUrl = `${apiBaseUrl}/${translation}/multiple?verses=${encodeURIComponent(
         verses
       )}`;
 
-      fetch(apiUrl)
-        .then((response) => response.json())
-        .then((data) => displayVerses(data, translation))
+      console.log("Fetching verses for:", verses);
+
+      // Identify unique books to fetch headings
+      const verseRanges = verses.split(",");
+      const uniqueBooks = [...new Set(verseRanges.map(range => {
+        range = range.trim();
+        // Extract book name: match everything up to the last space before the chapter:verse part
+        // E.g. "1 Samuel 1:1" -> "1 Samuel", "Genesis 1:1" -> "Genesis"
+        const match = range.match(/(.+)\s\d+:/);
+        if (match) return match[1];
+
+        // Fallback to old logic if regex fails (e.g. unexpected format)
+        const lastSpaceIndex = range.lastIndexOf(" ");
+        if (lastSpaceIndex !== -1) return range.substring(0, lastSpaceIndex);
+        return range;
+      }))];
+
+      console.log("Unique books for headings:", uniqueBooks);
+
+      const versesPromise = fetch(apiUrl).then((response) => response.json());
+
+      // Fetch headings for each book
+      const headingsPromises = uniqueBooks.map(book =>
+        fetch(`${apiBaseUrl}/${translation}/headings?book=${encodeURIComponent(book)}`)
+          .then(res => {
+            if (!res.ok) return { book, headings: {} };
+            return res.json();
+          })
+          .catch(err => {
+            console.error(`Error fetching headings for ${book}:`, err);
+            return { book, headings: {} };
+          })
+      );
+
+      Promise.all([versesPromise, ...headingsPromises])
+        .then(([data, ...headingsResponses]) => {
+          // Merge all headings into a single map
+          const allHeadings = new Map();
+          headingsResponses.forEach(res => {
+            const map = getHeadingsMap(res);
+            map.forEach((value, key) => allHeadings.set(key, value));
+          });
+          displayVerses(data, translation, allHeadings);
+        })
         .catch((error) => {
-          console.error("Error fetching verses:", error);
+          console.error("Error fetching verses or headings:", error);
           outputDiv.innerHTML = `
               <div class="alert alert-danger" role="alert">
                 Error loading verses. Please try again.
