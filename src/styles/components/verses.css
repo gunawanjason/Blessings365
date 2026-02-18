@@ -116,8 +116,8 @@
    =========================== */
 
 .verse-line {
-  padding: var(--space-xs) var(--space-sm);
-  margin: 0 calc(-1 * var(--space-sm));
+  padding: var(--space-xs) var(--verse-content-x, var(--space-sm));
+  margin: 0 calc(-1 * var(--verse-content-x, var(--space-sm)));
   border-radius: var(--radius-sm);
   cursor: pointer;
   user-select: none;

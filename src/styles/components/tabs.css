@@ -238,12 +238,31 @@
 
 /* Content Pane Animation */
 .verse-tab-pane {
+  padding: var(--space-xs) 0 var(--space-md);
   display: none;
   opacity: 0;
   transform: translateY(8px);
   transition:
     opacity 0.3s ease,
     transform 0.3s ease;
+}
+
+.verse-tab-pane .verse-line {
+  margin: 0;
+  border-radius: var(--radius-sm);
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+}
+
+.verse-tab-pane .verse-line--selected {
+  border-radius: var(--radius-sm);
+  outline: none;
+  box-shadow: inset 0 0 0 1px var(--color-selected-border);
+}
+
+.verse-tab-pane .pericope-heading {
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
 }
 
 .verse-tab-pane.active {
