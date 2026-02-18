@@ -82,7 +82,7 @@ pnpm install
 
 ```bash
 # Start the development server
-npm run dev
+pnpm run dev
 ```
 
 Then open [http://localhost:5173](http://localhost:5173) in your browser.
@@ -107,9 +107,17 @@ Blessings365/
 ├── package.json            # Project dependencies
 ├── vite.config.js          # Vite configuration
 │
-├── assets/
-│   ├── bcc.ico             # App favicon
-│   └── manifest.json       # PWA manifest
+├── public/
+│   ├── Translated_Bacaan_Alkitab_365.json   # 365-day reading plan
+│   └── assets/
+│       ├── bcc.ico             # App favicon
+│       ├── bcc.png             # App icon
+│       ├── favicon.ico         # Favicon
+│       ├── apple-touch-icon-144x144.png  # iOS icon
+│       ├── apple-touch-icon-180x180.png  # iOS icon
+│       ├── icon-192x192.webp   # PWA icon
+│       ├── icon-512x512.webp   # PWA icon
+│       └── manifest.json       # PWA manifest
 │
 ├── src/
 │   ├── main.js             # App initialization & routing
@@ -155,11 +163,9 @@ Blessings365/
 │   └── utils/
 │       ├── analytics.js        # Google Analytics
 │       ├── api.js               # API fetch functions
-│       ├── comparisonSync.js     # Verse synchronization
+│       ├── comparisonSync.js   # Verse synchronization
 │       ├── confetti.js          # Celebration effects
 │       └── helpers.js           # Utility functions
-│
-└── Translated_Bacaan_Alkitab_365.json   # 365-day reading plan
 ```
 
 ---
@@ -178,7 +184,7 @@ The app uses a simple **hash-based router**:
 
 ### Reading Plan
 
-The 365-day reading plan is stored in [`Translated_Bacaan_Alkitab_365.json`](./Translated_Bacaan_Alkitab_365.json):
+The 365-day reading plan is stored in [`public/Translated_Bacaan_Alkitab_365.json`](./public/Translated_Bacaan_Alkitab_365.json):
 
 ```json
 {
