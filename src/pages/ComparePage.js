@@ -111,16 +111,109 @@ export function renderComparePage(app, settingsPanel) {
     `;
     main.appendChild(indicators);
 
+    // --- Persistent Edge Tab (Mobile) ---
+    const edgeTab = document.createElement('div');
+    edgeTab.className = 'compare-edge-tab';
+    edgeTab.innerHTML = `<span class="compare-edge-tab__label"></span><span class="compare-edge-tab__chevron">›</span>`;
+    app.appendChild(edgeTab);
+
+    /** Update the edge tab label & position based on which panel is showing */
+    function updateEdgeTab(panelIndex) {
+        const label = edgeTab.querySelector('.compare-edge-tab__label');
+        const chevron = edgeTab.querySelector('.compare-edge-tab__chevron');
+        if (panelIndex === 0) {
+            label.textContent = versionSelector2.getValue();
+            chevron.textContent = '›';
+            edgeTab.classList.remove('left');
+        } else {
+            label.textContent = versionSelector1.getValue();
+            chevron.textContent = '‹';
+            edgeTab.classList.add('left');
+        }
+    }
+    updateEdgeTab(0);
+
+    // --- Auto-hide: collapse after 3s idle, expand on interaction ---
+    let hideTimer = null;
+    function scheduleHide() {
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => edgeTab.classList.add('collapsed'), 3000);
+    }
+    function expandTab() {
+        edgeTab.classList.remove('collapsed');
+        scheduleHide();
+    }
+    // Start the first auto-hide countdown
+    scheduleHide();
+
+    // --- Vertical drag to reposition ---
+    let dragStartY = 0;
+    let dragStartTop = 0;
+    let isDragging = false;
+    const DRAG_THRESHOLD = 6; // px — less than this is a tap
+
+    edgeTab.addEventListener('touchstart', (e) => {
+        const touch = e.touches[0];
+        dragStartY = touch.clientY;
+        dragStartTop = edgeTab.getBoundingClientRect().top;
+        isDragging = false;
+        edgeTab.classList.add('dragging');
+    }, { passive: true });
+
+    edgeTab.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        const dy = touch.clientY - dragStartY;
+        if (Math.abs(dy) > DRAG_THRESHOLD) {
+            isDragging = true;
+            // Clamp within safe bounds (below header, above bottom nav)
+            const minTop = 80;
+            const maxTop = window.innerHeight - 80;
+            const newTop = Math.min(maxTop, Math.max(minTop, dragStartTop + dy));
+            edgeTab.style.top = newTop + 'px';
+        }
+        e.preventDefault();
+    }, { passive: false });
+
+    edgeTab.addEventListener('touchend', (e) => {
+        edgeTab.classList.remove('dragging');
+        if (!isDragging) {
+            // It was a tap
+            if (edgeTab.classList.contains('collapsed')) {
+                // Collapsed → just expand it
+                expandTab();
+            } else {
+                // Expanded → switch to the other panel
+                const currentIndex = Math.round(grid.scrollLeft / grid.clientWidth);
+                const targetIndex = currentIndex === 0 ? 1 : 0;
+                grid.scrollTo({ left: targetIndex * grid.clientWidth, behavior: 'smooth' });
+            }
+        }
+        scheduleHide();
+    });
+
+    // Also handle mouse click for non-touch (desktop testing)
+    edgeTab.addEventListener('click', (e) => {
+        if (edgeTab.classList.contains('collapsed')) {
+            expandTab();
+        } else {
+            const currentIndex = Math.round(grid.scrollLeft / grid.clientWidth);
+            const targetIndex = currentIndex === 0 ? 1 : 0;
+            grid.scrollTo({ left: targetIndex * grid.clientWidth, behavior: 'smooth' });
+        }
+    });
+
     // Bottom Navigation (Mobile)
     const bottomNav = createBottomNav('compare');
     app.appendChild(bottomNav);
 
-    // Sync dots with scroll
+    // Sync dots + edge tab with scroll; expand tab on horizontal swipe
     grid.addEventListener('scroll', () => {
         const index = Math.round(grid.scrollLeft / grid.clientWidth);
         indicators.querySelectorAll('.compare-dot').forEach((dot, i) => {
             dot.classList.toggle('active', i === index);
         });
+        updateEdgeTab(index);
+        expandTab();
     });
 
     // Sync vertical scroll between panels on mobile
@@ -184,6 +277,10 @@ export function renderComparePage(app, settingsPanel) {
         const transSpan2 = panelHeader2.querySelector('.compare-panel__translation');
         if (transSpan1) transSpan1.textContent = translation1;
         if (transSpan2) transSpan2.textContent = translation2;
+
+        // Refresh edge tab label with new translations
+        const currentPanel = Math.round(grid.scrollLeft / grid.clientWidth);
+        updateEdgeTab(currentPanel);
 
         // Clear book names until a tab is selected
         const bookSpan1 = document.getElementById('panel-book-1');

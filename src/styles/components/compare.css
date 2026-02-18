@@ -204,9 +204,9 @@
     z-index: 1;
   }
 
-  /* Hide indicators — dots are less useful with the new layout */
+  /* Indicators — show on mobile as subtle panel position dots */
   .compare-indicators {
-    display: none;
+    display: flex;
   }
 }
 
@@ -214,21 +214,22 @@
 .compare-indicators {
   display: none;
   justify-content: center;
+  align-items: center;
   gap: 8px;
-  padding: var(--space-md) 0;
+  padding: 6px 0 2px;
 }
 
 .compare-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--color-border);
-  transition: all var(--transition-fast);
+  transition: all 0.2s ease;
 }
 
 .compare-dot.active {
   background: var(--color-accent);
-  transform: scale(1.3);
+  transform: scale(1.4);
 }
 
 /* Translation badge inside tab bar */
@@ -246,4 +247,93 @@
   text-transform: uppercase;
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+/* ===========================
+   Swipe Edge Tab (Mobile)
+   =========================== */
+.compare-edge-tab {
+  display: none; /* desktop: hidden */
+}
+
+@media (max-width: 768px) {
+  .compare-edge-tab {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    position: fixed;
+    top: 50%;
+    z-index: 25;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+
+    /* Styling */
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 10px 6px 10px 8px;
+    writing-mode: vertical-lr;
+    border-radius: 8px 0 0 8px;
+    opacity: 0.7;
+    transform: translateX(0);
+
+    /* iOS PiP-style spring transition */
+    transition:
+      transform 0.45s cubic-bezier(0.25, 1.3, 0.5, 1),
+      opacity 0.3s ease,
+      top 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .compare-edge-tab:active {
+    opacity: 1;
+  }
+
+  /* Right edge (default — panel 1 showing) */
+  .compare-edge-tab {
+    right: 0;
+  }
+
+  /* Collapsed: slide 60% off-screen, keep visible nub */
+  .compare-edge-tab.collapsed {
+    transform: translateX(60%);
+    opacity: 0.45;
+  }
+
+  /* Left edge (panel 2 showing) */
+  .compare-edge-tab.left {
+    right: auto;
+    left: 0;
+    border-radius: 0 8px 8px 0;
+    transform: translateX(0);
+  }
+
+  .compare-edge-tab.left.collapsed {
+    transform: translateX(-60%);
+    opacity: 0.45;
+  }
+
+  /* Disable transitions while actively dragging */
+  .compare-edge-tab.dragging {
+    transition: none !important;
+  }
+
+  .compare-edge-tab__chevron {
+    display: inline-block;
+    font-size: 13px;
+    line-height: 1;
+    writing-mode: horizontal-tb;
+  }
+
+  .compare-edge-tab.left .compare-edge-tab__chevron {
+    transform: rotate(180deg);
+  }
+
+  [data-theme="dark"] .compare-edge-tab {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  }
 }
