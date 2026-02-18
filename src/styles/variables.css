@@ -28,7 +28,7 @@
   --color-spinner: #6366f1;
   --color-danger: #ef4444;
   --color-danger-bg: #fef2f2;
-  --color-success: #22c55e;
+  --color-success: #10b981;
   --color-hero-bg: linear-gradient(
     135deg,
     #f8f6f2 0%,
@@ -101,7 +101,7 @@
   --color-spinner: #818cf8;
   --color-danger: #f87171;
   --color-danger-bg: rgba(248, 113, 113, 0.1);
-  --color-success: #4ade80;
+  --color-success: #10b981;
   --color-hero-bg: linear-gradient(
     135deg,
     #0f0f0f 0%,

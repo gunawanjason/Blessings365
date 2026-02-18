@@ -54,9 +54,9 @@
 }
 
 .action-bar__inner--success {
-  background: #22c55e;
-  border-color: #16a34a;
-  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.25);
+  background: #10b981;
+  border-color: #059669;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25);
 }
 
 .action-bar__inner--success .action-bar__info {

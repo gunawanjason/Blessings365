@@ -8,9 +8,15 @@
   "theme_color": "#8b4513",
   "icons": [
     {
-      "src": "/assets/bcc.ico",
-      "sizes": "192x192 512x512",
-      "type": "image/x-icon",
+      "src": "/assets/icon-192x192.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icon-512x512.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
       "purpose": "any maskable"
     }
   ]
