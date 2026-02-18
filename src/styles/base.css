@@ -17,6 +17,14 @@ html {
   scroll-behavior: smooth;
 }
 
+/* iOS-specific fixes */
+@supports (-webkit-touch-callout: none) {
+  html {
+    /* Disable CSS smooth scroll on iOS - let native momentum scrolling work */
+    scroll-behavior: auto;
+  }
+}
+
 body {
   font-family: var(--font-family);
   font-size: var(--font-size-base);

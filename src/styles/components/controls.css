@@ -96,5 +96,6 @@
   .select-input {
     min-height: 36px;
     font-size: var(--font-size-xs);
+    border-radius: var(--radius-md);
   }
 }

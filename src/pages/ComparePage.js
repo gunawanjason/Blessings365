@@ -102,6 +102,12 @@ export function renderComparePage(app, settingsPanel) {
 
     app.appendChild(main);
 
+    // --- Persistent Edge Tab (Mobile) ---
+    const edgeTab = document.createElement('div');
+    edgeTab.className = 'compare-edge-tab';
+    edgeTab.innerHTML = `<span class="compare-edge-tab__label"></span><span class="compare-edge-tab__chevron">›</span>`;
+    app.appendChild(edgeTab);
+
     // Mobile Swipe Indicators (Dots)
     const indicators = document.createElement('div');
     indicators.className = 'compare-indicators';
@@ -109,13 +115,7 @@ export function renderComparePage(app, settingsPanel) {
         <div class="compare-dot active" data-index="0"></div>
         <div class="compare-dot" data-index="1"></div>
     `;
-    main.appendChild(indicators);
-
-    // --- Persistent Edge Tab (Mobile) ---
-    const edgeTab = document.createElement('div');
-    edgeTab.className = 'compare-edge-tab';
-    edgeTab.innerHTML = `<span class="compare-edge-tab__label"></span><span class="compare-edge-tab__chevron">›</span>`;
-    app.appendChild(edgeTab);
+    app.appendChild(indicators);
 
     /** Update the edge tab label & position based on which panel is showing */
     function updateEdgeTab(panelIndex) {
@@ -216,7 +216,8 @@ export function renderComparePage(app, settingsPanel) {
         expandTab();
     });
 
-    // Sync vertical scroll between panels on mobile
+    // Sync vertical scroll between panels (desktop only - both panels visible)
+    // On mobile, only one panel is visible at a time, so sync is not needed and interferes with iOS scrolling
     let isSyncing = false;
     function syncScroll(source, target) {
         if (isSyncing) return;
@@ -226,8 +227,11 @@ export function renderComparePage(app, settingsPanel) {
         target.scrollTop = source.scrollTop;
         isSyncing = false;
     }
-    panel1.addEventListener('scroll', () => syncScroll(panel1, panel2));
-    panel2.addEventListener('scroll', () => syncScroll(panel2, panel1));
+    // Only enable scroll sync on desktop (viewport width > 768px)
+    if (window.innerWidth > 768) {
+        panel1.addEventListener('scroll', () => syncScroll(panel1, panel2));
+        panel2.addEventListener('scroll', () => syncScroll(panel2, panel1));
+    }
 
     // Verse selection manager
     const verseSelection = createVerseSelection(
