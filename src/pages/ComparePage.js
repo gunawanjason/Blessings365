@@ -347,6 +347,10 @@ export function renderComparePage(app, settingsPanel) {
         badge.className = 'compare-tab-badge';
         badge.textContent = translationName;
         nav.insertBefore(badge, nav.firstChild);
+
+        requestAnimationFrame(() => {
+            nav.dispatchEvent(new Event('scroll'));
+        });
     }
 
     /**

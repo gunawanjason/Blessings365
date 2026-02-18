@@ -10,6 +10,73 @@
   width: 100%;
 }
 
+.verse-tabs__nav-wrap {
+  position: relative;
+}
+
+.verse-tabs__nav-wrap::before,
+.verse-tabs__nav-wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 34px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 11;
+}
+
+.verse-tabs__nav-wrap::before {
+  left: 0;
+  background: linear-gradient(to right, color-mix(in srgb, var(--color-bg) 96%, transparent) 0%, transparent 100%);
+}
+
+.verse-tabs__nav-wrap::after {
+  right: 0;
+  background: linear-gradient(to left, color-mix(in srgb, var(--color-bg) 96%, transparent) 0%, transparent 100%);
+}
+
+.verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--left-fade::before {
+  opacity: 1;
+}
+
+.verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--right-fade::after {
+  opacity: 1;
+}
+
+.verse-tabs__edge-arrow {
+  position: absolute;
+  top: calc(50% - 1px);
+  transform: translateY(-50%);
+  display: block;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1;
+  color: color-mix(in srgb, var(--color-text-secondary) 82%, transparent);
+  text-shadow: 0 1px 1px color-mix(in srgb, var(--color-bg) 85%, transparent);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 12;
+}
+
+.verse-tabs__edge-arrow--left {
+  left: 10px;
+}
+
+.verse-tabs__edge-arrow--right {
+  right: 10px;
+}
+
+.verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--left-fade .verse-tabs__edge-arrow--left {
+  opacity: 0.62;
+}
+
+.verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--right-fade .verse-tabs__edge-arrow--right {
+  opacity: 0.62;
+}
+
 .verse-tabs__nav {
   display: flex;
   flex-wrap: nowrap;
@@ -48,6 +115,11 @@
 
 .verse-tabs__nav::-webkit-scrollbar {
   display: none;
+}
+
+.verse-tabs__content {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
 }
 
 /* Tab Button */
@@ -198,6 +270,24 @@
     -webkit-backdrop-filter: blur(12px);
     border-radius: var(--radius-md);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .verse-tabs__nav-wrap::before,
+  .verse-tabs__nav-wrap::after {
+    width: 26px;
+  }
+
+  .verse-tabs__edge-arrow {
+    top: calc(50% - 1px);
+    font-size: 19px;
+  }
+
+  .verse-tabs__edge-arrow--left {
+    left: 7px;
+  }
+
+  .verse-tabs__edge-arrow--right {
+    right: 7px;
   }
 
   [data-theme="dark"] .verse-tabs__nav {

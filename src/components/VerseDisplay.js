@@ -156,6 +156,19 @@ function renderTabs(container, versesData, translation, headingsMap, fontSizeCla
     const tabsContainer = document.createElement('div');
     tabsContainer.className = 'verse-tabs';
 
+    const tabsNavWrap = document.createElement('div');
+    tabsNavWrap.className = 'verse-tabs__nav-wrap';
+
+    const leftEdgeArrow = document.createElement('span');
+    leftEdgeArrow.className = 'verse-tabs__edge-arrow verse-tabs__edge-arrow--left';
+    leftEdgeArrow.setAttribute('aria-hidden', 'true');
+    leftEdgeArrow.textContent = '‹';
+
+    const rightEdgeArrow = document.createElement('span');
+    rightEdgeArrow.className = 'verse-tabs__edge-arrow verse-tabs__edge-arrow--right';
+    rightEdgeArrow.setAttribute('aria-hidden', 'true');
+    rightEdgeArrow.textContent = '›';
+
     const tabsNav = document.createElement('div');
     tabsNav.className = 'verse-tabs__nav'; // Scrollable horizontal list
     tabsNav.setAttribute('role', 'tablist');
@@ -164,9 +177,14 @@ function renderTabs(container, versesData, translation, headingsMap, fontSizeCla
     const tabsContent = document.createElement('div');
     tabsContent.className = 'verse-tabs__content';
 
-    tabsContainer.appendChild(tabsNav);
+    tabsNavWrap.appendChild(tabsNav);
+    tabsNavWrap.appendChild(leftEdgeArrow);
+    tabsNavWrap.appendChild(rightEdgeArrow);
+    tabsContainer.appendChild(tabsNavWrap);
     tabsContainer.appendChild(tabsContent);
     container.appendChild(tabsContainer);
+
+    const refreshTabNavFades = setupTabNavFades(tabsNav, tabsNavWrap);
 
     // 3. Render Tabs and Content
     books.forEach((book, index) => {
@@ -233,6 +251,9 @@ function renderTabs(container, versesData, translation, headingsMap, fontSizeCla
             if (!isMobile) {
                 btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }
+
+            requestAnimationFrame(refreshTabNavFades);
+            setTimeout(refreshTabNavFades, 180);
 
             // Notify listener (for sync)
             if (onTabChange) onTabChange(book.name);
@@ -302,6 +323,32 @@ function renderTabs(container, versesData, translation, headingsMap, fontSizeCla
 
         tabsContent.appendChild(pane);
     });
+
+    refreshTabNavFades();
+}
+
+function setupTabNavFades(tabsNav, tabsNavWrap) {
+    const update = () => {
+        const maxScrollLeft = tabsNav.scrollWidth - tabsNav.clientWidth;
+        const canScroll = maxScrollLeft > 1;
+        const hasLeft = canScroll && tabsNav.scrollLeft > 1;
+        const hasRight = canScroll && tabsNav.scrollLeft < maxScrollLeft - 1;
+
+        tabsNavWrap.classList.toggle('verse-tabs__nav-wrap--scrollable', canScroll);
+        tabsNavWrap.classList.toggle('verse-tabs__nav-wrap--left-fade', hasLeft);
+        tabsNavWrap.classList.toggle('verse-tabs__nav-wrap--right-fade', hasRight);
+    };
+
+    tabsNav.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+
+    if (typeof ResizeObserver !== 'undefined') {
+        const observer = new ResizeObserver(update);
+        observer.observe(tabsNav);
+    }
+
+    requestAnimationFrame(update);
+    return update;
 }
 
 /**
