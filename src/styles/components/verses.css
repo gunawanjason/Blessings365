@@ -1,0 +1,230 @@
+/* ===========================
+   Verse Cards — Single-expand accordion
+   =========================== */
+
+.verse-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-sm);
+  overflow: hidden;
+  transition:
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal),
+    transform var(--transition-normal);
+  /* Animation hooks */
+  animation: fadeInUp 300ms ease-out both;
+}
+
+.verse-card:nth-child(1) {
+  animation-delay: 0ms;
+}
+.verse-card:nth-child(2) {
+  animation-delay: 60ms;
+}
+.verse-card:nth-child(3) {
+  animation-delay: 120ms;
+}
+.verse-card:nth-child(4) {
+  animation-delay: 180ms;
+}
+.verse-card:nth-child(5) {
+  animation-delay: 240ms;
+}
+
+.verse-card:hover {
+  border-color: var(--color-border-hover);
+}
+
+.verse-card--expanded {
+  border-color: var(--color-selected-border);
+  box-shadow:
+    0 4px 24px var(--color-shadow-lg),
+    0 1px 4px var(--color-shadow);
+  margin-bottom: var(--space-md);
+}
+
+.verse-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px var(--space-lg);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--transition-fast);
+  gap: var(--space-md);
+}
+
+.verse-card__header:hover {
+  background: var(--color-bg-hover);
+}
+
+.verse-card__title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  letter-spacing: -0.01em;
+  transition: all var(--transition-normal);
+}
+
+.verse-card--expanded .verse-card__title {
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+}
+
+.verse-card__chevron {
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-tertiary);
+  transition: transform var(--transition-spring);
+  flex-shrink: 0;
+}
+
+.verse-card--expanded .verse-card__chevron {
+  transform: rotate(180deg);
+  color: var(--color-accent);
+}
+
+.verse-card__body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 350ms ease;
+}
+
+.verse-card__content {
+  padding: var(--space-xs) var(--space-lg) var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Book context pill inside expanded card */
+.verse-card__book-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--color-accent-light);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: var(--space-md);
+  letter-spacing: 0.02em;
+}
+
+/* ===========================
+   Verse Lines
+   =========================== */
+
+.verse-line {
+  padding: var(--space-xs) var(--space-sm);
+  margin: 0 calc(-1 * var(--space-sm));
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    background-color var(--transition-fast),
+    transform 80ms ease;
+  line-height: 1.8;
+}
+
+.verse-line:hover {
+  background: var(--color-bg-hover);
+}
+
+.verse-line:active {
+  transform: scale(0.998);
+}
+
+.verse-line--selected {
+  background: var(--color-selected) !important;
+  outline: 1px solid var(--color-selected-border);
+}
+
+.verse-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72em;
+  font-weight: 700;
+  color: var(--color-accent);
+  background: var(--color-accent-light);
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-right: 6px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+  font-variant-numeric: tabular-nums;
+  min-width: 30px;
+  text-align: center;
+}
+
+.pericope-heading {
+  font-weight: 700;
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-xs);
+  color: var(--color-pericope);
+  font-size: var(--font-size-base);
+  line-height: 1.4;
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.pericope-heading:first-child {
+  margin-top: var(--space-sm);
+}
+
+/* Font size variants */
+.verse-line--small {
+  font-size: 0.875rem;
+}
+.verse-line--medium {
+  font-size: 1rem;
+}
+.verse-line--large {
+  font-size: 1.125rem;
+}
+
+@media (max-width: 640px) {
+  .verse-card__content {
+    padding: var(--space-xs) var(--space-md) var(--space-md);
+  }
+
+  .verse-card__header {
+    padding: 12px var(--space-md);
+  }
+}
+
+/* ===========================
+   Comparison Empty States
+   =========================== */
+
+.pericope-heading--empty {
+  border-bottom-color: transparent;
+  color: transparent;
+  visibility: hidden;
+}
+
+.pericope-heading--empty::before {
+  content: '\00A0';
+  visibility: visible;
+  display: block;
+}
+
+.verse-line--empty {
+  cursor: default;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  min-height: calc(2.5 * var(--space-sm));
+}
+
+.verse-line--empty:hover {
+  background: transparent;
+}
+
+/* Ensure empty verses have consistent height */
+.verse-line--empty::before {
+  content: '\00A0';
+}

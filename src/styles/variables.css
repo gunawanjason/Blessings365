@@ -1,0 +1,111 @@
+/* ===========================
+   Variables
+   =========================== */
+
+:root {
+  /* Colors - Light Mode — Warm, inviting palette */
+  --color-bg: #f8f6f2;
+  --color-bg-card: #ffffff;
+  --color-bg-hover: #f3f1ec;
+  --color-bg-active: #ebe8e0;
+  --color-text-primary: #2c2520;
+  --color-text-secondary: #6d635a;
+  --color-text-tertiary: #9a9088;
+  --color-accent: #6366f1;
+  --color-accent-light: rgba(99, 102, 241, 0.08);
+  --color-accent-hover: #4f46e5;
+  --color-accent-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  --color-border: #e5e0d8;
+  --color-border-hover: #d4cdc3;
+  --color-shadow: rgba(44, 37, 32, 0.06);
+  --color-shadow-hover: rgba(44, 37, 32, 0.12);
+  --color-shadow-lg: rgba(44, 37, 32, 0.08);
+  --color-verse-number: #8a8078;
+  --color-verse-number-bg: rgba(44, 37, 32, 0.05);
+  --color-selected: rgba(99, 102, 241, 0.08);
+  --color-selected-border: rgba(99, 102, 241, 0.25);
+  --color-pericope: #2c2520;
+  --color-spinner: #6366f1;
+  --color-danger: #ef4444;
+  --color-danger-bg: #fef2f2;
+  --color-success: #22c55e;
+  --color-hero-bg: linear-gradient(
+    135deg,
+    #f8f6f2 0%,
+    #eee8df 50%,
+    #e8e2d8 100%
+  );
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  /* Typography */
+  --font-family:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 350ms ease;
+  --transition-spring: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Layout */
+  --max-width-reading: 680px;
+  --max-width-compare: 1100px;
+  --header-height: 60px;
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  --color-bg: #0f0f0f;
+  --color-bg-card: #1a1a1a;
+  --color-bg-hover: #242424;
+  --color-bg-active: #2e2e2e;
+  --color-text-primary: #f0ece6;
+  --color-text-secondary: #a09890;
+  --color-text-tertiary: #6d635a;
+  --color-accent: #818cf8;
+  --color-accent-light: rgba(129, 140, 248, 0.1);
+  --color-accent-hover: #a5b4fc;
+  --color-accent-gradient: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+  --color-border: #2a2724;
+  --color-border-hover: #3a3632;
+  --color-shadow: rgba(0, 0, 0, 0.25);
+  --color-shadow-hover: rgba(0, 0, 0, 0.4);
+  --color-shadow-lg: rgba(0, 0, 0, 0.3);
+  --color-verse-number: #7a7068;
+  --color-verse-number-bg: rgba(255, 255, 255, 0.06);
+  --color-selected: rgba(129, 140, 248, 0.12);
+  --color-selected-border: rgba(129, 140, 248, 0.3);
+  --color-pericope: #f0ece6;
+  --color-spinner: #818cf8;
+  --color-danger: #f87171;
+  --color-danger-bg: rgba(248, 113, 113, 0.1);
+  --color-success: #4ade80;
+  --color-hero-bg: linear-gradient(
+    135deg,
+    #0f0f0f 0%,
+    #1a1816 50%,
+    #1e1b18 100%
+  );
+}

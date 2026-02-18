@@ -1,0 +1,91 @@
+/* ===========================
+   Verse of the Moment Widget
+   =========================== */
+
+.vom-widget {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-top: var(--space-xl);
+  text-align: center;
+  box-shadow: 0 4px 12px var(--color-shadow);
+  position: relative;
+  overflow: hidden;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.vom-widget::before {
+  content: "“";
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  font-size: 80px;
+  color: var(--color-accent);
+  opacity: 0.1;
+  font-family: serif;
+  line-height: 1;
+}
+
+.vom-widget__label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  margin-bottom: var(--space-sm);
+}
+
+.vom-widget__content {
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  font-style: italic;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+  line-height: 1.6;
+}
+
+.vom-widget__ref {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.vom-widget--compact {
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md) var(--space-xl);
+  background: linear-gradient(
+    to right,
+    var(--color-accent-light),
+    var(--color-bg-card)
+  );
+  border: 1px solid var(--color-accent-light);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.vom-widget--compact::before {
+  font-size: 60px;
+  top: -15px;
+  left: 10px;
+  opacity: 0.1;
+}
+
+.vom-widget--compact .vom-widget__content {
+  font-size: var(--font-size-md);
+  margin-bottom: 4px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  line-height: 1.5;
+}
+
+.vom-widget--compact .vom-widget__ref {
+  font-size: var(--font-size-xs);
+  opacity: 0.8;
+  align-self: flex-end;
+}

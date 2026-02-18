@@ -1,0 +1,95 @@
+/* ===========================
+   Reading Context Hero
+   =========================== */
+
+.reading-hero {
+  background: var(--color-hero-bg);
+  padding: var(--space-xl) 0 var(--space-lg);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.reading-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 600px 400px at 20% 50%,
+      rgba(99, 102, 241, 0.04) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 500px 300px at 80% 30%,
+      rgba(139, 92, 246, 0.03) 0%,
+      transparent 70%
+    );
+  pointer-events: none;
+}
+
+.reading-hero__inner {
+  max-width: var(--max-width-reading);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+  position: relative;
+}
+
+.reading-hero__greeting {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  font-weight: 500;
+  margin-bottom: var(--space-xs);
+  letter-spacing: 0.02em;
+}
+
+.reading-hero__title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: var(--space-sm);
+}
+
+.reading-hero__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.reading-hero__dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-text-tertiary);
+  display: inline-block;
+}
+
+/* Reading count badge */
+.reading-hero__count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-accent);
+  background: var(--color-accent-light);
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  margin-top: var(--space-sm);
+}
+
+@media (max-width: 640px) {
+  .reading-hero {
+    padding: var(--space-lg) 0 var(--space-md);
+  }
+
+  .reading-hero__title {
+    font-size: var(--font-size-xl);
+  }
+}

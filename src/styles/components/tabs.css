@@ -1,0 +1,228 @@
+/* ===========================
+   Verse Tabs (Modern Segmented Control)
+   =========================== */
+
+.verse-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  width: 100%;
+}
+
+.verse-tabs__nav {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: safe center;
+  gap: var(--space-xs); /* Tighter gap for segmented feel */
+  overflow-x: auto;
+  padding: 4px 12px; /* Internal padding for the "gutter" and horizontal breathing room */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  align-items: center;
+  scroll-snap-type: x mandatory;
+
+  /* Sticky Positioning — below header + controls bar */
+  position: sticky;
+  top: calc(var(--header-height) + 53px);
+  z-index: 10;
+
+  /* Container Style */
+  background-color: rgba(248, 246, 242, 0.85); /* Semi-transparent --color-bg */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  margin-bottom: var(--space-sm);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="dark"] .verse-tabs__nav {
+  background-color: rgba(
+    15,
+    15,
+    15,
+    0.85
+  ); /* Semi-transparent dark --color-bg */
+}
+
+.verse-tabs__nav::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tab Button */
+.verse-tab-btn {
+  flex: 0 0 auto;
+  scroll-snap-align: center; /* Center snap for segments */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  /* Reset */
+  background: transparent;
+  border: 1px solid transparent; /* Reserve space */
+  border-radius: var(--radius-md); /* Slightly less rounded than container */
+  padding: 8px 16px;
+  min-width: auto;
+
+  /* Typography */
+  color: var(--color-text-secondary);
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+
+  /* Interaction */
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  user-select: none;
+
+  /* No Shadow by default */
+  box-shadow: none;
+}
+
+/* Hover State */
+.verse-tab-btn:hover {
+  color: var(--color-text-primary);
+  background: rgba(0, 0, 0, 0.03); /* Very subtle darken */
+}
+
+/* Active State - The "Floating Card" look */
+.verse-tab-btn.active {
+  color: var(--color-text-primary); /* Strong contrast */
+  background: var(--color-bg-card);
+  font-weight: 600;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.05); /* Soft, elevated shadow */
+  border-color: rgba(0, 0, 0, 0.04); /* Slight definition */
+  transform: none; /* Keep stable */
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .verse-tabs__nav {
+  background-color: #242424;
+  border-color: #333;
+}
+
+[data-theme="dark"] .verse-tab-btn.active {
+  background: #333;
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  border-color: #444;
+}
+
+[data-theme="dark"] .verse-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Focus State */
+.verse-tab-btn:focus-visible {
+  outline: none;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+/* Inner Elements */
+.verse-tab-btn .tab-content-wrapper {
+  display: flex;
+  align-items: center; /* Center alignment */
+  gap: 6px;
+  flex-direction: row;
+}
+
+.verse-tab-btn .tab-book {
+  font-weight: inherit;
+  font-size: 0.95em;
+}
+
+.verse-tab-btn .tab-range {
+  font-size: 0.85em;
+  opacity: 0.6;
+  font-weight: 400;
+}
+
+.verse-tab-btn.active .tab-range {
+  opacity: 0.7;
+}
+
+/* Icons - Turn back on but keep subtle */
+.verse-tab-btn .tab-icon {
+  display: block;
+  width: 14px;
+  height: 14px;
+  opacity: 0.5;
+  margin-right: -2px;
+}
+
+.verse-tab-btn.active .tab-icon {
+  opacity: 0.8;
+  color: var(--color-accent); /* Nice touch */
+}
+
+/* Content Pane Animation */
+.verse-tab-pane {
+  display: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.verse-tab-pane.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile adjustments for compare view */
+@media (max-width: 768px) {
+  .verse-tabs {
+    gap: var(--space-sm);
+  }
+
+  .verse-tabs__nav {
+    /* Keep sticky on mobile, below header + controls bar */
+    position: sticky;
+    top: calc(var(--header-height) + 46px);
+    z-index: 10;
+    margin-bottom: var(--space-xs);
+    padding: 3px;
+    background: rgba(248, 246, 242, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius-md);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  [data-theme="dark"] .verse-tabs__nav {
+    background: rgba(15, 15, 15, 0.95);
+  }
+
+  .verse-tab-btn {
+    padding: 6px 12px;
+    font-size: var(--font-size-xs);
+  }
+
+  .verse-tab-btn .tab-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .verse-tab-btn .tab-content-wrapper {
+    gap: 4px;
+  }
+
+  .verse-tab-btn .tab-book {
+    font-size: 0.9em;
+  }
+
+  .verse-tab-btn .tab-range {
+    font-size: 0.8em;
+  }
+}

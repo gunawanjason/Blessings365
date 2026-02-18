@@ -1,0 +1,100 @@
+/* ===========================
+   Controls Bar (Date + Version)
+   =========================== */
+
+.controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: var(--space-xs) 0;
+  flex-wrap: wrap;
+
+  /* Sticky below header */
+  position: sticky;
+  top: var(--header-height);
+  z-index: 15;
+  background: rgba(248, 246, 242, 0.92);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1px solid var(--color-border);
+  margin: 0 calc(-1 * var(--space-md));
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+}
+
+[data-theme="dark"] .controls-bar {
+  background: rgba(15, 15, 15, 0.92);
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.control-label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.select-input {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 6px 28px 6px 12px;
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6B6B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  min-width: 60px;
+  min-height: 44px; /* Accessible touch target */
+}
+
+.select-input:hover {
+  border-color: var(--color-border-hover);
+}
+
+.select-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-light);
+}
+
+/* ===========================
+   Section Divider
+   =========================== */
+
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  border: none;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .controls-bar {
+    gap: var(--space-sm);
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .control-label {
+    display: none;
+  }
+
+  .select-input {
+    min-height: 36px;
+    font-size: var(--font-size-xs);
+  }
+}

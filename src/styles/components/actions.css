@@ -1,0 +1,168 @@
+/* ===========================
+   Footer Action Bar — Verse Selection
+   =========================== */
+
+/* When action bar is visible, add space at the bottom so
+   the last verse isn't obscured by the floating bar. */
+.action-bar-active main,
+.action-bar-active .compare-panel {
+  padding-bottom: 52px;
+}
+
+.action-bar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%) translateY(calc(100% + 16px));
+  z-index: 1100;
+  transition:
+    transform 250ms ease,
+    opacity 250ms ease;
+  pointer-events: none;
+  opacity: 0;
+  /* Mobile: above bottom-nav (64px + safe area + gap) */
+  bottom: calc(64px + env(safe-area-inset-bottom) + 12px);
+}
+
+/* Desktop: no bottom-nav, just above viewport bottom */
+@media (min-width: 641px) {
+  .action-bar {
+    bottom: 20px;
+  }
+}
+
+.action-bar--visible {
+  transform: translateX(-50%) translateY(0);
+  pointer-events: all;
+  opacity: 1;
+}
+
+.action-bar__inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 8px 8px 16px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 20px var(--color-shadow-lg);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 350ms ease,
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.action-bar__inner--success {
+  background: #22c55e;
+  border-color: #16a34a;
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.25);
+}
+
+.action-bar__inner--success .action-bar__info {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.action-bar__inner--success .action-bar__copy {
+  background: #15803d;
+}
+
+.action-bar__inner:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 6px 24px var(--color-shadow-lg);
+}
+
+[data-theme="dark"] .action-bar__inner {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .action-bar__inner:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+
+.action-bar__info {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.action-bar__copy {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  background: var(--color-accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-full);
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.action-bar__copy:hover {
+  background: var(--color-accent-hover);
+}
+
+.action-bar__copy:active {
+  transform: scale(0.97);
+}
+
+.action-bar__copy--success {
+  background: var(--color-success);
+}
+
+.action-bar__copy--error {
+  background: var(--color-danger);
+}
+
+/* ===========================
+   Scroll to Top
+   =========================== */
+
+.scroll-top-btn {
+  position: fixed;
+  right: var(--space-md);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all var(--transition-normal);
+  box-shadow: 0 2px 8px var(--color-shadow);
+  z-index: 1050;
+  /* Mobile: above bottom-nav */
+  bottom: calc(64px + env(safe-area-inset-bottom) + 12px);
+}
+
+@media (min-width: 641px) {
+  .scroll-top-btn {
+    bottom: var(--space-lg);
+  }
+}
+
+.scroll-top-btn--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+  color: var(--color-accent);
+  border-color: var(--color-border-hover);
+  box-shadow: 0 4px 12px var(--color-shadow-hover);
+}
