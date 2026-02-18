@@ -23,8 +23,9 @@
   width: 34px;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.3s ease;
   z-index: 11;
+  will-change: opacity;
 }
 
 .verse-tabs__nav-wrap::before {
@@ -57,8 +58,9 @@
   text-shadow: 0 1px 1px color-mix(in srgb, var(--color-bg) 85%, transparent);
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.3s ease, transform 0.2s ease;
   z-index: 12;
+  will-change: opacity, transform;
 }
 
 .verse-tabs__edge-arrow--left {
@@ -70,11 +72,11 @@
 }
 
 .verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--left-fade .verse-tabs__edge-arrow--left {
-  opacity: 0.62;
+  opacity: 0.7;
 }
 
 .verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--right-fade .verse-tabs__edge-arrow--right {
-  opacity: 0.62;
+  opacity: 0.7;
 }
 
 .verse-tabs__nav {
@@ -294,11 +296,13 @@
   .verse-tabs__nav-wrap::before,
   .verse-tabs__nav-wrap::after {
     width: 26px;
+    transition: opacity 0.4s ease;
   }
 
   .verse-tabs__edge-arrow {
     top: calc(50% - 1px);
     font-size: 19px;
+    transition: opacity 0.4s ease, transform 0.2s ease;
   }
 
   .verse-tabs__edge-arrow--left {
@@ -307,6 +311,12 @@
 
   .verse-tabs__edge-arrow--right {
     right: 7px;
+  }
+
+  /* Mobile-specific: more stable arrow visibility */
+  .verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--left-fade .verse-tabs__edge-arrow--left,
+  .verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--right-fade .verse-tabs__edge-arrow--right {
+    opacity: 0.8;
   }
 
   [data-theme="dark"] .verse-tabs__nav {

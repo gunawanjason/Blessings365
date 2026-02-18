@@ -204,6 +204,20 @@
     z-index: 1;
   }
 
+  /* Mobile-specific: ensure arrow hints are stable in compare view */
+  .compare-panel .verse-tabs__nav-wrap {
+    contain: layout style paint;
+  }
+
+  .compare-panel .verse-tabs__nav-wrap::before,
+  .compare-panel .verse-tabs__nav-wrap::after {
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .compare-panel .verse-tabs__edge-arrow {
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease;
+  }
+
   /* Indicators — show on mobile as subtle panel position dots */
   .compare-indicators {
     display: flex;

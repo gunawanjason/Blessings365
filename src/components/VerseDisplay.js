@@ -328,26 +328,133 @@ function renderTabs(container, versesData, translation, headingsMap, fontSizeCla
 }
 
 function setupTabNavFades(tabsNav, tabsNavWrap) {
-    const update = () => {
-        const maxScrollLeft = tabsNav.scrollWidth - tabsNav.clientWidth;
-        const canScroll = maxScrollLeft > 1;
-        const hasLeft = canScroll && tabsNav.scrollLeft > 1;
-        const hasRight = canScroll && tabsNav.scrollLeft < maxScrollLeft - 1;
+    const EDGE_EPSILON = 2;
+    let rafId = null;
+    let settleTimer = null;
+    let lastCanScroll = null;
+    let lastHasLeft = null;
+    let lastHasRight = null;
+    let isUpdating = false;
 
-        tabsNavWrap.classList.toggle('verse-tabs__nav-wrap--scrollable', canScroll);
-        tabsNavWrap.classList.toggle('verse-tabs__nav-wrap--left-fade', hasLeft);
-        tabsNavWrap.classList.toggle('verse-tabs__nav-wrap--right-fade', hasRight);
+    const updateImmediate = () => {
+        // Prevent concurrent updates
+        if (isUpdating) return;
+        isUpdating = true;
+
+        const children = Array.from(tabsNav.children).filter((el) => el instanceof HTMLElement);
+
+        if (children.length === 0) {
+            if (lastCanScroll !== false) {
+                tabsNavWrap.classList.remove('verse-tabs__nav-wrap--scrollable');
+                lastCanScroll = false;
+            }
+            if (lastHasLeft !== false) {
+                tabsNavWrap.classList.remove('verse-tabs__nav-wrap--left-fade');
+                lastHasLeft = false;
+            }
+            if (lastHasRight !== false) {
+                tabsNavWrap.classList.remove('verse-tabs__nav-wrap--right-fade');
+                lastHasRight = false;
+            }
+            isUpdating = false;
+            return;
+        }
+
+        const firstItem = children[0];
+        const lastItem = children[children.length - 1];
+        const navRect = tabsNav.getBoundingClientRect();
+        const firstRect = firstItem.getBoundingClientRect();
+        const lastRect = lastItem.getBoundingClientRect();
+        const scrollWidth = Math.ceil(tabsNav.scrollWidth);
+        const clientWidth = Math.floor(tabsNav.clientWidth);
+        const maxScrollLeft = Math.max(0, scrollWidth - clientWidth);
+        const scrollLeft = Math.max(0, Math.min(maxScrollLeft, tabsNav.scrollLeft));
+
+        const hasLeftByGeometry = firstRect.left < (navRect.left - EDGE_EPSILON);
+        const hasRightByGeometry = lastRect.right > (navRect.right + EDGE_EPSILON);
+        const hasLeftByScroll = scrollLeft > EDGE_EPSILON;
+        const hasRightByScroll = (maxScrollLeft - scrollLeft) > EDGE_EPSILON;
+
+        let hasLeft = hasLeftByGeometry || hasLeftByScroll;
+        let hasRight = hasRightByGeometry || hasRightByScroll;
+
+        if (maxScrollLeft > EDGE_EPSILON && !hasLeft && !hasRight) {
+            if (scrollLeft <= EDGE_EPSILON) {
+                hasRight = true;
+            } else if ((maxScrollLeft - scrollLeft) <= EDGE_EPSILON) {
+                hasLeft = true;
+            } else {
+                hasLeft = true;
+                hasRight = true;
+            }
+        }
+
+        const contentSpan = lastRect.right - firstRect.left;
+        const canScroll = maxScrollLeft > 0 || hasLeft || hasRight || contentSpan > (navRect.width + EDGE_EPSILON);
+
+        // Only update classes if there's an actual change
+        if (canScroll !== lastCanScroll) {
+            tabsNavWrap.classList.toggle('verse-tabs__nav-wrap--scrollable', canScroll);
+            lastCanScroll = canScroll;
+        }
+        if (hasLeft !== lastHasLeft) {
+            tabsNavWrap.classList.toggle('verse-tabs__nav-wrap--left-fade', hasLeft);
+            lastHasLeft = hasLeft;
+        }
+        if (hasRight !== lastHasRight) {
+            tabsNavWrap.classList.toggle('verse-tabs__nav-wrap--right-fade', hasRight);
+            lastHasRight = hasRight;
+        }
+
+        isUpdating = false;
     };
 
-    tabsNav.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
+    const update = () => {
+        if (rafId !== null) return;
+        rafId = requestAnimationFrame(() => {
+            rafId = null;
+            updateImmediate();
+        });
+    };
+
+    // Throttled scroll handler to prevent excessive updates
+    let scrollTimer = null;
+    const throttledScrollHandler = () => {
+        if (scrollTimer) return;
+        scrollTimer = setTimeout(() => {
+            update();
+            scrollTimer = null;
+        }, 50); // 50ms throttle for scroll events
+    };
+
+    tabsNav.addEventListener('scroll', throttledScrollHandler, { passive: true });
+    
+    // Use a single resize handler with debouncing
+    let resizeTimer = null;
+    const debouncedResizeHandler = () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(update, 150);
+    };
+    
+    window.addEventListener('resize', debouncedResizeHandler);
+    window.addEventListener('orientationchange', debouncedResizeHandler);
 
     if (typeof ResizeObserver !== 'undefined') {
-        const observer = new ResizeObserver(update);
+        const observer = new ResizeObserver(() => {
+            // Debounce resize observer updates
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(update, 150);
+        });
         observer.observe(tabsNav);
     }
 
-    requestAnimationFrame(update);
+    // Initial update with delay to ensure DOM is settled
+    requestAnimationFrame(() => {
+        updateImmediate();
+    });
+    // Additional delayed update for mobile rendering quirks
+    setTimeout(update, 300);
+    
     return update;
 }
 
