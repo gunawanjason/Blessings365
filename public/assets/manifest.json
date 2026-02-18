@@ -1,0 +1,23 @@
+{
+  "name": "Blessings365",
+  "short_name": "Blessings365",
+  "description": "Your Daily Bible Reading Plan",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f6f2",
+  "theme_color": "#8b4513",
+  "icons": [
+    {
+      "src": "/assets/icon-192x192.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icon-512x512.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ]
+}

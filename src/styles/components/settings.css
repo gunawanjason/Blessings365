@@ -1,0 +1,324 @@
+/* ===========================
+   Settings Panel (Compact Dropdown)
+   =========================== */
+
+/* Overlay */
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 200;
+  display: none;
+}
+
+.settings-overlay--visible {
+  display: block;
+}
+
+/* Panel */
+.settings-panel {
+  position: fixed;
+  width: 240px;
+  max-width: 90vw;
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 10px;
+  z-index: 201;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px) scale(0.96);
+  transform-origin: top right;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.18s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.settings-panel--open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+/* Header */
+.settings-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.settings-panel__title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #aaa;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.settings-panel__close {
+  display: none;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 0;
+}
+
+[data-theme="dark"] .settings-panel {
+  background: #1a1a1a;
+}
+
+/* Body */
+.settings-panel__body {
+  padding: 10px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Rows */
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.setting-row--column {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.setting-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #ddd;
+}
+
+.setting-end {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Icons */
+.theme-icon-sun {
+  color: #fca510;
+  width: 15px;
+  height: 15px;
+}
+
+.theme-icon-moon {
+  color: #f1c40f;
+  width: 15px;
+  height: 15px;
+}
+
+.format-icon {
+  color: #bbb;
+  font-size: 0.8rem;
+}
+
+.format-icon--bold {
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Toggle */
+.toggle--inline {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.toggle__track {
+  width: 38px;
+  height: 22px;
+  background: #444;
+  border-radius: 99px;
+  position: relative;
+  transition: 0.2s;
+}
+
+.toggle__track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.toggle input:checked + .toggle__track {
+  background: #555;
+}
+
+.toggle input:checked + .toggle__track::after {
+  transform: translateX(16px);
+}
+
+/* Font Slider */
+.font-control {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.font-slider-container {
+  padding: 0 2px;
+}
+
+.font-slider__input {
+  width: 100%;
+  height: 3px;
+  background: #444;
+  border-radius: 2px;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.font-slider__input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #777;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.font-slider__input::-webkit-slider-thumb:hover {
+  background: #999;
+  transform: scale(1.1);
+}
+
+/* Font Buttons / Labels */
+.font-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 2px;
+}
+
+.font-btn {
+  background: transparent;
+  border: none;
+  color: #666;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  padding: 3px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.font-btn:hover {
+  color: #888;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.font-btn--active {
+  color: #fff;
+}
+
+.font-btn__icon {
+  display: block;
+  line-height: 1;
+  background: #333;
+  padding: 3px 6px;
+  border-radius: 5px;
+  font-size: 0.85em;
+}
+
+.font-btn--active .font-btn__icon {
+  background: #444;
+}
+
+.font-btn__text {
+  font-size: 0.65rem;
+  font-weight: 500;
+}
+
+/* Footer — hidden for compact design */
+.settings-panel__footer {
+  display: none;
+}
+
+.settings-panel__footer p {
+  color: #666;
+  font-size: 0.7rem;
+  margin: 2px 0;
+}
+
+/* ===========================
+   Light Mode Overrides
+   =========================== */
+
+[data-theme="light"] .settings-panel {
+  background: #fff;
+  border-color: #e5e0d8;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .settings-panel__header {
+  border-color: #f0ece6;
+}
+
+[data-theme="light"] .settings-panel__title {
+  color: #9a9088;
+}
+
+[data-theme="light"] .setting-label {
+  color: #2c2520;
+}
+
+[data-theme="light"] .font-slider__input {
+  background: #e5e0d8;
+}
+
+[data-theme="light"] .font-btn {
+  color: #9a9088;
+}
+
+[data-theme="light"] .font-btn--active {
+  color: #2c2520;
+}
+
+[data-theme="light"] .font-btn__icon {
+  background: #f3f1ec;
+}
+
+[data-theme="light"] .font-btn--active .font-btn__icon {
+  background: #e5e0d8;
+}
+
+[data-theme="light"] .toggle__track {
+  background: #ddd;
+}
+
+[data-theme="light"] .toggle input:checked + .toggle__track {
+  background: #bbb;
+}
+
+[data-theme="light"] .format-icon--bold {
+  color: #2c2520;
+}

@@ -1,0 +1,12 @@
+/* ===========================
+   Page Title
+   =========================== */
+
+.page-title {
+  text-align: center;
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  padding-top: var(--space-lg);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
