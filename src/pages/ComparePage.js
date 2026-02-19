@@ -216,22 +216,32 @@ export function renderComparePage(app, settingsPanel) {
         expandTab();
     });
 
-    // Sync vertical scroll between panels (desktop only - both panels visible)
-    // On mobile, only one panel is visible at a time, so sync is not needed and interferes with iOS scrolling
+    // Sync vertical scroll between panels
+    // On mobile, we only sync from the *active* panel to the hidden one to avoid
+    // fighting the native momentum scroll or creating loops.
     let isSyncing = false;
     function syncScroll(source, target) {
         if (isSyncing) return;
+
+        // Mobile check: only sync if the source panel is currently the visible one
+        if (window.innerWidth <= 768) {
+            const currentIndex = Math.round(grid.scrollLeft / grid.clientWidth);
+            // panel1 is index 0, panel2 is index 1
+            const sourceIndex = (source === panel1) ? 0 : 1;
+            if (currentIndex !== sourceIndex) return;
+        }
+
         // Skip sync during animated scroll-to-top (both panels animate in lockstep)
         if (source._animatingScroll || target._animatingScroll) return;
+
         isSyncing = true;
         target.scrollTop = source.scrollTop;
         isSyncing = false;
     }
-    // Only enable scroll sync on desktop (viewport width > 768px)
-    if (window.innerWidth > 768) {
-        panel1.addEventListener('scroll', () => syncScroll(panel1, panel2));
-        panel2.addEventListener('scroll', () => syncScroll(panel2, panel1));
-    }
+
+    // Enable scroll sync for both desktop and mobile
+    panel1.addEventListener('scroll', () => syncScroll(panel1, panel2));
+    panel2.addEventListener('scroll', () => syncScroll(panel2, panel1));
 
     // Verse selection manager
     const verseSelection = createVerseSelection(
@@ -339,22 +349,22 @@ export function renderComparePage(app, settingsPanel) {
     }
 
     /**
-     * Inject a translation badge as the first child of the tab bar nav.
+     * Inject a translation badge as the first child of the tab bar wrapper.
      */
     function injectTranslationBadge(container, translationName) {
-        const nav = container.querySelector('.verse-tabs__nav');
-        if (!nav) return;
+        const navWrap = container.querySelector('.verse-tabs__nav-wrap');
+        if (!navWrap) return;
+
         // Remove any existing badge first
-        const existing = nav.querySelector('.compare-tab-badge');
+        const existing = navWrap.querySelector('.compare-tab-badge');
         if (existing) existing.remove();
-        const badge = document.createElement('span');
+
+        const badge = document.createElement('div');
         badge.className = 'compare-tab-badge';
         badge.textContent = translationName;
-        nav.insertBefore(badge, nav.firstChild);
 
-        requestAnimationFrame(() => {
-            nav.dispatchEvent(new Event('scroll'));
-        });
+        // Insert before the nav list
+        navWrap.insertBefore(badge, navWrap.firstChild);
     }
 
     /**
@@ -404,7 +414,18 @@ export function renderComparePage(app, settingsPanel) {
         updateVerseFontSize(versesContainer1, cls);
         updateVerseFontSize(versesContainer2, cls);
         if (originalOnFontSize) originalOnFontSize(cls);
+        // Re-balance after font change
+        setTimeout(() => balanceHeights(versesContainer1, versesContainer2), 50);
     };
+
+    // Auto-balance heights on resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            balanceHeights(versesContainer1, versesContainer2);
+        }, 100);
+    });
 
     init();
 }

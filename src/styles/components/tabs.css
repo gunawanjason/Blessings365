@@ -18,6 +18,14 @@
   background: var(--color-bg);
 }
 
+.verse-tabs__scroll-area {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
 .verse-tabs__nav {
   display: flex;
   flex-wrap: nowrap;
@@ -44,8 +52,8 @@
   position: relative;
 }
 
-.verse-tabs__nav-wrap::before,
-.verse-tabs__nav-wrap::after {
+.verse-tabs__scroll-area::before,
+.verse-tabs__scroll-area::after {
   content: "";
   position: absolute;
   top: 0;
@@ -58,7 +66,7 @@
   will-change: opacity;
 }
 
-.verse-tabs__nav-wrap::before {
+.verse-tabs__scroll-area::before {
   left: 0;
   background: linear-gradient(
     to right,
@@ -67,7 +75,7 @@
   );
 }
 
-.verse-tabs__nav-wrap::after {
+.verse-tabs__scroll-area::after {
   right: 0;
   background: linear-gradient(
     to left,
@@ -76,11 +84,13 @@
   );
 }
 
-.verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--left-fade::before {
+.verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--left-fade
+  .verse-tabs__scroll-area::before {
   opacity: 1;
 }
 
-.verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--right-fade::after {
+.verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--right-fade
+  .verse-tabs__scroll-area::after {
   opacity: 1;
 }
 

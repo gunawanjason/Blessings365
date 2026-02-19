@@ -159,6 +159,10 @@ function renderTabs(container, versesData, translation, headingsMap, fontSizeCla
     const tabsNavWrap = document.createElement('div');
     tabsNavWrap.className = 'verse-tabs__nav-wrap';
 
+    // New wrapper for scroll content specifically (excludes badge in compare view)
+    const tabsScrollArea = document.createElement('div');
+    tabsScrollArea.className = 'verse-tabs__scroll-area';
+
     const leftEdgeArrow = document.createElement('span');
     leftEdgeArrow.className = 'verse-tabs__edge-arrow verse-tabs__edge-arrow--left';
     leftEdgeArrow.setAttribute('aria-hidden', 'true');
@@ -177,9 +181,12 @@ function renderTabs(container, versesData, translation, headingsMap, fontSizeCla
     const tabsContent = document.createElement('div');
     tabsContent.className = 'verse-tabs__content';
 
-    tabsNavWrap.appendChild(tabsNav);
-    tabsNavWrap.appendChild(leftEdgeArrow);
-    tabsNavWrap.appendChild(rightEdgeArrow);
+    // Use scroll area to contain nav + arrows
+    tabsScrollArea.appendChild(tabsNav);
+    tabsScrollArea.appendChild(leftEdgeArrow);
+    tabsScrollArea.appendChild(rightEdgeArrow);
+
+    tabsNavWrap.appendChild(tabsScrollArea);
     tabsContainer.appendChild(tabsNavWrap);
     tabsContainer.appendChild(tabsContent);
     container.appendChild(tabsContainer);
@@ -428,14 +435,14 @@ function setupTabNavFades(tabsNav, tabsNavWrap) {
     };
 
     tabsNav.addEventListener('scroll', throttledScrollHandler, { passive: true });
-    
+
     // Use a single resize handler with debouncing
     let resizeTimer = null;
     const debouncedResizeHandler = () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(update, 150);
     };
-    
+
     window.addEventListener('resize', debouncedResizeHandler);
     window.addEventListener('orientationchange', debouncedResizeHandler);
 
@@ -454,7 +461,7 @@ function setupTabNavFades(tabsNav, tabsNavWrap) {
     });
     // Additional delayed update for mobile rendering quirks
     setTimeout(update, 300);
-    
+
     return update;
 }
 

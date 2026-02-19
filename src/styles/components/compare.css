@@ -289,21 +289,74 @@
   transform: scale(1.4);
 }
 
-/* Translation badge inside tab bar */
+/* Translation badge - Separated from tabs */
 .compare-tab-badge {
   display: flex;
   align-items: center;
   justify-content: center;
+
   font-size: var(--font-size-xs);
   font-weight: 700;
   color: var(--color-accent);
   background: var(--color-accent-light);
   padding: 4px 10px;
+  margin: 4px; /* Space around badge */
+  margin-right: 2px;
   border-radius: var(--radius-md);
+
   letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
   flex-shrink: 0;
+
+  /* Ensure it sits above arrows/fades */
+  position: relative;
+  z-index: 20;
+}
+
+/* Make the wrapper a flex container */
+.compare-panel .verse-tabs__nav-wrap {
+  display: flex;
+  align-items: center;
+
+  /* Transfer sticky behavior to wrapper */
+  position: -webkit-sticky;
+  position: sticky;
+  top: calc(var(--header-height) + 53px); /* Desktop default */
+  z-index: 10;
+
+  background: rgba(248, 246, 242, 0.98);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .compare-panel .verse-tabs__nav-wrap {
+    top: 0;
+  }
+}
+
+[data-theme="dark"] .compare-panel .verse-tabs__nav-wrap {
+  background: rgba(15, 15, 15, 0.98);
+}
+
+/* Adjust the nav list to take remaining space */
+.compare-panel .verse-tabs__nav {
+  flex: 1;
+  min-width: 0;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding-left: 2px !important;
+
+  /* Reset sticky since wrapper handles it */
+  position: static !important;
+  top: auto !important;
+  border-radius: 0 !important;
 }
 
 /* ===========================
