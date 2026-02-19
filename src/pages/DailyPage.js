@@ -15,7 +15,7 @@ export function renderDailyPage(app, settingsPanel) {
     app.innerHTML = '';
 
     // Header
-    const header = renderHeader('daily', () => settingsPanel.open());
+    const header = renderHeader('daily', () => settingsPanel.toggle());
     app.appendChild(header);
 
     // Main content wrapper

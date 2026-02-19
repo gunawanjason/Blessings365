@@ -8,10 +8,6 @@ import { trackEvent } from '../utils/analytics.js';
  * @param {Function} options.onBoldCopyChange - called with boolean
  */
 export function createSettingsPanel({ onThemeChange, onFontSizeChange, onBoldCopyChange }) {
-  // Overlay
-  const overlay = document.createElement('div');
-  overlay.className = 'settings-overlay';
-  overlay.id = 'settings-overlay';
 
   // Panel
   const panel = document.createElement('div');
@@ -90,7 +86,6 @@ export function createSettingsPanel({ onThemeChange, onFontSizeChange, onBoldCop
     </div>
   `;
 
-  document.body.appendChild(overlay);
   document.body.appendChild(panel);
 
   // Elements
@@ -156,7 +151,16 @@ export function createSettingsPanel({ onThemeChange, onFontSizeChange, onBoldCop
     trackEvent('change_setting', { setting_type: 'bold_copy', setting_value: boldToggle.checked });
   });
 
-  // Open/close
+  // Open/close logic with document click listener
+
+  function handleOutsideClick(e) {
+    const btn = document.getElementById('settings-btn');
+    // If click is not inside the panel and not on the toggle button
+    if (!panel.contains(e.target) && (!btn || !btn.contains(e.target))) {
+      close();
+    }
+  }
+
   function open() {
     const btn = document.getElementById('settings-btn');
     if (btn) {
@@ -167,23 +171,36 @@ export function createSettingsPanel({ onThemeChange, onFontSizeChange, onBoldCop
       panel.style.right = `${right}px`;
     }
 
-    overlay.classList.add('settings-overlay--visible');
     panel.classList.add('settings-panel--open');
+
+    // Defer adding listener slightly to avoid catching the initial open click
+    setTimeout(() => {
+      document.addEventListener('click', handleOutsideClick);
+    }, 0);
   }
 
   function close() {
-    overlay.classList.remove('settings-overlay--visible');
     panel.classList.remove('settings-panel--open');
+    document.removeEventListener('click', handleOutsideClick);
   }
 
   closeBtn.addEventListener('click', close);
-  overlay.addEventListener('click', close);
+
+  function toggle() {
+    if (panel.classList.contains('settings-panel--open')) {
+      close();
+    } else {
+      open();
+    }
+  }
 
   return {
     open,
     close,
+    toggle,
     getTheme: () => themeToggle.checked ? 'dark' : 'light',
     getFontSizeClass: () => fontSizeMap[fontSlider.value] || 'verse-line--medium',
     getBoldCopyEnabled: () => boldToggle.checked,
   };
 }
+

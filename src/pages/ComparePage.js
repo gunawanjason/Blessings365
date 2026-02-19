@@ -16,7 +16,7 @@ export function renderComparePage(app, settingsPanel) {
     app.innerHTML = '';
 
     // Header
-    const header = renderHeader('compare', () => settingsPanel.open());
+    const header = renderHeader('compare', () => settingsPanel.toggle());
     app.appendChild(header);
 
     // Main content wrapper

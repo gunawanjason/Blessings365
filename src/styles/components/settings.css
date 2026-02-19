@@ -2,19 +2,6 @@
    Settings Panel (Compact Dropdown)
    =========================== */
 
-/* Overlay */
-.settings-overlay {
-  position: fixed;
-  inset: 0;
-  background: transparent;
-  z-index: 200;
-  display: none;
-}
-
-.settings-overlay--visible {
-  display: block;
-}
-
 /* Panel */
 .settings-panel {
   position: fixed;

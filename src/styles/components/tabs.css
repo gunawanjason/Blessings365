@@ -13,9 +13,9 @@
 .verse-tabs__nav-wrap {
   position: -webkit-sticky;
   position: sticky;
-  top: 0;
+  top: calc(var(--header-height) + 53px); /* Fits below header + controls */
   z-index: 10;
-  background: var(--color-bg);
+  background: transparent; /* Background handled by nav or separate blur if needed */
 }
 
 .verse-tabs__scroll-area {
@@ -24,32 +24,29 @@
   min-width: 0;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .verse-tabs__nav {
   display: flex;
   flex-wrap: nowrap;
   justify-content: safe center;
-  gap: var(--space-xs); /* Tighter gap for segmented feel */
+  gap: var(--space-xs);
   overflow-x: auto;
-  padding: 4px 12px; /* Internal padding for the "gutter" and horizontal breathing room */
+  padding: 4px 12px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   align-items: center;
   scroll-snap-type: x mandatory;
 
   /* Container Style */
-  background-color: rgba(248, 246, 242, 0.85); /* Semi-transparent --color-bg */
+  background-color: rgba(248, 246, 242, 0.85);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
   margin-bottom: var(--space-sm);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-}
-
-.verse-tabs__nav-wrap {
-  position: relative;
 }
 
 .verse-tabs__scroll-area::before,
@@ -129,34 +126,6 @@
 .verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--right-fade
   .verse-tabs__edge-arrow--right {
   opacity: 0.7;
-}
-
-.verse-tabs__nav {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: safe center;
-  gap: var(--space-xs); /* Tighter gap for segmented feel */
-  overflow-x: auto;
-  padding: 4px 12px; /* Internal padding for the "gutter" and horizontal breathing room */
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  align-items: center;
-  scroll-snap-type: x mandatory;
-
-  /* Sticky Positioning — below header + controls bar */
-  position: -webkit-sticky;
-  position: sticky;
-  top: calc(var(--header-height) + 53px);
-  z-index: 10;
-
-  /* Container Style */
-  background-color: rgba(248, 246, 242, 0.85); /* Semi-transparent --color-bg */
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
-  margin-bottom: var(--space-sm);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
 [data-theme="dark"] .verse-tabs__nav {
