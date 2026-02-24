@@ -3,6 +3,7 @@ import { createSettingsPanel } from './components/SettingsPanel.js';
 import { createScrollToTop } from './components/ScrollToTop.js';
 import { renderDailyPage } from './pages/DailyPage.js';
 import { renderComparePage } from './pages/ComparePage.js';
+import { renderNotFoundPage } from './pages/NotFoundPage.js';
 import { updateVerseFontSize } from './components/VerseDisplay.js';
 
 // ===========================
@@ -48,10 +49,18 @@ function route() {
     // Scroll to top on navigation
     window.scrollTo(0, 0);
 
-    if (hash === '#/compare') {
-        renderComparePage(app, settingsPanel);
+    // Define valid routes
+    const validRoutes = ['#/', '#/compare'];
+
+    if (validRoutes.includes(hash)) {
+        if (hash === '#/compare') {
+            renderComparePage(app, settingsPanel);
+        } else {
+            renderDailyPage(app, settingsPanel);
+        }
     } else {
-        renderDailyPage(app, settingsPanel);
+        // Unknown route - show 404 page
+        renderNotFoundPage(app);
     }
 }
 
