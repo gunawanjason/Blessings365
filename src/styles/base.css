@@ -15,6 +15,8 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 /* iOS-specific fixes */
@@ -56,6 +58,12 @@ a:hover {
   max-width: var(--max-width-reading);
   margin: 0 auto;
   padding: 0 var(--space-md);
+}
+
+@media (max-width: 380px) {
+  .app-container {
+    padding: 0 12px;
+  }
 }
 
 .app-container--wide {

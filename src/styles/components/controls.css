@@ -99,3 +99,20 @@
     border-radius: var(--radius-md);
   }
 }
+
+@media (max-width: 380px) {
+  .controls-bar {
+    margin: 0 -12px;
+    padding-left: 12px;
+    padding-right: 12px;
+    gap: 6px;
+  }
+
+  .control-group {
+    gap: 6px;
+  }
+
+  .select-input {
+    padding: 6px 24px 6px 10px;
+  }
+}

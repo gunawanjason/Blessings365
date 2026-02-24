@@ -35,6 +35,12 @@
   }
 }
 
+@media (max-width: 380px) {
+  .header__inner {
+    padding: 0 12px;
+  }
+}
+
 .header__brand {
   display: flex;
   align-items: center;

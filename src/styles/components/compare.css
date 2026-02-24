@@ -83,6 +83,18 @@
   gap: var(--space-sm);
 }
 
+@media (max-width: 380px) {
+  .compare-header {
+    margin: 0 -12px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .compare-grid {
+    margin: 0 -12px;
+  }
+}
+
 @media (max-width: 768px) {
   /* 1. Clean Layout Reset */
   .divider {
