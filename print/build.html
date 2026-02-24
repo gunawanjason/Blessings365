@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alkitab365 - Jadwal Bacaan Tahunan</title>
+    <meta name="description" content="Jadwal bacaan Alkitab 365 hari">
+    <link rel="icon" href="/assets/favicon.ico">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap');
+
+        /* ============================================
+           CSS VARIABLES & THEME
+           ============================================ */
+        :root {
+            /* Column Colors */
+            --col-1-bg: #b5ead7;
+            --col-2-bg: #c7ceea;
+            --col-3-bg: #ffeaa7;
+
+            /* Text Colors */
+            --brand-primary: #ff7675;
+            --date-primary: #e17055;
+            --text-primary: #2d3436;
+            --text-secondary: #888;
+            --bg-stripe: #fffbfb;
+
+            /* Borders */
+            --border-light: #eee;
+            --border-medium: #ddd;
+
+            /* A4 Dimensions (Landscape) */
+            --page-width: 297mm;
+            --page-height: 210mm;
+        }
+
+        /* ============================================
+           RESET & BASE STYLES
+           ============================================ */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #555;
+            font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--text-primary);
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        /* ============================================
+           PRINT BUTTON
+           ============================================ */
+        .print-controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-print {
+            background: var(--brand-primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-print:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 2px 10px rgba(255, 118, 117, 0.25);
+        }
+
+        .btn-print:hover {
+            filter: brightness(0.98);
+        }
+
+        /* ============================================
+           PAGE SHEET
+           ============================================ */
+        .sheet {
+            background: #fff;
+            width: var(--page-width);
+            height: var(--page-height);
+            padding: 7mm 7mm 12mm 7mm;
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto 20px auto;
+            overflow: hidden;
+            page-break-after: always;
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 22px;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 2px;
+            margin-bottom: 2px;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 14pt;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .brand .highlight {
+            color: var(--brand-primary);
+        }
+
+        .quarter-label {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 9pt;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0;
+            line-height: 1;
+        }
+
+        /* ============================================
+           MONTH GRID
+           ============================================ */
+        .month-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            column-gap: 6px;
+            flex-grow: 1;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* ============================================
+           MONTH COLUMN
+           ============================================ */
+        .month-col {
+            --days: 31;
+            border: 1px solid var(--border-medium);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* ============================================
+           MONTH HEADER
+           ============================================ */
+        .month-header {
+            font-family: 'Fredoka', sans-serif;
+            text-align: center;
+            padding: 3px 0;
+            font-size: 9pt;
+            font-weight: 700;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        /* Column header colors */
+        .month-col:nth-child(1) .month-header {
+            background-color: var(--col-1-bg);
+        }
+
+        .month-col:nth-child(2) .month-header {
+            background-color: var(--col-2-bg);
+        }
+
+        .month-col:nth-child(3) .month-header {
+            background-color: var(--col-3-bg);
+        }
+
+        /* ============================================
+           MONTH BODY
+           ============================================ */
+        .month-body {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        /* ============================================
+           ROW ITEM
+           ============================================ */
+        .row-item {
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            flex: 1 1 auto;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 7.2pt;
+            line-height: 1.1;
+            overflow: hidden;
+        }
+
+        .row-item:last-child {
+            border-bottom: none;
+        }
+
+        .row-item:nth-child(even) {
+            background-color: var(--bg-stripe);
+        }
+
+        /* ============================================
+           DATE NUMBER
+           ============================================ */
+        .date-num {
+            color: var(--date-primary);
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            width: 14px;
+            flex-shrink: 0;
+            text-align: right;
+            margin-right: 5px;
+        }
+
+        /* ============================================
+           BIBLE READINGS
+           ============================================ */
+        .readings {
+            color: var(--text-primary);
+            flex-grow: 1;
+            white-space: normal;
+            word-wrap: break-word;
+            overflow: hidden;
+            line-height: 1.1;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .readings .book {
+            font-weight: 700;
+        }
+
+        .readings .separator {
+            color: var(--text-secondary);
+            margin: 0 2px;
+        }
+
+        /* ============================================
+           CHECKBOX
+           ============================================ */
+        .checkbox {
+            width: 9px;
+            height: 9px;
+            border: 1px solid var(--border-medium);
+            border-radius: 2px;
+            margin-left: 4px;
+            flex-shrink: 0;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .checkbox:checked {
+            background-color: var(--brand-primary);
+            border-color: var(--brand-primary);
+        }
+
+        /* ============================================
+           LOADING STATE
+           ============================================ */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .error {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            color: var(--brand-primary);
+            font-size: 16px;
+            text-align: center;
+        }
+
+        /* ============================================
+           PRINT MEDIA QUERY
+           ============================================ */
+        @media print {
+            body {
+                background: none;
+                display: block;
+            }
+
+            .print-controls {
+                display: none;
+            }
+
+            .sheet {
+                box-shadow: none;
+                margin: 0;
+                page-break-after: always;
+            }
+
+            .sheet:last-child {
+                page-break-after: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Print Controls -->
+    <div class="print-controls">
+        <button id="printButton" class="btn-print" type="button" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            Download PDF
+        </button>
+    </div>
+
+    <!-- App Container -->
+    <div id="app">
+        <div class="loading">Memuat jadwal bacaan...</div>
+    </div>
+
+    <script>
+        // ============================================
+        // CONFIGURATION
+        // ============================================
+        const CONFIG = {
+            apiBaseUrl: 'https://api.blessings365.top',
+            dataFile: '/Translated_Bacaan_Alkitab_365.json',
+            locale: 'id-ID'
+        };
+
+        let isReadyToPrint = false;
+
+        // ============================================
+        // DATA DEFINITIONS
+        // ============================================
+        const MONTHS = [
+            { name: 'Januari', days: 31 },
+            { name: 'Februari', days: 28 },
+            { name: 'Maret', days: 31 },
+            { name: 'April', days: 30 },
+            { name: 'Mei', days: 31 },
+            { name: 'Juni', days: 30 },
+            { name: 'Juli', days: 31 },
+            { name: 'Agustus', days: 31 },
+            { name: 'September', days: 30 },
+            { name: 'Oktober', days: 31 },
+            { name: 'November', days: 30 },
+            { name: 'Desember', days: 31 }
+        ];
+
+        const QUARTERS = [
+            { label: 'JAN - MAR', months: [0, 1, 2] },
+            { label: 'APR - JUN', months: [3, 4, 5] },
+            { label: 'JUL - SEP', months: [6, 7, 8] },
+            { label: 'OKT - DES', months: [9, 10, 11] }
+        ];
+
+        // Indonesian book abbreviations
+        const BOOK_ABBREVIATIONS = {
+            'Genesis': 'Kej', 'Exodus': 'Kel', 'Leviticus': 'Im', 'Numbers': 'Bil',
+            'Deuteronomy': 'Ul', 'Joshua': 'Yos', 'Judges': 'Hak', 'Ruth': 'Rut',
+            '1 Samuel': '1Sam', '2 Samuel': '2Sam', '1 Kings': '1Raj', '2 Kings': '2Raj',
+            '1 Chronicles': '1Taw', '2 Chronicles': '2Taw', 'Ezra': 'Ezr', 'Nehemiah': 'Neh',
+            'Esther': 'Est', 'Job': 'Ayb', 'Psalms': 'Mzm', 'Proverbs': 'Ams',
+            'Ecclesiastes': 'Pkh', 'Song of Solomon': 'Kid', 'Isaiah': 'Yes', 'Jeremiah': 'Yer',
+            'Lamentations': 'Rat', 'Ezekiel': 'Yeh', 'Daniel': 'Dan', 'Hosea': 'Hos',
+            'Joel': 'Yl', 'Amos': 'Am', 'Obadiah': 'Ob', 'Jonah': 'Yun', 'Micah': 'Mi',
+            'Nahum': 'Nah', 'Habakkuk': 'Hab', 'Zephaniah': 'Zef', 'Haggai': 'Hag',
+            'Zechariah': 'Za', 'Malachi': 'Mal', 'Matthew': 'Mat', 'Mark': 'Mrk',
+            'Luke': 'Luk', 'John': 'Yoh', 'Acts': 'Kis', 'Romans': 'Rom',
+            '1 Corinthians': '1Kor', '2 Corinthians': '2Kor', 'Galatians': 'Gal', 'Ephesians': 'Ef',
+            'Philippians': 'Flp', 'Colossians': 'Kol', '1 Thessalonians': '1Tes', '2 Thessalonians': '2Tes',
+            '1 Timothy': '1Tim', '2 Timothy': '2Tim', 'Titus': 'Tit', 'Philemon': 'Flm',
+            'Hebrews': 'Ibr', 'James': 'Yak', '1 Peter': '1Ptr', '2 Peter': '2Ptr',
+            '1 John': '1Yoh', '2 John': '2Yoh', '3 John': '3Yoh', 'Jude': 'Yud', 'Revelation': 'Why'
+        };
+
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+        
+        /**
+         * Format a Bible reading with abbreviated book names
+         */
+        function formatReading(reading) {
+            const match = reading.match(/^((?:\d\s)?[A-Za-z\s]+)\s(\d.*)$/);
+            if (!match) return reading;
+            
+            let bookName = match[1].trim();
+            let verses = match[2].trim();
+            
+            if (BOOK_ABBREVIATIONS[bookName]) {
+                bookName = BOOK_ABBREVIATIONS[bookName];
+            }
+            
+            return `<span class="book">${bookName}</span> ${verses}`;
+        }
+
+        /**
+         * Format all readings for a day
+         */
+        function formatReadings(readings) {
+            if (!readings || !Array.isArray(readings) || readings.length === 0) {
+                return '-';
+            }
+            return readings.map(formatReading).join('<span class="separator">;</span> ');
+        }
+
+        /**
+         * Create a DOM element with attributes and content
+         */
+        function createElement(tag, className = '', innerHTML = '') {
+            const element = document.createElement(tag);
+            if (className) element.className = className;
+            if (innerHTML) element.innerHTML = innerHTML;
+            return element;
+        }
+
+        // ============================================
+        // RENDER FUNCTIONS
+        // ============================================
+
+        /**
+         * Create a row item for a single day
+         */
+        function createRowItem(day, readings) {
+            const row = createElement('div', 'row-item');
+            
+            const dateNum = createElement('div', 'date-num', day.toString());
+            const readingsDiv = createElement('div', 'readings', formatReadings(readings));
+            const checkbox = createElement('input', 'checkbox');
+            checkbox.type = 'checkbox';
+            checkbox.setAttribute('aria-label', `Tandai hari ke-${day} sebagai selesai`);
+            
+            row.appendChild(dateNum);
+            row.appendChild(readingsDiv);
+            row.appendChild(checkbox);
+            
+            return row;
+        }
+
+        /**
+         * Create a month column
+         */
+        function createMonthColumn(monthData, readingsData, startDay) {
+            const col = createElement('div', 'month-col');
+            col.style.setProperty('--days', monthData.days);
+            
+            // Header
+            const header = createElement('div', 'month-header', monthData.name);
+            col.appendChild(header);
+            
+            // Body
+            const body = createElement('div', 'month-body');
+            
+            let currentDay = startDay;
+            for (let day = 1; day <= monthData.days; day++) {
+                if (currentDay > 365) break;
+                
+                const readings = readingsData[currentDay.toString()] || [];
+                const row = createRowItem(day, readings);
+                body.appendChild(row);
+                currentDay++;
+            }
+            
+            col.appendChild(body);
+            return { col, endDay: currentDay };
+        }
+
+        /**
+         * Create a quarter sheet
+         */
+        function createQuarterSheet(quarter, readingsData, startDay) {
+            const sheet = createElement('div', 'sheet');
+            
+            // Header
+            const header = createElement('div', 'header');
+            header.innerHTML = `
+                <div class="brand">Alkitab<span class="highlight">365</span></div>
+                <div class="quarter-label">${quarter.label}</div>
+            `;
+            sheet.appendChild(header);
+            
+            // Month Grid
+            const grid = createElement('div', 'month-grid');
+            
+            let currentDay = startDay;
+            quarter.months.forEach(monthIndex => {
+                const monthData = MONTHS[monthIndex];
+                const { col, endDay } = createMonthColumn(monthData, readingsData, currentDay);
+                grid.appendChild(col);
+                currentDay = endDay;
+            });
+            
+            sheet.appendChild(grid);
+            return { sheet, endDay: currentDay };
+        }
+
+        /**
+         * Render all sheets
+         */
+        function renderApp(readingsData) {
+            const app = document.getElementById('app');
+            app.innerHTML = '';
+            
+            let currentDay = 1;
+            
+            QUARTERS.forEach(quarter => {
+                const { sheet, endDay } = createQuarterSheet(quarter, readingsData, currentDay);
+                app.appendChild(sheet);
+                currentDay = endDay;
+            });
+        }
+
+        /**
+         * Show error message
+         */
+        function showError(message) {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="error">
+                    <p><strong>Error:</strong> ${message}</p>
+                    <p style="margin-top: 10px; font-size: 14px;">Silakan refresh halaman atau coba lagi nanti.</p>
+                </div>
+            `;
+
+            setPrintButtonState(false, 'Gagal memuat data');
+        }
+
+        function setPrintButtonState(enabled, label = 'Cetak ke PDF') {
+            const printButton = document.getElementById('printButton');
+            if (!printButton) return;
+
+            isReadyToPrint = enabled;
+            printButton.disabled = !enabled;
+            printButton.setAttribute('aria-disabled', String(!enabled));
+            printButton.title = enabled ? 'Cetak jadwal sebagai PDF' : label;
+        }
+
+        async function waitForFonts(timeoutMs = 2500) {
+            if (!document.fonts || !document.fonts.ready) return;
+
+            await Promise.race([
+                document.fonts.ready,
+                new Promise(resolve => setTimeout(resolve, timeoutMs))
+            ]);
+        }
+
+        function handlePrintClick() {
+            // Download the existing PDF file directly
+            const pdfUrl = '/Alkitab365%20-%20Jadwal%20Bacaan%20Tahunan.pdf';
+            const link = document.createElement('a');
+            link.href = pdfUrl;
+            link.download = 'Alkitab365 - Jadwal Bacaan Tahunan.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function initializePrintControls() {
+            const printButton = document.getElementById('printButton');
+            if (!printButton) return;
+
+            printButton.addEventListener('click', handlePrintClick);
+            setPrintButtonState(true, 'Download PDF');
+        }
+
+        // ============================================
+        // DATA LOADING
+        // ============================================
+
+        /**
+         * Load Bible readings data
+         */
+        async function loadData() {
+            try {
+                const response = await fetch(CONFIG.dataFile);
+                
+                if (!response.ok) {
+                    throw new Error(`Gagal memuat data: ${response.status} ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                renderApp(data);
+                await waitForFonts();
+                setPrintButtonState(true);
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                
+                // Fallback: try to use embedded data if fetch fails
+                if (typeof bibleDataFallback !== 'undefined') {
+                    renderApp(bibleDataFallback);
+                    await waitForFonts();
+                    setPrintButtonState(true);
+                } else {
+                    showError('Tidak dapat memuat jadwal bacaan. Pastikan file data tersedia.');
+                }
+            }
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                initializePrintControls();
+                loadData();
+            });
+        } else {
+            initializePrintControls();
+            loadData();
+        }
+    </script>
+</body>
+
+</html>
