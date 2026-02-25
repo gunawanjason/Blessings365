@@ -193,6 +193,132 @@
                 min-height: 340px;
             }
         }
+
+        /* ===========================
+       PWA Instruction Card
+       =========================== */
+        .pwa-card {
+            display: none;
+            /* shown only in PWA mode via JS */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            padding: 32px 24px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            background: var(--color-bg-card);
+            box-shadow: 0 2px 10px var(--color-shadow);
+            text-align: center;
+        }
+
+        .pwa-card__icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--color-accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .pwa-card__icon svg {
+            color: #fff;
+        }
+
+        .pwa-card__title {
+            margin: 0;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        .pwa-card__subtitle {
+            margin: 4px 0 0;
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+
+        .pwa-link-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .pwa-link-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--color-text-secondary);
+            margin-bottom: 2px;
+            text-align: left;
+        }
+
+        .pwa-link-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 10px 10px 16px;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .pwa-link-box:hover {
+            border-color: var(--color-text-secondary);
+            box-shadow: 0 4px 12px var(--color-shadow);
+        }
+
+        .pwa-link-box:active {
+            transform: scale(0.98);
+        }
+
+        .pwa-link-box__text {
+            flex: 1;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            word-break: break-all;
+            text-align: left;
+        }
+
+        .pwa-link-box__copy {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            background: var(--color-bg-hover);
+            border-radius: var(--radius-sm);
+            white-space: nowrap;
+            transition: all var(--transition-fast);
+        }
+
+        .pwa-link-box:hover .pwa-link-box__copy {
+            background: var(--color-border);
+        }
+
+        .pwa-link-box__copy.copied {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+
+        .pwa-card__hint {
+            font-size: 0.8125rem;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+            max-width: 420px;
+        }
     </style>
 </head>
 
@@ -259,9 +385,37 @@
         </div>
 
         <!-- PDF Viewer — iframe works on both desktop and mobile -->
-        <div class="viewer-card">
+        <div class="viewer-card" id="viewerCard">
             <iframe id="pdfViewer" src="/Alkitab365%20-%20Jadwal%20Bacaan%20Tahunan.pdf"
                 title="Alkitab365 - Jadwal Bacaan Tahunan" allow="fullscreen"></iframe>
+        </div>
+
+        <!-- PWA Instruction Card (shown instead of iframe in standalone mode) -->
+        <div class="pwa-card" id="pwaCard">
+            <div class="pwa-card__icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+            </div>
+            <p class="pwa-card__title">Download &amp; Print the PDF</p>
+            <div class="pwa-link-group">
+                <p class="pwa-link-label">Direct PDF Link</p>
+                <div class="pwa-link-box" id="copyPdf" role="button" tabindex="0" aria-label="Copy PDF link">
+                    <span class="pwa-link-box__text" id="pdfLinkText"></span>
+                    <span class="pwa-link-box__copy" id="copyPdfLabel">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    </span>
+                </div>
+            </div>
+            <p class="pwa-card__hint">Copy the link, open your browser, paste it, then download or print.</p>
         </div>
 
     </main>
@@ -270,6 +424,61 @@
         const PDF_URL = '/Alkitab365%20-%20Jadwal%20Bacaan%20Tahunan.pdf';
         let printFrame = null;
 
+        /* ---- PWA detection ---- */
+        const isPWA = window.matchMedia('(display-mode: standalone)').matches
+            || window.navigator.standalone === true;
+
+        if (isPWA) {
+            // Hide toolbar actions and iframe viewer; show PWA card
+            document.getElementById('viewerCard').style.display = 'none';
+            document.getElementById('pwaCard').style.display = 'flex';
+            document.querySelector('.toolbar-actions').style.display = 'none';
+
+            // Build the absolute PDF URL for display
+            const fullPdfUrl = location.origin + PDF_URL;
+            document.getElementById('pdfLinkText').textContent = fullPdfUrl;
+
+            function copyText(text, labelEl) {
+                const orig = labelEl.innerHTML;
+                const showSuccess = () => {
+                    labelEl.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!';
+                    labelEl.classList.add('copied');
+                    setTimeout(() => { labelEl.innerHTML = orig; labelEl.classList.remove('copied'); }, 2000);
+                };
+
+                // Helper for older browsers/iOS PWA or non-HTTPS local testing
+                const fallbackCopy = () => {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = text;
+                    textArea.style.position = "fixed";
+                    textArea.style.top = "0";
+                    textArea.style.left = "0";
+                    textArea.style.opacity = "0";
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        showSuccess();
+                    } catch (err) {
+                        console.error('Fallback clipboard error', err);
+                    }
+                    document.body.removeChild(textArea);
+                };
+
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text).then(showSuccess).catch(() => fallbackCopy());
+                } else {
+                    fallbackCopy();
+                }
+            }
+
+            document.getElementById('copyPdf').addEventListener('click', () => {
+                copyText(fullPdfUrl, document.getElementById('copyPdfLabel'));
+            });
+        }
+
+        /* ---- Print button (non-PWA) ---- */
         function openPdfAndPrint() {
             // On mobile, just open the PDF in a new tab — printing from iframe is unreliable
             if (window.matchMedia('(max-width: 640px)').matches) {
