@@ -400,10 +400,10 @@
                     <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
             </div>
-            <p class="pwa-card__title">Download &amp; Print the PDF</p>
+            <p class="pwa-card__title">Download &amp; Print</p>
             <div class="pwa-link-group">
-                <p class="pwa-link-label">Direct PDF Link</p>
-                <div class="pwa-link-box" id="copyPdf" role="button" tabindex="0" aria-label="Copy PDF link">
+                <p class="pwa-link-label">Print Page Link</p>
+                <div class="pwa-link-box" id="copyPdf" role="button" tabindex="0" aria-label="Copy Print Page link">
                     <span class="pwa-link-box__text" id="pdfLinkText"></span>
                     <span class="pwa-link-box__copy" id="copyPdfLabel">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -434,9 +434,9 @@
             document.getElementById('pwaCard').style.display = 'flex';
             document.querySelector('.toolbar-actions').style.display = 'none';
 
-            // Build the absolute PDF URL for display
-            const fullPdfUrl = location.origin + PDF_URL;
-            document.getElementById('pdfLinkText').textContent = fullPdfUrl;
+            // Use the print page URL for display
+            const printPageUrl = 'https://daily.blessings365.top/print';
+            document.getElementById('pdfLinkText').textContent = printPageUrl;
 
             function copyText(text, labelEl) {
                 const orig = labelEl.innerHTML;
@@ -474,7 +474,7 @@
             }
 
             document.getElementById('copyPdf').addEventListener('click', () => {
-                copyText(fullPdfUrl, document.getElementById('copyPdfLabel'));
+                copyText(printPageUrl, document.getElementById('copyPdfLabel'));
             });
         }
 
