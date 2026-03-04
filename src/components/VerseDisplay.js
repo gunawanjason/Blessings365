@@ -178,6 +178,23 @@ function renderTabs(container, versesData, translation, headingsMap, fontSizeCla
     tabsNav.setAttribute('role', 'tablist');
     tabsNav.setAttribute('aria-label', 'Bible Books');
 
+    // Enable horizontal scrolling with mouse wheel, handling snap interference
+    let scrollSnapTimeout;
+    tabsNavWrap.addEventListener('wheel', (e) => {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            e.preventDefault();
+
+            // Temporarily disable snap to allow smooth wheel scrolling
+            tabsNav.style.scrollSnapType = 'none';
+            tabsNav.scrollLeft += e.deltaY;
+
+            clearTimeout(scrollSnapTimeout);
+            scrollSnapTimeout = setTimeout(() => {
+                tabsNav.style.scrollSnapType = '';
+            }, 150);
+        }
+    }, { passive: false });
+
     const tabsContent = document.createElement('div');
     tabsContent.className = 'verse-tabs__content';
 
