@@ -279,6 +279,16 @@ function renderTabs(container, versesData, translation, headingsMap, fontSizeCla
             requestAnimationFrame(refreshTabNavFades);
             setTimeout(refreshTabNavFades, 180);
 
+            // Scroll to top when switching books
+            const panel = container.closest('.compare-panel');
+            if (panel && window.innerWidth <= 768) {
+                // Mobile compare view: panels scroll internally
+                panel.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                // Desktop compare or daily page: standard window scroll
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
             // Notify listener (for sync)
             if (onTabChange) onTabChange(book.name);
 
