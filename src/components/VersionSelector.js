@@ -9,9 +9,11 @@ import { trackEvent } from '../utils/analytics.js';
  * @param {string} options.defaultVersion - default selected version
  * @param {boolean} options.showLabel - whether to show label
  * @param {string} options.label - label text
+ * @param {boolean} options.useCookie - whether to persist selection to a cookie
+ * @param {string} options.cookieName - cookie key to use (defaults to 'selectedVersion')
  * @param {Function} options.onChange - callback when version changes
  */
-export function createVersionSelector({ id = 'translation-selector', defaultVersion = 'TB', showLabel = true, label = 'Version', useCookie = true, onChange } = {}) {
+export function createVersionSelector({ id = 'translation-selector', defaultVersion = 'TB', showLabel = true, label = 'Version', useCookie = true, cookieName = 'selectedVersion', onChange } = {}) {
     const container = document.createElement('div');
     container.className = 'control-group';
 
@@ -33,16 +35,16 @@ export function createVersionSelector({ id = 'translation-selector', defaultVers
         select.appendChild(opt);
     });
 
-    // Restore saved version from cookie (only for main page)
+    // Restore saved version from cookie
     if (useCookie) {
-        const saved = getCookie('selectedVersion');
+        const saved = getCookie(cookieName);
         select.value = saved || defaultVersion;
     } else {
         select.value = defaultVersion;
     }
 
     select.addEventListener('change', () => {
-        if (useCookie) setCookie('selectedVersion', select.value, 365);
+        if (useCookie) setCookie(cookieName, select.value, 365);
         if (onChange) onChange(select.value);
         trackEvent('select_content', { content_type: 'bible_version', item_id: select.value });
     });

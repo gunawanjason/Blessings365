@@ -43,10 +43,11 @@ export function renderComparePage(app, settingsPanel) {
 
     const versionSelector1 = createVersionSelector({
         id: 'translation-1',
-        defaultVersion: 'ESV',
+        defaultVersion: 'NIV',
         label: 'V1',
         showLabel: false,
-        useCookie: false,
+        useCookie: true,
+        cookieName: 'compareVersion1',
         onChange: () => loadBoth(),
     });
 
@@ -55,7 +56,8 @@ export function renderComparePage(app, settingsPanel) {
         defaultVersion: 'TB',
         label: 'V2',
         showLabel: false,
-        useCookie: false,
+        useCookie: true,
+        cookieName: 'compareVersion2',
         onChange: () => loadBoth(),
     });
 
