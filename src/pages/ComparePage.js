@@ -2,7 +2,13 @@ import { renderHeader } from '../components/Header.js';
 import { createBottomNav } from '../components/BottomNav.js';
 import { createDatePicker } from '../components/DatePicker.js';
 import { createVersionSelector } from '../components/VersionSelector.js';
-import { renderVerses, showLoading, showError, updateVerseFontSize, balanceHeights } from '../components/VerseDisplay.js';
+import {
+    renderVerses,
+    showLoading,
+    showError,
+    updateVerseFontSize,
+    balanceHeights,
+} from '../components/VerseDisplay.js';
 import { createVerseSelection } from '../components/VerseSelection.js';
 import { fetchDayData } from '../utils/api.js';
 import { dayOfYear } from '../utils/helpers.js';
@@ -67,8 +73,6 @@ export function renderComparePage(app, settingsPanel) {
 
     pageHeader.appendChild(controlsBar);
     main.appendChild(pageHeader);
-
-
 
     // Compare grid
     const grid = document.createElement('div');
@@ -154,27 +158,35 @@ export function renderComparePage(app, settingsPanel) {
     let isDragging = false;
     const DRAG_THRESHOLD = 6; // px — less than this is a tap
 
-    edgeTab.addEventListener('touchstart', (e) => {
-        const touch = e.touches[0];
-        dragStartY = touch.clientY;
-        dragStartTop = edgeTab.getBoundingClientRect().top;
-        isDragging = false;
-        edgeTab.classList.add('dragging');
-    }, { passive: true });
+    edgeTab.addEventListener(
+        'touchstart',
+        (e) => {
+            const touch = e.touches[0];
+            dragStartY = touch.clientY;
+            dragStartTop = edgeTab.getBoundingClientRect().top;
+            isDragging = false;
+            edgeTab.classList.add('dragging');
+        },
+        { passive: true }
+    );
 
-    edgeTab.addEventListener('touchmove', (e) => {
-        const touch = e.touches[0];
-        const dy = touch.clientY - dragStartY;
-        if (Math.abs(dy) > DRAG_THRESHOLD) {
-            isDragging = true;
-            // Clamp within safe bounds (below header, above bottom nav)
-            const minTop = 80;
-            const maxTop = window.innerHeight - 80;
-            const newTop = Math.min(maxTop, Math.max(minTop, dragStartTop + dy));
-            edgeTab.style.top = newTop + 'px';
-        }
-        e.preventDefault();
-    }, { passive: false });
+    edgeTab.addEventListener(
+        'touchmove',
+        (e) => {
+            const touch = e.touches[0];
+            const dy = touch.clientY - dragStartY;
+            if (Math.abs(dy) > DRAG_THRESHOLD) {
+                isDragging = true;
+                // Clamp within safe bounds (below header, above bottom nav)
+                const minTop = 80;
+                const maxTop = window.innerHeight - 80;
+                const newTop = Math.min(maxTop, Math.max(minTop, dragStartTop + dy));
+                edgeTab.style.top = newTop + 'px';
+            }
+            e.preventDefault();
+        },
+        { passive: false }
+    );
 
     edgeTab.addEventListener('touchend', (e) => {
         edgeTab.classList.remove('dragging');
@@ -229,7 +241,7 @@ export function renderComparePage(app, settingsPanel) {
         if (window.innerWidth <= 768) {
             const currentIndex = Math.round(grid.scrollLeft / grid.clientWidth);
             // panel1 is index 0, panel2 is index 1
-            const sourceIndex = (source === panel1) ? 0 : 1;
+            const sourceIndex = source === panel1 ? 0 : 1;
             if (currentIndex !== sourceIndex) return;
         }
 
@@ -318,31 +330,50 @@ export function renderComparePage(app, settingsPanel) {
 
             // Synchronize verses and headings for alignment
             const [aligned1, aligned2] = syncComparisons(
-                data1.versesData, data1.headingsMap,
-                data2.versesData, data2.headingsMap
+                data1.versesData,
+                data1.headingsMap,
+                data2.versesData,
+                data2.headingsMap
             );
 
-            renderVerses(versesContainer1, aligned1, translation1, null, fontSizeClass,
-                (vl) => verseSelection.handleVerseClick(vl), 'v1', 'tabs', (book) => {
+            renderVerses(
+                versesContainer1,
+                aligned1,
+                translation1,
+                null,
+                fontSizeClass,
+                (vl) => verseSelection.handleVerseClick(vl),
+                'v1',
+                'tabs',
+                (book) => {
                     updatePanelBookName(1, book, translation1);
                     syncTabs(versesContainer2, book);
                     balanceHeights(versesContainer1, versesContainer2);
-                });
+                }
+            );
             injectTranslationBadge(versesContainer1, translation1);
 
-            renderVerses(versesContainer2, aligned2, translation2, null, fontSizeClass,
-                (vl) => verseSelection.handleVerseClick(vl), 'v2', 'tabs', (book) => {
+            renderVerses(
+                versesContainer2,
+                aligned2,
+                translation2,
+                null,
+                fontSizeClass,
+                (vl) => verseSelection.handleVerseClick(vl),
+                'v2',
+                'tabs',
+                (book) => {
                     updatePanelBookName(2, book, translation2);
                     syncTabs(versesContainer1, book);
                     balanceHeights(versesContainer1, versesContainer2);
-                });
+                }
+            );
             injectTranslationBadge(versesContainer2, translation2);
 
             // Initial balance
             setTimeout(() => {
                 balanceHeights(versesContainer1, versesContainer2);
             }, 50);
-
         } catch (error) {
             console.error('Error fetching comparison data:', error);
             showError(versesContainer1);

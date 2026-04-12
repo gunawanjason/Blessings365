@@ -35,7 +35,7 @@ export function triggerConfetti() {
                 rotation: Math.random() * 360,
                 color: colors[Math.floor(Math.random() * colors.length)],
                 opacity: 1,
-                decay: Math.random() * 0.02 + 0.01
+                decay: Math.random() * 0.02 + 0.01,
             });
         }
     }
@@ -75,10 +75,14 @@ export function triggerConfetti() {
     animate();
 
     // Handle resize
-    window.addEventListener('resize', () => {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-    }, { once: true });
+    window.addEventListener(
+        'resize',
+        () => {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        },
+        { once: true }
+    );
 }

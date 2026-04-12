@@ -57,7 +57,9 @@
     font-weight: 500;
     border-radius: var(--radius-md);
     text-decoration: none;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
     margin-top: var(--space-md);
 }
 

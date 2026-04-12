@@ -38,6 +38,6 @@ export function renderNotFoundPage(app) {
     // Track 404 event
     trackEvent('404', {
         hash: window.location.hash,
-        path: window.location.pathname
+        path: window.location.pathname,
     });
 }

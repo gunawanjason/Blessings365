@@ -1,4 +1,5 @@
 import { API_BASE_URL } from '../data/config.js';
+import { getCached, setCached } from './translationCache.js';
 
 /**
  * Fetch verses for a given translation and verse references.
@@ -36,7 +37,7 @@ export function buildHeadingsMap(headingsResponse) {
         if (chapters.hasOwnProperty(chapter)) {
             const chapterHeadings = chapters[chapter];
             if (Array.isArray(chapterHeadings)) {
-                chapterHeadings.forEach(h => {
+                chapterHeadings.forEach((h) => {
                     const key = `${headingsResponse.book} ${chapter}:${h.start}`;
                     map.set(key, h.heading);
                 });
@@ -48,23 +49,36 @@ export function buildHeadingsMap(headingsResponse) {
 
 /**
  * Fetch all verses and headings for a given day.
+ * Results are cached in sessionStorage for the lifetime of the tab so that
+ * switching views (Daily ↔ Compare) or re-selecting the same translation
+ * never fires a duplicate network request.
  */
 export async function fetchDayData(translation, versesString) {
+    // --- Cache read ---
+    const cached = getCached(translation, versesString);
+    if (cached) return cached;
+
+    // --- Network fetch ---
     const uniqueBooks = extractUniqueBooksFromString(versesString);
 
     const [versesData, ...headingsResponses] = await Promise.all([
         fetchVerses(translation, versesString),
-        ...uniqueBooks.map(book => fetchHeadings(translation, book)),
+        ...uniqueBooks.map((book) => fetchHeadings(translation, book)),
     ]);
 
     // Merge all headings into a single map
     const allHeadings = new Map();
-    headingsResponses.forEach(res => {
+    headingsResponses.forEach((res) => {
         const map = buildHeadingsMap(res);
         map.forEach((value, key) => allHeadings.set(key, value));
     });
 
-    return { versesData, headingsMap: allHeadings };
+    const result = { versesData, headingsMap: allHeadings };
+
+    // --- Cache write ---
+    setCached(translation, versesString, result);
+
+    return result;
 }
 
 function extractUniqueBooksFromString(versesString) {

@@ -7,7 +7,17 @@ const CHEVRON_SVG = `<svg class="verse-card__chevron" viewBox="0 0 24 24" fill="
  * Render verses into a container element.
  * Uses a single-expand accordion: only one card open at a time.
  */
-export function renderVerses(container, versesData, translation, headingsMap, fontSizeClass, onVerseClick, accordionId = 'verses', layout = 'accordion', onTabChange) {
+export function renderVerses(
+    container,
+    versesData,
+    translation,
+    headingsMap,
+    fontSizeClass,
+    onVerseClick,
+    accordionId = 'verses',
+    layout = 'accordion',
+    onTabChange
+) {
     container.innerHTML = '';
 
     if (!versesData || versesData.length === 0) {
@@ -16,7 +26,15 @@ export function renderVerses(container, versesData, translation, headingsMap, fo
     }
 
     if (layout === 'tabs') {
-        renderTabs(container, versesData, translation, headingsMap, fontSizeClass, onVerseClick, onTabChange);
+        renderTabs(
+            container,
+            versesData,
+            translation,
+            headingsMap,
+            fontSizeClass,
+            onVerseClick,
+            onTabChange
+        );
         return;
     }
 
@@ -117,7 +135,15 @@ export function renderVerses(container, versesData, translation, headingsMap, fo
 /**
  * Render verses using a tabbed layout.
  */
-function renderTabs(container, versesData, translation, headingsMap, fontSizeClass, onVerseClick, onTabChange) {
+function renderTabs(
+    container,
+    versesData,
+    translation,
+    headingsMap,
+    fontSizeClass,
+    onVerseClick,
+    onTabChange
+) {
     // 1. Group by Book
     const books = [];
     let currentBookName = null;
@@ -136,7 +162,7 @@ function renderTabs(container, versesData, translation, headingsMap, fontSizeCla
                 name: currentBookName,
                 verses: [],
                 startVerse: null,
-                endVerse: null
+                endVerse: null,
             };
         }
 
@@ -180,20 +206,24 @@ function renderTabs(container, versesData, translation, headingsMap, fontSizeCla
 
     // Enable horizontal scrolling with mouse wheel, handling snap interference
     let scrollSnapTimeout;
-    tabsNavWrap.addEventListener('wheel', (e) => {
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-            e.preventDefault();
+    tabsNavWrap.addEventListener(
+        'wheel',
+        (e) => {
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                e.preventDefault();
 
-            // Temporarily disable snap to allow smooth wheel scrolling
-            tabsNav.style.scrollSnapType = 'none';
-            tabsNav.scrollLeft += e.deltaY;
+                // Temporarily disable snap to allow smooth wheel scrolling
+                tabsNav.style.scrollSnapType = 'none';
+                tabsNav.scrollLeft += e.deltaY;
 
-            clearTimeout(scrollSnapTimeout);
-            scrollSnapTimeout = setTimeout(() => {
-                tabsNav.style.scrollSnapType = '';
-            }, 150);
-        }
-    }, { passive: false });
+                clearTimeout(scrollSnapTimeout);
+                scrollSnapTimeout = setTimeout(() => {
+                    tabsNav.style.scrollSnapType = '';
+                }, 150);
+            }
+        },
+        { passive: false }
+    );
 
     const tabsContent = document.createElement('div');
     tabsContent.className = 'verse-tabs__content';
@@ -253,11 +283,13 @@ function renderTabs(container, versesData, translation, headingsMap, fontSizeCla
 
         btn.addEventListener('click', () => {
             // Deactivate all
-            tabsNav.querySelectorAll('.verse-tab-btn').forEach(b => {
+            tabsNav.querySelectorAll('.verse-tab-btn').forEach((b) => {
                 b.classList.remove('active');
                 b.setAttribute('aria-selected', 'false');
             });
-            tabsContent.querySelectorAll('.verse-tab-pane').forEach(p => p.classList.remove('active'));
+            tabsContent
+                .querySelectorAll('.verse-tab-pane')
+                .forEach((p) => p.classList.remove('active'));
 
             // Activate this
             btn.classList.add('active');
@@ -311,7 +343,7 @@ function renderTabs(container, versesData, translation, headingsMap, fontSizeCla
         // Render verses into pane
         // Similar logic to renderVerses loop but just for this book's verses
         let currentContent = pane;
-        // Note: In tabs, we just dump verses directly into the pane, 
+        // Note: In tabs, we just dump verses directly into the pane,
         // keeping the pericope and verse styling.
         // We might want a wrapper for padding if needed.
 
@@ -329,7 +361,12 @@ function renderTabs(container, versesData, translation, headingsMap, fontSizeCla
                     headingDiv.innerHTML = '&nbsp;';
                     currentContent.appendChild(headingDiv);
                 } else if (item.type === 'verse') {
-                    const verseLine = createVerseLine(item, translation, fontSizeClass, onVerseClick);
+                    const verseLine = createVerseLine(
+                        item,
+                        translation,
+                        fontSizeClass,
+                        onVerseClick
+                    );
                     currentContent.appendChild(verseLine);
                 } else if (item.type === 'empty-verse') {
                     const verseLine = document.createElement('div');
@@ -404,10 +441,10 @@ function setupTabNavFades(tabsNav, tabsNavWrap) {
         const maxScrollLeft = Math.max(0, scrollWidth - clientWidth);
         const scrollLeft = Math.max(0, Math.min(maxScrollLeft, tabsNav.scrollLeft));
 
-        const hasLeftByGeometry = firstRect.left < (navRect.left - EDGE_EPSILON);
-        const hasRightByGeometry = lastRect.right > (navRect.right + EDGE_EPSILON);
+        const hasLeftByGeometry = firstRect.left < navRect.left - EDGE_EPSILON;
+        const hasRightByGeometry = lastRect.right > navRect.right + EDGE_EPSILON;
         const hasLeftByScroll = scrollLeft > EDGE_EPSILON;
-        const hasRightByScroll = (maxScrollLeft - scrollLeft) > EDGE_EPSILON;
+        const hasRightByScroll = maxScrollLeft - scrollLeft > EDGE_EPSILON;
 
         let hasLeft = hasLeftByGeometry || hasLeftByScroll;
         let hasRight = hasRightByGeometry || hasRightByScroll;
@@ -415,7 +452,7 @@ function setupTabNavFades(tabsNav, tabsNavWrap) {
         if (maxScrollLeft > EDGE_EPSILON && !hasLeft && !hasRight) {
             if (scrollLeft <= EDGE_EPSILON) {
                 hasRight = true;
-            } else if ((maxScrollLeft - scrollLeft) <= EDGE_EPSILON) {
+            } else if (maxScrollLeft - scrollLeft <= EDGE_EPSILON) {
                 hasLeft = true;
             } else {
                 hasLeft = true;
@@ -424,7 +461,8 @@ function setupTabNavFades(tabsNav, tabsNavWrap) {
         }
 
         const contentSpan = lastRect.right - firstRect.left;
-        const canScroll = maxScrollLeft > 0 || hasLeft || hasRight || contentSpan > (navRect.width + EDGE_EPSILON);
+        const canScroll =
+            maxScrollLeft > 0 || hasLeft || hasRight || contentSpan > navRect.width + EDGE_EPSILON;
 
         // Only update classes if there's an actual change
         if (canScroll !== lastCanScroll) {
@@ -505,7 +543,7 @@ function createToggleHandler(card, body, container) {
             collapseCard(card, body);
         } else {
             // Collapse all other cards first
-            container.querySelectorAll('.verse-card--expanded').forEach(openCard => {
+            container.querySelectorAll('.verse-card--expanded').forEach((openCard) => {
                 const openBody = openCard.querySelector('.verse-card__body');
                 collapseCard(openCard, openBody);
             });
@@ -587,7 +625,7 @@ export function showError(container, message = 'Error loading verses. Please try
  * Update font size class on all verse lines.
  */
 export function updateVerseFontSize(container, fontSizeClass) {
-    container.querySelectorAll('.verse-line').forEach(el => {
+    container.querySelectorAll('.verse-line').forEach((el) => {
         el.classList.remove('verse-line--small', 'verse-line--medium', 'verse-line--large');
         el.classList.add(fontSizeClass);
     });

@@ -6,9 +6,9 @@ import { trackEvent } from '../utils/analytics.js';
  * @param {Function} onSettingsClick - callback when settings button is clicked
  */
 export function renderHeader(activePage, onSettingsClick) {
-  const header = document.createElement('header');
-  header.className = 'header';
-  header.innerHTML = `
+    const header = document.createElement('header');
+    header.className = 'header';
+    header.innerHTML = `
     <div class="header__inner">
       <a href="#/" class="header__brand"><img src="/assets/bcc.ico" alt="BCC Logo" class="header__logo" />Blessings<span class="header__brand-accent">365</span></a>
       <div class="header__actions">
@@ -48,10 +48,10 @@ export function renderHeader(activePage, onSettingsClick) {
     </div>
   `;
 
-  header.querySelector('#settings-btn').addEventListener('click', () => {
-    onSettingsClick();
-    trackEvent('toggle_settings', { ui_element: 'settings_button' });
-  });
+    header.querySelector('#settings-btn').addEventListener('click', () => {
+        onSettingsClick();
+        trackEvent('toggle_settings', { ui_element: 'settings_button' });
+    });
 
-  return header;
+    return header;
 }

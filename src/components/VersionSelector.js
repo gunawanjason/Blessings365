@@ -13,7 +13,15 @@ import { trackEvent } from '../utils/analytics.js';
  * @param {string} options.cookieName - cookie key to use (defaults to 'selectedVersion')
  * @param {Function} options.onChange - callback when version changes
  */
-export function createVersionSelector({ id = 'translation-selector', defaultVersion = 'TB', showLabel = true, label = 'Version', useCookie = true, cookieName = 'selectedVersion', onChange } = {}) {
+export function createVersionSelector({
+    id = 'translation-selector',
+    defaultVersion = 'TB',
+    showLabel = true,
+    label = 'Version',
+    useCookie = true,
+    cookieName = 'selectedVersion',
+    onChange,
+} = {}) {
     const container = document.createElement('div');
     container.className = 'control-group';
 
@@ -28,7 +36,7 @@ export function createVersionSelector({ id = 'translation-selector', defaultVers
     select.className = 'select-input';
     select.id = id;
 
-    BIBLE_VERSIONS.forEach(v => {
+    BIBLE_VERSIONS.forEach((v) => {
         const opt = document.createElement('option');
         opt.value = v.value;
         opt.textContent = v.label;
@@ -54,6 +62,8 @@ export function createVersionSelector({ id = 'translation-selector', defaultVers
     return {
         element: container,
         getValue: () => select.value,
-        setValue: (val) => { select.value = val; },
+        setValue: (val) => {
+            select.value = val;
+        },
     };
 }

@@ -18,12 +18,12 @@ document.documentElement.dataset.theme = savedTheme;
 
 // Create settings panel (global, persists across routes)
 const settingsPanel = createSettingsPanel({
-    onThemeChange: () => { },
+    onThemeChange: () => {},
     onFontSizeChange: (cls) => {
         // Delegated to active page via _onFontSizeChange
         if (settingsPanel._onFontSizeChange) settingsPanel._onFontSizeChange(cls);
     },
-    onBoldCopyChange: () => { },
+    onBoldCopyChange: () => {},
 });
 
 // Expose a hook for pages to intercept font size changes

@@ -33,7 +33,7 @@ export function createScrollToTop() {
         const panels = document.querySelectorAll('.compare-panel');
         if (panels.length === 0) return false;
         // Check if any panel has scrollable content
-        return Array.from(panels).some(panel => panel.scrollHeight > panel.clientHeight);
+        return Array.from(panels).some((panel) => panel.scrollHeight > panel.clientHeight);
     }
 
     // Window scroll (read view) - also checks panels for mobile compare view
@@ -43,7 +43,7 @@ export function createScrollToTop() {
         // In mobile compare view, also check panel scroll positions
         let panelScrolled = false;
         if (isInMobileCompareView()) {
-            document.querySelectorAll('.compare-panel').forEach(panel => {
+            document.querySelectorAll('.compare-panel').forEach((panel) => {
                 if (panel.scrollTop > 100) {
                     panelScrolled = true;
                 }
@@ -59,7 +59,7 @@ export function createScrollToTop() {
 
     // Function to bind scroll listeners to compare panels
     function bindPanelScrollListeners() {
-        document.querySelectorAll('.compare-panel').forEach(panel => {
+        document.querySelectorAll('.compare-panel').forEach((panel) => {
             if (!panel._scrollToTopBound) {
                 panel._scrollToTopBound = true;
                 panel.addEventListener('scroll', () => {
@@ -88,11 +88,13 @@ export function createScrollToTop() {
      * without relying on native scroll-behavior (which breaks sync).
      */
     function smoothScrollToTop(elements, duration = 400) {
-        const startTops = Array.from(elements).map(el => el.scrollTop);
+        const startTops = Array.from(elements).map((el) => el.scrollTop);
         const startTime = performance.now();
 
         // Signal panels to pause sync during animation
-        elements.forEach(el => { el._animatingScroll = true; });
+        elements.forEach((el) => {
+            el._animatingScroll = true;
+        });
 
         function step(now) {
             const elapsed = now - startTime;
@@ -108,7 +110,7 @@ export function createScrollToTop() {
                 requestAnimationFrame(step);
             } else {
                 // Ensure we land exactly at 0 and re-enable sync
-                elements.forEach(el => {
+                elements.forEach((el) => {
                     el.scrollTop = 0;
                     el._animatingScroll = false;
                 });

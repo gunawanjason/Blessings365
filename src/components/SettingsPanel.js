@@ -8,13 +8,12 @@ import { trackEvent } from '../utils/analytics.js';
  * @param {Function} options.onBoldCopyChange - called with boolean
  */
 export function createSettingsPanel({ onThemeChange, onFontSizeChange, onBoldCopyChange }) {
+    // Panel
+    const panel = document.createElement('div');
+    panel.className = 'settings-panel';
+    panel.id = 'settings-panel';
 
-  // Panel
-  const panel = document.createElement('div');
-  panel.className = 'settings-panel';
-  panel.id = 'settings-panel';
-
-  panel.innerHTML = `
+    panel.innerHTML = `
     <div class="settings-panel__header">
       <h2 class="settings-panel__title">Reader settings</h2>
       <button class="settings-panel__close" id="settings-close" aria-label="Close settings">
@@ -86,121 +85,127 @@ export function createSettingsPanel({ onThemeChange, onFontSizeChange, onBoldCop
     </div>
   `;
 
-  document.body.appendChild(panel);
+    document.body.appendChild(panel);
 
-  // Elements
-  const themeToggle = panel.querySelector('#theme-toggle');
-  const fontSlider = panel.querySelector('#font-slider');
-  const boldToggle = panel.querySelector('#bold-copy-toggle');
-  const closeBtn = panel.querySelector('#settings-close');
-  const fontBtns = panel.querySelectorAll('.font-btn');
+    // Elements
+    const themeToggle = panel.querySelector('#theme-toggle');
+    const fontSlider = panel.querySelector('#font-slider');
+    const boldToggle = panel.querySelector('#bold-copy-toggle');
+    const closeBtn = panel.querySelector('#settings-close');
+    const fontBtns = panel.querySelectorAll('.font-btn');
 
-  // Load saved settings
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  themeToggle.checked = savedTheme === 'dark';
-  document.documentElement.dataset.theme = savedTheme;
+    // Load saved settings
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    themeToggle.checked = savedTheme === 'dark';
+    document.documentElement.dataset.theme = savedTheme;
 
-  const fontSizeMap = { 1: 'verse-line--small', 2: 'verse-line--medium', 3: 'verse-line--large' };
-  const reverseMap = { 'verse-line--small': '1', 'verse-line--medium': '2', 'verse-line--large': '3' };
-  const savedFontSize = localStorage.getItem('fontSize') || 'verse-line--medium';
-  fontSlider.value = reverseMap[savedFontSize] || '2';
-  updateActiveFontBtn(fontSlider.value);
+    const fontSizeMap = { 1: 'verse-line--small', 2: 'verse-line--medium', 3: 'verse-line--large' };
+    const reverseMap = {
+        'verse-line--small': '1',
+        'verse-line--medium': '2',
+        'verse-line--large': '3',
+    };
+    const savedFontSize = localStorage.getItem('fontSize') || 'verse-line--medium';
+    fontSlider.value = reverseMap[savedFontSize] || '2';
+    updateActiveFontBtn(fontSlider.value);
 
-  const savedBoldCopy = localStorage.getItem('boldCopy');
-  boldToggle.checked = savedBoldCopy !== 'false';
+    const savedBoldCopy = localStorage.getItem('boldCopy');
+    boldToggle.checked = savedBoldCopy !== 'false';
 
-  // Event listeners
-  themeToggle.addEventListener('change', () => {
-    const theme = themeToggle.checked ? 'dark' : 'light';
-    document.documentElement.dataset.theme = theme;
-    localStorage.setItem('theme', theme);
-    if (onThemeChange) onThemeChange(theme);
-    trackEvent('change_setting', { setting_type: 'theme', setting_value: theme });
-  });
-
-  fontSlider.addEventListener('input', () => {
-    updateFontSize(fontSlider.value);
-  });
-
-  fontBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const size = btn.dataset.size;
-      fontSlider.value = size;
-      updateFontSize(size);
+    // Event listeners
+    themeToggle.addEventListener('change', () => {
+        const theme = themeToggle.checked ? 'dark' : 'light';
+        document.documentElement.dataset.theme = theme;
+        localStorage.setItem('theme', theme);
+        if (onThemeChange) onThemeChange(theme);
+        trackEvent('change_setting', { setting_type: 'theme', setting_value: theme });
     });
-  });
 
-  function updateFontSize(val) {
-    const cls = fontSizeMap[val];
-    localStorage.setItem('fontSize', cls);
-    if (onFontSizeChange) onFontSizeChange(cls);
-    updateActiveFontBtn(val);
-    trackEvent('change_setting', { setting_type: 'font_size', setting_value: cls });
-  }
-
-  function updateActiveFontBtn(val) {
-    fontBtns.forEach(b => {
-      if (b.dataset.size === val) b.classList.add('font-btn--active');
-      else b.classList.remove('font-btn--active');
+    fontSlider.addEventListener('input', () => {
+        updateFontSize(fontSlider.value);
     });
-  }
 
-  boldToggle.addEventListener('change', () => {
-    localStorage.setItem('boldCopy', boldToggle.checked.toString());
-    if (onBoldCopyChange) onBoldCopyChange(boldToggle.checked);
-    trackEvent('change_setting', { setting_type: 'bold_copy', setting_value: boldToggle.checked });
-  });
+    fontBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const size = btn.dataset.size;
+            fontSlider.value = size;
+            updateFontSize(size);
+        });
+    });
 
-  // Open/close logic with document click listener
-
-  function handleOutsideClick(e) {
-    const btn = document.getElementById('settings-btn');
-    // If click is not inside the panel and not on the toggle button
-    if (!panel.contains(e.target) && (!btn || !btn.contains(e.target))) {
-      close();
-    }
-  }
-
-  function open() {
-    const btn = document.getElementById('settings-btn');
-    if (btn) {
-      const rect = btn.getBoundingClientRect();
-      const top = rect.bottom + 8; // 8px gap
-      const right = window.innerWidth - rect.right; // Align right edges
-      panel.style.top = `${top}px`;
-      panel.style.right = `${right}px`;
+    function updateFontSize(val) {
+        const cls = fontSizeMap[val];
+        localStorage.setItem('fontSize', cls);
+        if (onFontSizeChange) onFontSizeChange(cls);
+        updateActiveFontBtn(val);
+        trackEvent('change_setting', { setting_type: 'font_size', setting_value: cls });
     }
 
-    panel.classList.add('settings-panel--open');
-
-    // Defer adding listener slightly to avoid catching the initial open click
-    setTimeout(() => {
-      document.addEventListener('click', handleOutsideClick);
-    }, 0);
-  }
-
-  function close() {
-    panel.classList.remove('settings-panel--open');
-    document.removeEventListener('click', handleOutsideClick);
-  }
-
-  closeBtn.addEventListener('click', close);
-
-  function toggle() {
-    if (panel.classList.contains('settings-panel--open')) {
-      close();
-    } else {
-      open();
+    function updateActiveFontBtn(val) {
+        fontBtns.forEach((b) => {
+            if (b.dataset.size === val) b.classList.add('font-btn--active');
+            else b.classList.remove('font-btn--active');
+        });
     }
-  }
 
-  return {
-    open,
-    close,
-    toggle,
-    getTheme: () => themeToggle.checked ? 'dark' : 'light',
-    getFontSizeClass: () => fontSizeMap[fontSlider.value] || 'verse-line--medium',
-    getBoldCopyEnabled: () => boldToggle.checked,
-  };
+    boldToggle.addEventListener('change', () => {
+        localStorage.setItem('boldCopy', boldToggle.checked.toString());
+        if (onBoldCopyChange) onBoldCopyChange(boldToggle.checked);
+        trackEvent('change_setting', {
+            setting_type: 'bold_copy',
+            setting_value: boldToggle.checked,
+        });
+    });
+
+    // Open/close logic with document click listener
+
+    function handleOutsideClick(e) {
+        const btn = document.getElementById('settings-btn');
+        // If click is not inside the panel and not on the toggle button
+        if (!panel.contains(e.target) && (!btn || !btn.contains(e.target))) {
+            close();
+        }
+    }
+
+    function open() {
+        const btn = document.getElementById('settings-btn');
+        if (btn) {
+            const rect = btn.getBoundingClientRect();
+            const top = rect.bottom + 8; // 8px gap
+            const right = window.innerWidth - rect.right; // Align right edges
+            panel.style.top = `${top}px`;
+            panel.style.right = `${right}px`;
+        }
+
+        panel.classList.add('settings-panel--open');
+
+        // Defer adding listener slightly to avoid catching the initial open click
+        setTimeout(() => {
+            document.addEventListener('click', handleOutsideClick);
+        }, 0);
+    }
+
+    function close() {
+        panel.classList.remove('settings-panel--open');
+        document.removeEventListener('click', handleOutsideClick);
+    }
+
+    closeBtn.addEventListener('click', close);
+
+    function toggle() {
+        if (panel.classList.contains('settings-panel--open')) {
+            close();
+        } else {
+            open();
+        }
+    }
+
+    return {
+        open,
+        close,
+        toggle,
+        getTheme: () => (themeToggle.checked ? 'dark' : 'light'),
+        getFontSizeClass: () => fontSizeMap[fontSlider.value] || 'verse-line--medium',
+        getBoldCopyEnabled: () => boldToggle.checked,
+    };
 }
-

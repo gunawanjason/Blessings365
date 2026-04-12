@@ -62,7 +62,7 @@ export function createVerseSelection(getCurrentVersion, getBoldCopyEnabled, opti
     function handleVerseClick(verseLine) {
         if (selectedVerses.includes(verseLine)) {
             verseLine.classList.remove('verse-line--selected');
-            selectedVerses = selectedVerses.filter(v => v !== verseLine);
+            selectedVerses = selectedVerses.filter((v) => v !== verseLine);
         } else {
             verseLine.classList.add('verse-line--selected');
             selectedVerses.push(verseLine);
@@ -72,7 +72,7 @@ export function createVerseSelection(getCurrentVersion, getBoldCopyEnabled, opti
     }
 
     function clearSelection() {
-        selectedVerses.forEach(v => v.classList.remove('verse-line--selected'));
+        selectedVerses.forEach((v) => v.classList.remove('verse-line--selected'));
         selectedVerses = [];
         resetCopyBtn();
         updateActionBar();
@@ -174,21 +174,23 @@ export function createVerseSelection(getCurrentVersion, getBoldCopyEnabled, opti
         });
 
         // Parse Verse Data including Version
-        const allVerseData = sorted.map(el => {
-            const chapter = parseInt(el.dataset.chapter);
-            const verse = parseInt(el.dataset.verse);
-            const bookEnglish = el.dataset.book;
-            // Use dataset version if available (for Compare mode), fallback to current global
-            const version = el.dataset.version || defaultTranslation;
-            const bookName = getTranslatedBookName(bookEnglish, version);
+        const allVerseData = sorted
+            .map((el) => {
+                const chapter = parseInt(el.dataset.chapter);
+                const verse = parseInt(el.dataset.verse);
+                const bookEnglish = el.dataset.book;
+                // Use dataset version if available (for Compare mode), fallback to current global
+                const version = el.dataset.version || defaultTranslation;
+                const bookName = getTranslatedBookName(bookEnglish, version);
 
-            const numberEl = el.querySelector('.verse-number');
-            const fullText = el.textContent || '';
-            const numText = numberEl ? numberEl.textContent : '';
-            const plainText = fullText.replace(numText, '').trim();
+                const numberEl = el.querySelector('.verse-number');
+                const fullText = el.textContent || '';
+                const numText = numberEl ? numberEl.textContent : '';
+                const plainText = fullText.replace(numText, '').trim();
 
-            return { book: bookName, chapter, verse, text: plainText, version };
-        }).filter(v => !isNaN(v.chapter) && !isNaN(v.verse));
+                return { book: bookName, chapter, verse, text: plainText, version };
+            })
+            .filter((v) => !isNaN(v.chapter) && !isNaN(v.verse));
 
         // Grouping Strategy: Version -> Book -> Chapter
         // Since we want to respect the visual order (e.g. Left Panel verses, then Right Panel verses),
@@ -197,7 +199,7 @@ export function createVerseSelection(getCurrentVersion, getBoldCopyEnabled, opti
         const groups = [];
         let currentGroup = null;
 
-        allVerseData.forEach(v => {
+        allVerseData.forEach((v) => {
             const key = `${v.version}|${v.book}|${v.chapter}`;
 
             if (!currentGroup || currentGroup.key !== key) {
@@ -207,7 +209,7 @@ export function createVerseSelection(getCurrentVersion, getBoldCopyEnabled, opti
                     version: v.version,
                     book: v.book,
                     chapter: v.chapter,
-                    verses: []
+                    verses: [],
                 };
             }
             currentGroup.verses.push(v);
@@ -218,19 +220,21 @@ export function createVerseSelection(getCurrentVersion, getBoldCopyEnabled, opti
         const finalOutput = [];
         const listOfHeaders = [];
 
-        groups.forEach(group => {
+        groups.forEach((group) => {
             // Sort verses within the group (usually already sorted, but safe to be sure)
             group.verses.sort((a, b) => a.verse - b.verse);
-            const refString = generateVerseReferenceString(group.verses.map(v => v.verse));
+            const refString = generateVerseReferenceString(group.verses.map((v) => v.verse));
 
             let header = `${group.book} ${group.chapter}:${refString} (${group.version})`;
             let contentLines;
 
             if (boldCopy) {
                 header = toUnicodeBold(header);
-                contentLines = group.verses.map(v => `${toUnicodeBold(v.verse.toString())} ${v.text}`);
+                contentLines = group.verses.map(
+                    (v) => `${toUnicodeBold(v.verse.toString())} ${v.text}`
+                );
             } else {
-                contentLines = group.verses.map(v => `${v.verse} ${v.text}`);
+                contentLines = group.verses.map((v) => `${v.verse} ${v.text}`);
             }
 
             // User requested format:
@@ -243,7 +247,7 @@ export function createVerseSelection(getCurrentVersion, getBoldCopyEnabled, opti
                 book: group.book,
                 chapter: group.chapter,
                 verses: refString,
-                version: group.version
+                version: group.version,
             });
         });
 
@@ -251,13 +255,15 @@ export function createVerseSelection(getCurrentVersion, getBoldCopyEnabled, opti
 
         // Formatted Header for single line display (if needed, though simpleText handles comparison view mostly)
         // If versions differ, logic might be tricky, but standard view expects: Book C:V (Version)
-        // If multiple versions, we'll just list them? 
+        // If multiple versions, we'll just list them?
         // For now, keep simple logic or join them.
 
         // Let's create a smart summary: "Mat 5:1 (ESV), Mat 5:1 (TB)"
-        const formattedHeader = listOfHeaders.map(h => {
-            return `${h.book} ${h.chapter}:${h.verses} (${h.version})`;
-        }).join(', ');
+        const formattedHeader = listOfHeaders
+            .map((h) => {
+                return `${h.book} ${h.chapter}:${h.verses} (${h.version})`;
+            })
+            .join(', ');
 
         return { formattedText, formattedHeader };
     }

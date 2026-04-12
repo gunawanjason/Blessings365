@@ -2,7 +2,12 @@ import { renderHeader } from '../components/Header.js';
 import { createBottomNav } from '../components/BottomNav.js';
 import { createDatePicker } from '../components/DatePicker.js';
 import { createVersionSelector } from '../components/VersionSelector.js';
-import { renderVerses, showLoading, showError, updateVerseFontSize } from '../components/VerseDisplay.js';
+import {
+    renderVerses,
+    showLoading,
+    showError,
+    updateVerseFontSize,
+} from '../components/VerseDisplay.js';
 import { createVerseSelection } from '../components/VerseSelection.js';
 import { fetchDayData } from '../utils/api.js';
 import { dayOfYear, MONTH_NAMES } from '../utils/helpers.js';
@@ -50,7 +55,7 @@ export function renderDailyPage(app, settingsPanel) {
     // Verse selection manager
     const verseSelection = createVerseSelection(
         () => versionSelector.getValue(),
-        () => settingsPanel.getBoldCopyEnabled(),
+        () => settingsPanel.getBoldCopyEnabled()
     );
     verseSelection.init();
 
@@ -103,7 +108,6 @@ export function renderDailyPage(app, settingsPanel) {
                 'daily-verses',
                 'tabs'
             );
-
         } catch (error) {
             console.error('Error fetching verses:', error);
             showError(versesContainer);
