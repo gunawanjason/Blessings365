@@ -603,15 +603,34 @@ function finalizeCardTitle(card, bookEnglish, translation, startVerse, endVerse)
 }
 
 /**
- * Show loading indicator in a container.
+ * Show skeleton loading indicator in a container.
  */
 export function showLoading(container) {
+    // Create skeleton verses that mimic the actual verse layout
+    const skeletonVerse = (textLines) => `
+        <div class="skeleton-verse">
+            <div class="skeleton-badge"></div>
+            <div class="skeleton-text">
+                ${textLines.map((len) => `<div class="skeleton-text-line skeleton-text-line--${len}"></div>`).join('')}
+            </div>
+        </div>
+    `;
+
+    const skeletonHeading = () => `<div class="skeleton-heading"></div>`;
+
     container.innerHTML = `
-    <div class="loading">
-      <div class="spinner"></div>
-      <span class="loading__text">Loading verses…</span>
-    </div>
-  `;
+        <div class="skeleton-loading">
+            ${skeletonHeading()}
+            ${skeletonVerse(['full', 'medium'])}
+            ${skeletonVerse(['long'])}
+            ${skeletonVerse(['full', 'short'])}
+            ${skeletonVerse(['medium'])}
+            ${skeletonHeading()}
+            ${skeletonVerse(['full', 'long'])}
+            ${skeletonVerse(['long'])}
+            ${skeletonVerse(['full', 'medium'])}
+        </div>
+    `;
 }
 
 /**

@@ -1,35 +1,137 @@
 /* ===========================
-   Loading Spinner
+   Skeleton Loading
    =========================== */
 
-.loading {
+.skeleton-loading {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-3xl) var(--space-lg);
-    gap: var(--space-md);
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-md);
 }
 
-.spinner {
-    width: 32px;
-    height: 32px;
-    border: 2.5px solid var(--color-border);
-    border-top-color: var(--color-spinner);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
+/* Skeleton verse line - mimics actual verse layout */
+.skeleton-verse {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-xs) 0;
+    line-height: 1.8;
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
+/* Verse number badge skeleton */
+.skeleton-badge {
+    flex-shrink: 0;
+    width: 38px;
+    height: 18px;
+    background: var(--color-skeleton-base);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Verse text content skeleton */
+.skeleton-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.skeleton-text-line {
+    height: 14px;
+    background: var(--color-skeleton-base);
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-text-line--full {
+    width: 100%;
+}
+
+.skeleton-text-line--long {
+    width: 92%;
+}
+
+.skeleton-text-line--medium {
+    width: 78%;
+}
+
+.skeleton-text-line--short {
+    width: 55%;
+}
+
+/* Pericope heading skeleton */
+.skeleton-heading {
+    height: 18px;
+    width: 180px;
+    background: var(--color-skeleton-base);
+    border-radius: 4px;
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-heading:first-child {
+    margin-top: var(--space-sm);
+}
+
+/* Shimmer animation */
+.skeleton-badge::after,
+.skeleton-text-line::after,
+.skeleton-heading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--color-skeleton-shimmer) 50%,
+        transparent 100%
+    );
+    animation: shimmer 1.5s infinite;
+    transform: translateX(-100%);
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
     }
 }
 
-.loading__text {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-tertiary);
-    font-weight: 500;
+/* Stagger animation for verses */
+.skeleton-verse:nth-child(1) .skeleton-badge::after,
+.skeleton-verse:nth-child(1) .skeleton-text-line::after { animation-delay: 0s; }
+.skeleton-verse:nth-child(2) .skeleton-badge::after,
+.skeleton-verse:nth-child(2) .skeleton-text-line::after { animation-delay: 0.05s; }
+.skeleton-verse:nth-child(3) .skeleton-badge::after,
+.skeleton-verse:nth-child(3) .skeleton-text-line::after { animation-delay: 0.1s; }
+.skeleton-verse:nth-child(4) .skeleton-badge::after,
+.skeleton-verse:nth-child(4) .skeleton-text-line::after { animation-delay: 0.15s; }
+.skeleton-verse:nth-child(5) .skeleton-badge::after,
+.skeleton-verse:nth-child(5) .skeleton-text-line::after { animation-delay: 0.2s; }
+.skeleton-verse:nth-child(6) .skeleton-badge::after,
+.skeleton-verse:nth-child(6) .skeleton-text-line::after { animation-delay: 0.25s; }
+.skeleton-verse:nth-child(7) .skeleton-badge::after,
+.skeleton-verse:nth-child(7) .skeleton-text-line::after { animation-delay: 0.3s; }
+.skeleton-verse:nth-child(8) .skeleton-badge::after,
+.skeleton-verse:nth-child(8) .skeleton-text-line::after { animation-delay: 0.35s; }
+
+.skeleton-heading::after { animation-delay: 0.1s; }
+
+/* Skeleton color variables */
+:root {
+    --color-skeleton-base: rgba(44, 37, 32, 0.07);
+    --color-skeleton-shimmer: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme='dark'] {
+    --color-skeleton-base: rgba(255, 255, 255, 0.07);
+    --color-skeleton-shimmer: rgba(255, 255, 255, 0.1);
 }
 
 /* ===========================
