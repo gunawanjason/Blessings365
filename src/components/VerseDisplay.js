@@ -606,7 +606,18 @@ function finalizeCardTitle(card, bookEnglish, translation, startVerse, endVerse)
  * Show skeleton loading indicator in a container.
  */
 export function showLoading(container) {
-    // Create skeleton verses that mimic the actual verse layout
+    // Skeleton tab button
+    const skeletonTab = (isActive = false) => `
+        <div class="skeleton-tab ${isActive ? 'skeleton-tab--active' : ''}">
+            <div class="skeleton-tab__icon"></div>
+            <div class="skeleton-tab__content">
+                <div class="skeleton-tab__book"></div>
+                <div class="skeleton-tab__range"></div>
+            </div>
+        </div>
+    `;
+
+    // Skeleton verse line
     const skeletonVerse = (textLines) => `
         <div class="skeleton-verse">
             <div class="skeleton-badge"></div>
@@ -619,16 +630,25 @@ export function showLoading(container) {
     const skeletonHeading = () => `<div class="skeleton-heading"></div>`;
 
     container.innerHTML = `
-        <div class="skeleton-loading">
-            ${skeletonHeading()}
-            ${skeletonVerse(['full', 'medium'])}
-            ${skeletonVerse(['long'])}
-            ${skeletonVerse(['full', 'short'])}
-            ${skeletonVerse(['medium'])}
-            ${skeletonHeading()}
-            ${skeletonVerse(['full', 'long'])}
-            ${skeletonVerse(['long'])}
-            ${skeletonVerse(['full', 'medium'])}
+        <div class="skeleton-tabs">
+            <div class="skeleton-tabs__nav-wrap">
+                <div class="skeleton-tabs__nav">
+                    ${skeletonTab(true)}
+                    ${skeletonTab()}
+                    ${skeletonTab()}
+                </div>
+            </div>
+            <div class="skeleton-tabs__content">
+                ${skeletonHeading()}
+                ${skeletonVerse(['full', 'medium'])}
+                ${skeletonVerse(['long'])}
+                ${skeletonVerse(['full', 'short'])}
+                ${skeletonVerse(['medium'])}
+                ${skeletonHeading()}
+                ${skeletonVerse(['full', 'long'])}
+                ${skeletonVerse(['long'])}
+                ${skeletonVerse(['full', 'medium'])}
+            </div>
         </div>
     `;
 }

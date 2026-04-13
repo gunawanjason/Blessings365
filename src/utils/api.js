@@ -56,7 +56,11 @@ export function buildHeadingsMap(headingsResponse) {
 export async function fetchDayData(translation, versesString) {
     // --- Cache read ---
     const cached = getCached(translation, versesString);
-    if (cached) return cached;
+    if (cached) {
+        // Brief delay for smooth skeleton transition even on cache hit
+        await new Promise((r) => setTimeout(r, 150));
+        return cached;
+    }
 
     // --- Network fetch ---
     const uniqueBooks = extractUniqueBooksFromString(versesString);

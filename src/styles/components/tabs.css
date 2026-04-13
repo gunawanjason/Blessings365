@@ -8,6 +8,7 @@
     gap: var(--space-md);
     margin-bottom: var(--space-xl);
     width: 100%;
+    animation: fadeInUp 250ms ease-out;
 }
 
 .verse-tabs__nav-wrap {
