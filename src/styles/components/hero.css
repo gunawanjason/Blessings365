@@ -3,52 +3,36 @@
    =========================== */
 
 .reading-hero {
-    background: var(--color-hero-bg);
+    background: var(--color-bg);
     padding: var(--space-xl) 0 var(--space-lg);
     text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.reading-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(
-            ellipse 600px 400px at 20% 50%,
-            rgba(99, 102, 241, 0.04) 0%,
-            transparent 70%
-        ),
-        radial-gradient(
-            ellipse 500px 300px at 80% 30%,
-            rgba(139, 92, 246, 0.03) 0%,
-            transparent 70%
-        );
-    pointer-events: none;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .reading-hero__inner {
     max-width: var(--max-width-reading);
     margin: 0 auto;
     padding: 0 var(--space-md);
-    position: relative;
 }
 
 .reading-hero__greeting {
-    font-size: var(--font-size-sm);
+    font-family: var(--font-family);
+    font-size: var(--font-size-xs);
     color: var(--color-text-tertiary);
     font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     margin-bottom: var(--space-xs);
-    letter-spacing: 0.02em;
 }
 
 .reading-hero__title {
-    font-size: var(--font-size-2xl);
-    font-weight: 700;
+    font-family: var(--font-family-display);
+    font-size: clamp(1.75rem, 5vw, 2.25rem);
+    font-weight: 600;
+    font-style: italic;
     color: var(--color-text-primary);
-    letter-spacing: -0.03em;
-    line-height: 1.2;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
     margin-bottom: var(--space-sm);
 }
 
@@ -63,8 +47,8 @@
 }
 
 .reading-hero__dot {
-    width: 4px;
-    height: 4px;
+    width: 3px;
+    height: 3px;
     border-radius: 50%;
     background: var(--color-text-tertiary);
     display: inline-block;
@@ -90,6 +74,6 @@
     }
 
     .reading-hero__title {
-        font-size: var(--font-size-xl);
+        font-size: 1.75rem;
     }
 }

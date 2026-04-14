@@ -6,24 +6,26 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(248, 246, 242, 0.85);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: var(--color-bg);
     border-bottom: 1px solid var(--color-border);
     transition:
         background-color var(--transition-normal),
         border-color var(--transition-normal);
 }
 
-[data-theme='dark'] .header {
-    background: rgba(15, 15, 15, 0.85);
+.header::before {
+    content: '';
+    display: block;
+    height: 3px;
+    background: var(--color-accent);
+    transition: background-color var(--transition-normal);
 }
 
 .header__inner {
     max-width: var(--max-width-compare);
     margin: 0 auto;
     padding: 0 var(--space-lg);
-    height: var(--header-height);
+    height: 60px; /* inner brand area — stripe and border are on .header itself */
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -42,21 +44,29 @@
 }
 
 .header__brand {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    font-size: var(--font-size-lg);
-    font-weight: 700;
+    gap: 10px;
     color: var(--color-text-primary);
-    letter-spacing: -0.04em;
     text-decoration: none;
     transition: opacity var(--transition-fast);
 }
 
 .header__logo {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     object-fit: contain;
-    border-radius: var(--radius-xs);
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+.header__brand-wordmark {
+    font-family: var(--font-family-brand);
+    font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    white-space: nowrap;
 }
 
 .header__brand:hover {
@@ -65,10 +75,10 @@
 }
 
 .header__brand-accent {
-    background: var(--color-accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--color-accent);
+    font-style: italic;
+    letter-spacing: -0.015em;
+    margin-left: 0.06em;
 }
 
 .header__actions {

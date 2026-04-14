@@ -21,18 +21,17 @@
 }
 
 .not-found-title {
+    font-family: var(--font-family-display);
+    font-style: italic;
     font-size: 8rem;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--color-accent);
     line-height: 1;
     margin: 0;
-    background: var(--color-accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 
 .not-found-message {
+    font-family: var(--font-family-display);
     font-size: var(--font-size-2xl);
     font-weight: 600;
     color: var(--color-text-primary);
@@ -51,7 +50,7 @@
     align-items: center;
     justify-content: center;
     padding: var(--space-sm) var(--space-lg);
-    background: var(--color-accent-gradient);
+    background: var(--color-accent);
     color: white;
     font-size: var(--font-size-base);
     font-weight: 500;
@@ -59,13 +58,16 @@
     text-decoration: none;
     transition:
         transform var(--transition-fast),
-        box-shadow var(--transition-fast);
+        box-shadow var(--transition-fast),
+        background-color var(--transition-fast);
     margin-top: var(--space-md);
 }
 
 .not-found-button:hover {
+    background: var(--color-accent-hover);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px var(--color-shadow-hover);
+    color: white;
 }
 
 .not-found-button:active {

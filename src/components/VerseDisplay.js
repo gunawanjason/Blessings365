@@ -559,33 +559,20 @@ function createToggleHandler(card, body, container) {
 }
 
 /**
- * Smoothly expand a card using measured height.
+ * Expand a card — CSS grid-template-rows transition handles the animation.
  */
 function expandCard(card, body) {
+    // Clear any legacy inline maxHeight from older implementations
+    body.style.maxHeight = '';
     card.classList.add('verse-card--expanded');
-    // Animate: set height from 0 to scrollHeight
-    body.style.maxHeight = body.scrollHeight + 'px';
-    // After transition, remove max-height so content can reflow
-    const onEnd = () => {
-        body.style.maxHeight = 'none';
-        body.removeEventListener('transitionend', onEnd);
-    };
-    body.addEventListener('transitionend', onEnd);
 }
 
 /**
- * Smoothly collapse a card.
+ * Collapse a card — CSS grid-template-rows transition handles the animation.
  */
 function collapseCard(card, body) {
-    // Set explicit height first so transition works
-    body.style.maxHeight = body.scrollHeight + 'px';
-    // Force reflow
-    body.offsetHeight; // eslint-disable-line no-unused-expressions
-    // Then animate to 0
-    requestAnimationFrame(() => {
-        body.style.maxHeight = '0px';
-        card.classList.remove('verse-card--expanded');
-    });
+    body.style.maxHeight = '';
+    card.classList.remove('verse-card--expanded');
 }
 
 function finalizeCardTitle(card, bookEnglish, translation, startVerse, endVerse) {

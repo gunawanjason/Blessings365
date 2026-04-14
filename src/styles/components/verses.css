@@ -10,27 +10,15 @@
     overflow: hidden;
     transition:
         border-color var(--transition-normal),
-        box-shadow var(--transition-normal),
-        transform var(--transition-normal);
-    /* Animation hooks */
+        box-shadow var(--transition-normal);
     animation: fadeInUp 300ms ease-out both;
 }
 
-.verse-card:nth-child(1) {
-    animation-delay: 0ms;
-}
-.verse-card:nth-child(2) {
-    animation-delay: 60ms;
-}
-.verse-card:nth-child(3) {
-    animation-delay: 120ms;
-}
-.verse-card:nth-child(4) {
-    animation-delay: 180ms;
-}
-.verse-card:nth-child(5) {
-    animation-delay: 240ms;
-}
+.verse-card:nth-child(1) { animation-delay: 0ms; }
+.verse-card:nth-child(2) { animation-delay: 60ms; }
+.verse-card:nth-child(3) { animation-delay: 120ms; }
+.verse-card:nth-child(4) { animation-delay: 180ms; }
+.verse-card:nth-child(5) { animation-delay: 240ms; }
 
 .verse-card:hover {
     border-color: var(--color-border-hover);
@@ -60,6 +48,7 @@
 }
 
 .verse-card__title {
+    font-family: var(--font-family);
     font-size: var(--font-size-sm);
     font-weight: 600;
     color: var(--color-text-secondary);
@@ -85,15 +74,27 @@
     color: var(--color-accent);
 }
 
+/* Grid-template-rows accordion — smooth, proportional animation */
 .verse-card__body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 350ms ease;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 320ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.verse-card--expanded .verse-card__body {
+    grid-template-rows: 1fr;
 }
 
 .verse-card__content {
+    overflow: hidden;
+    padding: 0 var(--space-lg) 0;
+    border-top: 1px solid transparent;
+    transition: padding var(--transition-normal), border-color var(--transition-normal);
+}
+
+.verse-card--expanded .verse-card__content {
     padding: var(--space-xs) var(--space-lg) var(--space-lg);
-    border-top: 1px solid var(--color-border);
+    border-top-color: var(--color-border);
 }
 
 /* Book context pill inside expanded card */
@@ -116,6 +117,7 @@
    =========================== */
 
 .verse-line {
+    font-family: var(--font-family-reading);
     padding: var(--space-xs) var(--verse-content-x, var(--space-sm));
     margin: 0 calc(-1 * var(--verse-content-x, var(--space-sm)));
     border-radius: var(--radius-sm);
@@ -125,7 +127,7 @@
     transition:
         background-color var(--transition-fast),
         transform 80ms ease;
-    line-height: 1.8;
+    line-height: 1.85;
 }
 
 .verse-line:hover {
@@ -145,8 +147,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.72em;
-    font-weight: 700;
+    font-family: var(--font-family);
+    font-size: 0.68em;
+    font-weight: 600;
     color: var(--color-accent);
     background: var(--color-accent-light);
     padding: 1px 6px;
@@ -161,12 +164,14 @@
 }
 
 .pericope-heading {
+    font-family: var(--font-family-display);
     font-weight: 700;
+    font-style: italic;
     margin-top: var(--space-lg);
     margin-bottom: var(--space-xs);
-    color: var(--color-pericope);
-    font-size: var(--font-size-base);
-    line-height: 1.4;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-lg);
+    line-height: 1.3;
     padding-bottom: var(--space-xs);
     border-bottom: 1px solid var(--color-border);
 }
@@ -176,18 +181,16 @@
 }
 
 /* Font size variants */
-.verse-line--small {
-    font-size: 0.875rem;
-}
-.verse-line--medium {
-    font-size: 1rem;
-}
-.verse-line--large {
-    font-size: 1.125rem;
-}
+.verse-line--small { font-size: 0.875rem; }
+.verse-line--medium { font-size: 1rem; }
+.verse-line--large { font-size: 1.125rem; }
 
 @media (max-width: 640px) {
     .verse-card__content {
+        padding: 0 var(--space-md) 0;
+    }
+
+    .verse-card--expanded .verse-card__content {
         padding: var(--space-xs) var(--space-md) var(--space-md);
     }
 

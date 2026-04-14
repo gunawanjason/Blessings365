@@ -7,15 +7,15 @@
     position: fixed;
     width: 240px;
     max-width: 90vw;
-    background: #1e1e1e;
-    border: 1px solid #333;
-    border-radius: 10px;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     z-index: 201;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-8px) scale(0.96);
     transform-origin: top right;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 8px 32px var(--color-shadow-hover);
     display: flex;
     flex-direction: column;
     transition: all 0.18s cubic-bezier(0.2, 0, 0, 1);
@@ -33,13 +33,13 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 14px;
-    border-bottom: 1px solid #2a2a2a;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .settings-panel__title {
     font-size: 0.8rem;
     font-weight: 600;
-    color: #aaa;
+    color: var(--color-text-tertiary);
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -51,13 +51,9 @@
     height: 20px;
     background: transparent;
     border: none;
-    color: #888;
+    color: var(--color-text-tertiary);
     cursor: pointer;
     padding: 0;
-}
-
-[data-theme='dark'] .settings-panel {
-    background: #1a1a1a;
 }
 
 /* Body */
@@ -84,7 +80,7 @@
 .setting-label {
     font-size: 0.8rem;
     font-weight: 600;
-    color: #ddd;
+    color: var(--color-text-primary);
 }
 
 .setting-end {
@@ -95,25 +91,25 @@
 
 /* Icons */
 .theme-icon-sun {
-    color: #fca510;
+    color: #e8a020;
     width: 15px;
     height: 15px;
 }
 
 .theme-icon-moon {
-    color: #f1c40f;
+    color: var(--color-text-secondary);
     width: 15px;
     height: 15px;
 }
 
 .format-icon {
-    color: #bbb;
+    color: var(--color-text-tertiary);
     font-size: 0.8rem;
 }
 
 .format-icon--bold {
     font-weight: 700;
-    color: #fff;
+    color: var(--color-text-primary);
 }
 
 /* Toggle */
@@ -134,10 +130,11 @@
 .toggle__track {
     width: 38px;
     height: 22px;
-    background: #444;
+    background: var(--color-bg-active);
     border-radius: 99px;
     position: relative;
-    transition: 0.2s;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
 }
 
 .toggle__track::after {
@@ -147,13 +144,14 @@
     left: 3px;
     width: 16px;
     height: 16px;
-    background: #fff;
+    background: var(--color-bg-card);
     border-radius: 50%;
-    transition: 0.2s;
+    transition: transform 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .toggle input:checked + .toggle__track {
-    background: #555;
+    background: var(--color-accent);
 }
 
 .toggle input:checked + .toggle__track::after {
@@ -174,7 +172,7 @@
 .font-slider__input {
     width: 100%;
     height: 3px;
-    background: #444;
+    background: var(--color-border);
     border-radius: 2px;
     -webkit-appearance: none;
     appearance: none;
@@ -185,14 +183,13 @@
     -webkit-appearance: none;
     width: 14px;
     height: 14px;
-    background: #777;
+    background: var(--color-accent);
     border-radius: 50%;
     cursor: pointer;
-    transition: 0.2s;
+    transition: transform 0.2s ease;
 }
 
 .font-slider__input::-webkit-slider-thumb:hover {
-    background: #999;
     transform: scale(1.1);
 }
 
@@ -207,7 +204,7 @@
 .font-btn {
     background: transparent;
     border: none;
-    color: #666;
+    color: var(--color-text-tertiary);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -215,29 +212,29 @@
     cursor: pointer;
     padding: 3px;
     border-radius: 6px;
-    transition: 0.2s;
+    transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .font-btn:hover {
-    color: #888;
-    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-text-secondary);
+    background: var(--color-bg-hover);
 }
 
 .font-btn--active {
-    color: #fff;
+    color: var(--color-text-primary);
 }
 
 .font-btn__icon {
     display: block;
     line-height: 1;
-    background: #333;
+    background: var(--color-bg-hover);
     padding: 3px 6px;
     border-radius: 5px;
     font-size: 0.85em;
 }
 
 .font-btn--active .font-btn__icon {
-    background: #444;
+    background: var(--color-bg-active);
 }
 
 .font-btn__text {
@@ -251,61 +248,7 @@
 }
 
 .settings-panel__footer p {
-    color: #666;
+    color: var(--color-text-tertiary);
     font-size: 0.7rem;
     margin: 2px 0;
-}
-
-/* ===========================
-   Light Mode Overrides
-   =========================== */
-
-[data-theme='light'] .settings-panel {
-    background: #fff;
-    border-color: #e5e0d8;
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
-}
-
-[data-theme='light'] .settings-panel__header {
-    border-color: #f0ece6;
-}
-
-[data-theme='light'] .settings-panel__title {
-    color: #9a9088;
-}
-
-[data-theme='light'] .setting-label {
-    color: #2c2520;
-}
-
-[data-theme='light'] .font-slider__input {
-    background: #e5e0d8;
-}
-
-[data-theme='light'] .font-btn {
-    color: #9a9088;
-}
-
-[data-theme='light'] .font-btn--active {
-    color: #2c2520;
-}
-
-[data-theme='light'] .font-btn__icon {
-    background: #f3f1ec;
-}
-
-[data-theme='light'] .font-btn--active .font-btn__icon {
-    background: #e5e0d8;
-}
-
-[data-theme='light'] .toggle__track {
-    background: #ddd;
-}
-
-[data-theme='light'] .toggle input:checked + .toggle__track {
-    background: #bbb;
-}
-
-[data-theme='light'] .format-icon--bold {
-    color: #2c2520;
 }

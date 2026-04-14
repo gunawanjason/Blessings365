@@ -9,16 +9,10 @@
     right: 0;
     z-index: 1000;
     display: none; /* Hidden by default */
-    background: rgba(248, 246, 242, 0.9);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: var(--color-bg);
     border-top: 1px solid var(--color-border);
     padding-bottom: env(safe-area-inset-bottom);
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
-}
-
-[data-theme='dark'] .bottom-nav {
-    background: rgba(15, 15, 15, 0.9);
+    transition: background-color var(--transition-normal);
 }
 
 .bottom-nav__inner {

@@ -14,17 +14,12 @@
     position: sticky;
     top: var(--header-height);
     z-index: 15;
-    background: rgba(248, 246, 242, 0.92);
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    background: var(--color-bg);
     border-bottom: 1px solid var(--color-border);
     margin: 0 calc(-1 * var(--space-md));
     padding-left: var(--space-md);
     padding-right: var(--space-md);
-}
-
-[data-theme='dark'] .controls-bar {
-    background: rgba(15, 15, 15, 0.92);
+    transition: background-color var(--transition-normal);
 }
 
 .control-group {

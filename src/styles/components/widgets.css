@@ -18,14 +18,15 @@
 }
 
 .vom-widget::before {
-    content: '“';
+    content: '\201C';
     position: absolute;
     top: -10px;
     left: 10px;
     font-size: 80px;
+    font-family: var(--font-family-display);
+    font-style: italic;
     color: var(--color-accent);
-    opacity: 0.1;
-    font-family: serif;
+    opacity: 0.12;
     line-height: 1;
 }
 
@@ -39,12 +40,13 @@
 }
 
 .vom-widget__content {
+    font-family: var(--font-family-reading);
     font-size: var(--font-size-lg);
-    font-weight: 500;
+    font-weight: 400;
     font-style: italic;
     color: var(--color-text-primary);
     margin-bottom: var(--space-sm);
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .vom-widget__ref {
@@ -57,8 +59,8 @@
     margin-top: var(--space-md);
     margin-bottom: var(--space-lg);
     padding: var(--space-md) var(--space-xl);
-    background: linear-gradient(to right, var(--color-accent-light), var(--color-bg-card));
-    border: 1px solid var(--color-accent-light);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
     text-align: left;
     display: flex;
     flex-direction: column;
@@ -73,11 +75,11 @@
 }
 
 .vom-widget--compact .vom-widget__content {
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-base);
     margin-bottom: 4px;
-    font-weight: 500;
+    font-weight: 400;
     color: var(--color-text-primary);
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .vom-widget--compact .vom-widget__ref {

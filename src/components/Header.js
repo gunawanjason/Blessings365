@@ -10,7 +10,7 @@ export function renderHeader(activePage, onSettingsClick) {
     header.className = 'header';
     header.innerHTML = `
     <div class="header__inner">
-      <a href="#/" class="header__brand"><img src="/assets/bcc.ico" alt="BCC Logo" class="header__logo" />Blessings<span class="header__brand-accent">365</span></a>
+      <a href="#/" class="header__brand"><img src="/assets/bcc.ico" alt="BCC Logo" class="header__logo" /><span class="header__brand-wordmark">Alkitab<span class="header__brand-accent">365</span></span></a>
       <div class="header__actions">
         <a href="#/" class="header__nav-link ${activePage === 'daily' ? 'header__nav-link--active' : ''}" ${activePage === 'daily' ? 'aria-current="page"' : ''}>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px">

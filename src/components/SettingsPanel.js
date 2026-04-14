@@ -79,7 +79,7 @@ export function createSettingsPanel({ onThemeChange, onFontSizeChange, onBoldCop
 
       <!-- Footer Info -->
       <div class="settings-panel__footer">
-        <p>Blessings365</p>
+        <p>Alkitab365</p>
         <p>Made with &hearts; for daily reading</p>
       </div>
     </div>
