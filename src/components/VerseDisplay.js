@@ -204,22 +204,13 @@ function renderTabs(
     tabsNav.setAttribute('role', 'tablist');
     tabsNav.setAttribute('aria-label', 'Bible Books');
 
-    // Enable horizontal scrolling with mouse wheel, handling snap interference
-    let scrollSnapTimeout;
+    // Enable horizontal scrolling with mouse wheel on desktop (no snap on desktop)
     tabsNavWrap.addEventListener(
         'wheel',
         (e) => {
             if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
                 e.preventDefault();
-
-                // Temporarily disable snap to allow smooth wheel scrolling
-                tabsNav.style.scrollSnapType = 'none';
                 tabsNav.scrollLeft += e.deltaY;
-
-                clearTimeout(scrollSnapTimeout);
-                scrollSnapTimeout = setTimeout(() => {
-                    tabsNav.style.scrollSnapType = '';
-                }, 150);
             }
         },
         { passive: false }
@@ -489,17 +480,9 @@ function setupTabNavFades(tabsNav, tabsNavWrap) {
         });
     };
 
-    // Throttled scroll handler to prevent excessive updates
-    let scrollTimer = null;
-    const throttledScrollHandler = () => {
-        if (scrollTimer) return;
-        scrollTimer = setTimeout(() => {
-            update();
-            scrollTimer = null;
-        }, 50); // 50ms throttle for scroll events
-    };
-
-    tabsNav.addEventListener('scroll', throttledScrollHandler, { passive: true });
+    // Scroll handler — update() already coalesces via requestAnimationFrame,
+    // so the fade tracks the scroll without lag or extra timers.
+    tabsNav.addEventListener('scroll', update, { passive: true });
 
     // Use a single resize handler with debouncing
     let resizeTimer = null;

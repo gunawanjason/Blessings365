@@ -237,13 +237,13 @@
 
     .compare-panel .verse-tabs__nav-wrap::before,
     .compare-panel .verse-tabs__nav-wrap::after {
-        transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .compare-panel .verse-tabs__edge-arrow {
         transition:
             opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-            transform 0.2s ease;
+            transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     /* Indicators — show on mobile as subtle panel position dots */
@@ -313,11 +313,13 @@
     top: calc(var(--header-height) + 53px); /* Desktop default */
     z-index: 10;
 
-    background: var(--color-bg);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 0;
-    transition: background-color var(--transition-normal);
+    transition:
+        background-color var(--transition-normal),
+        border-color var(--transition-normal);
 }
 
 @media (max-width: 768px) {
@@ -325,6 +327,17 @@
         top: 0;
     }
 }
+
+/* In compare mode the visible "pill" is the nav-wrap (containing badge + scroll-area).
+   Stretch the scroll-area to nav-wrap's full height and match its rounded shape so
+   arrows sit on the wrap's vertical center and fades clip cleanly to its right edge. */
+.compare-panel .verse-tabs__scroll-area {
+    align-self: stretch;
+    border-radius: var(--radius-md);
+}
+
+/* Compare panel inherits the default --color-bg-card-tinted fade — no override needed.
+   (Kept this comment so the consistency with the daily reader pill is intentional.) */
 
 /* Adjust the nav list to take remaining space */
 .compare-panel .verse-tabs__nav {
