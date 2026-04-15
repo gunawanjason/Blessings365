@@ -82,7 +82,7 @@
     --color-text-secondary: #a09890;
     --color-text-tertiary: #6d635a;
     --color-accent: #c8912e;
-    --color-accent-light: rgba(200, 145, 46, 0.10);
+    --color-accent-light: rgba(200, 145, 46, 0.1);
     --color-accent-hover: #dba84a;
     --color-accent-gradient: linear-gradient(135deg, #c8912e 0%, #dba84a 100%);
     --color-border: #2a2724;

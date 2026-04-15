@@ -44,7 +44,9 @@
     border-radius: var(--radius-lg);
     border: 1px solid var(--color-border);
     margin-bottom: var(--space-sm);
-    transition: background-color var(--transition-normal), border-color var(--transition-normal);
+    transition:
+        background-color var(--transition-normal),
+        border-color var(--transition-normal);
 }
 
 .verse-tabs__scroll-area::before,
@@ -106,8 +108,12 @@
     will-change: opacity, transform;
 }
 
-.verse-tabs__edge-arrow--left { left: 10px; }
-.verse-tabs__edge-arrow--right { right: 10px; }
+.verse-tabs__edge-arrow--left {
+    left: 10px;
+}
+.verse-tabs__edge-arrow--right {
+    right: 10px;
+}
 
 .verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--left-fade .verse-tabs__edge-arrow--left {
     opacity: 0.7;
@@ -295,8 +301,12 @@
             transform 0.2s ease;
     }
 
-    .verse-tabs__edge-arrow--left { left: 7px; }
-    .verse-tabs__edge-arrow--right { right: 7px; }
+    .verse-tabs__edge-arrow--left {
+        left: 7px;
+    }
+    .verse-tabs__edge-arrow--right {
+        right: 7px;
+    }
 
     .verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--left-fade .verse-tabs__edge-arrow--left,
     .verse-tabs__nav-wrap--scrollable.verse-tabs__nav-wrap--right-fade
@@ -318,6 +328,10 @@
         gap: 4px;
     }
 
-    .verse-tab-btn .tab-book { font-size: 0.9em; }
-    .verse-tab-btn .tab-range { font-size: 0.8em; }
+    .verse-tab-btn .tab-book {
+        font-size: 0.9em;
+    }
+    .verse-tab-btn .tab-range {
+        font-size: 0.8em;
+    }
 }

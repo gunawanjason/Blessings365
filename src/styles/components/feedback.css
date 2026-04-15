@@ -11,8 +11,12 @@
 }
 
 @keyframes skeletonFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 /* Skeleton verse line - mimics actual verse layout */
@@ -51,10 +55,18 @@
     overflow: hidden;
 }
 
-.skeleton-text-line--full  { width: 100%; }
-.skeleton-text-line--long  { width: 92%; }
-.skeleton-text-line--medium { width: 78%; }
-.skeleton-text-line--short { width: 55%; }
+.skeleton-text-line--full {
+    width: 100%;
+}
+.skeleton-text-line--long {
+    width: 92%;
+}
+.skeleton-text-line--medium {
+    width: 78%;
+}
+.skeleton-text-line--short {
+    width: 55%;
+}
 
 /* Pericope heading skeleton */
 .skeleton-heading {
@@ -182,13 +194,19 @@
 
 .skeleton-tab:nth-child(1) .skeleton-tab__icon::after,
 .skeleton-tab:nth-child(1) .skeleton-tab__book::after,
-.skeleton-tab:nth-child(1) .skeleton-tab__range::after { animation-delay: 0s; }
+.skeleton-tab:nth-child(1) .skeleton-tab__range::after {
+    animation-delay: 0s;
+}
 .skeleton-tab:nth-child(2) .skeleton-tab__icon::after,
 .skeleton-tab:nth-child(2) .skeleton-tab__book::after,
-.skeleton-tab:nth-child(2) .skeleton-tab__range::after { animation-delay: 0.1s; }
+.skeleton-tab:nth-child(2) .skeleton-tab__range::after {
+    animation-delay: 0.1s;
+}
 .skeleton-tab:nth-child(3) .skeleton-tab__icon::after,
 .skeleton-tab:nth-child(3) .skeleton-tab__book::after,
-.skeleton-tab:nth-child(3) .skeleton-tab__range::after { animation-delay: 0.2s; }
+.skeleton-tab:nth-child(3) .skeleton-tab__range::after {
+    animation-delay: 0.2s;
+}
 
 /* Skeleton content area */
 .skeleton-tabs__content {
@@ -246,28 +264,48 @@
 }
 
 @keyframes shimmer {
-    100% { transform: translateX(100%); }
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 /* Stagger animation for verses */
 .skeleton-verse:nth-child(1) .skeleton-badge::after,
-.skeleton-verse:nth-child(1) .skeleton-text-line::after { animation-delay: 0s; }
+.skeleton-verse:nth-child(1) .skeleton-text-line::after {
+    animation-delay: 0s;
+}
 .skeleton-verse:nth-child(2) .skeleton-badge::after,
-.skeleton-verse:nth-child(2) .skeleton-text-line::after { animation-delay: 0.05s; }
+.skeleton-verse:nth-child(2) .skeleton-text-line::after {
+    animation-delay: 0.05s;
+}
 .skeleton-verse:nth-child(3) .skeleton-badge::after,
-.skeleton-verse:nth-child(3) .skeleton-text-line::after { animation-delay: 0.1s; }
+.skeleton-verse:nth-child(3) .skeleton-text-line::after {
+    animation-delay: 0.1s;
+}
 .skeleton-verse:nth-child(4) .skeleton-badge::after,
-.skeleton-verse:nth-child(4) .skeleton-text-line::after { animation-delay: 0.15s; }
+.skeleton-verse:nth-child(4) .skeleton-text-line::after {
+    animation-delay: 0.15s;
+}
 .skeleton-verse:nth-child(5) .skeleton-badge::after,
-.skeleton-verse:nth-child(5) .skeleton-text-line::after { animation-delay: 0.2s; }
+.skeleton-verse:nth-child(5) .skeleton-text-line::after {
+    animation-delay: 0.2s;
+}
 .skeleton-verse:nth-child(6) .skeleton-badge::after,
-.skeleton-verse:nth-child(6) .skeleton-text-line::after { animation-delay: 0.25s; }
+.skeleton-verse:nth-child(6) .skeleton-text-line::after {
+    animation-delay: 0.25s;
+}
 .skeleton-verse:nth-child(7) .skeleton-badge::after,
-.skeleton-verse:nth-child(7) .skeleton-text-line::after { animation-delay: 0.3s; }
+.skeleton-verse:nth-child(7) .skeleton-text-line::after {
+    animation-delay: 0.3s;
+}
 .skeleton-verse:nth-child(8) .skeleton-badge::after,
-.skeleton-verse:nth-child(8) .skeleton-text-line::after { animation-delay: 0.35s; }
+.skeleton-verse:nth-child(8) .skeleton-text-line::after {
+    animation-delay: 0.35s;
+}
 
-.skeleton-heading::after { animation-delay: 0.1s; }
+.skeleton-heading::after {
+    animation-delay: 0.1s;
+}
 
 /* Skeleton color variables */
 :root {

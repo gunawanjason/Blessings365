@@ -56,6 +56,18 @@ export function createVerseSelection(getCurrentVersion, getBoldCopyEnabled, opti
             }
         });
 
+        // Keyboard shortcut: Ctrl+C (Windows/Linux) or Cmd+C (macOS/iPadOS)
+        document.addEventListener('keydown', (e) => {
+            if (selectedVerses.length === 0) return;
+            const tag = document.activeElement?.tagName;
+            if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable)
+                return;
+            if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+                e.preventDefault();
+                handleCopy();
+            }
+        });
+
         return actionBar;
     }
 
