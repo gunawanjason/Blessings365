@@ -1905,7 +1905,7 @@
     width: 100%;
     max-width: 780px;
     display: grid;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto 1fr auto;
     padding: max(clamp(14px, 2.8vw, 32px), env(safe-area-inset-top, 0px))
         max(clamp(20px, 4.5vw, 56px), env(safe-area-inset-right, 0px))
         max(clamp(16px, 2.5vw, 28px), env(safe-area-inset-bottom, 0px))
@@ -2056,7 +2056,10 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-top: clamp(4px, 1vw, 10px);
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: clamp(4px, 1vw, 10px) 2px 2px;
 }
 
 .welcome-back__cta {
