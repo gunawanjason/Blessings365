@@ -12,6 +12,7 @@ import { createVerseSelection } from '../components/VerseSelection.js';
 import { fetchDayData } from '../utils/api.js';
 import { dayOfYear, MONTH_NAMES } from '../utils/helpers.js';
 import { trackEvent } from '../utils/analytics.js';
+import { popStartWithNtFlag } from '../components/Onboarding.js';
 
 /**
  * Render the Daily Reading page.
@@ -108,6 +109,14 @@ export function renderDailyPage(app, settingsPanel) {
                 'daily-verses',
                 'tabs'
             );
+
+            // First-visit nudge: open on the New Testament tab (2nd book of the day)
+            if (popStartWithNtFlag()) {
+                const tabs = versesContainer.querySelectorAll('.verse-tab-btn');
+                if (tabs.length >= 2) {
+                    requestAnimationFrame(() => tabs[1].click());
+                }
+            }
         } catch (error) {
             console.error('Error fetching verses:', error);
             showError(versesContainer);

@@ -1,0 +1,1825 @@
+/* ===========================
+   Onboarding — Refined Editorial
+   A devotional prologue, not a wizard.
+   =========================== */
+
+.onboarding {
+    position: fixed;
+    inset: 0;
+    /* Fallback → dynamic viewport height where supported (handles mobile URL bar) */
+    height: 100vh;
+    height: 100dvh;
+    z-index: 1000;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 380ms cubic-bezier(0.22, 1, 0.36, 1);
+    font-family: var(--font-family);
+    color: var(--color-text-primary);
+    overflow: hidden;
+    /* Avoid horizontal bounce on iOS */
+    overscroll-behavior: contain;
+}
+
+.onboarding.is-open {
+    opacity: 1;
+}
+
+.onboarding.is-dismissing {
+    opacity: 0;
+}
+
+.onboarding__backdrop {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            ellipse 80% 60% at 50% 0%,
+            color-mix(in srgb, var(--color-accent) 12%, transparent) 0%,
+            transparent 60%
+        ),
+        var(--color-bg);
+    /* Parchment-like subtle warmth */
+    background-color: #f5f1e8;
+}
+
+[data-theme='dark'] .onboarding__backdrop {
+    background:
+        radial-gradient(
+            ellipse 80% 60% at 50% 0%,
+            color-mix(in srgb, var(--color-accent) 14%, transparent) 0%,
+            transparent 60%
+        ),
+        var(--color-bg);
+    background-color: #0d0c0a;
+}
+
+/* Fine grain paper texture via layered gradients */
+.onboarding__backdrop::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.35;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+        110deg,
+        transparent 0,
+        transparent 2px,
+        color-mix(in srgb, var(--color-accent) 2%, transparent) 2px,
+        color-mix(in srgb, var(--color-accent) 2%, transparent) 3px
+    );
+}
+
+[data-theme='dark'] .onboarding__backdrop::before {
+    opacity: 0.5;
+}
+
+.onboarding__frame {
+    position: relative;
+    width: 100%;
+    max-width: 780px;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    /* Honor iOS safe areas so the frame never sits under notches / home indicator */
+    padding:
+        max(clamp(14px, 2.8vw, 32px), env(safe-area-inset-top, 0px))
+        max(clamp(20px, 4.5vw, 56px), env(safe-area-inset-right, 0px))
+        max(clamp(12px, 2vw, 22px), env(safe-area-inset-bottom, 0px))
+        max(clamp(20px, 4.5vw, 56px), env(safe-area-inset-left, 0px));
+    gap: clamp(10px, 1.5vw, 18px);
+    min-height: 0;
+    transform: translateY(14px);
+    opacity: 0;
+    animation: ob-rise 560ms cubic-bezier(0.22, 1, 0.36, 1) 80ms forwards;
+    /* Enable container queries so slide internals can react to frame width,
+       not just viewport (helps on tablets in split-screen, desktop zoom, etc.) */
+    container-type: inline-size;
+    container-name: obframe;
+}
+
+@keyframes ob-rise {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ---------- Top bar (brand + skip) ---------- */
+
+.onboarding__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+}
+
+.onboarding__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-text-primary);
+}
+
+.onboarding__brand-mark {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+.onboarding__brand-name {
+    font-family: var(--font-family-brand);
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1;
+}
+
+.onboarding__brand-accent {
+    color: var(--color-accent);
+    font-style: italic;
+    margin-left: 0.06em;
+}
+
+.onboarding__skip {
+    background: none;
+    border: none;
+    padding: 8px 4px;
+    font-family: var(--font-family);
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.onboarding__skip:hover {
+    color: var(--color-text-secondary);
+}
+
+/* ---------- Progress rule + step counter ---------- */
+
+.onboarding__progress {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 4px 0;
+}
+
+.onboarding__progress-rail {
+    flex: 1 1 auto;
+    position: relative;
+    height: 2px;
+    background: color-mix(in srgb, var(--color-text-primary) 12%, transparent);
+    border-radius: 1px;
+    overflow: hidden;
+}
+
+.onboarding__progress-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--color-accent);
+    transform: scaleX(calc(1 / 6));
+    transform-origin: left center;
+    transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.onboarding__progress-label {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 3px;
+    flex-shrink: 0;
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    font-style: italic;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.02em;
+}
+
+.onboarding__progress-label [data-step-current] {
+    color: var(--color-accent);
+    font-size: var(--font-size-base);
+    min-width: 28px;
+    text-align: right;
+    font-style: normal;
+}
+
+.onboarding__progress-of {
+    color: var(--color-text-tertiary);
+    font-size: 0.8rem;
+    transform: translateY(-1px);
+}
+
+.onboarding__progress-label [data-step-total] {
+    color: var(--color-text-tertiary);
+    font-size: var(--font-size-sm);
+    font-style: normal;
+}
+
+/* ---------- Slide stage ---------- */
+/* All slides stacked absolutely inside the stage; no scroll ever.
+   Body content vertically centers within the remaining space. */
+
+.onboarding__stage {
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+    padding: 0;
+}
+
+.ob-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 2vw, 20px);
+    padding: 0 4px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(24px);
+    transition:
+        opacity 480ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ob-slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+}
+
+.ob-slide.is-entering-right {
+    transform: translateX(32px);
+    opacity: 0;
+}
+
+.ob-slide.is-entering-left {
+    transform: translateX(-32px);
+    opacity: 0;
+}
+
+/* ---------- Shared slide typography ---------- */
+
+.ob-slide__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-md);
+    flex-shrink: 0;
+}
+
+.ob-eyebrow {
+    font-family: var(--font-family);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+}
+
+.ob-eyebrow--soft {
+    color: var(--color-text-tertiary);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+}
+
+.ob-datestamp {
+    font-family: var(--font-family-display);
+    font-style: italic;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+    letter-spacing: 0.01em;
+}
+
+.ob-slide__body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(10px, 1.5vw, 16px);
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
+    min-height: 0;
+}
+
+/* Welcome slide: full centered composition (poster feel) */
+.ob-slide--welcome .ob-slide__body {
+    align-items: center;
+    text-align: center;
+    max-width: 540px;
+}
+
+.ob-display {
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    font-style: italic;
+    color: var(--color-text-primary);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    font-size: clamp(2rem, 4.8vw, 3.2rem);
+    margin: 0;
+}
+
+.ob-display--medium {
+    font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+    line-height: 1.06;
+}
+
+.ob-display--hero {
+    font-size: clamp(2.4rem, 6vw, 3.8rem);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+}
+
+.ob-display__line {
+    display: block;
+    font-style: normal;
+}
+
+.ob-display__line--accent {
+    font-style: italic;
+    color: var(--color-accent);
+    padding-left: 0.06em;
+}
+
+.ob-paragraph {
+    font-family: var(--font-family-reading);
+    font-size: clamp(0.95rem, 1.15vw, 1.05rem);
+    line-height: 1.55;
+    color: var(--color-text-primary);
+    max-width: 56ch;
+    margin: 0;
+}
+
+.ob-paragraph--lead {
+    font-style: italic;
+    color: var(--color-text-secondary);
+    font-size: clamp(1rem, 1.3vw, 1.12rem);
+}
+
+.ob-paragraph--muted {
+    color: var(--color-text-secondary);
+    font-size: clamp(0.9rem, 1.1vw, 0.98rem);
+    max-width: 50ch;
+}
+
+.ob-paragraph--emphasis {
+    font-size: clamp(1rem, 1.3vw, 1.1rem);
+    color: var(--color-text-primary);
+}
+
+.ob-accent {
+    color: var(--color-accent);
+    font-style: italic;
+    font-weight: 600;
+}
+
+.ob-lede {
+    font-family: var(--font-family-reading);
+    font-size: clamp(1rem, 1.3vw, 1.12rem);
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+    max-width: 52ch;
+    margin: 0;
+}
+
+.ob-lede strong {
+    color: var(--color-text-primary);
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+/* ---------- Slide 1: Ornament + Pull quote (centered) ---------- */
+
+.ob-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: clamp(6px, 1vw, 10px) auto;
+    width: 100%;
+    max-width: 340px;
+    color: color-mix(in srgb, var(--color-accent) 70%, transparent);
+}
+
+.ob-ornament__rule {
+    flex: 1 1 auto;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent 0%,
+        color-mix(in srgb, var(--color-accent) 45%, transparent) 50%,
+        color-mix(in srgb, var(--color-accent) 45%, transparent) 100%
+    );
+}
+
+.ob-ornament__rule:last-child {
+    background: linear-gradient(
+        to left,
+        transparent 0%,
+        color-mix(in srgb, var(--color-accent) 45%, transparent) 50%,
+        color-mix(in srgb, var(--color-accent) 45%, transparent) 100%
+    );
+}
+
+.ob-ornament__mark {
+    font-family: var(--font-family-display);
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--color-accent);
+    transform: translateY(-1px);
+}
+
+.ob-pullquote {
+    position: relative;
+    margin: clamp(4px, 0.8vw, 10px) auto 0;
+    padding: 0;
+    border: none;
+    max-width: 42ch;
+    text-align: center;
+}
+
+.ob-pullquote__text {
+    font-family: var(--font-family-reading);
+    font-style: italic;
+    font-size: clamp(1rem, 1.35vw, 1.2rem);
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    margin: 0;
+    position: relative;
+}
+
+.ob-pullquote__text::before,
+.ob-pullquote__text::after {
+    font-family: var(--font-family-display);
+    color: var(--color-accent);
+    font-size: 1.15em;
+    font-style: italic;
+    line-height: 0;
+    opacity: 0.8;
+}
+
+.ob-pullquote__text::before {
+    content: '\201C';
+    margin-right: 2px;
+}
+
+.ob-pullquote__text::after {
+    content: '\201D';
+    margin-left: 1px;
+}
+
+.ob-pullquote__cite {
+    margin-top: 10px;
+    font-family: var(--font-family);
+    font-size: 0.66rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    font-weight: 500;
+}
+
+/* ---------- Slide 3: Phases ---------- */
+
+.ob-phases {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.ob-phase {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: clamp(10px, 1.6vw, 16px);
+    padding: clamp(8px, 1.2vw, 12px) 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-text-primary) 10%, transparent);
+    align-items: start;
+}
+
+.ob-phase:first-child {
+    border-top: none;
+    padding-top: 2px;
+}
+
+.ob-phase__numeral {
+    font-family: var(--font-family-display);
+    font-style: italic;
+    font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+    font-weight: 500;
+    color: var(--color-accent);
+    line-height: 1;
+    padding-top: 4px;
+}
+
+.ob-phase__content {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.ob-phase__title {
+    font-family: var(--font-family-display);
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    margin: 0;
+}
+
+.ob-phase__lat {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-text-tertiary);
+    font-size: 0.78em;
+}
+
+.ob-phase__text {
+    font-family: var(--font-family-reading);
+    font-size: clamp(0.9rem, 1.1vw, 0.98rem);
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    max-width: 48ch;
+    margin: 0;
+}
+
+/* ---------- Slide 4: Frameworks ---------- */
+
+.ob-framework-pair {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: clamp(12px, 2vw, 28px);
+    align-items: stretch;
+    margin-top: var(--space-sm);
+}
+
+.ob-framework {
+    background: color-mix(in srgb, var(--color-bg-card) 55%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+    border-radius: 2px;
+    padding: clamp(12px, 1.6vw, 18px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition:
+        transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 260ms ease;
+}
+
+[data-theme='dark'] .ob-framework {
+    background: color-mix(in srgb, var(--color-bg-card) 40%, transparent);
+}
+
+.ob-framework:hover {
+    border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+    transform: translateY(-2px);
+}
+
+.ob-framework__head {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+}
+
+.ob-framework__kicker {
+    font-family: var(--font-family);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-text-tertiary);
+    font-weight: 600;
+}
+
+.ob-framework__name {
+    font-family: var(--font-family-display);
+    font-size: clamp(1.35rem, 2vw, 1.7rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin: 0;
+    line-height: 1;
+}
+
+.ob-framework__acro {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.ob-framework__acro > div {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 8px;
+    align-items: baseline;
+}
+
+.ob-framework__acro dt {
+    font-family: var(--font-family-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    font-style: italic;
+    line-height: 1;
+}
+
+.ob-framework__acro dd {
+    font-family: var(--font-family-reading);
+    font-size: 0.85rem;
+    line-height: 1.35;
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+.ob-framework__acro dd strong {
+    font-family: var(--font-family);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: 0.82em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.ob-framework-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-family-display);
+    font-style: italic;
+    color: var(--color-text-tertiary);
+    font-size: var(--font-size-sm);
+    position: relative;
+}
+
+.ob-framework-divider::before,
+.ob-framework-divider::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 1px;
+    background: color-mix(in srgb, var(--color-text-primary) 14%, transparent);
+    transform: translateX(-50%);
+}
+
+.ob-framework-divider::before {
+    top: 0;
+    bottom: 55%;
+}
+
+.ob-framework-divider::after {
+    top: 55%;
+    bottom: 0;
+}
+
+.ob-framework-divider span {
+    background: #f5f1e8;
+    padding: 4px 8px;
+    position: relative;
+    z-index: 1;
+}
+
+[data-theme='dark'] .ob-framework-divider span {
+    background: #0d0c0a;
+}
+
+/* ---------- Slide 5: Checklist ---------- */
+
+.ob-checklist__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-lg);
+}
+
+.ob-checklist__counter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.ob-checklist__ring {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+}
+
+.ob-checklist__ring-track {
+    stroke: color-mix(in srgb, var(--color-text-primary) 10%, transparent);
+}
+
+.ob-checklist__ring-fill {
+    stroke: var(--color-accent);
+    stroke-linecap: round;
+    transition: stroke-dashoffset 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ob-checklist__counter-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1;
+}
+
+.ob-checklist__counter-num {
+    font-family: var(--font-family-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.ob-checklist__counter-num span:last-child {
+    color: var(--color-text-tertiary);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.ob-checklist__counter-label {
+    font-family: var(--font-family);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-text-tertiary);
+    font-weight: 500;
+}
+
+.ob-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.ob-check {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 12px;
+    padding: 9px 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-text-primary) 10%, transparent);
+    cursor: pointer;
+    align-items: start;
+    transition: opacity var(--transition-fast);
+}
+
+.ob-check:first-child {
+    border-top: 1px solid color-mix(in srgb, var(--color-text-primary) 10%, transparent);
+}
+
+.ob-check:focus-visible {
+    outline: 1px dashed var(--color-accent);
+    outline-offset: 6px;
+    border-radius: 2px;
+}
+
+.ob-check__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--color-text-primary) 22%, transparent);
+    color: transparent;
+    background: transparent;
+    margin-top: 2px;
+    flex-shrink: 0;
+    transition:
+        background 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 280ms,
+        color 280ms,
+        transform 280ms;
+}
+
+.ob-check__mark svg {
+    width: 12px;
+    height: 12px;
+    opacity: 0;
+    transform: scale(0.6);
+    transition:
+        opacity 240ms ease,
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ob-check.is-done .ob-check__mark {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+    transform: scale(1.04);
+}
+
+.ob-check.is-done .ob-check__mark svg {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.ob-check__title {
+    font-family: var(--font-family-display);
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    color: var(--color-text-primary);
+    line-height: 1.2;
+    margin: 0 0 2px;
+    transition: color 280ms;
+}
+
+.ob-check.is-done .ob-check__title {
+    color: var(--color-text-secondary);
+    text-decoration: line-through;
+    text-decoration-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+.ob-check__meta {
+    font-family: var(--font-family-reading);
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+.ob-kbd {
+    font-family: 'DM Mono', Menlo, monospace;
+    font-size: 0.85em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+    color: var(--color-accent);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
+    letter-spacing: 0.01em;
+}
+
+.ob-inline-link {
+    background: none;
+    border: none;
+    padding: 0 0 0 6px;
+    font-family: var(--font-family-display);
+    font-style: italic;
+    font-size: 0.95em;
+    color: var(--color-accent);
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+    transition: color var(--transition-fast);
+}
+
+.ob-inline-link:hover {
+    color: var(--color-accent-hover);
+}
+
+.ob-bookmark-hint {
+    display: none;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: color-mix(in srgb, var(--color-accent) 5%, transparent);
+    border-left: 2px solid var(--color-accent);
+    font-family: var(--font-family);
+    font-size: 0.82rem;
+    color: var(--color-text-secondary);
+}
+
+.ob-bookmark-hint.is-visible {
+    display: flex;
+    animation: ob-fade-in 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes ob-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-2px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ob-bookmark-hint__platform {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.ob-bookmark-hint kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    padding: 1px 5px;
+    font-family: var(--font-family);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    background: var(--color-bg-card);
+    border: 1px solid color-mix(in srgb, var(--color-text-primary) 15%, transparent);
+    border-radius: 3px;
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--color-text-primary) 10%, transparent);
+}
+
+.ob-bookmark-hint__sep {
+    color: var(--color-text-tertiary);
+}
+
+/* ---------- Slide 6: Target + Start ---------- */
+
+.ob-target {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 560px;
+}
+
+.ob-target__label {
+    font-family: var(--font-family);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--color-accent);
+}
+
+.ob-target__input {
+    width: 100%;
+    padding: 10px 2px;
+    font-family: var(--font-family-display);
+    font-style: italic;
+    font-size: clamp(1rem, 1.3vw, 1.1rem);
+    line-height: 1.4;
+    color: var(--color-text-primary);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-text-primary) 18%, transparent);
+    border-radius: 0;
+    resize: none;
+    transition: border-color var(--transition-fast);
+}
+
+.ob-target__input:focus {
+    outline: none;
+    border-bottom-color: var(--color-accent);
+}
+
+.ob-target__input::placeholder {
+    color: color-mix(in srgb, var(--color-text-tertiary) 90%, transparent);
+    font-style: italic;
+}
+
+.ob-target__hint {
+    font-family: var(--font-family);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    letter-spacing: 0.01em;
+}
+
+.ob-launchpad {
+    margin-top: clamp(6px, 1.2vw, 12px);
+    padding: clamp(12px, 1.6vw, 18px) clamp(14px, 2vw, 20px);
+    border-top: 2px solid var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 4%, transparent);
+    position: relative;
+}
+
+.ob-launchpad::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -2px;
+    width: 14%;
+    height: 2px;
+    background: var(--color-text-secondary);
+    opacity: 0.4;
+}
+
+.ob-launchpad__lead {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ob-launchpad__book {
+    font-family: var(--font-family-display);
+    font-size: clamp(1.35rem, 2vw, 1.7rem);
+    font-weight: 600;
+    font-style: italic;
+    color: var(--color-text-primary);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin: 0;
+}
+
+.ob-launchpad__sub {
+    font-family: var(--font-family-reading);
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--color-text-secondary);
+    max-width: 52ch;
+    margin: 0;
+}
+
+/* ---------- Bottom nav (back / dots / next) ---------- */
+
+.onboarding__nav {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: clamp(8px, 1.5vw, 16px);
+    padding-top: clamp(8px, 1.2vw, 14px);
+    border-top: 1px solid color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+}
+
+.onboarding__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    min-height: 40px;
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-radius: var(--radius-full);
+    border: 1px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+        transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+        background 180ms,
+        color 180ms,
+        opacity 180ms,
+        box-shadow 180ms;
+    background: transparent;
+    color: var(--color-text-primary);
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.onboarding__btn:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+.onboarding__btn svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+/* Dual-label system: full label on desktop, short on mobile */
+.onboarding__btn-label--full {
+    display: inline;
+}
+
+.onboarding__btn-label--short {
+    display: none;
+}
+
+@media (max-width: 560px) {
+    .onboarding__btn-label--full {
+        display: none;
+    }
+    .onboarding__btn-label--short {
+        display: inline;
+    }
+}
+
+.onboarding__btn--ghost {
+    justify-self: start;
+    color: var(--color-text-secondary);
+    padding-left: 10px;
+    padding-right: 14px;
+}
+
+.onboarding__btn--ghost:hover:not(:disabled) {
+    color: var(--color-text-primary);
+    background: color-mix(in srgb, var(--color-text-primary) 4%, transparent);
+}
+
+.onboarding__btn--ghost:disabled {
+    opacity: 0;
+    cursor: default;
+    pointer-events: none;
+}
+
+.onboarding__btn--primary {
+    justify-self: end;
+    background: var(--color-accent);
+    color: #fff;
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--color-accent) 28%, transparent);
+    padding-right: 18px;
+}
+
+.onboarding__btn--primary:hover {
+    background: var(--color-accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--color-accent) 36%, transparent);
+}
+
+.onboarding__btn--primary:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.onboarding__btn--start {
+    padding: 12px 26px;
+    font-size: var(--font-size-base);
+    letter-spacing: 0.02em;
+    background: var(--color-accent);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--color-accent) 32%, transparent);
+}
+
+.onboarding__btn--start::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fff;
+    margin-right: 4px;
+    animation: ob-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes ob-pulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.55;
+        transform: scale(0.7);
+    }
+}
+
+.onboarding__dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    justify-self: center;
+}
+
+.onboarding__dot {
+    width: 20px;
+    height: 4px;
+    padding: 8px 0;
+    background: transparent;
+    border: none;
+    position: relative;
+    cursor: pointer;
+}
+
+.onboarding__dot::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 50%;
+    transform: translateY(50%);
+    height: 2px;
+    background: color-mix(in srgb, var(--color-text-primary) 16%, transparent);
+    border-radius: 1px;
+    transition:
+        width 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        background 280ms;
+}
+
+.onboarding__dot.is-active::after {
+    background: var(--color-accent);
+}
+
+.onboarding__dot:hover::after {
+    background: color-mix(in srgb, var(--color-text-primary) 40%, transparent);
+}
+
+.onboarding__dot.is-active:hover::after {
+    background: var(--color-accent-hover);
+}
+
+/* ===========================
+   Viewport adaptations
+   =========================== */
+
+/* ---------- Large desktop (≥ 1440px) ----------
+   Give the frame a little more breathing room; never stretch wide. */
+@media (min-width: 1440px) {
+    .onboarding__frame {
+        max-width: 840px;
+        gap: clamp(20px, 2vw, 32px);
+    }
+
+    .ob-display {
+        font-size: clamp(2.8rem, 4.2vw, 4.4rem);
+    }
+}
+
+/* ---------- Desktop / laptop (1024px–1439px) ----------
+   Baseline values already tuned; only subtle refinement. */
+@media (min-width: 1024px) and (max-width: 1439.98px) {
+    .onboarding__frame {
+        max-width: 780px;
+    }
+}
+
+/* ---------- Tablet landscape + small laptop (901–1023px) ----------
+   Keep framework two-column; modestly reduce frame padding. */
+@media (max-width: 1023.98px) {
+    .onboarding__frame {
+        max-width: 720px;
+    }
+}
+
+/* ---------- Tablet portrait (769–900px) ----------
+   Framework pair still fits two-column here. */
+@media (max-width: 900px) {
+    .onboarding__frame {
+        max-width: 640px;
+        padding:
+            max(clamp(18px, 3.5vw, 36px), env(safe-area-inset-top, 0px))
+            max(clamp(20px, 4vw, 40px), env(safe-area-inset-right, 0px))
+            max(clamp(16px, 2.5vw, 24px), env(safe-area-inset-bottom, 0px))
+            max(clamp(20px, 4vw, 40px), env(safe-area-inset-left, 0px));
+    }
+}
+
+/* ---------- Transition: framework pair stacks ----------
+   Below 720px, two columns of dense acronym text cramps. */
+@container obframe (max-width: 720px) {
+    .ob-framework-pair {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .ob-framework {
+        padding: 18px;
+    }
+
+    .ob-framework-divider {
+        padding: 6px 0;
+    }
+
+    .ob-framework-divider::before,
+    .ob-framework-divider::after {
+        top: 50%;
+        bottom: auto;
+        height: 1px;
+        width: 38%;
+        transform: none;
+    }
+
+    .ob-framework-divider::before {
+        left: 4px;
+    }
+
+    .ob-framework-divider::after {
+        right: 4px;
+        left: auto;
+    }
+
+    .ob-framework-divider span {
+        font-size: 0.8rem;
+    }
+}
+
+/* Fallback for browsers without container query support */
+@supports not (container-type: inline-size) {
+    @media (max-width: 720px) {
+        .ob-framework-pair {
+            grid-template-columns: 1fr;
+            gap: 4px;
+        }
+        .ob-framework-divider {
+            padding: 6px 0;
+        }
+        .ob-framework-divider::before,
+        .ob-framework-divider::after {
+            top: 50%;
+            bottom: auto;
+            height: 1px;
+            width: 38%;
+            transform: none;
+        }
+        .ob-framework-divider::before {
+            left: 4px;
+        }
+        .ob-framework-divider::after {
+            right: 4px;
+            left: auto;
+        }
+    }
+}
+
+/* ---------- Standard tablets / large phones (≤ 768px) ----------
+   Frame hugs viewport; shrink bottom nav, tighten rhythm. */
+@media (max-width: 768px) {
+    .onboarding__frame {
+        max-width: 100%;
+        padding:
+            max(18px, env(safe-area-inset-top, 0px))
+            max(22px, env(safe-area-inset-right, 0px))
+            max(16px, env(safe-area-inset-bottom, 0px))
+            max(22px, env(safe-area-inset-left, 0px));
+        gap: 18px;
+    }
+
+    .ob-slide__meta {
+        gap: 8px;
+    }
+
+    .onboarding__btn {
+        padding: 9px 16px;
+        font-size: 0.85rem;
+        min-height: 40px;
+    }
+
+    .onboarding__btn--ghost {
+        padding-left: 8px;
+        padding-right: 12px;
+    }
+
+    .onboarding__btn--start {
+        padding: 11px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* ---------- Large phone (≤ 640px) ---------- */
+@media (max-width: 640px) {
+    .ob-checklist__head {
+        flex-direction: column;
+        gap: 14px;
+        align-items: stretch;
+    }
+
+    .ob-checklist__counter {
+        order: -1;
+        align-self: flex-end;
+    }
+
+    .ob-pullquote {
+        padding-left: 22px;
+    }
+
+    .ob-paragraph {
+        font-size: clamp(1rem, 2.6vw, 1.1rem);
+    }
+}
+
+/* ---------- Standard phone (≤ 560px) ---------- */
+@media (max-width: 560px) {
+    .onboarding__frame {
+        padding:
+            max(14px, env(safe-area-inset-top, 0px))
+            max(18px, env(safe-area-inset-right, 0px))
+            max(14px, env(safe-area-inset-bottom, 0px))
+            max(18px, env(safe-area-inset-left, 0px));
+        gap: 14px;
+    }
+
+    .ob-slide__body {
+        gap: 14px;
+    }
+
+    .ob-display {
+        font-size: clamp(2.1rem, 9vw, 3rem);
+    }
+
+    .ob-display--medium {
+        font-size: clamp(1.7rem, 7vw, 2.4rem);
+    }
+
+    .ob-phase {
+        grid-template-columns: 40px 1fr;
+        gap: 12px;
+    }
+
+    .onboarding__btn--ghost span {
+        display: none;
+    }
+
+    .onboarding__btn--ghost {
+        width: 42px;
+        height: 42px;
+        min-height: 42px;
+        padding: 0;
+        justify-content: center;
+        border: 1px solid color-mix(in srgb, var(--color-text-primary) 12%, transparent);
+    }
+
+    .onboarding__btn--ghost:hover:not(:disabled) {
+        border-color: color-mix(in srgb, var(--color-text-primary) 22%, transparent);
+    }
+
+    .onboarding__dots {
+        gap: 5px;
+    }
+
+    .onboarding__dot {
+        width: 18px;
+    }
+
+    .onboarding__dot.is-active {
+        width: 26px;
+    }
+
+    .onboarding__skip {
+        font-size: 0.65rem;
+        letter-spacing: 0.06em;
+        padding: 8px 2px;
+    }
+
+    .ob-checklist__ring {
+        width: 44px;
+        height: 44px;
+    }
+
+    .ob-checklist__counter-num {
+        font-size: 1.2rem;
+    }
+
+    .ob-launchpad {
+        padding: 16px 18px;
+    }
+
+    .ob-launchpad__book {
+        font-size: clamp(1.4rem, 6vw, 1.8rem);
+    }
+
+    .ob-launchpad__sub {
+        font-size: 0.88rem;
+    }
+}
+
+/* ---------- Small phone (≤ 480px) ---------- */
+@media (max-width: 480px) {
+    .onboarding__frame {
+        padding:
+            max(12px, env(safe-area-inset-top, 0px))
+            max(16px, env(safe-area-inset-right, 0px))
+            max(12px, env(safe-area-inset-bottom, 0px))
+            max(16px, env(safe-area-inset-left, 0px));
+        gap: 12px;
+    }
+
+    .onboarding__brand-mark {
+        width: 24px;
+        height: 24px;
+    }
+
+    .onboarding__brand-name {
+        font-size: 1rem;
+    }
+
+    .ob-slide__body {
+        gap: 12px;
+    }
+
+    .ob-slide__meta {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .ob-eyebrow {
+        font-size: 0.66rem;
+        letter-spacing: 0.15em;
+    }
+
+    .ob-display {
+        font-size: clamp(1.9rem, 9vw, 2.6rem);
+    }
+
+    .ob-display--medium {
+        font-size: clamp(1.55rem, 7vw, 2.1rem);
+    }
+
+    .ob-phase {
+        grid-template-columns: 34px 1fr;
+        gap: 10px;
+        padding: 12px 0;
+    }
+
+    .ob-phase__numeral {
+        font-size: 1.4rem;
+        padding-top: 4px;
+    }
+
+    .ob-phase__title {
+        font-size: 1.15rem;
+    }
+
+    .ob-pullquote {
+        padding-left: 18px;
+    }
+
+    .ob-pullquote__text {
+        font-size: 1.05rem;
+    }
+
+    .ob-check {
+        grid-template-columns: 30px 1fr;
+        gap: 12px;
+        padding: 14px 0;
+    }
+
+    .ob-check__title {
+        font-size: 1.05rem;
+    }
+
+    .ob-check__meta {
+        font-size: 0.87rem;
+    }
+
+    .ob-framework {
+        padding: 14px 16px;
+    }
+
+    .ob-framework__name {
+        font-size: 1.5rem;
+    }
+
+    .ob-target__input {
+        padding: 12px 2px;
+        font-size: 1.05rem;
+    }
+}
+
+/* ---------- Ultra-small phone (≤ 360px) ----------
+   iPhone SE 1st-gen, Galaxy Fold folded. */
+@media (max-width: 360px) {
+    .onboarding__frame {
+        padding: 10px 12px;
+        gap: 10px;
+    }
+
+    .onboarding__top {
+        gap: 8px;
+    }
+
+    .ob-display {
+        font-size: 1.7rem;
+        line-height: 1.08;
+    }
+
+    .ob-display--medium {
+        font-size: 1.45rem;
+    }
+
+    .ob-eyebrow {
+        font-size: 0.6rem;
+    }
+
+    .onboarding__btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        min-height: 38px;
+        gap: 6px;
+    }
+
+    .onboarding__btn--ghost {
+        width: 38px;
+        height: 38px;
+        min-height: 38px;
+    }
+
+    .onboarding__btn--start {
+        padding: 10px 14px;
+        font-size: 0.82rem;
+    }
+
+    /* Trailing arrow on primary eats space on tiny screens — hide it */
+    .onboarding__btn--primary svg {
+        display: none;
+    }
+
+    /* Pulse dot: kept for "start" button as a signal, but smaller */
+    .onboarding__btn--start::before {
+        width: 5px;
+        height: 5px;
+        margin-right: 2px;
+    }
+
+    .onboarding__dots {
+        gap: 3px;
+    }
+
+    .onboarding__dot {
+        width: 12px;
+    }
+
+    .onboarding__dot.is-active {
+        width: 18px;
+    }
+
+    .ob-framework__name {
+        font-size: 1.35rem;
+        letter-spacing: 0.06em;
+    }
+
+    .ob-framework__acro > div {
+        grid-template-columns: 18px 1fr;
+        gap: 8px;
+    }
+
+    .ob-framework__acro dd {
+        font-size: 0.88rem;
+    }
+
+    .ob-phase__text,
+    .ob-check__meta {
+        font-size: 0.85rem;
+    }
+
+    /* Hide datestamp on the narrowest screens — eyebrow carries enough meta */
+    .ob-datestamp {
+        display: none;
+    }
+}
+
+/* ---------- Landscape short-height (phones rotated) ----------
+   Squeeze vertical rhythm so the 6 slides remain usable. */
+@media (orientation: landscape) and (max-height: 560px) {
+    .onboarding__frame {
+        padding:
+            max(10px, env(safe-area-inset-top, 0px))
+            max(24px, env(safe-area-inset-right, 0px))
+            max(8px, env(safe-area-inset-bottom, 0px))
+            max(24px, env(safe-area-inset-left, 0px));
+        gap: 10px;
+        max-width: 820px;
+    }
+
+    .onboarding__stage {
+        padding: 0;
+    }
+
+    .ob-slide {
+        gap: 12px;
+        padding: 0 2px;
+    }
+
+    .ob-slide__body {
+        gap: 10px;
+    }
+
+    .ob-display {
+        font-size: clamp(1.6rem, 4.5vh, 2.6rem);
+        line-height: 1.05;
+    }
+
+    .ob-display--medium {
+        font-size: clamp(1.4rem, 4vh, 2.2rem);
+    }
+
+    .ob-paragraph,
+    .ob-lede {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .ob-phase {
+        padding: 10px 0;
+    }
+
+    .ob-check {
+        padding: 10px 0;
+    }
+
+    .ob-pullquote {
+        padding-top: 6px;
+    }
+
+    .ob-slide__foot {
+        padding-top: 8px;
+    }
+
+    .onboarding__btn {
+        padding: 7px 14px;
+        font-size: 0.8rem;
+        min-height: 36px;
+    }
+
+    .onboarding__btn--ghost {
+        width: 36px;
+        height: 36px;
+        min-height: 36px;
+        padding: 0;
+    }
+
+    .onboarding__btn--ghost span {
+        display: none;
+    }
+
+    .onboarding__btn--start {
+        padding: 9px 18px;
+    }
+
+    .onboarding__nav {
+        padding-top: 6px;
+    }
+
+    .onboarding__progress {
+        padding: 2px 0;
+    }
+}
+
+/* ---------- Any very short viewport (e.g. Kindle, split-screen) ---------- */
+@media (max-height: 600px) and (orientation: portrait) {
+    .onboarding__frame {
+        gap: 10px;
+    }
+
+    .ob-slide__body {
+        gap: 12px;
+    }
+
+    .ob-display {
+        font-size: clamp(1.6rem, 4vh, 2.4rem);
+    }
+
+    .ob-display--medium {
+        font-size: clamp(1.4rem, 3.5vh, 2rem);
+    }
+}
+
+/* ---------- Touch / no-hover devices ----------
+   Kill hover transforms, enlarge tap targets to 44×44. */
+@media (hover: none) and (pointer: coarse) {
+    .ob-framework:hover,
+    .onboarding__btn:hover,
+    .onboarding__btn--primary:hover {
+        transform: none;
+    }
+
+    .ob-framework:active,
+    .ob-check:active {
+        transform: scale(0.995);
+    }
+
+    .onboarding__dot {
+        padding: 12px 2px;
+    }
+
+    .onboarding__btn {
+        min-height: 44px;
+    }
+
+    .ob-check {
+        min-height: 56px;
+    }
+
+    .ob-inline-link {
+        padding: 4px 6px;
+        min-height: 32px;
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+/* ---------- Very wide screens (ultrawide / 4K) ----------
+   Anchor frame max-width; never stretch editorial text line-length. */
+@media (min-width: 1920px) {
+    .onboarding__frame {
+        max-width: 880px;
+    }
+}
+
+/* ---------- Print (rare but benign) ---------- */
+@media print {
+    .onboarding {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .onboarding,
+    .onboarding__frame,
+    .onboarding__progress-fill,
+    .ob-slide,
+    .ob-check__mark,
+    .ob-check__mark svg,
+    .ob-checklist__ring-fill,
+    .onboarding__btn,
+    .onboarding__btn--start::before {
+        animation: none !important;
+        transition: opacity 160ms linear !important;
+    }
+
+    .onboarding__btn--start::before {
+        opacity: 1;
+    }
+}
