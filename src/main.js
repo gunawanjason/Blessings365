@@ -5,6 +5,7 @@ import { renderDailyPage } from './pages/DailyPage.js';
 import { renderComparePage } from './pages/ComparePage.js';
 import { renderNotFoundPage } from './pages/NotFoundPage.js';
 import { updateVerseFontSize } from './components/VerseDisplay.js';
+import { shouldShowOnboarding, renderOnboarding } from './components/Onboarding.js';
 
 // ===========================
 // App Initialization
@@ -68,3 +69,26 @@ window.addEventListener('hashchange', route);
 
 // Initial route
 route();
+
+// Global "open New Testament tab" handler.
+// Fires from the onboarding completion, and retries until tabs are rendered
+// (handles the race where verses are still loading when the user finishes).
+function tryOpenNtTab(retriesLeft = 30) {
+    const tabs = document.querySelectorAll('#verses-output .verse-tab-btn');
+    if (tabs.length >= 2) {
+        tabs[1].click();
+        try {
+            localStorage.removeItem('blessings365_start_with_nt');
+        } catch {}
+        return;
+    }
+    if (retriesLeft > 0) {
+        setTimeout(() => tryOpenNtTab(retriesLeft - 1), 150);
+    }
+}
+window.addEventListener('blessings365:open-nt', () => tryOpenNtTab());
+
+// Show onboarding for first-time visitors
+if (shouldShowOnboarding()) {
+    renderOnboarding();
+}
