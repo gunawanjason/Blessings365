@@ -4,12 +4,8 @@ import { trackEvent } from '../utils/analytics.js';
 const STORAGE_KEY = 'blessings365_onboarded_v1';
 const NT_START_KEY = 'blessings365_start_with_nt';
 const TARGET_KEY = 'blessings365_30day_target';
-const WELCOME_BACK_KEY = 'blessings365_last_welcome_date';
-
-function todayStamp() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-}
+const WELCOME_BACK_KEY = 'blessings365_last_welcome_ts';
+const WELCOME_BACK_INTERVAL_MS = 30 * 60 * 1000;
 
 export function shouldShowOnboarding() {
     try {
@@ -27,9 +23,9 @@ export function markOnboardingComplete() {
 
 export function shouldShowWelcomeBack() {
     try {
-        // Only for users who have completed onboarding
         if (!localStorage.getItem(STORAGE_KEY)) return false;
-        return localStorage.getItem(WELCOME_BACK_KEY) !== todayStamp();
+        const last = Number(localStorage.getItem(WELCOME_BACK_KEY));
+        return !last || Date.now() - last >= WELCOME_BACK_INTERVAL_MS;
     } catch {
         return false;
     }
@@ -37,7 +33,7 @@ export function shouldShowWelcomeBack() {
 
 export function markWelcomeBackShown() {
     try {
-        localStorage.setItem(WELCOME_BACK_KEY, todayStamp());
+        localStorage.setItem(WELCOME_BACK_KEY, String(Date.now()));
     } catch {}
 }
 
@@ -471,7 +467,7 @@ function slideFour() {
                         <h3 class="ob-framework__name">Grow</h3>
                     </header>
                     <dl class="ob-framework__acro">
-                        <div><dt>G</dt><dd><strong>Guiding</strong> truth to see</dd></div>
+                        <div><dt>G</dt><dd><strong>Guidance</strong> from the Lord</dd></div>
                         <div><dt>R</dt><dd><strong>Reminders</strong> being reinforced</dd></div>
                         <div><dt>O</dt><dd><strong>Oath</strong> or promise offered</dd></div>
                         <div><dt>W</dt><dd><strong>Work of faith</strong> today</dd></div>
@@ -681,7 +677,7 @@ export function renderWelcomeBack({ onComplete } = {}) {
                             <h3 class="ob-framework__name">Grow</h3>
                         </header>
                         <dl class="ob-framework__acro">
-                            <div><dt>G</dt><dd><strong>Guiding</strong> truth to see</dd></div>
+                            <div><dt>G</dt><dd><strong>Guidance</strong> from the Lord</dd></div>
                             <div><dt>R</dt><dd><strong>Reminders</strong> being reinforced</dd></div>
                             <div><dt>O</dt><dd><strong>Oath</strong> or promise offered</dd></div>
                             <div><dt>W</dt><dd><strong>Work of faith</strong> today</dd></div>
