@@ -25,6 +25,7 @@ const settingsPanel = createSettingsPanel({
         if (settingsPanel._onFontSizeChange) settingsPanel._onFontSizeChange(cls);
     },
     onBoldCopyChange: () => {},
+    onReplayOnboarding: () => renderOnboarding(),
 });
 
 // Expose a hook for pages to intercept font size changes
