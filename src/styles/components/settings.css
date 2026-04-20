@@ -244,6 +244,37 @@
     font-weight: 500;
 }
 
+/* Inline action button (e.g. "Replay intro") */
+.setting-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full, 99px);
+    color: var(--color-text-secondary);
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition:
+        color 0.18s ease,
+        background-color 0.18s ease,
+        border-color 0.18s ease;
+}
+
+.setting-action:hover {
+    color: var(--color-accent);
+    border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+}
+
+.setting-action svg {
+    flex-shrink: 0;
+}
+
 /* Footer — hidden for compact design */
 .settings-panel__footer {
     display: none;

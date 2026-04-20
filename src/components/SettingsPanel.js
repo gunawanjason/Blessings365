@@ -7,7 +7,12 @@ import { trackEvent } from '../utils/analytics.js';
  * @param {Function} options.onFontSizeChange - called with 'verse-line--small' | 'verse-line--medium' | 'verse-line--large'
  * @param {Function} options.onBoldCopyChange - called with boolean
  */
-export function createSettingsPanel({ onThemeChange, onFontSizeChange, onBoldCopyChange }) {
+export function createSettingsPanel({
+    onThemeChange,
+    onFontSizeChange,
+    onBoldCopyChange,
+    onReplayOnboarding,
+}) {
     // Panel
     const panel = document.createElement('div');
     panel.className = 'settings-panel';
@@ -75,6 +80,18 @@ export function createSettingsPanel({ onThemeChange, onFontSizeChange, onBoldCop
            </label>
            <span class="format-icon format-icon--bold">Aa</span>
         </div>
+      </div>
+
+      <!-- Replay intro -->
+      <div class="setting-row">
+        <span class="setting-label">Intro tour</span>
+        <button type="button" class="setting-action" id="replay-onboarding-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12a9 9 0 1 0 3-6.7" />
+            <path d="M3 4v5h5" />
+          </svg>
+          <span>Replay</span>
+        </button>
       </div>
 
       <!-- Footer Info -->
@@ -155,6 +172,13 @@ export function createSettingsPanel({ onThemeChange, onFontSizeChange, onBoldCop
             setting_type: 'bold_copy',
             setting_value: boldToggle.checked,
         });
+    });
+
+    const replayBtn = panel.querySelector('#replay-onboarding-btn');
+    replayBtn.addEventListener('click', () => {
+        close();
+        trackEvent('replay_onboarding', { event_category: 'onboarding' });
+        if (onReplayOnboarding) onReplayOnboarding();
     });
 
     // Open/close logic with document click listener
