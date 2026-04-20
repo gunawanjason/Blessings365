@@ -4,6 +4,12 @@ import { trackEvent } from '../utils/analytics.js';
 const STORAGE_KEY = 'blessings365_onboarded_v1';
 const NT_START_KEY = 'blessings365_start_with_nt';
 const TARGET_KEY = 'blessings365_30day_target';
+const WELCOME_BACK_KEY = 'blessings365_last_welcome_date';
+
+function todayStamp() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
 
 export function shouldShowOnboarding() {
     try {
@@ -16,6 +22,22 @@ export function shouldShowOnboarding() {
 export function markOnboardingComplete() {
     try {
         localStorage.setItem(STORAGE_KEY, new Date().toISOString());
+    } catch {}
+}
+
+export function shouldShowWelcomeBack() {
+    try {
+        // Only for users who have completed onboarding
+        if (!localStorage.getItem(STORAGE_KEY)) return false;
+        return localStorage.getItem(WELCOME_BACK_KEY) !== todayStamp();
+    } catch {
+        return false;
+    }
+}
+
+export function markWelcomeBackShown() {
+    try {
+        localStorage.setItem(WELCOME_BACK_KEY, todayStamp());
     } catch {}
 }
 
@@ -204,6 +226,9 @@ export function renderOnboarding({ onComplete } = {}) {
 
     function finish(kind) {
         markOnboardingComplete();
+        // Prevent the daily welcome-back from popping up right after a
+        // fresh onboarding — same-day users have already seen the frameworks.
+        markWelcomeBackShown();
         trackEvent('onboarding_complete', {
             event_category: 'onboarding',
             event_label: kind,
@@ -584,4 +609,135 @@ function slideSix({ dayNum, dateLine }) {
         </div>
     </section>
     `;
+}
+
+// ===========================
+// Daily welcome-back (single-page)
+// ===========================
+
+/**
+ * Render the daily welcome-back overlay for returning users.
+ * Shows once per calendar day: brand → greeting → PRAY / GROW cards → Begin.
+ */
+export function renderWelcomeBack({ onComplete } = {}) {
+    const today = new Date();
+    const dayNum = dayOfYear(today);
+    const dateLine = `${MONTH_NAMES[today.getMonth()]} ${today.getDate()}`;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'welcome-back';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-labelledby', 'welcome-back-title');
+
+    overlay.innerHTML = `
+        <div class="welcome-back__backdrop" aria-hidden="true"></div>
+
+        <div class="welcome-back__frame">
+            <header class="welcome-back__top">
+                <div class="welcome-back__brand">
+                    <img src="/assets/bcc.ico" alt="" class="welcome-back__brand-mark" aria-hidden="true" />
+                    <span class="welcome-back__brand-name">Blessings<span class="welcome-back__brand-accent">365</span></span>
+                </div>
+                <button type="button" class="welcome-back__close" data-action="close" aria-label="Close">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M6 6l12 12M6 18L18 6"/>
+                    </svg>
+                </button>
+            </header>
+
+            <main class="welcome-back__body">
+                <div class="welcome-back__hero">
+                    <span class="welcome-back__eyebrow">Day ${dayNum} &middot; ${dateLine}</span>
+                    <h1 class="welcome-back__title" id="welcome-back-title">
+                        Welcome <em>back.</em>
+                    </h1>
+                    <p class="welcome-back__lede">
+                        Two lenses for today's passage. Pick whichever fits the moment.
+                    </p>
+                </div>
+
+                <div class="ob-framework-pair welcome-back__frameworks">
+                    <article class="ob-framework">
+                        <header class="ob-framework__head">
+                            <span class="ob-framework__kicker">Framework One</span>
+                            <h3 class="ob-framework__name">Pray</h3>
+                        </header>
+                        <dl class="ob-framework__acro">
+                            <div><dt>P</dt><dd><strong>Promises</strong> in the text</dd></div>
+                            <div><dt>R</dt><dd><strong>Reminders</strong> for today</dd></div>
+                            <div><dt>A</dt><dd><strong>A new perspective</strong> you now see</dd></div>
+                            <div><dt>Y</dt><dd><strong>Your action</strong> for today</dd></div>
+                        </dl>
+                    </article>
+
+                    <div class="ob-framework-divider" aria-hidden="true">
+                        <span>or</span>
+                    </div>
+
+                    <article class="ob-framework">
+                        <header class="ob-framework__head">
+                            <span class="ob-framework__kicker">Framework Two</span>
+                            <h3 class="ob-framework__name">Grow</h3>
+                        </header>
+                        <dl class="ob-framework__acro">
+                            <div><dt>G</dt><dd><strong>Guiding</strong> truth to see</dd></div>
+                            <div><dt>R</dt><dd><strong>Reminders</strong> being reinforced</dd></div>
+                            <div><dt>O</dt><dd><strong>Oath</strong> or promise offered</dd></div>
+                            <div><dt>W</dt><dd><strong>Work of faith</strong> today</dd></div>
+                        </dl>
+                    </article>
+                </div>
+
+                <div class="welcome-back__foot">
+                    <button type="button" class="welcome-back__cta" data-action="begin">
+                        <span class="welcome-back__cta-dot" aria-hidden="true"></span>
+                        <span>Begin Day ${dayNum}</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 6l6 6-6 6"/>
+                        </svg>
+                    </button>
+                </div>
+            </main>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+
+    function finish(kind) {
+        markWelcomeBackShown();
+        trackEvent('welcome_back_complete', {
+            event_category: 'welcome_back',
+            event_label: kind,
+        });
+        overlay.classList.add('is-dismissing');
+        setTimeout(() => {
+            overlay.remove();
+            document.body.style.overflow = '';
+            if (onComplete) onComplete({ kind });
+        }, 340);
+    }
+
+    overlay.querySelector('[data-action="begin"]').addEventListener('click', () => finish('begin'));
+    overlay.querySelector('[data-action="close"]').addEventListener('click', () => finish('close'));
+    overlay
+        .querySelector('.welcome-back__backdrop')
+        .addEventListener('click', () => finish('backdrop'));
+
+    overlay.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') finish('esc');
+    });
+
+    requestAnimationFrame(() => {
+        overlay.classList.add('is-open');
+        const cta = overlay.querySelector('[data-action="begin"]');
+        if (cta) cta.focus({ preventScroll: true });
+    });
+
+    trackEvent('welcome_back_shown', { event_category: 'welcome_back' });
+
+    return {
+        dismiss: () => finish('api'),
+    };
 }

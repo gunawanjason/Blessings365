@@ -5,7 +5,12 @@ import { renderDailyPage } from './pages/DailyPage.js';
 import { renderComparePage } from './pages/ComparePage.js';
 import { renderNotFoundPage } from './pages/NotFoundPage.js';
 import { updateVerseFontSize } from './components/VerseDisplay.js';
-import { shouldShowOnboarding, renderOnboarding } from './components/Onboarding.js';
+import {
+    shouldShowOnboarding,
+    renderOnboarding,
+    shouldShowWelcomeBack,
+    renderWelcomeBack,
+} from './components/Onboarding.js';
 
 // ===========================
 // App Initialization
@@ -89,7 +94,10 @@ function tryOpenNtTab(retriesLeft = 30) {
 }
 window.addEventListener('blessings365:open-nt', () => tryOpenNtTab());
 
-// Show onboarding for first-time visitors
+// Show onboarding for first-time visitors; otherwise show the daily
+// welcome-back reminder (PRAY / GROW frameworks) once per calendar day.
 if (shouldShowOnboarding()) {
     renderOnboarding();
+} else if (shouldShowWelcomeBack()) {
+    renderWelcomeBack();
 }
