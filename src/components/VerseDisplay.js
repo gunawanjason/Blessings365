@@ -1,5 +1,6 @@
 import { getTranslatedBookName } from '../data/bookNames.js';
 import { trackEvent } from '../utils/analytics.js';
+import { saveScrollPos, getScrollPos } from '../utils/scrollState.js';
 
 const CHEVRON_SVG = `<svg class="verse-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
 
@@ -178,6 +179,11 @@ function renderTabs(
     }
     if (currentBookData) books.push(currentBookData);
 
+    // Scroll state: determine scroll context
+    const scrollPanel = container.closest('.compare-panel');
+    const namespace = scrollPanel ? 'compare' : 'read';
+    let currentActiveBook = books[0]?.name ?? null;
+
     // 2. Create Tabs Container
     const tabsContainer = document.createElement('div');
     tabsContainer.className = 'verse-tabs';
@@ -243,6 +249,21 @@ function renderTabs(
         if (index === 0) {
             btn.classList.add('active');
             if (onTabChange) onTabChange(book.name);
+
+            // Restore saved scroll for the initial tab (e.g. returning from another page)
+            const initPos = getScrollPos(namespace, book.name);
+            if (initPos > 0) {
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        if (!btn.classList.contains('active')) return;
+                        if (scrollPanel && window.innerWidth <= 768) {
+                            scrollPanel.scrollTop = initPos;
+                        } else {
+                            window.scrollTo({ top: initPos });
+                        }
+                    });
+                });
+            }
         }
 
         // Add data-book for programmatic access/sync
@@ -273,6 +294,13 @@ function renderTabs(
         `;
 
         btn.addEventListener('click', () => {
+            // Save scroll position of the book we're leaving
+            if (currentActiveBook && currentActiveBook !== book.name) {
+                const isMobileCompare = scrollPanel && window.innerWidth <= 768;
+                const pos = isMobileCompare ? scrollPanel.scrollTop : window.scrollY;
+                saveScrollPos(namespace, currentActiveBook, pos);
+            }
+
             // Deactivate all
             tabsNav.querySelectorAll('.verse-tab-btn').forEach((b) => {
                 b.classList.remove('active');
@@ -302,15 +330,16 @@ function renderTabs(
             requestAnimationFrame(refreshTabNavFades);
             setTimeout(refreshTabNavFades, 180);
 
-            // Scroll to top when switching books
-            const panel = container.closest('.compare-panel');
-            if (panel && window.innerWidth <= 768) {
-                // Mobile compare view: panels scroll internally
-                panel.scrollTo({ top: 0, behavior: 'smooth' });
+            // Restore saved scroll position for the book we're entering
+            const savedPos = getScrollPos(namespace, book.name);
+            const isMobileCompare = scrollPanel && window.innerWidth <= 768;
+            if (isMobileCompare) {
+                scrollPanel.scrollTop = savedPos;
             } else {
-                // Desktop compare or daily page: standard window scroll
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({ top: savedPos });
             }
+
+            currentActiveBook = book.name;
 
             // Notify listener (for sync)
             if (onTabChange) onTabChange(book.name);
@@ -385,6 +414,18 @@ function renderTabs(
 
         tabsContent.appendChild(pane);
     });
+
+    // Save the current active book's scroll when the user navigates to another page
+    window.addEventListener(
+        'hashchange',
+        () => {
+            if (!currentActiveBook) return;
+            const isMobileCompare = scrollPanel && window.innerWidth <= 768;
+            const pos = isMobileCompare ? scrollPanel.scrollTop : window.scrollY;
+            saveScrollPos(namespace, currentActiveBook, pos);
+        },
+        { once: true }
+    );
 
     refreshTabNavFades();
 }
