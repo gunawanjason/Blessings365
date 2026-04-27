@@ -165,6 +165,7 @@
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         overscroll-behavior-x: contain;
+        height: calc(100vh - var(--header-height) - 62px - 64px);
         height: calc(100dvh - var(--header-height) - 62px - 64px);
     }
 

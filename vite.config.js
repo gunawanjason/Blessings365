@@ -51,6 +51,12 @@ export default defineConfig({
     },
     build: {
         outDir: 'dist',
+        // Vite 6 defaults to "baseline-widely-available" (Safari 16+), which
+        // breaks for users still on iOS 15 (iPhone 6s/7/SE 1st gen) — the page
+        // renders only the body background because the bundle fails to parse.
+        // Pin the target so esbuild transpiles any newer syntax down.
+        target: ['es2020', 'safari14', 'chrome87', 'firefox78'],
+        cssTarget: ['safari14', 'chrome87', 'firefox78'],
         rollupOptions: {
             input: {
                 main: path.resolve(process.cwd(), 'index.html'),

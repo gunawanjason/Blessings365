@@ -1820,6 +1820,14 @@
         transition: opacity 160ms linear !important;
     }
 
+    /* The frame's entry animation is what makes it visible (opacity 0 → 1).
+       With animation disabled, snap it to the final state so users with
+       Reduce Motion don't see a blank backdrop. */
+    .onboarding__frame {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
     .onboarding__btn--start::before {
         opacity: 1;
     }
@@ -2182,6 +2190,14 @@
     .welcome-back__cta-dot {
         animation: none !important;
         transition: opacity 160ms linear !important;
+    }
+
+    /* Same fix as .onboarding__frame: when the entry animation is suppressed
+       we must snap to the visible state, otherwise the frame stays at the
+       initial opacity: 0 and the overlay shows only the backdrop. */
+    .welcome-back__frame {
+        opacity: 1 !important;
+        transform: none !important;
     }
 
     .welcome-back__cta-dot {
