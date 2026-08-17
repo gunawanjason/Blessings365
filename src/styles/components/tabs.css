@@ -311,6 +311,11 @@
         gap: var(--space-sm);
     }
 
+    .verse-tabs--reader .verse-tabs__content {
+        touch-action: pan-y;
+        overscroll-behavior-x: contain;
+    }
+
     .verse-tabs__nav-wrap {
         position: -webkit-sticky;
         position: sticky;

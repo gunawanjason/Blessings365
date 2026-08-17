@@ -55,6 +55,7 @@
 ### ⚖️ Compare Versions
 
 - **Side-by-side comparison** of translations
+- **Two or three comparison panels** with a saved setting and toolbar hint
 - **Synchronized scrolling** between panels
 - **Aligned verses** for easy comparison
 - **Mobile-friendly** swipe navigation
@@ -312,11 +313,11 @@ User preferences are automatically saved to `localStorage`:
 
 ### Page Components
 
-| Page          | File                                           | Route       | Description             |
-| :------------ | :--------------------------------------------- | :---------- | :---------------------- |
-| **Daily**     | [`DailyPage.js`](src/pages/DailyPage.js)       | `#/`        | Main reading view       |
-| **Compare**   | [`ComparePage.js`](src/pages/ComparePage.js)   | `#/compare` | Side-by-side comparison |
-| **Not Found** | [`NotFoundPage.js`](src/pages/NotFoundPage.js) | `*`         | 404 error page          |
+| Page          | File                                           | Route       | Description                     |
+| :------------ | :--------------------------------------------- | :---------- | :------------------------------ |
+| **Daily**     | [`DailyPage.js`](src/pages/DailyPage.js)       | `#/`        | Main reading view               |
+| **Compare**   | [`ComparePage.js`](src/pages/ComparePage.js)   | `#/compare` | Responsive 2/3-panel comparison |
+| **Not Found** | [`NotFoundPage.js`](src/pages/NotFoundPage.js) | `*`         | 404 error page                  |
 
 ### Utility Modules
 

@@ -68,7 +68,7 @@
 
     /* Layout */
     --max-width-reading: 680px;
-    --max-width-compare: 1100px;
+    --max-width-compare: 1360px;
     --header-height: 64px; /* 3px accent stripe + 60px inner + 1px border-bottom */
 }
 

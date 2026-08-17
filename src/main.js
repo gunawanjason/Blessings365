@@ -30,11 +30,17 @@ const settingsPanel = createSettingsPanel({
         if (settingsPanel._onFontSizeChange) settingsPanel._onFontSizeChange(cls);
     },
     onBoldCopyChange: () => {},
+    onComparePanelCountChange: (count) => {
+        if (settingsPanel._onComparePanelCountChange) {
+            settingsPanel._onComparePanelCountChange(count);
+        }
+    },
     onReplayOnboarding: () => renderOnboarding(),
 });
 
 // Expose a hook for pages to intercept font size changes
 settingsPanel._onFontSizeChange = null;
+settingsPanel._onComparePanelCountChange = null;
 
 // Scroll to top button (global)
 createScrollToTop();
@@ -52,6 +58,7 @@ function route() {
 
     // Reset font size change handler
     settingsPanel._onFontSizeChange = null;
+    settingsPanel._onComparePanelCountChange = null;
 
     // Scroll to top on navigation
     window.scrollTo(0, 0);

@@ -89,6 +89,55 @@
     gap: 8px;
 }
 
+.setting-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.setting-hint {
+    color: var(--color-text-tertiary);
+    font-size: 0.65rem;
+    line-height: 1.2;
+}
+
+.panel-count-control {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    padding: 3px;
+    background: var(--color-bg-hover);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.panel-count-btn {
+    padding: 6px 8px;
+    border: 0;
+    border-radius: calc(var(--radius-md) - 3px);
+    background: transparent;
+    color: var(--color-text-tertiary);
+    font-family: inherit;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        color var(--transition-fast),
+        background-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.panel-count-btn:hover {
+    color: var(--color-text-primary);
+}
+
+.panel-count-btn--active {
+    color: var(--color-text-primary);
+    background: var(--color-bg-card);
+    box-shadow: 0 1px 3px var(--color-shadow);
+}
+
 /* Icons */
 .theme-icon-sun {
     color: #e8a020;

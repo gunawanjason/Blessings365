@@ -4,8 +4,8 @@
 
 .compare-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-lg);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-md);
     padding-top: 0;
 }
 
@@ -78,6 +78,91 @@
     gap: var(--space-sm);
 }
 
+.compare-panel-count-hint {
+    align-items: stretch;
+}
+
+.compare-panel-count-hint__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-height: 40px;
+    padding: 0 12px;
+    border: 1px dashed color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-accent) 5%, var(--color-bg-card));
+    color: var(--color-accent);
+    font-family: inherit;
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast);
+}
+
+.compare-panel-count-hint__button:hover {
+    background: var(--color-accent-light);
+    border-color: var(--color-accent);
+}
+
+.compare-panel-count-hint__plus {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.compare-panel-count-hint--hidden,
+.compare-control--disabled,
+.compare-panel--disabled,
+.compare-dot--disabled {
+    display: none !important;
+}
+
+@media (min-width: 1024px) {
+    .compare-grid--two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+        max-width: 1100px;
+        margin-inline: auto;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+    .compare-grid {
+        display: flex;
+        gap: var(--space-md);
+        height: calc(100vh - var(--header-height) - 53px);
+        height: calc(100dvh - var(--header-height) - 53px);
+        overflow-x: auto;
+        overflow-y: hidden;
+        overscroll-behavior-x: contain;
+        padding-bottom: var(--space-sm);
+        scroll-snap-type: x mandatory;
+        scrollbar-color: var(--color-border) transparent;
+        scrollbar-width: thin;
+    }
+
+    .compare-grid::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .compare-grid::-webkit-scrollbar-thumb {
+        background: var(--color-border);
+        border-radius: var(--radius-full);
+    }
+
+    .compare-panel {
+        flex: 0 0 calc((100% - var(--space-md)) / 2);
+        overflow-y: auto;
+        overscroll-behavior-y: contain;
+        scroll-snap-align: start;
+        scrollbar-width: thin;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
 @media (max-width: 380px) {
     .compare-header {
         margin: 0 -12px;
@@ -146,11 +231,41 @@
         min-width: 0;
     }
 
+    .compare-controls__versions > .control-group {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
     .compare-controls__versions .select-input {
         width: 100%;
+        min-width: 0;
         height: 38px;
         font-size: var(--font-size-xs);
         border-radius: var(--radius-md);
+    }
+
+    .compare-panel-count-hint__button {
+        width: 100%;
+        min-height: 38px;
+        padding: 0 8px;
+    }
+
+    .compare-controls > .control-group {
+        gap: 4px;
+    }
+
+    .compare-controls > .control-group .select-input:first-of-type {
+        width: 74px;
+        min-width: 74px;
+        padding-left: 8px;
+        padding-right: 22px;
+    }
+
+    .compare-controls > .control-group .select-input:last-of-type {
+        width: 52px;
+        min-width: 52px !important;
+        padding-left: 8px;
+        padding-right: 20px;
     }
 
     /* 4. Content Grid — fixed viewport height, panels scroll internally */
@@ -215,7 +330,7 @@
     }
 
     /* Verse Content Padding */
-    .compare-panel > div:last-child {
+    .compare-panel__verses {
         padding: var(--space-sm) var(--space-md);
     }
 
@@ -375,6 +490,13 @@
     transition: background-color var(--transition-normal);
 }
 
+@media (min-width: 769px) and (max-width: 1023px) {
+    .compare-panel .verse-tabs__nav-wrap,
+    .compare-panel .skeleton-tabs__nav-wrap {
+        top: 0;
+    }
+}
+
 /* Skeleton badge to mimic translation badge */
 .compare-panel .skeleton-tabs__nav-wrap::before {
     content: '';
@@ -473,13 +595,13 @@
 }
 
 /* ===========================
-   Swipe Edge Tab (Mobile)
+   Translation Edge Hint (Mobile + Tablet)
    =========================== */
 .compare-edge-tab {
     display: none; /* desktop: hidden */
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
     .compare-edge-tab {
         display: flex;
         align-items: center;
@@ -500,7 +622,6 @@
         text-transform: uppercase;
         padding: 10px 6px 10px 8px;
         writing-mode: vertical-lr;
-        border-radius: 8px 0 0 8px;
         opacity: 0.7;
         transform: translateX(0);
 
@@ -515,28 +636,28 @@
         opacity: 1;
     }
 
-    /* Right edge (default — panel 1 showing) */
-    .compare-edge-tab {
+    .compare-edge-tab--next {
         right: 0;
+        border-radius: 8px 0 0 8px;
     }
 
-    /* Collapsed: slide 60% off-screen, keep visible nub */
-    .compare-edge-tab.collapsed {
-        transform: translateX(60%);
-        opacity: 0.45;
-    }
-
-    /* Left edge (panel 2 showing) */
-    .compare-edge-tab.left {
-        right: auto;
+    .compare-edge-tab--previous {
         left: 0;
         border-radius: 0 8px 8px 0;
-        transform: translateX(0);
     }
 
-    .compare-edge-tab.left.collapsed {
-        transform: translateX(-60%);
-        opacity: 0.45;
+    .compare-edge-tab--hidden {
+        display: none;
+    }
+
+    .compare-edge-tab--next.collapsed {
+        transform: translateX(30%);
+        opacity: 0.55;
+    }
+
+    .compare-edge-tab--previous.collapsed {
+        transform: translateX(-30%);
+        opacity: 0.55;
     }
 
     /* Disable transitions while actively dragging */
@@ -549,10 +670,6 @@
         font-size: 13px;
         line-height: 1;
         writing-mode: horizontal-tb;
-    }
-
-    .compare-edge-tab.left .compare-edge-tab__chevron {
-        transform: rotate(180deg);
     }
 
     [data-theme='dark'] .compare-edge-tab {

@@ -187,6 +187,12 @@ function renderTabs(
     // 2. Create Tabs Container
     const tabsContainer = document.createElement('div');
     tabsContainer.className = 'verse-tabs';
+    if (namespace === 'read') tabsContainer.classList.add('verse-tabs--reader');
+
+    const tabIdPrefix = `${container.id || namespace}-${translation}`.replace(
+        /[^a-zA-Z0-9_-]/g,
+        '-'
+    );
 
     const tabsNavWrap = document.createElement('div');
     tabsNavWrap.className = 'verse-tabs__nav-wrap';
@@ -244,8 +250,8 @@ function renderTabs(
         btn.className = 'verse-tab-btn';
         btn.setAttribute('role', 'tab');
         btn.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
-        btn.setAttribute('aria-controls', `pane-${index}`);
-        btn.id = `tab-${index}`;
+        btn.setAttribute('aria-controls', `${tabIdPrefix}-pane-${index}`);
+        btn.id = `${tabIdPrefix}-tab-${index}`;
         if (index === 0) {
             btn.classList.add('active');
             if (onTabChange) onTabChange(book.name);
@@ -321,10 +327,13 @@ function renderTabs(
                 pane.style.transform = 'translateY(0)';
             });
 
-            // Auto-scroll nav if needed (only on desktop, prevent horizontal scroll on mobile)
+            // Keep the active book visible. Compare panels avoid this on mobile because
+            // their outer horizontal scroller owns the swipe gesture.
             const isMobile = window.innerWidth <= 768;
             if (!isMobile) {
                 btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            } else if (!scrollPanel) {
+                centerTabInNav(tabsNav, btn);
             }
 
             requestAnimationFrame(refreshTabNavFades);
@@ -356,8 +365,8 @@ function renderTabs(
         const pane = document.createElement('div');
         pane.className = 'verse-tab-pane';
         pane.setAttribute('role', 'tabpanel');
-        pane.setAttribute('aria-labelledby', `tab-${index}`);
-        pane.id = `pane-${index}`;
+        pane.setAttribute('aria-labelledby', `${tabIdPrefix}-tab-${index}`);
+        pane.id = `${tabIdPrefix}-pane-${index}`;
         if (index === 0) pane.classList.add('active');
 
         // Render verses into pane
@@ -415,6 +424,8 @@ function renderTabs(
         tabsContent.appendChild(pane);
     });
 
+    if (namespace === 'read') setupReaderBookSwipe(tabsContent, tabsNav);
+
     // Save the current active book's scroll when the user navigates to another page
     window.addEventListener(
         'hashchange',
@@ -428,6 +439,65 @@ function renderTabs(
     );
 
     refreshTabNavFades();
+}
+
+function centerTabInNav(tabsNav, button) {
+    const left = button.offsetLeft - (tabsNav.clientWidth - button.offsetWidth) / 2;
+    tabsNav.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
+}
+
+function setupReaderBookSwipe(tabsContent, tabsNav) {
+    const SWIPE_THRESHOLD = 52;
+    const DIRECTION_RATIO = 1.2;
+    let startX = 0;
+    let startY = 0;
+    let tracking = false;
+
+    tabsContent.addEventListener(
+        'touchstart',
+        (event) => {
+            if (window.innerWidth > 768 || event.touches.length !== 1) {
+                tracking = false;
+                return;
+            }
+
+            const touch = event.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
+            tracking = true;
+        },
+        { passive: true }
+    );
+
+    tabsContent.addEventListener(
+        'touchend',
+        (event) => {
+            if (!tracking || window.innerWidth > 768 || !event.changedTouches.length) return;
+            tracking = false;
+
+            const touch = event.changedTouches[0];
+            const deltaX = touch.clientX - startX;
+            const deltaY = touch.clientY - startY;
+
+            if (
+                Math.abs(deltaX) < SWIPE_THRESHOLD ||
+                Math.abs(deltaX) < Math.abs(deltaY) * DIRECTION_RATIO
+            ) {
+                return;
+            }
+
+            const buttons = Array.from(tabsNav.querySelectorAll('.verse-tab-btn'));
+            const activeIndex = buttons.findIndex((button) => button.classList.contains('active'));
+            const targetIndex = deltaX < 0 ? activeIndex + 1 : activeIndex - 1;
+            const target = buttons[targetIndex];
+
+            if (target) {
+                event.preventDefault();
+                target.click();
+            }
+        },
+        { passive: false }
+    );
 }
 
 function setupTabNavFades(tabsNav, tabsNavWrap) {
@@ -697,53 +767,32 @@ function createVerseLine(verseData, translation, fontSizeClass, onVerseClick) {
     return verseLine;
 }
 
-/**
- * Align the heights of corresponding elements in two containers.
- * Assumes container1 and container2 have the same number of children in same order,
- * or rather matches them by data attributes or structure.
- * Since we are rendering tabs, we need to find the *active* tab pane in both.
- */
-export function balanceHeights(container1, container2) {
-    if (!container1 || !container2) return;
+/** Align corresponding rows across all active comparison translations. */
+export function balanceHeights(...containers) {
+    const panes = containers
+        .filter(Boolean)
+        .map((container) => container.querySelector('.verse-tab-pane.active'))
+        .filter(Boolean);
 
-    // 1. Find active tab panes
-    const pane1 = container1.querySelector('.verse-tab-pane.active');
-    const pane2 = container2.querySelector('.verse-tab-pane.active');
+    if (panes.length < 2) return;
 
-    if (!pane1 || !pane2) return;
+    const childGroups = panes.map((pane) => Array.from(pane.children));
+    const count = Math.min(...childGroups.map((children) => children.length));
 
-    // 2. Get all children (heading + verses)
-    // We rely on the fact that syncComparisons produces strictly aligned lists.
-    // So child[i] in pane1 corresponds to child[i] in pane2.
-    const children1 = Array.from(pane1.children);
-    const children2 = Array.from(pane2.children);
-
-    // 3. Iterate and sync height
-    const count = Math.min(children1.length, children2.length);
-
-    // Use a double-RAF to ensure layout is settled before measuring
-    requestAnimationFrame(() => {
-        // Reset heights first to measure natural height
-        for (let i = 0; i < count; i++) {
-            children1[i].style.height = '';
-            children2[i].style.height = '';
+    childGroups.forEach((children) => {
+        for (let index = 0; index < count; index++) {
+            children[index].style.height = '';
+            children[index].style.minHeight = '';
         }
-
-        // Force reflow/re-measure
-        requestAnimationFrame(() => {
-            for (let i = 0; i < count; i++) {
-                const el1 = children1[i];
-                const el2 = children2[i];
-
-                const h1 = el1.getBoundingClientRect().height;
-                const h2 = el2.getBoundingClientRect().height;
-
-                if (Math.abs(h1 - h2) > 0.5) {
-                    const maxH = Math.max(h1, h2);
-                    el1.style.height = `${maxH}px`;
-                    el2.style.height = `${maxH}px`;
-                }
-            }
-        });
     });
+
+    for (let index = 0; index < count; index++) {
+        const row = childGroups.map((children) => children[index]);
+        const maxHeight = Math.max(...row.map((element) => element.getBoundingClientRect().height));
+        const normalizedHeight = `${Math.ceil(maxHeight * 100) / 100}px`;
+
+        row.forEach((element) => {
+            element.style.minHeight = normalizedHeight;
+        });
+    }
 }

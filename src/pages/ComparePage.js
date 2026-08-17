@@ -12,24 +12,24 @@ import {
 import { createVerseSelection } from '../components/VerseSelection.js';
 import { fetchDayData } from '../utils/api.js';
 import { dayOfYear } from '../utils/helpers.js';
-import { syncComparisons } from '../utils/comparisonSync.js';
+import { syncComparisonGroup } from '../utils/comparisonSync.js';
 import { getTranslatedBookName } from '../data/bookNames.js';
 
-/**
- * Render the Compare page.
- */
+const MOBILE_BREAKPOINT = '(max-width: 768px)';
+const TABLET_BREAKPOINT = '(min-width: 769px) and (max-width: 1023px)';
+
+/** Render the Compare page. */
 export function renderComparePage(app, settingsPanel) {
     app.innerHTML = '';
 
-    // Header
+    const mobileMedia = window.matchMedia(MOBILE_BREAKPOINT);
+    const tabletMedia = window.matchMedia(TABLET_BREAKPOINT);
     const header = renderHeader('compare', () => settingsPanel.toggle());
     app.appendChild(header);
 
-    // Main content wrapper
     const main = document.createElement('main');
     main.className = 'app-container app-container--wide';
 
-    // Header section (Title + Controls)
     const pageHeader = document.createElement('div');
     pageHeader.className = 'compare-header';
 
@@ -47,418 +47,508 @@ export function renderComparePage(app, settingsPanel) {
     const versionGroup = document.createElement('div');
     versionGroup.className = 'compare-controls__versions';
 
-    const versionSelector1 = createVersionSelector({
-        id: 'translation-1',
-        defaultVersion: 'NIV',
-        label: 'V1',
-        showLabel: false,
-        useCookie: true,
-        cookieName: 'compareVersion1',
-        onChange: () => loadBoth(),
+    const selectorOptions = [
+        { id: 'translation-1', defaultVersion: 'NIV', cookieName: 'compareVersion1' },
+        { id: 'translation-2', defaultVersion: 'TB', cookieName: 'compareVersion2' },
+        { id: 'translation-3', defaultVersion: 'ESV', cookieName: 'compareVersion3' },
+    ];
+    const versionSelectors = selectorOptions.map((options, index) => {
+        const selector = createVersionSelector({
+            ...options,
+            label: `V${index + 1}`,
+            showLabel: false,
+            useCookie: true,
+            onChange: () => loadComparisons(),
+        });
+        versionGroup.appendChild(selector.element);
+        return selector;
     });
 
-    const versionSelector2 = createVersionSelector({
-        id: 'translation-2',
-        defaultVersion: 'TB',
-        label: 'V2',
-        showLabel: false,
-        useCookie: true,
-        cookieName: 'compareVersion2',
-        onChange: () => loadBoth(),
+    const panelCountHint = document.createElement('div');
+    panelCountHint.className = 'control-group compare-panel-count-hint';
+    panelCountHint.innerHTML = `
+        <button type="button" class="compare-panel-count-hint__button" aria-label="Enable three comparison panels" title="Compare up to three translations">
+            <span class="compare-panel-count-hint__plus" aria-hidden="true">+</span>
+            <span>3 panels</span>
+        </button>
+    `;
+    panelCountHint.querySelector('button').addEventListener('click', () => {
+        settingsPanel.setComparePanelCount(3);
     });
+    versionGroup.appendChild(panelCountHint);
 
-    versionGroup.appendChild(versionSelector1.element);
-    versionGroup.appendChild(versionSelector2.element);
     controlsBar.appendChild(versionGroup);
-
     pageHeader.appendChild(controlsBar);
     main.appendChild(pageHeader);
 
-    // Compare grid
     const grid = document.createElement('div');
     grid.className = 'compare-grid';
 
-    // Panel 1
-    const panel1 = document.createElement('div');
-    panel1.className = 'compare-panel';
-    const panelHeader1 = document.createElement('div');
-    panelHeader1.className = 'compare-panel__header';
-    panelHeader1.id = 'panel-header-1';
-    panelHeader1.innerHTML = `<span class="compare-panel__translation">ESV</span><span class="compare-panel__book" id="panel-book-1"></span>`;
-    panel1.appendChild(panelHeader1);
-    const versesContainer1 = document.createElement('div');
-    versesContainer1.id = 'verses-output-1';
-    panel1.appendChild(versesContainer1);
+    const panels = [];
+    const panelHeaders = [];
+    const verseContainers = [];
 
-    // Panel 2
-    const panel2 = document.createElement('div');
-    panel2.className = 'compare-panel';
-    const panelHeader2 = document.createElement('div');
-    panelHeader2.className = 'compare-panel__header';
-    panelHeader2.id = 'panel-header-2';
-    panelHeader2.innerHTML = `<span class="compare-panel__translation">TB</span><span class="compare-panel__book" id="panel-book-2"></span>`;
-    panel2.appendChild(panelHeader2);
-    const versesContainer2 = document.createElement('div');
-    versesContainer2.id = 'verses-output-2';
-    panel2.appendChild(versesContainer2);
+    versionSelectors.forEach((selector, index) => {
+        const panelNumber = index + 1;
+        const panel = document.createElement('div');
+        panel.className = 'compare-panel';
+        const panelHeader = document.createElement('div');
+        panelHeader.className = 'compare-panel__header';
+        panelHeader.id = `panel-header-${panelNumber}`;
+        panelHeader.innerHTML = `<span class="compare-panel__translation">${selector.getValue()}</span><span class="compare-panel__book" id="panel-book-${panelNumber}"></span>`;
 
-    grid.appendChild(panel1);
-    grid.appendChild(panel2);
+        const versesContainer = document.createElement('div');
+        versesContainer.id = `verses-output-${panelNumber}`;
+        versesContainer.className = 'compare-panel__verses';
+
+        panel.appendChild(panelHeader);
+        panel.appendChild(versesContainer);
+        grid.appendChild(panel);
+
+        panels.push(panel);
+        panelHeaders.push(panelHeader);
+        verseContainers.push(versesContainer);
+    });
+
     main.appendChild(grid);
-
     app.appendChild(main);
 
-    // --- Persistent Edge Tab (Mobile) ---
-    const edgeTab = document.createElement('div');
-    edgeTab.className = 'compare-edge-tab';
-    edgeTab.innerHTML = `<span class="compare-edge-tab__label"></span><span class="compare-edge-tab__chevron">›</span>`;
-    app.appendChild(edgeTab);
+    const createEdgeTab = (direction) => {
+        const edgeTab = document.createElement('div');
+        edgeTab.className = `compare-edge-tab compare-edge-tab--${direction}`;
+        edgeTab.setAttribute('role', 'button');
+        edgeTab.setAttribute('tabindex', '0');
+        edgeTab.innerHTML = `<span class="compare-edge-tab__label"></span><span class="compare-edge-tab__chevron">${direction === 'previous' ? '‹' : '›'}</span>`;
+        app.appendChild(edgeTab);
+        return edgeTab;
+    };
 
-    // Mobile Swipe Indicators (Dots)
+    const previousEdgeTab = createEdgeTab('previous');
+    const nextEdgeTab = createEdgeTab('next');
+    const edgeTabs = [previousEdgeTab, nextEdgeTab];
+
     const indicators = document.createElement('div');
     indicators.className = 'compare-indicators';
-    indicators.innerHTML = `
-        <div class="compare-dot active" data-index="0"></div>
-        <div class="compare-dot" data-index="1"></div>
-    `;
+    indicators.setAttribute('aria-label', 'Translation position');
+    indicators.innerHTML = versionSelectors
+        .map(
+            (_, index) =>
+                `<div class="compare-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></div>`
+        )
+        .join('');
     app.appendChild(indicators);
 
-    /** Update the edge tab label & position based on which panel is showing */
-    function updateEdgeTab(panelIndex) {
-        const label = edgeTab.querySelector('.compare-edge-tab__label');
-        const chevron = edgeTab.querySelector('.compare-edge-tab__chevron');
-        if (panelIndex === 0) {
-            label.textContent = versionSelector2.getValue();
-            chevron.textContent = '›';
-            edgeTab.classList.remove('left');
-        } else {
-            label.textContent = versionSelector1.getValue();
-            chevron.textContent = '‹';
-            edgeTab.classList.add('left');
-        }
-    }
-    updateEdgeTab(0);
-
-    // --- Auto-hide: collapse after 3s idle, expand on interaction ---
-    let hideTimer = null;
-    function scheduleHide() {
-        clearTimeout(hideTimer);
-        hideTimer = setTimeout(() => edgeTab.classList.add('collapsed'), 3000);
-    }
-    function expandTab() {
-        edgeTab.classList.remove('collapsed');
-        scheduleHide();
-    }
-    // Start the first auto-hide countdown
-    scheduleHide();
-
-    // --- Vertical drag to reposition ---
-    let dragStartY = 0;
-    let dragStartTop = 0;
-    let isDragging = false;
-    const DRAG_THRESHOLD = 6; // px — less than this is a tap
-
-    edgeTab.addEventListener(
-        'touchstart',
-        (e) => {
-            const touch = e.touches[0];
-            dragStartY = touch.clientY;
-            dragStartTop = edgeTab.getBoundingClientRect().top;
-            isDragging = false;
-            edgeTab.classList.add('dragging');
-        },
-        { passive: true }
-    );
-
-    edgeTab.addEventListener(
-        'touchmove',
-        (e) => {
-            const touch = e.touches[0];
-            const dy = touch.clientY - dragStartY;
-            if (Math.abs(dy) > DRAG_THRESHOLD) {
-                isDragging = true;
-                // Clamp within safe bounds (below header, above bottom nav)
-                const minTop = 80;
-                const maxTop = window.innerHeight - 80;
-                const newTop = Math.min(maxTop, Math.max(minTop, dragStartTop + dy));
-                edgeTab.style.top = newTop + 'px';
-            }
-            e.preventDefault();
-        },
-        { passive: false }
-    );
-
-    edgeTab.addEventListener('touchend', (e) => {
-        edgeTab.classList.remove('dragging');
-        if (!isDragging) {
-            // It was a tap
-            if (edgeTab.classList.contains('collapsed')) {
-                // Collapsed → just expand it
-                expandTab();
-            } else {
-                // Expanded → switch to the other panel
-                const currentIndex = Math.round(grid.scrollLeft / grid.clientWidth);
-                const targetIndex = currentIndex === 0 ? 1 : 0;
-                grid.scrollTo({ left: targetIndex * grid.clientWidth, behavior: 'smooth' });
-            }
-        }
-        scheduleHide();
-    });
-
-    // Also handle mouse click for non-touch (desktop testing)
-    edgeTab.addEventListener('click', (e) => {
-        if (edgeTab.classList.contains('collapsed')) {
-            expandTab();
-        } else {
-            const currentIndex = Math.round(grid.scrollLeft / grid.clientWidth);
-            const targetIndex = currentIndex === 0 ? 1 : 0;
-            grid.scrollTo({ left: targetIndex * grid.clientWidth, behavior: 'smooth' });
-        }
-    });
-
-    // Bottom Navigation (Mobile)
     const bottomNav = createBottomNav('compare');
     app.appendChild(bottomNav);
 
-    // Sync dots + edge tab with scroll; expand tab on horizontal swipe
-    grid.addEventListener('scroll', () => {
-        const index = Math.round(grid.scrollLeft / grid.clientWidth);
-        indicators.querySelectorAll('.compare-dot').forEach((dot, i) => {
-            dot.classList.toggle('active', i === index);
-        });
-        updateEdgeTab(index);
-        expandTab();
-    });
+    let hideTimer = null;
+    let readingPlanData = null;
+    let loadSequence = 0;
+    let balanceTimer = null;
+    let balanceFrame = null;
+    let breakpointTimer = null;
+    let resizeHintTimer = null;
+    let isDisposed = false;
 
-    // Sync vertical scroll between panels
-    // On mobile, we only sync from the *active* panel to the hidden one to avoid
-    // fighting the native momentum scroll or creating loops.
-    let isSyncing = false;
-    function syncScroll(source, target) {
-        if (isSyncing) return;
+    function getActivePanelCount() {
+        return settingsPanel.getComparePanelCount();
+    }
 
-        // Mobile check: only sync if the source panel is currently the visible one
-        if (window.innerWidth <= 768) {
-            const currentIndex = Math.round(grid.scrollLeft / grid.clientWidth);
-            // panel1 is index 0, panel2 is index 1
-            const sourceIndex = source === panel1 ? 0 : 1;
-            if (currentIndex !== sourceIndex) return;
+    function getCurrentPanelIndex() {
+        if (!grid.clientWidth) return 0;
+        return Math.min(
+            getActivePanelCount() - 1,
+            Math.max(0, Math.round(grid.scrollLeft / grid.clientWidth))
+        );
+    }
+
+    function updateEdgeTab(edgeTab, targetIndex) {
+        const isAvailable = targetIndex >= 0 && targetIndex < getActivePanelCount();
+        edgeTab.classList.toggle('compare-edge-tab--hidden', !isAvailable);
+        edgeTab.setAttribute('aria-hidden', String(!isAvailable));
+        edgeTab.setAttribute('tabindex', isAvailable ? '0' : '-1');
+        if (!isAvailable) return;
+
+        const translation = versionSelectors[targetIndex].getValue();
+        edgeTab.querySelector('.compare-edge-tab__label').textContent = translation;
+        edgeTab.setAttribute('aria-label', `Show ${translation} translation`);
+    }
+
+    function updateEdgeTabs(panelIndex) {
+        if (tabletMedia.matches) {
+            const activeCount = getActivePanelCount();
+            const maxScrollLeft = Math.max(0, grid.scrollWidth - grid.clientWidth);
+            const atStart = grid.scrollLeft <= 2;
+            const atEnd = grid.scrollLeft >= maxScrollLeft - 2;
+
+            updateEdgeTab(previousEdgeTab, atStart ? -1 : 0);
+            updateEdgeTab(nextEdgeTab, !atEnd && activeCount === 3 ? 2 : -1);
+            return;
         }
 
-        // Skip sync during animated scroll-to-top (both panels animate in lockstep)
-        if (source._animatingScroll || target._animatingScroll) return;
+        updateEdgeTab(previousEdgeTab, panelIndex - 1);
+        updateEdgeTab(nextEdgeTab, panelIndex + 1);
+    }
+
+    function scheduleHide() {
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => {
+            edgeTabs.forEach((edgeTab) => edgeTab.classList.add('collapsed'));
+        }, 3000);
+    }
+
+    function expandTabs() {
+        edgeTabs.forEach((edgeTab) => edgeTab.classList.remove('collapsed'));
+        scheduleHide();
+    }
+
+    function navigateFromEdgeTab(edgeTab, direction) {
+        if (edgeTab.classList.contains('collapsed')) expandTabs();
+
+        if (tabletMedia.matches) {
+            const maxScrollLeft = Math.max(0, grid.scrollWidth - grid.clientWidth);
+            if (!maxScrollLeft) return;
+            grid.scrollTo({ left: direction > 0 ? maxScrollLeft : 0, behavior: 'smooth' });
+            return;
+        }
+
+        const targetIndex = getCurrentPanelIndex() + direction;
+        if (targetIndex < 0 || targetIndex >= getActivePanelCount()) return;
+        grid.scrollTo({ left: targetIndex * grid.clientWidth, behavior: 'smooth' });
+    }
+
+    updateEdgeTabs(0);
+    scheduleHide();
+
+    const DRAG_THRESHOLD = 6;
+
+    function setupEdgeTab(edgeTab, direction) {
+        let dragStartY = 0;
+        let dragStartTop = 0;
+        let isDragging = false;
+        let suppressNextClick = false;
+
+        edgeTab.addEventListener(
+            'touchstart',
+            (event) => {
+                const touch = event.touches[0];
+                dragStartY = touch.clientY;
+                dragStartTop = edgeTab.getBoundingClientRect().top;
+                isDragging = false;
+                edgeTab.classList.add('dragging');
+            },
+            { passive: true }
+        );
+
+        edgeTab.addEventListener(
+            'touchmove',
+            (event) => {
+                const touch = event.touches[0];
+                const deltaY = touch.clientY - dragStartY;
+                if (Math.abs(deltaY) > DRAG_THRESHOLD) {
+                    isDragging = true;
+                    const minTop = 80;
+                    const maxTop = window.innerHeight - 80;
+                    const newTop = Math.min(maxTop, Math.max(minTop, dragStartTop + deltaY));
+                    edgeTab.style.top = `${newTop}px`;
+                }
+                event.preventDefault();
+            },
+            { passive: false }
+        );
+
+        edgeTab.addEventListener('touchend', () => {
+            edgeTab.classList.remove('dragging');
+            if (isDragging) {
+                suppressNextClick = true;
+                setTimeout(() => {
+                    suppressNextClick = false;
+                }, 400);
+            }
+            scheduleHide();
+        });
+
+        edgeTab.addEventListener('click', (event) => {
+            if (suppressNextClick) {
+                event.preventDefault();
+                return;
+            }
+            navigateFromEdgeTab(edgeTab, direction);
+        });
+
+        edgeTab.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                navigateFromEdgeTab(edgeTab, direction);
+            }
+        });
+    }
+
+    setupEdgeTab(previousEdgeTab, -1);
+    setupEdgeTab(nextEdgeTab, 1);
+
+    grid.addEventListener('scroll', () => {
+        const index = getCurrentPanelIndex();
+        indicators.querySelectorAll('.compare-dot').forEach((dot, dotIndex) => {
+            dot.classList.toggle('active', dotIndex === index);
+        });
+        updateEdgeTabs(index);
+        expandTabs();
+        scheduleHeightBalance(120);
+    });
+
+    let isSyncing = false;
+    function syncScroll(source, sourceIndex) {
+        if (isSyncing) return;
+        if (mobileMedia.matches && getCurrentPanelIndex() !== sourceIndex) return;
+
+        const activePanels = panels.slice(0, getActivePanelCount());
+        if (source._animatingScroll || activePanels.some((panel) => panel._animatingScroll)) return;
 
         isSyncing = true;
-        target.scrollTop = source.scrollTop;
+        activePanels.forEach((panel) => {
+            if (panel !== source) panel.scrollTop = source.scrollTop;
+        });
         isSyncing = false;
     }
 
-    // Enable scroll sync for both desktop and mobile
-    panel1.addEventListener('scroll', () => syncScroll(panel1, panel2));
-    panel2.addEventListener('scroll', () => syncScroll(panel2, panel1));
+    panels.forEach((panel, index) => {
+        panel.addEventListener('scroll', () => syncScroll(panel, index));
+    });
 
-    // Verse selection manager
     const verseSelection = createVerseSelection(
-        () => versionSelector1.getValue(),
+        () => versionSelectors[0].getValue(),
         () => settingsPanel.getBoldCopyEnabled(),
         { simpleText: true }
     );
     verseSelection.init();
 
-    // Load reading plan data
-    let readingPlanData = null;
-
     async function init() {
         try {
             const response = await fetch('/Translated_Bacaan_Alkitab_365.json');
+            if (isDisposed) return;
             readingPlanData = await response.json();
-            loadBoth();
+            if (isDisposed) return;
+            loadComparisons();
         } catch (error) {
+            if (isDisposed) return;
             console.error('Error loading reading plan:', error);
-            showError(versesContainer1, 'Error loading reading plan.');
+            showError(verseContainers[0], 'Error loading reading plan.');
         }
     }
 
     function handleDateChange() {
-        loadBoth();
+        loadComparisons();
     }
 
-    async function loadBoth() {
-        if (!readingPlanData) return;
+    function updatePanelBookName(panelIndex, bookName, translation) {
+        const bookSpan = panelHeaders[panelIndex].querySelector('.compare-panel__book');
+        if (bookSpan) bookSpan.textContent = getTranslatedBookName(bookName, translation);
+    }
 
+    function syncTabs(targetContainer, bookName) {
+        const button = targetContainer.querySelector(`.verse-tab-btn[data-book="${bookName}"]`);
+        if (!button || button.classList.contains('active')) return;
+
+        const nav = button.closest('.verse-tabs__nav');
+        if (mobileMedia.matches && nav) {
+            const originalScrollBehavior = nav.style.scrollBehavior;
+            nav.style.scrollBehavior = 'auto';
+            button.click();
+            setTimeout(() => {
+                nav.style.scrollBehavior = originalScrollBehavior;
+            }, 100);
+        } else {
+            button.click();
+        }
+    }
+
+    function injectTranslationBadge(container, translationName) {
+        const navWrap = container.querySelector('.verse-tabs__nav-wrap');
+        if (!navWrap) return;
+
+        navWrap.querySelector('.compare-tab-badge')?.remove();
+        const badge = document.createElement('div');
+        badge.className = 'compare-tab-badge';
+        badge.textContent = translationName;
+        navWrap.insertBefore(badge, navWrap.firstChild);
+    }
+
+    function getActiveContainers() {
+        return verseContainers.slice(0, getActivePanelCount());
+    }
+
+    function applyPanelCount() {
+        const activeCount = getActivePanelCount();
+
+        versionSelectors.forEach((selector, index) => {
+            selector.element.classList.toggle('compare-control--disabled', index >= activeCount);
+        });
+        panels.forEach((panel, index) => {
+            panel.classList.toggle('compare-panel--disabled', index >= activeCount);
+        });
+        indicators.querySelectorAll('.compare-dot').forEach((dot, index) => {
+            dot.classList.toggle('compare-dot--disabled', index >= activeCount);
+            dot.classList.toggle('active', index === 0);
+        });
+
+        panelCountHint.classList.toggle('compare-panel-count-hint--hidden', activeCount >= 3);
+        grid.classList.toggle('compare-grid--two', activeCount === 2);
+        grid.scrollTo({ left: 0, behavior: 'auto' });
+        updateEdgeTabs(0);
+    }
+
+    function balanceVisibleHeights() {
+        balanceHeights(...getActiveContainers());
+    }
+
+    function scheduleHeightBalance(delay = 0) {
+        clearTimeout(balanceTimer);
+        if (balanceFrame !== null) cancelAnimationFrame(balanceFrame);
+
+        balanceTimer = setTimeout(() => {
+            balanceTimer = null;
+            balanceFrame = requestAnimationFrame(() => {
+                balanceFrame = null;
+                balanceVisibleHeights();
+            });
+        }, delay);
+    }
+
+    async function loadComparisons() {
+        if (!readingPlanData || isDisposed) return;
+
+        const requestId = ++loadSequence;
         const { month, day } = datePicker.getDate();
         const date = new Date(new Date().getFullYear(), month - 1, day);
         const dayIndex = dayOfYear(date);
         const versesString = readingPlanData[dayIndex]?.join(',');
+        const activeCount = getActivePanelCount();
+        const activeContainers = verseContainers.slice(0, activeCount);
+        const translations = versionSelectors
+            .slice(0, activeCount)
+            .map((selector) => selector.getValue());
 
         if (!versesString) {
-            showError(versesContainer1, 'No readings found.');
-            showError(versesContainer2, 'No readings found.');
+            activeContainers.forEach((container) => showError(container, 'No readings found.'));
             return;
         }
 
-        const translation1 = versionSelector1.getValue();
-        const translation2 = versionSelector2.getValue();
+        panelHeaders.forEach((panelHeader, index) => {
+            const translationSpan = panelHeader.querySelector('.compare-panel__translation');
+            const bookSpan = panelHeader.querySelector('.compare-panel__book');
+            if (translationSpan) translationSpan.textContent = versionSelectors[index].getValue();
+            if (bookSpan) bookSpan.textContent = '';
+        });
 
-        // Update translation names in headers
-        const transSpan1 = panelHeader1.querySelector('.compare-panel__translation');
-        const transSpan2 = panelHeader2.querySelector('.compare-panel__translation');
-        if (transSpan1) transSpan1.textContent = translation1;
-        if (transSpan2) transSpan2.textContent = translation2;
-
-        // Refresh edge tab label with new translations
-        const currentPanel = Math.round(grid.scrollLeft / grid.clientWidth);
-        updateEdgeTab(currentPanel);
-
-        // Clear book names until a tab is selected
-        const bookSpan1 = document.getElementById('panel-book-1');
-        const bookSpan2 = document.getElementById('panel-book-2');
-        if (bookSpan1) bookSpan1.textContent = '';
-        if (bookSpan2) bookSpan2.textContent = '';
-
-        showLoading(versesContainer1);
-        showLoading(versesContainer2);
+        updateEdgeTabs(getCurrentPanelIndex());
+        activeContainers.forEach(showLoading);
+        verseContainers.slice(activeCount).forEach((container) => {
+            container.innerHTML = '';
+        });
         verseSelection.clearSelection();
 
         const fontSizeClass = settingsPanel.getFontSizeClass();
 
         try {
-            const [data1, data2] = await Promise.all([
-                fetchDayData(translation1, versesString),
-                fetchDayData(translation2, versesString),
-            ]);
-
-            // Synchronize verses and headings for alignment
-            const [aligned1, aligned2] = syncComparisons(
-                data1.versesData,
-                data1.headingsMap,
-                data2.versesData,
-                data2.headingsMap
+            const datasets = await Promise.all(
+                translations.map((translation) => fetchDayData(translation, versesString))
             );
+            if (isDisposed || requestId !== loadSequence) return;
 
-            renderVerses(
-                versesContainer1,
-                aligned1,
-                translation1,
-                null,
-                fontSizeClass,
-                (vl) => verseSelection.handleVerseClick(vl),
-                'v1',
-                'tabs',
-                (book) => {
-                    updatePanelBookName(1, book, translation1);
-                    syncTabs(versesContainer2, book);
-                    balanceHeights(versesContainer1, versesContainer2);
-                }
-            );
-            injectTranslationBadge(versesContainer1, translation1);
+            const alignedDatasets = syncComparisonGroup(datasets);
 
-            renderVerses(
-                versesContainer2,
-                aligned2,
-                translation2,
-                null,
-                fontSizeClass,
-                (vl) => verseSelection.handleVerseClick(vl),
-                'v2',
-                'tabs',
-                (book) => {
-                    updatePanelBookName(2, book, translation2);
-                    syncTabs(versesContainer1, book);
-                    balanceHeights(versesContainer1, versesContainer2);
-                }
-            );
-            injectTranslationBadge(versesContainer2, translation2);
+            alignedDatasets.forEach((alignedVerses, index) => {
+                const container = activeContainers[index];
+                const translation = translations[index];
 
-            // Initial balance
-            setTimeout(() => {
-                balanceHeights(versesContainer1, versesContainer2);
-            }, 50);
+                renderVerses(
+                    container,
+                    alignedVerses,
+                    translation,
+                    null,
+                    fontSizeClass,
+                    (verseLine) => verseSelection.handleVerseClick(verseLine),
+                    `v${index + 1}`,
+                    'tabs',
+                    (book) => {
+                        updatePanelBookName(index, book, translation);
+                        activeContainers.forEach((targetContainer, targetIndex) => {
+                            if (targetIndex !== index) syncTabs(targetContainer, book);
+                        });
+                        scheduleHeightBalance();
+                    }
+                );
+                injectTranslationBadge(container, translation);
+            });
+
+            scheduleHeightBalance();
+            document.fonts?.ready.then(() => {
+                if (!isDisposed && requestId === loadSequence) scheduleHeightBalance();
+            });
         } catch (error) {
+            if (isDisposed || requestId !== loadSequence) return;
             console.error('Error fetching comparison data:', error);
-            showError(versesContainer1);
-            showError(versesContainer2);
+            activeContainers.forEach((container) => showError(container));
         }
     }
 
-    /**
-     * Inject a translation badge as the first child of the tab bar wrapper.
-     */
-    function injectTranslationBadge(container, translationName) {
-        const navWrap = container.querySelector('.verse-tabs__nav-wrap');
-        if (!navWrap) return;
-
-        // Remove any existing badge first
-        const existing = navWrap.querySelector('.compare-tab-badge');
-        if (existing) existing.remove();
-
-        const badge = document.createElement('div');
-        badge.className = 'compare-tab-badge';
-        badge.textContent = translationName;
-
-        // Insert before the nav list
-        navWrap.insertBefore(badge, navWrap.firstChild);
-    }
-
-    /**
-     * Update the book name displayed in the panel header.
-     */
-    function updatePanelBookName(panelNum, bookName, translation) {
-        const bookSpan = document.getElementById(`panel-book-${panelNum}`);
-        if (bookSpan) {
-            const translatedBook = getTranslatedBookName(bookName, translation);
-            bookSpan.textContent = translatedBook;
-        }
-    }
-
-    /**
-     * Programmatically switch the tab in a target container to match the book.
-     * On mobile, we prevent the scrollIntoView to avoid horizontal scroll jump.
-     */
-    function syncTabs(targetContainer, bookName) {
-        // Find the button with the matching data-book attribute
-        const btn = targetContainer.querySelector(`.verse-tab-btn[data-book="${bookName}"]`);
-        if (btn && !btn.classList.contains('active')) {
-            // On mobile, prevent scrollIntoView from causing horizontal scroll
-            const isMobile = window.innerWidth <= 768;
-
-            // Temporarily disable scroll behavior
-            const nav = btn.closest('.verse-tabs__nav');
-            if (isMobile && nav) {
-                const originalScrollBehavior = nav.style.scrollBehavior;
-                nav.style.scrollBehavior = 'auto';
-
-                // Click the button
-                btn.click();
-
-                // Restore scroll behavior after a short delay
-                setTimeout(() => {
-                    nav.style.scrollBehavior = originalScrollBehavior;
-                }, 100);
-            } else {
-                btn.click();
-            }
-        }
-    }
-
-    // Listen for font size changes
     const originalOnFontSize = settingsPanel._onFontSizeChange;
-    settingsPanel._onFontSizeChange = (cls) => {
-        updateVerseFontSize(versesContainer1, cls);
-        updateVerseFontSize(versesContainer2, cls);
-        if (originalOnFontSize) originalOnFontSize(cls);
-        // Re-balance after font change
-        setTimeout(() => balanceHeights(versesContainer1, versesContainer2), 50);
+    settingsPanel._onFontSizeChange = (fontSizeClass) => {
+        getActiveContainers().forEach((container) => updateVerseFontSize(container, fontSizeClass));
+        if (originalOnFontSize) originalOnFontSize(fontSizeClass);
+        scheduleHeightBalance(50);
     };
 
-    // Auto-balance heights on resize
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            balanceHeights(versesContainer1, versesContainer2);
-        }, 100);
-    });
+    const originalOnComparePanelCountChange = settingsPanel._onComparePanelCountChange;
+    settingsPanel._onComparePanelCountChange = () => {
+        applyPanelCount();
+        loadComparisons();
+        if (originalOnComparePanelCountChange) originalOnComparePanelCountChange();
+    };
 
+    function handleResize() {
+        scheduleHeightBalance(100);
+        clearTimeout(resizeHintTimer);
+        resizeHintTimer = setTimeout(() => {
+            if (!isDisposed) updateEdgeTabs(getCurrentPanelIndex());
+        }, 100);
+    }
+
+    function handleBreakpointChange() {
+        clearTimeout(breakpointTimer);
+        breakpointTimer = setTimeout(() => {
+            if (isDisposed) return;
+            grid.scrollTo({ left: 0, behavior: 'auto' });
+            indicators.querySelectorAll('.compare-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === 0);
+            });
+            updateEdgeTabs(0);
+            scheduleHeightBalance();
+        }, 50);
+    }
+
+    window.addEventListener('resize', handleResize);
+    mobileMedia.addEventListener('change', handleBreakpointChange);
+    tabletMedia.addEventListener('change', handleBreakpointChange);
+
+    window.addEventListener(
+        'hashchange',
+        () => {
+            isDisposed = true;
+            loadSequence++;
+            clearTimeout(hideTimer);
+            clearTimeout(balanceTimer);
+            clearTimeout(breakpointTimer);
+            clearTimeout(resizeHintTimer);
+            if (balanceFrame !== null) cancelAnimationFrame(balanceFrame);
+            window.removeEventListener('resize', handleResize);
+            mobileMedia.removeEventListener('change', handleBreakpointChange);
+            tabletMedia.removeEventListener('change', handleBreakpointChange);
+        },
+        { once: true }
+    );
+
+    applyPanelCount();
     init();
 }

@@ -6,11 +6,13 @@ import { trackEvent } from '../utils/analytics.js';
  * @param {Function} options.onThemeChange - called with 'light' or 'dark'
  * @param {Function} options.onFontSizeChange - called with 'verse-line--small' | 'verse-line--medium' | 'verse-line--large'
  * @param {Function} options.onBoldCopyChange - called with boolean
+ * @param {Function} options.onComparePanelCountChange - called with 2 or 3
  */
 export function createSettingsPanel({
     onThemeChange,
     onFontSizeChange,
     onBoldCopyChange,
+    onComparePanelCountChange,
     onReplayOnboarding,
 }) {
     // Panel
@@ -82,6 +84,18 @@ export function createSettingsPanel({
         </div>
       </div>
 
+      <!-- Comparison panels -->
+      <div class="setting-row setting-row--column">
+        <div class="setting-heading">
+          <span class="setting-label">Compare panels</span>
+          <span class="setting-hint">Up to 3 translations</span>
+        </div>
+        <div class="panel-count-control" role="group" aria-label="Number of comparison panels">
+          <button type="button" class="panel-count-btn" data-panel-count="2" aria-pressed="false">2 panels</button>
+          <button type="button" class="panel-count-btn" data-panel-count="3" aria-pressed="false">3 panels</button>
+        </div>
+      </div>
+
       <!-- Replay intro -->
       <div class="setting-row">
         <span class="setting-label">Intro tour</span>
@@ -110,6 +124,7 @@ export function createSettingsPanel({
     const boldToggle = panel.querySelector('#bold-copy-toggle');
     const closeBtn = panel.querySelector('#settings-close');
     const fontBtns = panel.querySelectorAll('.font-btn');
+    const panelCountBtns = panel.querySelectorAll('.panel-count-btn');
 
     // Load saved settings
     const savedTheme = localStorage.getItem('theme') || 'light';
@@ -128,6 +143,9 @@ export function createSettingsPanel({
 
     const savedBoldCopy = localStorage.getItem('boldCopy');
     boldToggle.checked = savedBoldCopy !== 'false';
+
+    let comparePanelCount = localStorage.getItem('comparePanelCount') === '3' ? 3 : 2;
+    updateActivePanelCountButton();
 
     // Event listeners
     themeToggle.addEventListener('change', () => {
@@ -171,6 +189,34 @@ export function createSettingsPanel({
         trackEvent('change_setting', {
             setting_type: 'bold_copy',
             setting_value: boldToggle.checked,
+        });
+    });
+
+    function updateActivePanelCountButton() {
+        panelCountBtns.forEach((button) => {
+            const isActive = Number(button.dataset.panelCount) === comparePanelCount;
+            button.classList.toggle('panel-count-btn--active', isActive);
+            button.setAttribute('aria-pressed', String(isActive));
+        });
+    }
+
+    function setComparePanelCount(count) {
+        const normalizedCount = Number(count) === 3 ? 3 : 2;
+        if (normalizedCount === comparePanelCount) return;
+
+        comparePanelCount = normalizedCount;
+        localStorage.setItem('comparePanelCount', String(comparePanelCount));
+        updateActivePanelCountButton();
+        if (onComparePanelCountChange) onComparePanelCountChange(comparePanelCount);
+        trackEvent('change_setting', {
+            setting_type: 'compare_panel_count',
+            setting_value: comparePanelCount,
+        });
+    }
+
+    panelCountBtns.forEach((button) => {
+        button.addEventListener('click', () => {
+            setComparePanelCount(button.dataset.panelCount);
         });
     });
 
@@ -231,5 +277,7 @@ export function createSettingsPanel({
         getTheme: () => (themeToggle.checked ? 'dark' : 'light'),
         getFontSizeClass: () => fontSizeMap[fontSlider.value] || 'verse-line--medium',
         getBoldCopyEnabled: () => boldToggle.checked,
+        getComparePanelCount: () => comparePanelCount,
+        setComparePanelCount,
     };
 }
