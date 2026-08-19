@@ -311,6 +311,12 @@
         gap: var(--space-sm);
     }
 
+    /* Keep short readings swipeable through the empty space below the text. */
+    .verse-tabs--reader {
+        min-height: calc(100vh - var(--header-height) - 46px);
+        min-height: calc(100dvh - var(--header-height) - 46px);
+    }
+
     .verse-tabs--reader .verse-tabs__content {
         touch-action: pan-y;
         overscroll-behavior-x: contain;

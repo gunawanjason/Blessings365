@@ -424,7 +424,7 @@ function renderTabs(
         tabsContent.appendChild(pane);
     });
 
-    if (namespace === 'read') setupReaderBookSwipe(tabsContent, tabsNav);
+    if (namespace === 'read') setupReaderBookSwipe(tabsContainer, tabsNav);
 
     // Save the current active book's scroll when the user navigates to another page
     window.addEventListener(
@@ -446,14 +446,16 @@ function centerTabInNav(tabsNav, button) {
     tabsNav.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
 }
 
-function setupReaderBookSwipe(tabsContent, tabsNav) {
+function setupReaderBookSwipe(readerSurface, tabsNav) {
     const SWIPE_THRESHOLD = 52;
     const DIRECTION_RATIO = 1.2;
     let startX = 0;
     let startY = 0;
     let tracking = false;
+    let startedInTabNav = false;
+    let navScrollLeftAtStart = 0;
 
-    tabsContent.addEventListener(
+    readerSurface.addEventListener(
         'touchstart',
         (event) => {
             if (window.innerWidth > 768 || event.touches.length !== 1) {
@@ -464,16 +466,23 @@ function setupReaderBookSwipe(tabsContent, tabsNav) {
             const touch = event.touches[0];
             startX = touch.clientX;
             startY = touch.clientY;
+            startedInTabNav = tabsNav.contains(event.target);
+            navScrollLeftAtStart = tabsNav.scrollLeft;
             tracking = true;
         },
         { passive: true }
     );
 
-    tabsContent.addEventListener(
+    readerSurface.addEventListener(
         'touchend',
         (event) => {
             if (!tracking || window.innerWidth > 768 || !event.changedTouches.length) return;
             tracking = false;
+
+            // Let the book strip keep its native horizontal scrolling behavior.
+            if (startedInTabNav && Math.abs(tabsNav.scrollLeft - navScrollLeftAtStart) > 1) {
+                return;
+            }
 
             const touch = event.changedTouches[0];
             const deltaX = touch.clientX - startX;
